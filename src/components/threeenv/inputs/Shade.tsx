@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
+import wallStore from "../../../stores/WallStore";
 
-import plotStore from "../../../stores/BasePlotStore";
+
 
 export const Shade = observer(() => {
   return (
@@ -10,22 +11,22 @@ export const Shade = observer(() => {
         <input
           type="number"
           placeholder="Length of shade (in meters)"
-          value={plotStore.height}
-          onChange={(e) => plotStore.setHeight(Number(e.target.value))}
+          value={wallStore.height}
+          onChange={(e) => wallStore.setHeight(Number(e.target.value))}
           className="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
         <input
           type="number"
           placeholder="Width of shade (in meters)"
-          value={plotStore.width}
-          onChange={(e) => plotStore.setWidth(Number(e.target.value))}
+          value={wallStore.width}
+          onChange={(e) => wallStore.setWidth(Number(e.target.value))}
           className="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
         <input
           type="number"
           placeholder="Thickness of shade"
-          value={plotStore.width}
-          onChange={(e) => plotStore.setWidth(Number(e.target.value))}
+          value={wallStore.wallThickness}
+          onChange={(e) => wallStore.setWallThickness(Number(e.target.value))}
           className="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
       </form>
