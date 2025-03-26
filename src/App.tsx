@@ -3,7 +3,7 @@ import { Layout } from "./components/threeenv/inputs/Layout";
 
 function App() {
   return (
-    <div>
+    <div className="flex">
       <Layout />
       <ShadeCanvas />
     </div>

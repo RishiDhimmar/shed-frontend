@@ -13,7 +13,7 @@ export const PlotInput = observer(() => {
   };
 
   return (
-    <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md mx-auto">
+    <div className="bg-white p-8 rounded-2xl shadow-xl w-[300px] max-w-md mx-auto z-10">
       <h1 className="text-2xl font-bold mb-6 text-center">
         Plot Dimension Input
       </h1>
