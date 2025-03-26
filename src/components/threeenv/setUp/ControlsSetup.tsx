@@ -1,9 +1,10 @@
-import { CameraControls } from "@react-three/drei";
+import { CameraControls, OrbitControls } from "@react-three/drei";
 
 function ControlsSetup() {
   return (
     <>
-      <CameraControls />
+      <CameraControls azimuthRotateSpeed={0} polarRotateSpeed={0}  />
+      {/* <OrbitControls /> */}
     </>
   );
 }
