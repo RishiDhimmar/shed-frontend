@@ -14,11 +14,6 @@ function ExperienceSetup() {
         <planeGeometry args={[1000, 1000]} />
         <meshStandardMaterial />
       </mesh> */}
-      
-      {/* <mesh>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshNormalMaterial />
-      </mesh> */}
 
       <ShadeVisualizer />
     </>
