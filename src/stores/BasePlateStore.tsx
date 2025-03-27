@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 
 type BaseplateType = "corner" | "horizontal" | "vertical";
 
@@ -29,58 +29,35 @@ class BaseplateStore {
   }
 
   setLength(type: BaseplateType, newLength: number) {
-    console.log(type, newLength);
-    this.config = {
-      ...this.config,
-      baseplateDimensions: {
-        ...this.config.baseplateDimensions,
-        [type]: { ...this.config.baseplateDimensions[type], length: newLength },
-      },
-    };
+    runInAction(() => {
+      this.config.baseplateDimensions[type].length = newLength;
+    });
   }
 
   setWidth(type: BaseplateType, newWidth: number) {
-    this.config = {
-      ...this.config,
-      baseplateDimensions: {
-        ...this.config.baseplateDimensions,
-        [type]: { ...this.config.baseplateDimensions[type], width: newWidth },
-      },
-    };
+    runInAction(() => {
+      this.config.baseplateDimensions[type].width = newWidth;
+    });
   }
 
   setOffsetX(type: BaseplateType, newOffsetX: number) {
-    this.config = {
-      ...this.config,
-      baseplateDimensions: {
-        ...this.config.baseplateDimensions,
-        [type]: {
-          ...this.config.baseplateDimensions[type],
-          offsetX: newOffsetX,
-        },
-      },
-    };
+    runInAction(() => {
+      this.config.baseplateDimensions[type].offsetX = newOffsetX;
+    });
   }
 
   setOffsetY(type: BaseplateType, newOffsetY: number) {
-    this.config = {
-      ...this.config,
-      baseplateDimensions: {
-        ...this.config.baseplateDimensions,
-        [type]: {
-          ...this.config.baseplateDimensions[type],
-          offsetY: newOffsetY,
-        },
-      },
-    };
+    runInAction(() => {
+      this.config.baseplateDimensions[type].offsetY = newOffsetY;
+    });
   }
 
-  setIdealHorizontalDistance(newLength: number) {
-    this.config = { ...this.config, idealHorizontalDistance: newLength };
+  setIdealHorizontalDistance(newDistance: number) {
+    this.config.idealHorizontalDistance = newDistance;
   }
 
-  setIdealVerticalDistance(newLength: number) {
-    this.config = { ...this.config, idealVerticalDistance: newLength };
+  setIdealVerticalDistance(newDistance: number) {
+    this.config.idealVerticalDistance = newDistance;
   }
 }
 

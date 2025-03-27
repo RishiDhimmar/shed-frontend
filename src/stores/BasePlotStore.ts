@@ -3,12 +3,12 @@ import { getRectanglePoints } from "../utils/geometryUtils";
 
 export class BasePlotStore {
   width: number;
-  height: number;
+  length: number;
   points: number[][];
 
-  constructor(width = 0, height = 0) {
+  constructor(width = 0, length = 0) {
     this.width = width;
-    this.height = height;
+    this.length = length;
     this.points = [];
     makeAutoObservable(this);
     this.updatePointsIfValid();
@@ -19,8 +19,8 @@ export class BasePlotStore {
     this.updatePointsIfValid();
   }
 
-  setHeight(newHeight: number) {
-    this.height = newHeight;
+  setLength(newLength: number) {
+    this.length = newLength;
     this.updatePointsIfValid();
   }
 
@@ -33,10 +33,10 @@ export class BasePlotStore {
   }
 
   updatePointsIfValid() {
-    if (this.width && this.height) {
-      this.points = getRectanglePoints(this.width, this.height);
+    if (this.width && this.length) {
+      this.points = getRectanglePoints(this.width, this.length);
     }
   }
 }
-const basePlotStore = new BasePlotStore( 35, 40);
+const basePlotStore = new BasePlotStore(35, 40);
 export default basePlotStore;
