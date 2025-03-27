@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import {
   getInternalWallPoints,
   getRectanglePoints,
-} from "../utils/geometryUtils";
+} from "../utils/GeometryUtils";
 
 export class WallStore {
   width: number;

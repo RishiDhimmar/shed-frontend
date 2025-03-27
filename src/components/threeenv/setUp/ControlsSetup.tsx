@@ -6,7 +6,7 @@ function ControlsSetup() {
       <CameraControls
         azimuthRotateSpeed={0}
         polarRotateSpeed={0}
-        draggingSmoothTime={0}
+        draggingSmoothTime={0.1}
         infinityDolly={false}
         maxDistance={50}
         minDistance={0.1}
