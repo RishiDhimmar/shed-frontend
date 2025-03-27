@@ -3,6 +3,8 @@ import { Line } from "@react-three/drei";
 import { observer } from "mobx-react-lite";
 import { getClosedPoints } from "../../../utils/geometryUtils";
 import wallStore from "../../../stores/WallStore";
+import baseplateStore from "../../../stores/BasePlateStore";
+import BasePlateVisualizer from "./BasePlateVisualizer";
 
 const ShadeVisualizer = observer(() => {
   return (
@@ -22,6 +24,8 @@ const ShadeVisualizer = observer(() => {
           />
         </>
       )}
+
+      <BasePlateVisualizer />
     </>
   );
 });

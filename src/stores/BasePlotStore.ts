@@ -34,7 +34,7 @@ export class BasePlotStore {
 
   updatePointsIfValid() {
     if (this.width && this.height) {
-      this.points = getRectanglePoints(this.width, this.height);
+      this.points = getRectanglePoints(this.width, this.height, [0, 0]);
     }
   }
 }

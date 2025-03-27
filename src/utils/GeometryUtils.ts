@@ -5,13 +5,18 @@ export interface Point {
 
 export const getRectanglePoints = (
   length: number,
-  width: number
-): number[][] => [
-  [-length / 2, -width / 2],
-  [length / 2, -width / 2],
-  [length / 2, width / 2],
-  [-length / 2, width / 2],
-];
+  width: number,
+  center: [number, number] = [0, 0]
+): number[][] => {
+  const [cx, cy] = center;
+  return [
+    [cx - length / 2, cy - width / 2],
+    [cx + length / 2, cy - width / 2],
+    [cx + length / 2, cy + width / 2],
+    [cx - length / 2, cy + width / 2],
+  ];
+};
+
 
 export const getClosedPoints = (points: number[][] = []): number[][] => {
   if (!Array.isArray(points) || points.length === 0) return [];
@@ -31,6 +36,6 @@ export const getInternalWallPoints = (
   const internalLength = length - 2 * wallThickness;
   const internalWidth = width - 2 * wallThickness;
   return internalLength > 0 && internalWidth > 0
-    ? getRectanglePoints(internalLength, internalWidth)
+    ? getRectanglePoints(internalLength, internalWidth, [0, 0])
     : [];
 };

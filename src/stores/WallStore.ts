@@ -38,7 +38,7 @@ export class WallStore {
   }
 
   updateWallPoints() {
-    this.externalWallPoints = getRectanglePoints(this.width, this.height);
+    this.externalWallPoints = getRectanglePoints(this.width, this.height, [0, 0]);
     this.internalWallPoints = getInternalWallPoints(
       this.width,
       this.height,

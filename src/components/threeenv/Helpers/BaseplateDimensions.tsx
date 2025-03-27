@@ -4,7 +4,7 @@ import baseplateStore from "../../../stores/BasePlateStore";
 import { observer } from "mobx-react-lite";
 
 const BaseplateDimensions = observer(({ type }: any)  => {
-  const config = baseplateStore.config.baseplateDimensions[type];
+  const config = baseplateStore.config[type]
   return (
     <>
       <InputNumber

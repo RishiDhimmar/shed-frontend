@@ -1,86 +1,129 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, observable, action, runInAction } from "mobx";
+import wallStore from "./WallStore";
+import { getRectanglePoints } from "../utils/geometryUtils";
 
-type BaseplateType = "corner" | "horizontal" | "vertical";
+export type BaseplateType = "corner" | "horizontal" | "vertical";
 
 interface Baseplate {
   id: string;
+  x: number;
+  y: number;
   type: BaseplateType;
+  points: number[][]; // Shape points
+}
+
+interface BaseplateConfig {
   width: number;
   length: number;
-  offsetX: number;
-  offsetY: number;
+  offsetX?: number;
+  offsetY?: number;
 }
 
 class BaseplateStore {
-  config = {
-    idealHorizontalDistance: 300,
-    idealVerticalDistance: 300,
-    baseplateDimensions: {
-      corner: { width: 500, length: 500, offsetX: 0, offsetY: 0 },
-      horizontal: { width: 1000, length: 200, offsetX: 0 },
-      vertical: { width: 200, length: 1000, offsetY: 0 },
-    },
-  };
+  config: Record<BaseplateType, BaseplateConfig> = observable({
+    corner: { width: 0.3, length: 0.55, offsetX: 0.01, offsetY: 0.05 },
+    horizontal: { width: 0.3, length: 0.55, offsetX: 0.01, offsetY: 0 },
+    vertical: { width: 0.25, length: 0.3, offsetX: 0, offsetY: 0.01 },
+  });
 
   basePlates: Baseplate[] = [];
 
   constructor() {
-    makeAutoObservable(this);
+    makeAutoObservable(this, {
+      setLength: action,
+      setWidth: action,
+      setOffsetX: action,
+      setOffsetY: action,
+      generateCornerPlateCenters: action,
+      generateCornerPlatePoints: action,
+    });
   }
 
   setLength(type: BaseplateType, newLength: number) {
-    console.log(type, newLength);
-    this.config = {
-      ...this.config,
-      baseplateDimensions: {
-        ...this.config.baseplateDimensions,
-        [type]: { ...this.config.baseplateDimensions[type], length: newLength },
-      },
-    };
+    runInAction(() => {
+      this.config[type].length = newLength;
+      this.generateCornerPlatePoints();
+    });
   }
 
   setWidth(type: BaseplateType, newWidth: number) {
-    this.config = {
-      ...this.config,
-      baseplateDimensions: {
-        ...this.config.baseplateDimensions,
-        [type]: { ...this.config.baseplateDimensions[type], width: newWidth },
-      },
-    };
+    runInAction(() => {
+      this.config[type].width = newWidth;
+      this.generateCornerPlatePoints();
+    });
   }
 
   setOffsetX(type: BaseplateType, newOffsetX: number) {
-    this.config = {
-      ...this.config,
-      baseplateDimensions: {
-        ...this.config.baseplateDimensions,
-        [type]: {
-          ...this.config.baseplateDimensions[type],
-          offsetX: newOffsetX,
-        },
-      },
-    };
+    runInAction(() => {
+      if (this.config[type].offsetX !== undefined) {
+        this.config[type].offsetX = newOffsetX;
+        this.generateCornerPlatePoints();
+      }
+    });
   }
 
   setOffsetY(type: BaseplateType, newOffsetY: number) {
-    this.config = {
-      ...this.config,
-      baseplateDimensions: {
-        ...this.config.baseplateDimensions,
-        [type]: {
-          ...this.config.baseplateDimensions[type],
-          offsetY: newOffsetY,
+    runInAction(() => {
+      if (this.config[type].offsetY !== undefined) {
+        this.config[type].offsetY = newOffsetY;
+        this.generateCornerPlatePoints();
+      }
+    });
+  }
+
+  generateCornerPlateCenters() {
+    const corners = wallStore.internalWallPoints;
+    if (corners.length !== 4) return;
+
+    const [bottomLeft, bottomRight, topRight, topLeft] = corners;
+    const cornerConfig = this.config.corner;
+
+    runInAction(() => {
+      this.basePlates = [
+        {
+          id: "corner-top-left",
+          type: "corner",
+          x: topLeft[0] + cornerConfig.length / 2 + (cornerConfig.offsetX || 0),
+          y: topLeft[1] - cornerConfig.width / 2 - (cornerConfig.offsetY || 0),
+          points: [],
         },
-      },
-    };
+        {
+          id: "corner-top-right",
+          type: "corner",
+          x: topRight[0] - cornerConfig.length / 2 - (cornerConfig.offsetX || 0),
+          y: topRight[1] - cornerConfig.width / 2 - (cornerConfig.offsetY || 0),
+          points: [],
+        },
+        {
+          id: "corner-bottom-right",
+          type: "corner",
+          x: bottomRight[0] - cornerConfig.length / 2 - (cornerConfig.offsetX || 0),
+          y: bottomRight[1] + cornerConfig.width / 2 + (cornerConfig.offsetY || 0),
+          points: [],
+        },
+        {
+          id: "corner-bottom-left",
+          type: "corner",
+          x: bottomLeft[0] + cornerConfig.length / 2 + (cornerConfig.offsetX || 0),
+          y: bottomLeft[1] + cornerConfig.width / 2 + (cornerConfig.offsetY || 0),
+          points: [],
+        },
+      ];
+    });
   }
 
-  setIdealHorizontalDistance(newLength: number) {
-    this.config = { ...this.config, idealHorizontalDistance: newLength };
-  }
-
-  setIdealVerticalDistance(newLength: number) {
-    this.config = { ...this.config, idealVerticalDistance: newLength };
+  generateCornerPlatePoints() {
+    this.generateCornerPlateCenters();
+    runInAction(() => {
+      this.basePlates = this.basePlates.map((plate) => {
+        const config = this.config[plate.type];
+        const points = getRectanglePoints(config.length, config.width, [
+          plate.x,
+          plate.y,
+        ]);
+        return { ...plate, points };
+      });
+    });
   }
 }
 
