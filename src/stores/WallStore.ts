@@ -47,5 +47,6 @@ export class WallStore {
   }
 }
 
-const wallStore = new WallStore(60, 25, 2);
+// const wallStore = new WallStore(23350, 15126, 600);
+const wallStore = new WallStore(16, 24, 0.325);
 export default wallStore;

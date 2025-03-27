@@ -1,40 +1,86 @@
 import { makeAutoObservable } from "mobx";
+
 type BaseplateType = "corner" | "horizontal" | "vertical";
 
+interface Baseplate {
+  id: string;
+  type: BaseplateType;
+  width: number;
+  length: number;
+  offsetX: number;
+  offsetY: number;
+}
+
 class BaseplateStore {
-  type: BaseplateType = "corner";
-  length: number = 0;
-  width: number = 0;
-  offsetX: number = 0;
-  offsetY: number = 0;
-  idealDistance: number = 0;
+  config = {
+    idealHorizontalDistance: 300,
+    idealVerticalDistance: 300,
+    baseplateDimensions: {
+      corner: { width: 500, length: 500, offsetX: 0, offsetY: 0 },
+      horizontal: { width: 1000, length: 200, offsetX: 0 },
+      vertical: { width: 200, length: 1000, offsetY: 0 },
+    },
+  };
+
+  basePlates: Baseplate[] = [];
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  setType(type: BaseplateType) {
-    this.type = type;
+  setLength(type: BaseplateType, newLength: number) {
+    console.log(type, newLength);
+    this.config = {
+      ...this.config,
+      baseplateDimensions: {
+        ...this.config.baseplateDimensions,
+        [type]: { ...this.config.baseplateDimensions[type], length: newLength },
+      },
+    };
   }
 
-  setLength(length: number) {
-    this.length = length;
+  setWidth(type: BaseplateType, newWidth: number) {
+    this.config = {
+      ...this.config,
+      baseplateDimensions: {
+        ...this.config.baseplateDimensions,
+        [type]: { ...this.config.baseplateDimensions[type], width: newWidth },
+      },
+    };
   }
 
-  setWidth(width: number) {
-    this.width = width;
+  setOffsetX(type: BaseplateType, newOffsetX: number) {
+    this.config = {
+      ...this.config,
+      baseplateDimensions: {
+        ...this.config.baseplateDimensions,
+        [type]: {
+          ...this.config.baseplateDimensions[type],
+          offsetX: newOffsetX,
+        },
+      },
+    };
   }
 
-  setOffsetX(offsetX: number) {
-    this.offsetX = offsetX;
+  setOffsetY(type: BaseplateType, newOffsetY: number) {
+    this.config = {
+      ...this.config,
+      baseplateDimensions: {
+        ...this.config.baseplateDimensions,
+        [type]: {
+          ...this.config.baseplateDimensions[type],
+          offsetY: newOffsetY,
+        },
+      },
+    };
   }
 
-  setOffsetY(offsetY: number) {
-    this.offsetY = offsetY;
+  setIdealHorizontalDistance(newLength: number) {
+    this.config = { ...this.config, idealHorizontalDistance: newLength };
   }
 
-  setIdealDistance(idealDistance: number) {
-    this.idealDistance = idealDistance;
+  setIdealVerticalDistance(newLength: number) {
+    this.config = { ...this.config, idealVerticalDistance: newLength };
   }
 }
 

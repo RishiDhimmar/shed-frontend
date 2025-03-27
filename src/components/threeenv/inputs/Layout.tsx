@@ -26,12 +26,12 @@ export const Layout = observer(() => {
         >
           BasePLate
         </button>
+      </div>
         <div className="flex-1 p-8 w-[400px]">
           {uiStore.currentComponent === "plot" && <PlotInput />}
           {uiStore.currentComponent === "shade" && <Shade />}
           {uiStore.currentComponent === "baseplate" && <BaseplateInput />}
         </div>
-      </div>
     </div>
   );
 });
