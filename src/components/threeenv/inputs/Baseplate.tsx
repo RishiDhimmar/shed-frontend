@@ -10,14 +10,14 @@ export const BaseplateInput = observer(() => {
       <div className="flex-col gap-4">
         <InputNumber
           label="Ideal Horizontal Distance:"
-          value={baseplateStore.config.idealHorizontalDistance}
+          value={baseplateStore.idealHorizontalDistance}
           onChange={(newLength: number) =>
             baseplateStore.setIdealHorizontalDistance(newLength)
           }
         />
         <InputNumber
           label="Ideal Vertical Distance:"
-          value={baseplateStore.config.idealVerticalDistance}
+          value={baseplateStore.idealVerticalDistance}
           onChange={(newLength: number) =>
             baseplateStore.setIdealVerticalDistance(newLength)
           }
