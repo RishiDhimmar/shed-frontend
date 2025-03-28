@@ -1,31 +1,32 @@
 import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { Line } from "@react-three/drei";
-import baseplateStore from "../../../stores/BasePlateStore";
 import { getClosedPoints } from "../../../utils/GeometryUtils";
+import columnStore from "../../../stores/ColumnStore";
 
-const BasePlateVisualizer = observer(() => {
+const ColumnVisualizer = observer(() => {
   useEffect(() => {
-    baseplateStore.generatePlates();
+    columnStore.generateColumns();
+    console.log(columnStore.columns)
   }, []);
 
   return (
     <>
-      {baseplateStore.basePlates.map((baseplate) => (
+      {columnStore.columns.map((column) => (
         <Line
           points={
-            getClosedPoints(baseplate.points) as [
+            getClosedPoints(column.points) as [
               x: number,
               y: number,
               z: number
             ][]
           }
-          color="blue"
-          key={baseplate.id}
+          color="orange"
+          key={column.id}
         />
       ))}
     </>
   );
 });
 
-export default BasePlateVisualizer;
+export default ColumnVisualizer;

@@ -1,17 +1,12 @@
 import { makeAutoObservable } from "mobx";
-import {
-  getInternalWallPoints,
-  getRectanglePoints,
-} from "../utils/GeometryUtils";
 import { fetchWallData } from "../components/threeenv/inputs/Fetch";
-import { arrayToPointArray, pointArrayToArray } from "../utils/ConversionUtils";
 
 export class WallStore {
   width = 0;
   height = 0;
   wallThickness = 0;
-  externalWallPoints = [];
-  internalWallPoints = [];
+  externalWallPoints: number[][] = [];
+  internalWallPoints: number[][] = [];
 
   constructor(width = 0, height = 0, wallThickness = 0) {
     this.width = width;
@@ -23,7 +18,6 @@ export class WallStore {
   async loadWallData() {
     try {
       const data = await fetchWallData();
-      // debugger;
       console.log("Fetched Wall Data:", JSON.stringify(data));
       this.processWallData(data);
     } catch (error) {
@@ -31,40 +25,72 @@ export class WallStore {
     }
   }
 
-  processWallData(data) {
-    // debugger;
+  processWallData(data: any) {
     if (data?.entities?.length) {
       const externalPolyline = data.entities[0]?.vertices || [];
       const internalPolyline = data.entities[1]?.vertices || [];
 
-      console.log("External Polyline:", externalPolyline);
-      console.log("Internal Polyline:", internalPolyline);
-
-      const newExternalPoints = externalPolyline.map((point) => [
+      const newExternalPoints = externalPolyline.map((point: any) => [
         point.x,
         point.y,
         0,
       ]);
-      console.log(newExternalPoints);
 
-      this.setExternalWallPoints(newExternalPoints);
-
-      const newInternalPoints = internalPolyline.map((point) => [
+      const newInternalPoints = internalPolyline.map((point: any) => [
         point.x,
         point.y,
         0,
       ]);
-      this.internalWallPoints = newInternalPoints;
 
-      console.log("Processed External Wall Points:", this.externalWallPoints);
-      console.log("Processed Internal Wall Points:", this.internalWallPoints);
+      this.setWallPoints(newExternalPoints, newInternalPoints);
     } else {
       console.warn("No valid entities found in wall data");
     }
   }
 
-  setExternalWallPoints(points) {
-    this.externalWallPoints = points;
+  setWallPoints(external: number[][], internal: number[][]) {
+    this.externalWallPoints = external;
+    this.internalWallPoints = internal;
+    this.calculateDimensions();
+    this.calculateThickness();
+  }
+
+  calculateDimensions() {
+    if (this.externalWallPoints.length === 0) return;
+
+    const xValues = this.externalWallPoints.map((point) => point[0]);
+    const yValues = this.externalWallPoints.map((point) => point[1]);
+
+    const minX = Math.min(...xValues);
+    const maxX = Math.max(...xValues);
+    const minY = Math.min(...yValues);
+    const maxY = Math.max(...yValues);
+
+    this.width = maxX - minX;
+    this.height = maxY - minY;
+
+    console.log("Updated Wall Dimensions - Width:", this.width, "Height:", this.height);
+  }
+
+  calculateThickness() {
+    if (this.externalWallPoints.length === 0 || this.internalWallPoints.length === 0) return;
+
+    let totalThickness = 0;
+    let count = 0;
+
+    for (let i = 0; i < Math.min(this.externalWallPoints.length, this.internalWallPoints.length); i++) {
+      const ey = this.externalWallPoints[i][1]; // External Y
+      const iy = this.internalWallPoints[i][1]; // Internal Y
+
+      const thickness = Math.abs(ey - iy); // Thickness = |y1 - y2|
+      totalThickness += thickness;
+      count++;
+    }
+
+    if (count > 0) {
+      this.wallThickness = totalThickness / count;
+      console.log("Updated Wall Thickness:", this.wallThickness);
+    }
   }
 }
 

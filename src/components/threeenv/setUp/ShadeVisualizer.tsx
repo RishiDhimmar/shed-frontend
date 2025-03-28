@@ -5,6 +5,7 @@ import { getClosedPoints } from "../../../utils/GeometryUtils";
 import wallStore from "../../../stores/WallStore";
 import BasePlateVisualizer from "./BasePlateVisualizer";
 import { useEffect } from "react";
+import ColumnVisualizer from "./ColumnVisualizer";
 
 const ShadeVisualizer = observer(() => {
   useEffect(() => {
@@ -40,6 +41,7 @@ const ShadeVisualizer = observer(() => {
         )}
 
       <BasePlateVisualizer />
+      <ColumnVisualizer />
     </>
   );
 });
