@@ -1,8 +1,7 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable, runInAction, reaction } from "mobx";
 import { v4 as uuidv4 } from "uuid";
 import { getRectanglePoints } from "../utils/geometryUtils";
 import baseplateStore from "./BasePlateStore";
-import basePlotStore from "./BasePlotStore";
 import wallStore from "./WallStore";
 
 export interface Column {
@@ -17,6 +16,12 @@ class ColumnStore {
 
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
+
+    // React to changes in baseplates and regenerate columns automatically
+    reaction(
+      () => baseplateStore.basePlates.slice(), // Track changes to baseplates
+      () => this.generateColumns()
+    );
   }
 
   generateColumns() {
@@ -24,33 +29,34 @@ class ColumnStore {
       (bp) => bp.type === "corner"
     );
 
-    if (cornerPlates.length === 0) return;
-
     runInAction(() => {
       this.columns = [];
     });
 
+    if (cornerPlates.length === 0) return;
+
     const newColumns: Column[] = [];
 
     cornerPlates.forEach((plate) => {
-      const { x, y, points } = plate;
+      const { x, y } = plate;
+
+      const plateConfig = baseplateStore.config[plate.type];
+
       const columnWidth =
-        Math.abs(baseplateStore.config[plate.type].width ) +
-        baseplateStore.config[plate.type].offsetY * 2+
-        wallStore.wallThickness * 2 ; // Default width
+        Math.abs(plateConfig.width) +
+        (plateConfig.offsetY || 0) * 2 +
+        wallStore.wallThickness * 2; // Adjusted width
+
       const columnLength =
-        Math.abs(baseplateStore.config[plate.type].length) +
-        baseplateStore.config[plate.type].offsetX * 2+
-        wallStore.wallThickness * 2; 
+        Math.abs(plateConfig.length) +
+        (plateConfig.offsetX || 0) * 2 +
+        wallStore.wallThickness * 2; // Adjusted length
 
-      console.log(baseplateStore.config[plate.type].length, baseplateStore.config[plate.type].offsetX,  baseplateStore.config[plate.type].offsetY , wallStore.wallThickness);
-
-      // Generate one column per baseplate
       newColumns.push({
         id: uuidv4(),
         width: columnWidth,
         length: columnLength,
-        points: getRectanglePoints(columnLength , columnWidth, [x, y]),
+        points: getRectanglePoints(columnLength, columnWidth, [x, y]),
       });
     });
 
