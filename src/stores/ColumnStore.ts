@@ -3,13 +3,12 @@ import { v4 as uuidv4 } from "uuid";
 
 import baseplateStore from "./BasePlateStore";
 import wallStore from "./WallStore";
-import { getRectanglePoints } from "../utils/GeometryUtils";
 
 export interface Column {
   id: string;
   width: number;
   length: number;
-  points: number[][]; // Array of four corner points
+  points: number[][];
 }
 
 export class ColumnStore {
