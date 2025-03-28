@@ -1,4 +1,8 @@
 import { makeAutoObservable } from "mobx";
+import {
+  getInternalWallPoints,
+  getRectanglePoints,
+} from "../utils/GeometryUtils";
 import { fetchWallData } from "../components/threeenv/inputs/Fetch";
 import { arrayToPointArray, pointArrayToArray } from "../utils/ConversionUtils";
 

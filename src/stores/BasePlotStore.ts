@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { getRectanglePoints } from "../utils/geometryUtils";
+import { getRectanglePoints } from "../utils/GeometryUtils";
 
 export class BasePlotStore {
   width: number;
