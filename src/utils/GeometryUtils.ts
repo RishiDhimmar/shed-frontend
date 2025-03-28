@@ -9,6 +9,11 @@ export const getRectanglePoints = (
   center: [number, number] = [0, 0]
 ): number[][] => {
   const [cx, cy] = center;
+
+  if (!length || !width) {
+    console.log("Invalid width and length values : ", length, width);
+    return [];
+  }
   return [
     [cx - length / 2, cy - width / 2],
     [cx + length / 2, cy - width / 2],
@@ -16,7 +21,6 @@ export const getRectanglePoints = (
     [cx - length / 2, cy + width / 2],
   ];
 };
-
 
 export const getClosedPoints = (points: number[][] = []): number[][] => {
   if (!Array.isArray(points) || points.length === 0) return [];

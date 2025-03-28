@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { getClosedPoints } from "../../../utils/GeometryUtils";
 import wallStore from "../../../stores/WallStore";
 import BasePlateVisualizer from "./BasePlateVisualizer";
+import ColumnVisualizer from "./ColumnVisualizer";
 
 const ShadeVisualizer = observer(() => {
   return (
@@ -25,6 +26,7 @@ const ShadeVisualizer = observer(() => {
       )}
 
       <BasePlateVisualizer />
+      <ColumnVisualizer />
     </>
   );
 });
