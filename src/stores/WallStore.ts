@@ -3,50 +3,70 @@ import {
   getInternalWallPoints,
   getRectanglePoints,
 } from "../utils/GeometryUtils";
+import { fetchWallData } from "../components/threeenv/inputs/Fetch";
+import { arrayToPointArray, pointArrayToArray } from "../utils/ConversionUtils";
 
 export class WallStore {
-  width: number;
-  height: number;
-  wallThickness: number;
-  externalWallPoints: number[][] = [];
-  internalWallPoints: number[][] = [];
+  width = 0;
+  height = 0;
+  wallThickness = 0;
+  externalWallPoints = [];
+  internalWallPoints = [];
 
   constructor(width = 0, height = 0, wallThickness = 0) {
     this.width = width;
     this.height = height;
     this.wallThickness = wallThickness;
     makeAutoObservable(this);
-    this.updateWallPoints();
   }
 
-  setWidth(newWidth: number) {
-    this.width = newWidth;
-    this.updateWallPoints();
-  }
-
-  setHeight(newHeight: number) {
-    this.height = newHeight;
-    this.updateWallPoints();
-  }
-
-  setWallThickness(newWallThickness: number) {
-    if (newWallThickness < 0) {
-      newWallThickness = 0;
+  async loadWallData() {
+    try {
+      const data = await fetchWallData();
+      // debugger;
+      console.log("Fetched Wall Data:", JSON.stringify(data));
+      this.processWallData(data);
+    } catch (error) {
+      console.error("Error loading wall data:", error);
     }
-    this.wallThickness = newWallThickness;
-    this.updateWallPoints();
   }
 
-  updateWallPoints() {
-    this.externalWallPoints = getRectanglePoints(this.width, this.height, [0, 0]);
-    this.internalWallPoints = getInternalWallPoints(
-      this.width,
-      this.height,
-      this.wallThickness
-    );
+  processWallData(data) {
+    // debugger;
+    if (data?.entities?.length) {
+      const externalPolyline = data.entities[0]?.vertices || [];
+      const internalPolyline = data.entities[1]?.vertices || [];
+
+      console.log("External Polyline:", externalPolyline);
+      console.log("Internal Polyline:", internalPolyline);
+
+      const newExternalPoints = externalPolyline.map((point) => [
+        point.x,
+        point.y,
+        0,
+      ]);
+      console.log(newExternalPoints);
+
+      this.setExternalWallPoints(newExternalPoints);
+
+      const newInternalPoints = internalPolyline.map((point) => [
+        point.x,
+        point.y,
+        0,
+      ]);
+      this.internalWallPoints = newInternalPoints;
+
+      console.log("Processed External Wall Points:", this.externalWallPoints);
+      console.log("Processed Internal Wall Points:", this.internalWallPoints);
+    } else {
+      console.warn("No valid entities found in wall data");
+    }
+  }
+
+  setExternalWallPoints(points) {
+    this.externalWallPoints = points;
   }
 }
 
-// const wallStore = new WallStore(23350, 15126, 600);
-const wallStore = new WallStore(16, 24, 0.325);
+const wallStore = new WallStore();
 export default wallStore;
