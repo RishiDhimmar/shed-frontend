@@ -8,7 +8,7 @@ function ControlsSetup() {
         polarRotateSpeed={0}
         draggingSmoothTime={0.1}
         infinityDolly={false}
-        maxDistance={50}
+        maxDistance={100}
         minDistance={0.1}
       />
     </>
