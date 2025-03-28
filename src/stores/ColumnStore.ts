@@ -9,7 +9,7 @@ export interface Column {
   id: string;
   width: number;
   length: number;
-  points: number[][];
+  points: number[][]; // Array of four corner points
 }
 
 export class ColumnStore {
@@ -41,38 +41,98 @@ export class ColumnStore {
 
   generateColumns() {
     const cornerPlates = baseplateStore.basePlates.filter(
-      (bp) => bp.type === "corner"
+      (plate) => plate.type === "corner"
     );
 
     runInAction(() => {
       this.columns = [];
     });
 
-    if (cornerPlates.length === 0) return;
+    if (cornerPlates.length === 0 || wallStore.externalWallPoints.length === 0)
+      return;
 
     const newColumns: Column[] = [];
 
     cornerPlates.forEach((plate) => {
       const { x, y } = plate;
-
       const plateConfig = baseplateStore.config[plate.type];
 
+      // Calculate column dimensions
       const columnWidth =
         Math.abs(plateConfig.width) +
-        (plateConfig.offsetY || 0) * 2 +
-        wallStore.wallThickness * 2; // Adjusted width
+        (plateConfig.offsetY || 0) +
+        wallStore.wallThickness +
+        0.3;
 
       const columnLength =
         Math.abs(plateConfig.length) +
-        (plateConfig.offsetX || 0) * 2 +
-        wallStore.wallThickness * 2; // Adjusted length
+        (plateConfig.offsetX || 0) +
+        wallStore.wallThickness +
+        0.5;
 
-      newColumns.push({
-        id: uuidv4(),
-        width: columnWidth,
-        length: columnLength,
-        points: getRectanglePoints(columnLength, columnWidth, [x, y]),
-      });
+      const wallPoints = wallStore.externalWallPoints;
+      newColumns.push(
+        {
+          id: uuidv4(),
+          width: columnWidth,
+          length: columnLength,
+          points: [
+            [wallPoints[0][0], wallPoints[0][1], 0],
+            [wallPoints[0][0] + columnLength, wallPoints[0][1], 0],
+            [
+              wallPoints[0][0] + columnLength,
+              wallPoints[0][1] + columnWidth,
+              0,
+            ],
+            [wallPoints[0][0], wallPoints[0][1] + columnWidth, 0],
+          ],
+        },
+        {
+          id: uuidv4(),
+          width: columnWidth,
+          length: columnLength,
+          points: [
+            [wallPoints[1][0], wallPoints[1][1], 0],
+            [wallPoints[1][0] - columnLength, wallPoints[1][1], 0],
+            [
+              wallPoints[1][0] - columnLength,
+              wallPoints[1][1] + columnWidth,
+              0,
+            ],
+            [wallPoints[1][0], wallPoints[1][1] + columnWidth, 0],
+          ],
+        },
+        {
+          id: uuidv4(),
+          width: columnWidth,
+          length: columnLength,
+          points: [
+            [wallPoints[2][0], wallPoints[2][1], 0],
+            [wallPoints[2][0] - columnLength, wallPoints[2][1], 0],
+            [
+              wallPoints[2][0] - columnLength,
+              wallPoints[2][1] - columnWidth,
+              0,
+            ],
+            [wallPoints[2][0], wallPoints[2][1] - columnWidth, 0],
+          ],
+        },
+        {
+          id: uuidv4(),
+          width: columnWidth,
+          length: columnLength,
+          points: [
+            [wallPoints[3][0], wallPoints[3][1], 0],
+            [wallPoints[3][0] + columnLength, wallPoints[3][1], 0],
+            [
+              wallPoints[3][0] + columnLength,
+              wallPoints[3][1] - columnWidth,
+              0,
+            ],
+            [wallPoints[3][0], wallPoints[3][1] - columnWidth, 0],
+          ],
+        }
+      );
     });
 
     runInAction(() => {

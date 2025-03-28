@@ -22,7 +22,7 @@ export interface BaseplateConfig {
 
 class BaseplateStore {
   config: Record<BaseplateType, BaseplateConfig> = observable({
-    corner: { width: 0.3, length: 0.55, offsetX: 0.01, offsetY: 0.05 },
+    corner: { width: 3, length: 5, offsetX: 0.01, offsetY: 0.05 },
     horizontal: { width: 0.3, length: 0.55, offsetX: 0.01 },
     vertical: { width: 0.25, length: 0.3, offsetY: 0.01 },
   });
