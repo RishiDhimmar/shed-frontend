@@ -1,8 +1,9 @@
 import { makeAutoObservable, runInAction, reaction } from "mobx";
 import { v4 as uuidv4 } from "uuid";
-import { getRectanglePoints } from "../utils/geometryUtils";
+
 import baseplateStore from "./BasePlateStore";
 import wallStore from "./WallStore";
+import { getRectanglePoints } from "../utils/GeometryUtils";
 
 export interface Column {
   id: string;
@@ -11,17 +12,31 @@ export interface Column {
   points: number[][];
 }
 
-class ColumnStore {
+export class ColumnStore {
+  width = 0;
+  length = 0;
   columns: Column[] = [];
 
-  constructor() {
+  constructor(width = 0, length = 0) {
+    this.width = width;
+    this.length = length;
     makeAutoObservable(this, {}, { autoBind: true });
-
-    // React to changes in baseplates and regenerate columns automatically
     reaction(
-      () => baseplateStore.basePlates.slice(), // Track changes to baseplates
+      () => baseplateStore.basePlates.slice(),
       () => this.generateColumns()
     );
+  }
+
+  setWidth(newWidth: number) {
+    runInAction(() => {
+      this.width = newWidth;
+    });
+  }
+
+  setLength(newLength: number) {
+    runInAction(() => {
+      this.length = newLength;
+    });
   }
 
   generateColumns() {
