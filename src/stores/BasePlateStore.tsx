@@ -382,10 +382,10 @@ class BaseplateStore {
     const centerX = (leftCenterX + rightCenterX) / 2;
     const topBoundary = wallStore.internalWallPoints[3][1];
     const topY =
-      topBoundary - verticalCfg.length / 2 - (verticalCfg.offsetY || 0);
+      topBoundary - verticalCfg.width / 2 - (verticalCfg.offsetY || 0);
     const bottomBoundary = wallStore.internalWallPoints[0][1];
     const bottomY =
-      bottomBoundary + verticalCfg.length / 2 + (verticalCfg.offsetY || 0);
+      bottomBoundary + verticalCfg.width / 2 + (verticalCfg.offsetY || 0);
 
     const plates: Baseplate[] = [];
     plates.push(this.createBaseplate(centerX, topY, "vertical"));
