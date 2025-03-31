@@ -9,7 +9,7 @@ import { Foundation } from "./Foundation";
 export const Layout = observer(() => {
   return (
     <div className="flex w-[100px] z-10">
-      <div className="w-20 bg-gray-800 text-white flex flex-col items-center p-4">
+      <div className="w-27 bg-gray-800 text-white flex flex-col items-start px-2 py-4 ">
         <button
           onClick={() => uiStore.setCurrentComponent("plot")}
           className="mb-4 hover:text-blue-300"
