@@ -43,7 +43,7 @@ export const Layout = observer(() => {
         </button>
         <button
           onClick={() => uiStore.setCurrentComponent("MullionColumn")}
-          className="mb-4 hover:text-blue-300"
+          className="mb-4 hover:text-blue-300 text-left"
         >
           Mullion Column
         </button>

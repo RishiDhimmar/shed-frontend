@@ -18,7 +18,9 @@ const InputNumber: React.FC<InputNumberProps> = ({
       onChange(0);
     } else {
       const numValue =
-        Math.max(0, Number(newValue)) === 0 ? 0.01 : Number(newValue);
+        Math.max(0, Number(newValue)) === 0
+          ? 0.01
+          : parseFloat(Number(newValue).toFixed(2));
       onChange(numValue);
     }
   };
@@ -28,7 +30,7 @@ const InputNumber: React.FC<InputNumberProps> = ({
       <label className="font-poppins text-gray-500">{label}</label>
       <input
         type="number"
-        value={value === 0 ? "" : value}
+        value={value === 0 ? "" : value.toFixed(2)}
         step={0.1}
         onChange={handleChange}
         className="w-full p-3 py-1 border font-poppins border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1"

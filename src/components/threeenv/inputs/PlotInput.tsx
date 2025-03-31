@@ -4,7 +4,7 @@ import InputNumber from "../Helpers/InputNumber";
 
 export const PlotInput = observer(() => {
   return (
-    <div className="bg-white p-8 rounded-2xl shadow-xl w-[300px] max-w-md mx-auto z-10">
+    <div className="bg-white p-8 rounded shadow-xl w-[300px] max-w-md mx-auto z-10">
       <h1 className="text-2xl font-bold mb-6 text-center">Plot Input</h1>
       <form className="space-y-4">
         <InputNumber
@@ -13,9 +13,9 @@ export const PlotInput = observer(() => {
           onChange={(newHeight: number) => plotStore.setLength(newHeight)}
         />
         <InputNumber
-          label="width:"
+          label="Width:"
           value={plotStore.width}
-          onChange={(newHeight: number) => plotStore.setWidth(newHeight)}
+          onChange={(newWidth: number) => plotStore.setWidth(newWidth)}
         />
       </form>
     </div>

@@ -1,23 +1,11 @@
-import { useEffect } from "react";
+import {  useMemo } from "react";
 import { observer } from "mobx-react-lite";
 import { Line } from "@react-three/drei";
 import { getClosedPoints } from "../../../utils/GeometryUtils";
 import columnStore from "../../../stores/ColumnStore";
-import baseplateStore from "../../../stores/BasePlateStore";
 
 const ColumnVisualizer = observer(() => {
-  useEffect(() => {
-    // Trigger column generation whenever baseplates or wall points change
-    columnStore.generateColumns();
-  }, [
-    baseplateStore.basePlates,
-    columnStore.cornerLength,
-    columnStore.cornerWidth,
-    columnStore.horizontalLength,
-    columnStore.horizontalWidth,
-    columnStore.verticalLength,
-    columnStore.verticalWidth,
-  ]);
+  
 
 
   return (

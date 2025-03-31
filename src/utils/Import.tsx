@@ -24,8 +24,6 @@ export const Import = () => {
       wallStore.processWallData(data);
       console.log("Parsed DXF Data:", data);
 
-      // Optionally, process the received DXF data,
-      // e.g., wallStore.processWallData(data) or any other store update.
     } catch (error) {
       console.error("Error uploading file:", error);
     }
