@@ -4,7 +4,7 @@ import columnStore from "../../../stores/ColumnStore";
 
 export const Column = observer(() => {
   return (
-    <div className="bg-white p-8 rounded-2xl shadow-xl w-[300px] max-w-md mx-auto z-10">
+    <div className="bg-white p-8 rounded-2xl shadow-xl w-[300px] max-w-md mx-auto z-10 overflow-y-scroll h-[calc(100vh-100px)]">
       <form className="space-y-4">
         <h1 className="text-2xl font-bold mb-6 text-center">Corner Column</h1>
         <InputNumber
