@@ -5,6 +5,7 @@ import uiStore from "../../../stores/UIStore";
 import { BaseplateInput } from "./Baseplate";
 import { Column } from "./Column";
 import { Foundation } from "./Foundation";
+import { MullionColumn } from "./MullianColumn";
 
 export const Layout = observer(() => {
   return (
@@ -40,6 +41,12 @@ export const Layout = observer(() => {
         >
           Foundation
         </button>
+        <button
+          onClick={() => uiStore.setCurrentComponent("MullionColumn")}
+          className="mb-4 hover:text-blue-300"
+        >
+          Mullion Column
+        </button>
       </div>
       <div className="flex-1 p-8 w-[400px]">
         {uiStore.currentComponent === "plot" && <PlotInput />}
@@ -47,6 +54,7 @@ export const Layout = observer(() => {
         {uiStore.currentComponent === "baseplate" && <BaseplateInput />}
         {uiStore.currentComponent === "column" && <Column />}
         {uiStore.currentComponent === "Foundation" && <Foundation />}
+        {uiStore.currentComponent === "MullionColumn" && <MullionColumn />}
       </div>
     </div>
   );
