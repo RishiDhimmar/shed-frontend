@@ -4,10 +4,6 @@ import baseplateStore from "../../../stores/BasePlateStore";
 import { getClosedPoints } from "../../../utils/GeometryUtils";
 
 const BasePlateVisualizer = observer(() => {
-  useEffect(() => {
-    baseplateStore.generatePlates();
-  }, []);
-
   return (
     <>
       {baseplateStore.basePlates.map((baseplate) => (
