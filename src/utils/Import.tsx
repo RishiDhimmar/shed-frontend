@@ -11,7 +11,7 @@ export const Import = () => {
     formData.append("dxfFile", file);
 
     try {
-      const response = await fetch("http://localhost:3000/api/upload-dxf", {
+      const response = await fetch("https://3rdp084j-3000.inc1.devtunnels.ms/api/upload-dxf", {
         method: "POST",
         body: formData,
       });
