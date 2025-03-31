@@ -54,6 +54,7 @@ const ShadeVisualizer = observer(() => {
 
       <BasePlateVisualizer />
       <ColumnVisualizer />
+      <FoundationVisualizer />
       <MullionColumnVisualizer />
       <FoundationVisualizer />
     </>
