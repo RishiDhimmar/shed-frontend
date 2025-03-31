@@ -3,12 +3,8 @@ function InputNumber({ label, value, onChange }: any) {
     let newValue = e.target.value;
 
     if (newValue === "") {
-      console.log(newValue);
-
       onChange("");
     } else {
-      console.log(newValue);
-
       const numValue =
         Math.max(0, Number(newValue)) === 0 ? 0.01 : Number(newValue);
       onChange(numValue);

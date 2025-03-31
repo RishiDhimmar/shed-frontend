@@ -19,7 +19,6 @@ const ColumnVisualizer = observer(() => {
     columnStore.verticalWidth,
   ]);
 
-  console.log("Columns:", columnStore.columns);
 
   return (
     <>

@@ -4,14 +4,13 @@ import { observer } from "mobx-react-lite";
 import { getClosedPoints } from "../../../utils/GeometryUtils";
 import wallStore from "../../../stores/WallStore";
 import BasePlateVisualizer from "./BasePlateVisualizer";
-import { useEffect } from "react";
 import ColumnVisualizer from "./ColumnVisualizer";
 import FoundationVisualizer from "./foundationVisualizer";
 
 const ShadeVisualizer = observer(() => {
-  useEffect(() => {
-    wallStore.loadWallData();
-  }, []);
+  // useEffect(() => {
+  //   wallStore.loadWallData();
+  // }, []);
   return (
     <>
       {basePlotStore.points && (

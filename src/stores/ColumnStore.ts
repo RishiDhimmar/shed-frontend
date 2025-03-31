@@ -271,7 +271,6 @@ export class ColumnStore {
         this.horizontalWidth;
       // 0.5;
 
-      console.log(plate.wall);
       if (plate.wall === "left") {
         newColumns.push({
           id: uuidv4(),
