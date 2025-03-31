@@ -4,7 +4,7 @@ import { Import } from "./utils/Import";
 
 function App() {
   return (
-    <div className="flex">
+    <div className="flex relative">
       <Layout />
       <ShadeCanvas />
       <Import />

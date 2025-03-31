@@ -7,11 +7,12 @@ import BasePlateVisualizer from "./BasePlateVisualizer";
 import ColumnVisualizer from "./ColumnVisualizer";
 import MullionColumnVisualizer from "./MullionColumnVisualizer";
 import FoundationVisualizer from "./foundationVisualizer";
+import { useEffect } from "react";
 
 const ShadeVisualizer = observer(() => {
-  // useEffect(() => {
-  //   wallStore.loadWallData();
-  // }, []);
+  useEffect(() => {
+    wallStore.loadWallData();
+  }, []);
   return (
     <>
       {basePlotStore.points && (
