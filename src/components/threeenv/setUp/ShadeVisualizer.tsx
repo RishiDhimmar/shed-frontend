@@ -6,6 +6,8 @@ import wallStore from "../../../stores/WallStore";
 import BasePlateVisualizer from "./BasePlateVisualizer";
 import { useEffect } from "react";
 import ColumnVisualizer from "./ColumnVisualizer";
+import { Foundation } from "../inputs/Foundation";
+import FoundationVisualizer from "./foundationVisualizer";
 
 const ShadeVisualizer = observer(() => {
   useEffect(() => {
@@ -41,6 +43,7 @@ const ShadeVisualizer = observer(() => {
 
       <BasePlateVisualizer />
       <ColumnVisualizer />
+      <FoundationVisualizer />
     </>
   );
 });
