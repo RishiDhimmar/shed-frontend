@@ -4,7 +4,7 @@ import { Shade } from "./Shade";
 import uiStore from "../../../stores/UIStore";
 import { BaseplateInput } from "./Baseplate";
 import { Column } from "./Column";
-import Foundation from "./Foundation";
+import { Foundation } from "./Foundation";
 
 export const Layout = observer(() => {
   return (

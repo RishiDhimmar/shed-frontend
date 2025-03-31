@@ -1,7 +1,9 @@
-import columnStore from "../../../stores/ColumnStore";
-import InputNumber from "../Helpers/InputNumber";
+import { observer } from "mobx-react-lite";
 
-function Foundation() {
+import InputNumber from "../Helpers/InputNumber";
+import foundationStore from "../../../stores/FoundationStore";
+
+export const Foundation = observer(() => {
   return (
     <div className="bg-white p-8 rounded-2xl shadow-xl w-[300px] max-w-md mx-auto z-10">
       <form className="space-y-4">
@@ -11,89 +13,83 @@ function Foundation() {
         <h3>R.C.C Size</h3>
         <InputNumber
           label="Bf:"
-          value={columnStore.cornerWidth}
+          value={foundationStore.RccBf}
           onChange={(newLength: number) => {
             console.log(newLength);
-            columnStore.setCornerLength(newLength);
+            foundationStore.setRccBF(newLength);
           }}
         />
         <InputNumber
           label="Lf:"
-          value={columnStore.cornerLength}
-          onChange={(newHeight: number) =>
-            columnStore.setCornerWidth(newHeight)
-          }
+          value={foundationStore.rccLf}
+          onChange={(newHeight: number) => foundationStore.setRccLf(newHeight)}
         />
 
         <h3>P.C.C Size</h3>
         <InputNumber
           label="Bf:"
-          value={columnStore.horizontalLength}
+          value={foundationStore.pccWidth}
           onChange={(newLength: number) => {
             console.log(newLength);
-            columnStore.setHorizontalLength(newLength);
+            foundationStore.setPccWidth(newLength);
           }}
         />
         <InputNumber
           label="Lf:"
-          value={columnStore.horizontalWidth}
+          value={foundationStore.pccLength}
           onChange={(newHeight: number) =>
-            columnStore.setHorizontalWidth(newHeight)
+            foundationStore.setPccLength(newHeight)
           }
         />
 
         <h3>Depth</h3>
         <InputNumber
           label="D:"
-          value={columnStore.verticalLength}
+          value={foundationStore.depthD}
           onChange={(newLength: number) => {
             console.log(newLength);
-            columnStore.setVerticalLength(newLength);
+            foundationStore.setDepthD(newLength);
           }}
         />
         <InputNumber
           label="d:"
-          value={columnStore.verticalWidth}
-          onChange={(newHeight: number) =>
-            columnStore.setVerticalWidth(newHeight)
-          }
+          value={foundationStore.depthd}
+          onChange={(newHeight: number) => foundationStore.setDepthd(newHeight)}
         />
 
         <h3>Short Bar</h3>
         <InputNumber
           label="#:"
-          value={columnStore.verticalWidth}
+          value={foundationStore.shortBarCount}
           onChange={(newLength: number) => {
             console.log(newLength);
-            columnStore.setCornerLength(newLength);
+            foundationStore.setShortBarCount(newLength);
           }}
         />
         <InputNumber
           label="C/C:"
-          value={columnStore.verticalWidth}
+          value={foundationStore.shortBarSpacing}
           onChange={(newHeight: number) =>
-            columnStore.setCornerWidth(newHeight)
+            foundationStore.setShortBarSpacing(newHeight)
           }
         />
         <h3>Long Bar</h3>
         <InputNumber
           label="#:"
-          value={columnStore.verticalLength}
+          value={foundationStore.longBarCount}
           onChange={(newLength: number) => {
             console.log(newLength);
-            columnStore.setCornerLength(newLength);
+            foundationStore.setLongBarCount(newLength);
           }}
         />
         <InputNumber
           label="C/C:"
-          value={columnStore.verticalWidth}
+          value={foundationStore.longBarSpacing}
           onChange={(newHeight: number) =>
-            columnStore.setCornerWidth(newHeight)
+            foundationStore.setLongBarSpacing(newHeight)
           }
         />
       </form>
     </div>
   );
-}
-
-export default Foundation;
+});
