@@ -1,4 +1,3 @@
-import {  useMemo } from "react";
 import { observer } from "mobx-react-lite";
 import { Line } from "@react-three/drei";
 import { getClosedPoints } from "../../../utils/GeometryUtils";

@@ -1,4 +1,3 @@
-import React from "react";
 import wallStore from "../../../stores/WallStore";
 import { Line } from "@react-three/drei";
 import { getClosedPoints } from "../../../utils/GeometryUtils";

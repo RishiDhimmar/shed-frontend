@@ -16,7 +16,7 @@ const ShadeVisualizer = observer(() => {
   }, []);
   return (
     <>
-      <GroundBeamVisualizer />
+      {!uiStore.visibility.groundBeam && <GroundBeamVisualizer />}
       {uiStore.visibility.plot && <BasePlotVisualizer />}
       {uiStore.visibility.shade && <ShedWallVisualizer />}
       {uiStore.visibility.baseplate && <BasePlateVisualizer />}

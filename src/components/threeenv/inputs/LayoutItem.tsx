@@ -1,5 +1,5 @@
-import React from "react";
-import { BiBookOpen, BiHide } from "react-icons/bi";
+import { BiHide } from "react-icons/bi";
+import { FaRegEye } from "react-icons/fa6";
 
 interface LayoutItemProps {
   title: string;
@@ -24,7 +24,7 @@ function LayoutItem({ title, color, isHidden, onClick, onToggleVisibility, class
         className="text-white h-5 w-5 flex items-center justify-center rounded cursor-pointer"
         onClick={onToggleVisibility}
       >
-        {isHidden ? <BiHide /> : <BiBookOpen />}
+        {isHidden ? <BiHide /> : <FaRegEye />}
       </div>
     </div>
   );

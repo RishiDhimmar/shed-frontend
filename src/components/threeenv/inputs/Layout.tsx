@@ -15,8 +15,6 @@ export const Layout = observer(() => {
         <LayoutItem
           title="Plot"
           color="bg-[#FFFFFF]"
-          isHidden={true}
-          color="bg-gray-500"
           isHidden={!uiStore.visibility.plot}
           onClick={() => uiStore.setCurrentComponent("plot")}
           onToggleVisibility={() => uiStore.toggleVisibility("plot")}
@@ -24,8 +22,6 @@ export const Layout = observer(() => {
         <LayoutItem
           title="Shade"
           color="bg-[#FF7F00]"
-          isHidden={true}
-          color="bg-gray-500"
           isHidden={!uiStore.visibility.shade}
           onClick={() => uiStore.setCurrentComponent("shade")}
           onToggleVisibility={() => uiStore.toggleVisibility("shade")}
@@ -33,8 +29,6 @@ export const Layout = observer(() => {
         <LayoutItem
           title="Baseplate"
           color="bg-[#00FF00]"
-          isHidden={true}
-          color="bg-gray-500"
           isHidden={!uiStore.visibility.baseplate}
           onClick={() => uiStore.setCurrentComponent("baseplate")}
           onToggleVisibility={() => uiStore.toggleVisibility("baseplate")}
@@ -42,8 +36,6 @@ export const Layout = observer(() => {
         <LayoutItem
           title="Column"
           color="bg-[#6363E1]"
-          isHidden={true}
-          color="bg-gray-500"
           isHidden={!uiStore.visibility.column}
           onClick={() => uiStore.setCurrentComponent("column")}
           onToggleVisibility={() => uiStore.toggleVisibility("column")}
@@ -51,8 +43,6 @@ export const Layout = observer(() => {
         <LayoutItem
           title="Foundation"
           color="bg-[#FF00FF]"
-          isHidden={true}
-          color="bg-gray-500"
           isHidden={!uiStore.visibility.Foundation}
           onClick={() => uiStore.setCurrentComponent("Foundation")}
           onToggleVisibility={() => uiStore.toggleVisibility("Foundation")}
@@ -60,18 +50,16 @@ export const Layout = observer(() => {
         <LayoutItem
           title="Mullion Column"
           color="bg-[#FF0000]"
-          isHidden={true}
-          color="bg-gray-500"
           isHidden={!uiStore.visibility.MullionColumn}
           onClick={() => uiStore.setCurrentComponent("MullionColumn")}
           onToggleVisibility={() => uiStore.toggleVisibility("MullionColumn")}
-          className="mb-4 hover:text-blue-300 text-left"
         />
         <LayoutItem
           title="Ground Beam"
           color="bg-[#00FFFF]"
-          isHidden={true}
+          isHidden={uiStore.visibility.groundBeam}
           onClick={() => uiStore.setCurrentComponent("Ground Beam")}
+          onToggleVisibility={() => uiStore.toggleVisibility("groundBeam")}
         />
       </div>
       <div className="flex-1 p-8 w-[400px] absolute top-0 left-45">

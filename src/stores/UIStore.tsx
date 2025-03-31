@@ -10,6 +10,7 @@ class UIStore {
     column: true,
     Foundation: true,
     MullionColumn: true,
+    groundBeam: true
   };
 
   constructor() {
