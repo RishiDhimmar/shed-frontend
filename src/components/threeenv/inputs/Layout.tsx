@@ -11,46 +11,50 @@ import LayoutItem from "./LayoutItem";
 export const Layout = observer(() => {
   return (
     <div className="flex relative z-10">
-      <div className="w-[200px] bg-gray-800 text-white flex flex-col items-start px-2 py-4 ">
+      <div className="w-[200px] bg-gray-800 text-white flex flex-col items-start px-2 py-4">
         <LayoutItem
           title="Plot"
           color="bg-gray-500"
-          isHidden={true}
+          isHidden={!uiStore.visibility.plot}
           onClick={() => uiStore.setCurrentComponent("plot")}
+          onToggleVisibility={() => uiStore.toggleVisibility("plot")}
         />
         <LayoutItem
           title="Shade"
           color="bg-gray-500"
-          isHidden={false}
+          isHidden={!uiStore.visibility.shade}
           onClick={() => uiStore.setCurrentComponent("shade")}
+          onToggleVisibility={() => uiStore.toggleVisibility("shade")}
         />
         <LayoutItem
           title="Baseplate"
           color="bg-gray-500"
-          isHidden={false}
+          isHidden={!uiStore.visibility.baseplate}
           onClick={() => uiStore.setCurrentComponent("baseplate")}
+          onToggleVisibility={() => uiStore.toggleVisibility("baseplate")}
         />
         <LayoutItem
           title="Column"
           color="bg-gray-500"
-          isHidden={false}
+          isHidden={!uiStore.visibility.column}
           onClick={() => uiStore.setCurrentComponent("column")}
+          onToggleVisibility={() => uiStore.toggleVisibility("column")}
         />
         <LayoutItem
           title="Foundation"
           color="bg-gray-500"
-          isHidden={false}
+          isHidden={!uiStore.visibility.Foundation}
           onClick={() => uiStore.setCurrentComponent("Foundation")}
+          onToggleVisibility={() => uiStore.toggleVisibility("Foundation")}
         />
         <LayoutItem
           title="Mullion Column"
           color="bg-gray-500"
-          isHidden={false}
+          isHidden={!uiStore.visibility.MullionColumn}
           onClick={() => uiStore.setCurrentComponent("MullionColumn")}
+          onToggleVisibility={() => uiStore.toggleVisibility("MullionColumn")}
           className="mb-4 hover:text-blue-300 text-left"
-        >
-          Mullion Column
-        </button>
+        />
       </div>
       <div className="flex-1 p-8 w-[400px] absolute top-0 left-50">
         {uiStore.currentComponent === "plot" && <PlotInput />}
@@ -63,3 +67,5 @@ export const Layout = observer(() => {
     </div>
   );
 });
+
+export default Layout;

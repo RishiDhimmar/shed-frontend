@@ -7,23 +7,25 @@ import { useEffect } from "react";
 import GroundBeamVisualizer from "./GroundBeamVisualizer";
 import BasePlotVisualizer from "./BasePlotVisualizer";
 import ShedWallVisualizer from "./ShedWallVisualizer";
+import uiStore from "../../../stores/UIStore";
+import { observer } from "mobx-react-lite";
 
-const ShadeVisualizer = () => {
+const ShadeVisualizer = observer(() => {
   useEffect(() => {
     wallStore.loadWallData();
   }, []);
   return (
     <>
       <GroundBeamVisualizer />
-      <BasePlotVisualizer />
-      <ShedWallVisualizer />
-      <BasePlateVisualizer />
-      <ColumnVisualizer />
-      <FoundationVisualizer />
-      <MullionColumnVisualizer />
-      <FoundationVisualizer />
+      {uiStore.visibility.plot && <BasePlotVisualizer />}
+      {uiStore.visibility.shade && <ShedWallVisualizer />}
+      {uiStore.visibility.baseplate && <BasePlateVisualizer />}
+      {uiStore.visibility.column && <ColumnVisualizer />}
+      {uiStore.visibility.Foundation && <FoundationVisualizer />}
+      {uiStore.visibility.MullionColumn && <MullionColumnVisualizer />}
+      {/* {uiStore.visibility.Foundation && <FoundationVisualizer />} */}
     </>
   );
-};
+});
 
 export default ShadeVisualizer;
