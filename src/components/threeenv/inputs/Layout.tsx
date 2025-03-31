@@ -4,6 +4,7 @@ import { Shade } from "./Shade";
 import uiStore from "../../../stores/UIStore";
 import { BaseplateInput } from "./Baseplate";
 import { Column } from "./Column";
+import Foundation from "./Foundation";
 
 export const Layout = observer(() => {
   return (
@@ -33,12 +34,19 @@ export const Layout = observer(() => {
         >
           Column
         </button>
+        <button
+          onClick={() => uiStore.setCurrentComponent("Foundation")}
+          className="mb-4 hover:text-blue-300"
+        >
+          Foundation
+        </button>
       </div>
       <div className="flex-1 p-8 w-[400px]">
         {uiStore.currentComponent === "plot" && <PlotInput />}
         {uiStore.currentComponent === "shade" && <Shade />}
         {uiStore.currentComponent === "baseplate" && <BaseplateInput />}
         {uiStore.currentComponent === "column" && <Column />}
+        {uiStore.currentComponent === "Foundation" && <Foundation />}
       </div>
     </div>
   );

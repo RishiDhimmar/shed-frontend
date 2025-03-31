@@ -9,7 +9,7 @@ export const Column = observer(() => {
         <h1 className="text-2xl font-bold mb-6 text-center">Corner Column</h1>
         <InputNumber
           label="Length:"
-          value={columnStore.ColumnLength}
+          value={columnStore.cornerLength}
           onChange={(newLength: number) => {
             console.log(newLength);
             columnStore.setCornerLength(newLength);
@@ -17,7 +17,7 @@ export const Column = observer(() => {
         />
         <InputNumber
           label="width:"
-          value={columnStore.ColumnWidth}
+          value={columnStore.cornerWidth}
           onChange={(newHeight: number) =>
             columnStore.setCornerWidth(newHeight)
           }
@@ -27,7 +27,7 @@ export const Column = observer(() => {
         </h1>
         <InputNumber
           label="Length:"
-          value={columnStore.HorizontalLength}
+          value={columnStore.horizontalLength}
           onChange={(newLength: number) => {
             console.log(newLength);
             columnStore.setHorizontalLength(newLength);
@@ -35,7 +35,7 @@ export const Column = observer(() => {
         />
         <InputNumber
           label="width:"
-          value={columnStore.HorizontalWidth}
+          value={columnStore.horizontalWidth}
           onChange={(newHeight: number) =>
             columnStore.setHorizontalWidth(newHeight)
           }
@@ -45,7 +45,7 @@ export const Column = observer(() => {
         </h1>
         <InputNumber
           label="Length:"
-          value={columnStore.VerticalLength}
+          value={columnStore.verticalLength}
           onChange={(newLength: number) => {
             console.log(newLength);
             columnStore.setVerticalLength(newLength);
@@ -53,7 +53,7 @@ export const Column = observer(() => {
         />
         <InputNumber
           label="width:"
-          value={columnStore.VerticalWidth}
+          value={columnStore.verticalWidth}
           onChange={(newHeight: number) =>
             columnStore.setVerticalWidth(newHeight)
           }
