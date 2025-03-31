@@ -1,5 +1,6 @@
 import { makeAutoObservable, runInAction, reaction } from "mobx";
 import { v4 as uuidv4 } from "uuid";
+
 import baseplateStore from "./BasePlateStore";
 import wallStore from "./WallStore";
 
@@ -7,23 +8,34 @@ export interface Column {
   id: string;
   width: number;
   length: number;
-  points: number[][]; // Array of four corner points
+  points: number[][];
 }
 
-class ColumnStore {
+export class ColumnStore {
+  width = 0;
+  length = 0;
   columns: Column[] = [];
 
-  constructor() {
+  constructor(width = 0, length = 0) {
+    this.width = width;
+    this.length = length;
     makeAutoObservable(this, {}, { autoBind: true });
-
-    // React to changes in baseplates and external wall points
     reaction(
-      () => [
-        baseplateStore.basePlates.slice(),
-        wallStore.externalWallPoints.slice(),
-      ],
+      () => baseplateStore.basePlates.slice(),
       () => this.generateColumns()
     );
+  }
+
+  setWidth(newWidth: number) {
+    runInAction(() => {
+      this.width = newWidth;
+    });
+  }
+
+  setLength(newLength: number) {
+    runInAction(() => {
+      this.length = newLength;
+    });
   }
 
   generateColumns() {
@@ -69,6 +81,68 @@ class ColumnStore {
         0.5;
 
       const wallPoints = wallStore.externalWallPoints;
+      newColumns.push(
+        {
+          id: uuidv4(),
+          width: columnWidth,
+          length: columnLength,
+          points: [
+            [wallPoints[0][0], wallPoints[0][1], 0],
+            [wallPoints[0][0] + columnLength, wallPoints[0][1], 0],
+            [
+              wallPoints[0][0] + columnLength,
+              wallPoints[0][1] + columnWidth,
+              0,
+            ],
+            [wallPoints[0][0], wallPoints[0][1] + columnWidth, 0],
+          ],
+        },
+        {
+          id: uuidv4(),
+          width: columnWidth,
+          length: columnLength,
+          points: [
+            [wallPoints[1][0], wallPoints[1][1], 0],
+            [wallPoints[1][0] - columnLength, wallPoints[1][1], 0],
+            [
+              wallPoints[1][0] - columnLength,
+              wallPoints[1][1] + columnWidth,
+              0,
+            ],
+            [wallPoints[1][0], wallPoints[1][1] + columnWidth, 0],
+          ],
+        },
+        {
+          id: uuidv4(),
+          width: columnWidth,
+          length: columnLength,
+          points: [
+            [wallPoints[2][0], wallPoints[2][1], 0],
+            [wallPoints[2][0] - columnLength, wallPoints[2][1], 0],
+            [
+              wallPoints[2][0] - columnLength,
+              wallPoints[2][1] - columnWidth,
+              0,
+            ],
+            [wallPoints[2][0], wallPoints[2][1] - columnWidth, 0],
+          ],
+        },
+        {
+          id: uuidv4(),
+          width: columnWidth,
+          length: columnLength,
+          points: [
+            [wallPoints[3][0], wallPoints[3][1], 0],
+            [wallPoints[3][0] + columnLength, wallPoints[3][1], 0],
+            [
+              wallPoints[3][0] + columnLength,
+              wallPoints[3][1] - columnWidth,
+              0,
+            ],
+            [wallPoints[3][0], wallPoints[3][1] - columnWidth, 0],
+          ],
+        }
+      );
 
       newColumns.push(
         {

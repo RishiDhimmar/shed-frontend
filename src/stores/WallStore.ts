@@ -15,6 +15,18 @@ export class WallStore {
     makeAutoObservable(this);
   }
 
+  setWidth(newWidth: number) {
+    this.width = newWidth;
+  }
+
+  setHeight(newHeight: number) {
+    this.height = newHeight;
+  }
+
+  setWallThickness(newThickness: number) {
+    this.wallThickness = newThickness;
+  }
+
   async loadWallData() {
     try {
       const data = await fetchWallData();
@@ -69,16 +81,30 @@ export class WallStore {
     this.width = maxX - minX;
     this.height = maxY - minY;
 
-    console.log("Updated Wall Dimensions - Width:", this.width, "Height:", this.height);
+    console.log(
+      "Updated Wall Dimensions - Width:",
+      this.width,
+      "Height:",
+      this.height
+    );
   }
 
   calculateThickness() {
-    if (this.externalWallPoints.length === 0 || this.internalWallPoints.length === 0) return;
+    if (
+      this.externalWallPoints.length === 0 ||
+      this.internalWallPoints.length === 0
+    )
+      return;
 
     let totalThickness = 0;
     let count = 0;
 
-    for (let i = 0; i < Math.min(this.externalWallPoints.length, this.internalWallPoints.length); i++) {
+    for (
+      let i = 0;
+      i <
+      Math.min(this.externalWallPoints.length, this.internalWallPoints.length);
+      i++
+    ) {
       const ey = this.externalWallPoints[i][1]; // External Y
       const iy = this.internalWallPoints[i][1]; // Internal Y
 
