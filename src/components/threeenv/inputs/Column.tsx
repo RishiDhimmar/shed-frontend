@@ -11,7 +11,6 @@ export const Column = observer(() => {
           label="Length:"
           value={columnStore.cornerLength}
           onChange={(newLength: number) => {
-            console.log(newLength);
             columnStore.setCornerLength(newLength);
           }}
         />
@@ -29,7 +28,6 @@ export const Column = observer(() => {
           label="Length:"
           value={columnStore.horizontalLength}
           onChange={(newLength: number) => {
-            console.log(newLength);
             columnStore.setHorizontalLength(newLength);
           }}
         />
@@ -47,7 +45,6 @@ export const Column = observer(() => {
           label="Length:"
           value={columnStore.verticalLength}
           onChange={(newLength: number) => {
-            console.log(newLength);
             columnStore.setVerticalLength(newLength);
           }}
         />

@@ -1,4 +1,4 @@
-import { get, makeAutoObservable, reaction, runInAction } from "mobx";
+import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { fetchWallData } from "../components/threeenv/inputs/Fetch";
 import { getRectanglePoints } from "../utils/GeometryUtils";
 
@@ -96,12 +96,7 @@ export class WallStore {
       this.height = maxY - minY;
     });
 
-    console.log(
-      "Updated Wall Dimensions - Width:",
-      this.width,
-      "Height:",
-      this.height
-    );
+ 
   }
 
   calculateThickness() {
@@ -131,7 +126,6 @@ export class WallStore {
       runInAction(() => {
         this.wallThickness = totalThickness / count;
       });
-      console.log("Updated Wall Thickness:", this.wallThickness);
     }
   }
 
@@ -146,7 +140,6 @@ export class WallStore {
     );
 
     this.setWallPoints(external, internal);
-    console.log("Generated new wall points based on dimensions.");
   }
 }
 

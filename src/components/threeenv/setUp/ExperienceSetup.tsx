@@ -10,11 +10,6 @@ function ExperienceSetup() {
       <ControlsSetup />
       <CameraSetup />
 
-      {/* <mesh>
-        <planeGeometry args={[1000, 1000]} />
-        <meshStandardMaterial />
-      </mesh> */}
-
       <ShadeVisualizer />
     </>
   );

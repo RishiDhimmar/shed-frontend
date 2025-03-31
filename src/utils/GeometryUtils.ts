@@ -43,3 +43,10 @@ export const getInternalWallPoints = (
     ? getRectanglePoints(internalLength, internalWidth, [0, 0])
     : [];
 };
+
+
+export const generateCenterFromRectanglePoints = (points: number[][]): Point => {
+  const centerX = (points[0][0] + points[2][0]) / 2;
+  const centerY = (points[0][1] + points[2][1]) / 2;
+  return { X: centerX, Y: centerY };
+}

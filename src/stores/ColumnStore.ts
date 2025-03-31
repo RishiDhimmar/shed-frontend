@@ -5,12 +5,9 @@ import wallStore from "./WallStore";
 
 export interface Column {
   id: string;
-  cornerWidth: number;
-  cornerLength: number;
-  horizontalWidth: number;
-  horizontalLength: number;
-  verticalWidth: number;
-  verticalLength: number;
+  width: number;
+  length: number;
+ 
   points: number[][];
 }
 
@@ -108,7 +105,6 @@ export class ColumnStore {
 
     // Generate columns for corner plates
     cornerPlates.forEach((plate) => {
-      const { x, y } = plate;
       const plateConfig = baseplateStore.config[plate.type];
 
       const columnWidth =
@@ -275,7 +271,6 @@ export class ColumnStore {
         this.horizontalWidth;
       // 0.5;
 
-      console.log(plate.wall);
       if (plate.wall === "left") {
         newColumns.push({
           id: uuidv4(),
@@ -283,14 +278,14 @@ export class ColumnStore {
           length: columnLength,
           points: [
             [
-              x + plateConfig.length / 2 + plateConfig.offsetX + 0.5,
+              x + plateConfig.length / 2 + (plateConfig.offsetX ?? 0) + 0.5,
               y - columnWidth / 2,
               0,
             ],
             [
               x -
                 plateConfig.length / 2 -
-                plateConfig.offsetX -
+                (plateConfig.offsetX ?? 0) -
                 wallStore.wallThickness,
               y - columnWidth / 2,
               0,
@@ -298,13 +293,13 @@ export class ColumnStore {
             [
               x -
                 plateConfig.length / 2 -
-                plateConfig.offsetX -
+                (plateConfig.offsetX ?? 0) -
                 wallStore.wallThickness,
               y + columnWidth / 2,
               0,
             ],
             [
-              x + plateConfig.length / 2 + plateConfig.offsetX + 0.5,
+              x + plateConfig.length / 2 + (plateConfig.offsetX ?? 0) + 0.5,
               y + columnWidth / 2,
               0,
             ],
@@ -319,25 +314,25 @@ export class ColumnStore {
             [
               x +
                 plateConfig.length / 2 +
-                plateConfig.offsetX +
+                (plateConfig.offsetX ?? 0) +
                 wallStore.wallThickness,
               y - columnWidth / 2,
               0,
             ],
             [
-              x - plateConfig.length / 2 - plateConfig.offsetX - 0.5,
+              x - plateConfig.length / 2 - (plateConfig.offsetX ?? 0) - 0.5,
               y - columnWidth / 2,
               0,
             ],
             [
-              x - plateConfig.length / 2 - plateConfig.offsetX - 0.5,
+              x - plateConfig.length / 2 - (plateConfig.offsetX ?? 0) - 0.5,
               y + columnWidth / 2,
               0,
             ],
             [
               x +
                 plateConfig.length / 2 +
-                plateConfig.offsetX +
+                (plateConfig.offsetX ?? 0) +
                 wallStore.wallThickness,
               y + columnWidth / 2,
               0,
@@ -376,25 +371,25 @@ export class ColumnStore {
               x - columnLength / 2,
               y -
                 plateConfig.width / 2 -
-                plateConfig.offsetY -
+                (plateConfig.offsetY ?? 0) -
                 wallStore.wallThickness,
               0,
             ],
             [
               x - columnLength / 2,
-              y + plateConfig.width / 2 + plateConfig.offsetY + 0.5,
+              y + plateConfig.width / 2 + (plateConfig.offsetY ?? 0) + 0.5,
               0,
             ],
             [
               x + columnLength / 2,
-              y + plateConfig.width / 2 + plateConfig.offsetY + 0.5,
+              y + plateConfig.width / 2 + (plateConfig.offsetY ?? 0) + 0.5,
               0,
             ],
             [
               x + columnLength / 2,
               y -
                 plateConfig.width / 2 -
-                plateConfig.offsetY -
+                (plateConfig.offsetY ?? 0) -
                 wallStore.wallThickness,
               0,
             ],
@@ -410,25 +405,25 @@ export class ColumnStore {
               x - columnLength / 2,
               y +
                 plateConfig.width / 2 +
-                plateConfig.offsetY +
+                (plateConfig.offsetY ?? 0) +
                 wallStore.wallThickness,
               0,
             ],
             [
               x - columnLength / 2,
-              y - plateConfig.width / 2 - plateConfig.offsetY - 0.5,
+              y - plateConfig.width / 2 - (plateConfig.offsetY ?? 0) - 0.5,
               0,
             ],
             [
               x + columnLength / 2,
-              y - plateConfig.width / 2 - plateConfig.offsetY - 0.5,
+              y - plateConfig.width / 2 - (plateConfig.offsetY ?? 0) - 0.5,
               0,
             ],
             [
               x + columnLength / 2,
               y +
                 plateConfig.width / 2 +
-                plateConfig.offsetY +
+                (plateConfig.offsetY ?? 0) +
                 wallStore.wallThickness,
               0,
             ],
@@ -443,5 +438,5 @@ export class ColumnStore {
   }
 }
 
-const columnStore = new ColumnStore();
+const columnStore = new ColumnStore(0,0,0,0,0,0);
 export default columnStore;

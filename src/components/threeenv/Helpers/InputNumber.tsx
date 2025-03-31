@@ -15,9 +15,11 @@ const InputNumber: React.FC<InputNumberProps> = ({
     const newValue = e.target.value;
 
     if (newValue === "") {
-      onChange(0);
+      onChange("");
     } else {
-      const numValue = Math.max(0.01, Number(newValue));
+      const numValue =
+        Math.max(0, Number(newValue)) === 0 ? 0.01 : Number(newValue);
+      onChange(numValue);
     }
   };
 

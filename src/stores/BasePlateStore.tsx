@@ -30,8 +30,8 @@ class BaseplateStore {
     vertical: { width: 0.25, length: 0.3, offsetY: 0.01 },
   });
 
-  idealHorizontalDistance = 6;
-  idealVerticalDistance = 7.275;
+  idealHorizontalDistance = 7;
+  idealVerticalDistance = 6;
   basePlates: Baseplate[] = observable([]);
 
   constructor() {
