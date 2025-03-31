@@ -6,49 +6,53 @@ import { BaseplateInput } from "./Baseplate";
 import { Column } from "./Column";
 import { Foundation } from "./Foundation";
 import { MullionColumn } from "./MullianColumn";
+import LayoutItem from "./LayoutItem";
 
 export const Layout = observer(() => {
   return (
-    <div className="flex w-[100px] z-10">
-      <div className="w-27 bg-gray-800 text-white flex flex-col items-start px-2 py-4 ">
-        <button
+    <div className="flex relative z-10">
+      <div className="w-[200px] bg-gray-800 text-white flex flex-col items-start px-2 py-4 ">
+        <LayoutItem
+          title="Plot"
+          color="bg-gray-500"
+          isHidden={true}
           onClick={() => uiStore.setCurrentComponent("plot")}
-          className="mb-4 hover:text-blue-300"
-        >
-          Plot
-        </button>
-        <button
+        />
+        <LayoutItem
+          title="Shade"
+          color="bg-gray-500"
+          isHidden={false}
           onClick={() => uiStore.setCurrentComponent("shade")}
-          className="mb-4 hover:text-blue-300"
-        >
-          Shade
-        </button>
-        <button
+        />
+        <LayoutItem
+          title="Baseplate"
+          color="bg-gray-500"
+          isHidden={false}
           onClick={() => uiStore.setCurrentComponent("baseplate")}
-          className="mb-4 hover:text-blue-300"
-        >
-          BasePLate
-        </button>
-        <button
+        />
+        <LayoutItem
+          title="Column"
+          color="bg-gray-500"
+          isHidden={false}
           onClick={() => uiStore.setCurrentComponent("column")}
-          className="mb-4 hover:text-blue-300"
-        >
-          Column
-        </button>
-        <button
+        />
+        <LayoutItem
+          title="Foundation"
+          color="bg-gray-500"
+          isHidden={false}
           onClick={() => uiStore.setCurrentComponent("Foundation")}
-          className="mb-4 hover:text-blue-300"
-        >
-          Foundation
-        </button>
-        <button
+        />
+        <LayoutItem
+          title="Mullion Column"
+          color="bg-gray-500"
+          isHidden={false}
           onClick={() => uiStore.setCurrentComponent("MullionColumn")}
           className="mb-4 hover:text-blue-300 text-left"
         >
           Mullion Column
         </button>
       </div>
-      <div className="flex-1 p-8 w-[400px]">
+      <div className="flex-1 p-8 w-[400px] absolute top-0 left-50">
         {uiStore.currentComponent === "plot" && <PlotInput />}
         {uiStore.currentComponent === "shade" && <Shade />}
         {uiStore.currentComponent === "baseplate" && <BaseplateInput />}

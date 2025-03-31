@@ -21,6 +21,7 @@ const ShadeVisualizer = () => {
       <ColumnVisualizer />
       <FoundationVisualizer />
       <MullionColumnVisualizer />
+      <FoundationVisualizer />
     </>
   );
 };

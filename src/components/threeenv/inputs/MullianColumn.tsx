@@ -4,21 +4,25 @@ import mullionColumnStore from "../../../stores/MullianColumnStore";
 
 export const MullionColumn = observer(() => {
   return (
-    <div className="bg-white p-8 rounded-2xl shadow-xl w-[300px] max-w-md mx-auto z-10">
-      <h1 className="text-2xl font-bold mb-6 ">Mullion Input</h1>
+    <div className="bg-white  p-8 rounded shadow-xl w-[300px] max-w-md mx-auto z-10">
+      <h1 className="text-2xl font-bold mb-6 ">Horizontal Mullion</h1>
       <form className="space-y-4">
         <InputNumber
           label="Length:"
           value={mullionColumnStore.mullionLength}
-          onChange={(newHeight: number) =>
-            mullionColumnStore.setMullionLength(newHeight)
+          onChange={(newLength: number) =>
+            mullionColumnStore.setMullionLength(newLength)
           }
         />
+      </form>
+
+      <h1 className="text-2xl font-bold mb-6 ">Vertical Mullion</h1>
+      <form className="space-y-4">
         <InputNumber
-          label="Width:"
+          label="width:"
           value={mullionColumnStore.mullionWidth}
           onChange={(newWidth: number) =>
-            mullionColumnStore.setMullionWidth(newWidth)
+            mullionColumnStore.setMullionLength(newWidth)
           }
         />
       </form>
