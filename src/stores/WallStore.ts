@@ -26,6 +26,7 @@ export class WallStore {
   setWallThickness(newThickness: number) {
     this.wallThickness = newThickness;
   }
+  
 
   async loadWallData() {
     try {

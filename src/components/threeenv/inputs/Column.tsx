@@ -10,7 +10,10 @@ export const Column = observer(() => {
         <InputNumber
           label="Length:"
           value={columnStore.length}
-          onChange={(newLength: number) => columnStore.setLength(newLength)}
+          onChange={(newLength: number) => {
+            console.log(newLength);
+            columnStore.setLength(newLength);
+          }}
         />
         <InputNumber
           label="width:"

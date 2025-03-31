@@ -217,6 +217,7 @@ export class ColumnStore {
         Math.abs(plateConfig.width) +
         (plateConfig.offsetY || 0) +
         wallStore.wallThickness;
+
       // 0.3;
 
       const columnLength =
@@ -232,7 +233,6 @@ export class ColumnStore {
           width: columnWidth,
           length: columnLength,
           points: [
-           
             [
               x + plateConfig.length / 2 + plateConfig.offsetX + 0.5,
               y - columnWidth / 2,
@@ -240,7 +240,7 @@ export class ColumnStore {
             ],
             [
               x -
-                plateConfig.length/2  -
+                plateConfig.length / 2 -
                 plateConfig.offsetX -
                 wallStore.wallThickness,
               y - columnWidth / 2,
@@ -248,8 +248,8 @@ export class ColumnStore {
             ],
             [
               x -
-                plateConfig.length/2  -
-                plateConfig.offsetX  -
+                plateConfig.length / 2 -
+                plateConfig.offsetX -
                 wallStore.wallThickness,
               y + columnWidth / 2,
               0,
@@ -259,7 +259,6 @@ export class ColumnStore {
               y + columnWidth / 2,
               0,
             ],
-            
           ],
         });
       } else {
@@ -371,7 +370,7 @@ export class ColumnStore {
             ],
             [
               x + columnLength / 2,
-              y - plateConfig.width / 2 - plateConfig.offsetY  -  0.5,
+              y - plateConfig.width / 2 - plateConfig.offsetY - 0.5,
               0,
             ],
             [
@@ -381,7 +380,7 @@ export class ColumnStore {
                 plateConfig.offsetY +
                 wallStore.wallThickness,
               0,
-            ]
+            ],
           ],
         });
       }
