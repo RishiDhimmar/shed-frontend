@@ -123,6 +123,8 @@ export class ColumnStore {
         wallStore.wallThickness +
         0.5;
 
+
+
       const wallPoints = wallStore.externalWallPoints;
       newColumns.push(
         {

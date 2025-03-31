@@ -4,7 +4,6 @@ import { Line } from "@react-three/drei";
 import { getClosedPoints } from "../../../utils/GeometryUtils";
 import columnStore from "../../../stores/ColumnStore";
 import baseplateStore from "../../../stores/BasePlateStore";
-import wallStore from "../../../stores/WallStore";
 
 const ColumnVisualizer = observer(() => {
   useEffect(() => {
@@ -25,7 +24,7 @@ const ColumnVisualizer = observer(() => {
               z: number
             ][]
           }
-          color="orange"
+          color="blue"
           key={column.id}
         />
       ))}

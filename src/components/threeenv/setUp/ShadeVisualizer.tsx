@@ -25,17 +25,16 @@ const ShadeVisualizer = observer(() => {
           color="red"
         />
       )}
-      {console.log(wallStore.externalWallPoints)}
       {wallStore.externalWallPoints.length > 0 &&
         wallStore.internalWallPoints.length > 0 && (
           <>
             <Line
               points={getClosedPoints(wallStore.externalWallPoints)}
-              color="gray"
+              color="orange"
             />
             <Line
               points={getClosedPoints(wallStore.internalWallPoints)}
-              color="gray"
+              color="orange"
             />
           </>
         )}

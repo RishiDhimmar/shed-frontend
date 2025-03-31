@@ -20,7 +20,7 @@ const BasePlateVisualizer = observer(() => {
               z: number
             ][]
           }
-          color="blue"
+          color="green"
           key={baseplate.id}
         />
       ))}
