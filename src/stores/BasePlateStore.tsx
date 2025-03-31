@@ -5,12 +5,15 @@ import { v4 as uuidv4 } from "uuid";
 
 export type BaseplateType = "corner" | "horizontal" | "vertical";
 
+export type WallType = "left" | "right" | "top" | "bottom";
+
 export interface Baseplate {
   id: string;
   x: number;
   y: number;
   type: BaseplateType;
   points: number[][];
+  wall: WallType | null;
 }
 
 export interface BaseplateConfig {
@@ -22,7 +25,7 @@ export interface BaseplateConfig {
 
 class BaseplateStore {
   config: Record<BaseplateType, BaseplateConfig> = observable({
-    corner: { width: 3, length: 5, offsetX: 0.01, offsetY: 0.05 },
+    corner: { width: 0.5, length: 0.5, offsetX: 0.01, offsetY: 0.05 },
     horizontal: { width: 0.3, length: 0.55, offsetX: 0.01 },
     vertical: { width: 0.25, length: 0.3, offsetY: 0.01 },
   });
@@ -107,7 +110,8 @@ class BaseplateStore {
   private createBaseplate(
     x: number,
     y: number,
-    type: BaseplateType
+    type: BaseplateType,
+    wall : WallType | null
   ): Baseplate {
     const cfg = this.config[type];
     return {
@@ -116,6 +120,7 @@ class BaseplateStore {
       y,
       type,
       points: getRectanglePoints(cfg.length, cfg.width, [x, y]),
+      wall
     };
   }
 
@@ -126,22 +131,26 @@ class BaseplateStore {
       this.createBaseplate(
         topLeft[0] + length / 2 + offsetX,
         topLeft[1] - width / 2 - offsetY,
-        "corner"
+        "corner",
+        null
       ),
       this.createBaseplate(
         topRight[0] - length / 2 - offsetX,
         topRight[1] - width / 2 - offsetY,
-        "corner"
+        "corner",
+        null
       ),
       this.createBaseplate(
         bottomRight[0] - length / 2 - offsetX,
         bottomRight[1] + width / 2 + offsetY,
-        "corner"
+        "corner",
+        null
       ),
       this.createBaseplate(
         bottomLeft[0] + length / 2 + offsetX,
         bottomLeft[1] + width / 2 + offsetY,
-        "corner"
+        "corner",
+        null
       ),
     ];
   }
@@ -160,17 +169,17 @@ class BaseplateStore {
       leftBoundary + horizontalCfg.length / 2 + (horizontalCfg.offsetX || 0);
     const plates: Baseplate[] = [];
 
-    plates.push(this.createBaseplate(leftX, centerY, "horizontal"));
+    plates.push(this.createBaseplate(leftX, centerY, "horizontal", "left"));
 
     let d = this.idealVerticalDistance;
     while (centerY + d <= topCenterY) {
-      plates.push(this.createBaseplate(leftX, centerY + d, "horizontal"));
+      plates.push(this.createBaseplate(leftX, centerY + d, "horizontal", "left"));
       d += this.idealVerticalDistance;
     }
 
     d = this.idealVerticalDistance;
     while (centerY - d >= bottomCenterY) {
-      plates.push(this.createBaseplate(leftX, centerY - d, "horizontal"));
+      plates.push(this.createBaseplate(leftX, centerY - d, "horizontal", "left"));
       d += this.idealVerticalDistance;
     }
 
@@ -179,15 +188,15 @@ class BaseplateStore {
       rightBoundary - horizontalCfg.length / 2 - (horizontalCfg.offsetX || 0);
     const rightPlates: Baseplate[] = [];
 
-    rightPlates.push(this.createBaseplate(rightX, centerY, "horizontal"));
+    rightPlates.push(this.createBaseplate(rightX, centerY, "horizontal", "right"));
     d = this.idealVerticalDistance;
     while (centerY + d <= topCenterY) {
-      rightPlates.push(this.createBaseplate(rightX, centerY + d, "horizontal"));
+      rightPlates.push(this.createBaseplate(rightX, centerY + d, "horizontal", "right"));
       d += this.idealVerticalDistance;
     }
     d = this.idealVerticalDistance;
     while (centerY - d >= bottomCenterY) {
-      rightPlates.push(this.createBaseplate(rightX, centerY - d, "horizontal"));
+      rightPlates.push(this.createBaseplate(rightX, centerY - d, "horizontal", "right"));
       d += this.idealVerticalDistance;
     }
 
@@ -211,29 +220,29 @@ class BaseplateStore {
       bottomBoundary + verticalCfg.width / 2 + (verticalCfg.offsetY || 0);
 
     const plates: Baseplate[] = [];
-    plates.push(this.createBaseplate(centerX, topY, "vertical"));
+    plates.push(this.createBaseplate(centerX, topY, "vertical", "top"));
 
     let d = this.idealHorizontalDistance;
     while (centerX - d >= leftCenterX) {
-      plates.push(this.createBaseplate(centerX - d, topY, "vertical"));
+      plates.push(this.createBaseplate(centerX - d, topY, "vertical", "top"));
       d += this.idealHorizontalDistance;
     }
     d = this.idealHorizontalDistance;
     while (centerX + d <= rightCenterX) {
-      plates.push(this.createBaseplate(centerX + d, topY, "vertical"));
+      plates.push(this.createBaseplate(centerX + d, topY, "vertical", "top"));
       d += this.idealHorizontalDistance;
     }
 
     const bottomPlates: Baseplate[] = [];
-    bottomPlates.push(this.createBaseplate(centerX, bottomY, "vertical"));
+    bottomPlates.push(this.createBaseplate(centerX, bottomY, "vertical", "bottom"));
     d = this.idealHorizontalDistance;
     while (centerX - d >= leftCenterX) {
-      bottomPlates.push(this.createBaseplate(centerX - d, bottomY, "vertical"));
+      bottomPlates.push(this.createBaseplate(centerX - d, bottomY, "vertical", "bottom"));
       d += this.idealHorizontalDistance;
     }
     d = this.idealHorizontalDistance;
     while (centerX + d <= rightCenterX) {
-      bottomPlates.push(this.createBaseplate(centerX + d, bottomY, "vertical"));
+      bottomPlates.push(this.createBaseplate(centerX + d, bottomY, "vertical", "bottom"));
       d += this.idealHorizontalDistance;
     }
 
