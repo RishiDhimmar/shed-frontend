@@ -5,7 +5,7 @@ import InputNumber from "../Helpers/InputNumber";
 
 export const BaseplateInput = observer(() => {
   return (
-    <div className="flex flex-col gap-4 overflow-y-scroll h-[calc(100vh-100px)] px-4 bg-white p-8 rounded-2xl shadow-xl w-[300px]  z-10">
+    <div className="flex flex-col gap-4 overflow-y-scroll h-[calc(100vh-100px)] px-4 bg-white p-8 rounded shadow-xl w-[300px] mx-auto z-10">
       <h1 className="text-2xl font-bold mb-6 text-center">Baseplate Input</h1>
       <div className="flex-col gap-4">
         <InputNumber
