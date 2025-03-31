@@ -1,5 +1,6 @@
-import { makeAutoObservable } from "mobx";
+import { get, makeAutoObservable, reaction, runInAction } from "mobx";
 import { fetchWallData } from "../components/threeenv/inputs/Fetch";
+import { getRectanglePoints } from "../utils/GeometryUtils";
 
 export class WallStore {
   width = 0;
@@ -13,6 +14,16 @@ export class WallStore {
     this.height = height;
     this.wallThickness = wallThickness;
     makeAutoObservable(this);
+
+    // Whenever width, height, or wallThickness change, regenerate wall points.
+    reaction(
+      () => [this.width, this.height, this.wallThickness],
+      ([newWidth, newHeight]) => {
+        if (newWidth > 0 && newHeight > 0) {
+          this.generateWallPoints();
+        }
+      }
+    );
   }
 
   setWidth(newWidth: number) {
@@ -26,7 +37,6 @@ export class WallStore {
   setWallThickness(newThickness: number) {
     this.wallThickness = newThickness;
   }
-  
 
   async loadWallData() {
     try {
@@ -56,6 +66,8 @@ export class WallStore {
       ]);
 
       this.setWallPoints(newExternalPoints, newInternalPoints);
+      this.calculateThickness();
+      this.calculateDimensions();
     } else {
       console.warn("No valid entities found in wall data");
     }
@@ -79,8 +91,10 @@ export class WallStore {
     const minY = Math.min(...yValues);
     const maxY = Math.max(...yValues);
 
-    this.width = maxX - minX;
-    this.height = maxY - minY;
+    runInAction(() => {
+      this.width = maxX - minX;
+      this.height = maxY - minY;
+    });
 
     console.log(
       "Updated Wall Dimensions - Width:",
@@ -102,22 +116,37 @@ export class WallStore {
 
     for (
       let i = 0;
-      i <
-      Math.min(this.externalWallPoints.length, this.internalWallPoints.length);
+      i < Math.min(this.externalWallPoints.length, this.internalWallPoints.length);
       i++
     ) {
       const ey = this.externalWallPoints[i][1]; // External Y
       const iy = this.internalWallPoints[i][1]; // Internal Y
 
-      const thickness = Math.abs(ey - iy); // Thickness = |y1 - y2|
+      const thickness = Math.abs(ey - iy);
       totalThickness += thickness;
       count++;
     }
 
     if (count > 0) {
-      this.wallThickness = totalThickness / count;
+      runInAction(() => {
+        this.wallThickness = totalThickness / count;
+      });
       console.log("Updated Wall Thickness:", this.wallThickness);
     }
+  }
+
+  // Generates new wall points based on the current dimensions.
+  generateWallPoints() {
+    // External wall as a rectangle from (0,0) to (width,height)
+    const external = getRectanglePoints(this.width, this.height);
+    // Internal wall inset uniformly by wallThickness from all sides.
+    const internal = getRectanglePoints(
+      this.width - 2 * this.wallThickness,
+      this.height - 2 * this.wallThickness
+    );
+
+    this.setWallPoints(external, internal);
+    console.log("Generated new wall points based on dimensions.");
   }
 }
 
