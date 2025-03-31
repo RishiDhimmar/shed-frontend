@@ -6,37 +6,38 @@ import wallStore from "./WallStore";
 
 export interface Column {
   id: string;
-  ColumnWidth: number;
-  ColumnLength: number;
-  HorizontalWidth: number;
-  HorizontalLength: number;
-  VerticalWidth: number;
-  VerticalLength: number;
+  cornerWidth: number;
+  cornerLength: number;
+  horizontalWidth: number;
+  horizontalLength: number;
+  verticalWidth: number;
+  verticalLength: number;
   points: number[][];
 }
 
 export class ColumnStore {
-  ColumnWidth: number;
-  ColumnLength: number;
-  HorizontalWidth: number;
-  HorizontalLength: number;
-  VerticalWidth: number;
-  VerticalLength: number;
+  cornerWidth: number;
+  cornerLength: number;
+  horizontalWidth: number;
+  horizontalLength: number;
+  verticalWidth: number;
+  verticalLength: number;
   columns: Column[] = [];
 
   constructor(
-    ColumnLength: 0,
-    HorizontalWidth: 0,
-    HorizontalLength: 0,
-    VerticalWidth: 0,
-    VerticalLength: 0
+    cornerWidth: number = 0,
+    cornerLength: number = 0,
+    horizontalWidth: 0,
+    horizontalLength: 0,
+    verticalWidth: 0,
+    verticalLength: 0
   ) {
-    this.ColumnWidth = ColumnLength;
-    this.ColumnLength = ColumnLength;
-    this.HorizontalWidth = HorizontalWidth;
-    this.HorizontalLength = HorizontalLength;
-    this.VerticalWidth = VerticalWidth;
-    this.VerticalLength = VerticalLength;
+    this.cornerLength = cornerLength;
+    this.cornerWidth = cornerWidth;
+    this.horizontalWidth = horizontalWidth;
+    this.horizontalLength = horizontalLength;
+    this.verticalWidth = verticalWidth;
+    this.verticalLength = verticalLength;
 
     makeAutoObservable(this, {}, { autoBind: true });
     reaction(
@@ -47,37 +48,37 @@ export class ColumnStore {
 
   setCornerWidth(newWidth: number) {
     runInAction(() => {
-      this.ColumnWidth = newWidth;
+      this.cornerWidth = newWidth;
     });
   }
 
   setCornerLength(newLength: number) {
     runInAction(() => {
-      this.ColumnLength = newLength;
+      this.cornerLength = newLength;
     });
   }
 
   setHorizontalWidth(newWidth: number) {
     runInAction(() => {
-      this.HorizontalWidth = newWidth;
+      this.horizontalWidth = newWidth;
     });
   }
 
   setHorizontalLength(newLength: number) {
     runInAction(() => {
-      this.HorizontalLength = newLength;
+      this.horizontalLength = newLength;
     });
   }
 
   setVerticalWidth(newWidth: number) {
     runInAction(() => {
-      this.VerticalWidth = newWidth;
+      this.verticalWidth = newWidth;
     });
   }
 
   setVerticalLength(newLength: number) {
     runInAction(() => {
-      this.VerticalLength = newLength;
+      this.verticalLength = newLength;
     });
   }
 
