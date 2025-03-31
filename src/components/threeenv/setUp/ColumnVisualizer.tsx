@@ -9,7 +9,15 @@ const ColumnVisualizer = observer(() => {
   useEffect(() => {
     // Trigger column generation whenever baseplates or wall points change
     columnStore.generateColumns();
-  }, [baseplateStore.basePlates, columnStore.length, columnStore.width]);
+  }, [
+    baseplateStore.basePlates,
+    columnStore.cornerLength,
+    columnStore.cornerWidth,
+    columnStore.horizontalLength,
+    columnStore.horizontalWidth,
+    columnStore.verticalLength,
+    columnStore.verticalWidth,
+  ]);
 
   console.log("Columns:", columnStore.columns);
 

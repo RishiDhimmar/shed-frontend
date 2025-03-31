@@ -43,6 +43,8 @@ export class ColumnStore {
       this.cornerWidth = newWidth;
     });
   }
+
+  
 }
 
 const foundationStore = new FoundationStore();

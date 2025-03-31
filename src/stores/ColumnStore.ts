@@ -116,12 +116,14 @@ export class ColumnStore {
         Math.abs(plateConfig.width) +
         (plateConfig.offsetY || 0) +
         wallStore.wallThickness +
+        this.cornerLength +
         0.3;
 
       const columnLength =
         Math.abs(plateConfig.length) +
         (plateConfig.offsetX || 0) +
         wallStore.wallThickness +
+        this.cornerWidth +
         0.5;
 
 
@@ -262,14 +264,16 @@ export class ColumnStore {
       const columnWidth =
         Math.abs(plateConfig.width) +
         (plateConfig.offsetY || 0) +
-        wallStore.wallThickness;
+        wallStore.wallThickness + 
+        this.horizontalLength;
 
       // 0.3;
 
       const columnLength =
         Math.abs(plateConfig.length) +
         (plateConfig.offsetX || 0) +
-        wallStore.wallThickness;
+        wallStore.wallThickness +
+        this.horizontalWidth;
       // 0.5;
 
       console.log(plate.wall);
@@ -352,13 +356,15 @@ export class ColumnStore {
       const columnWidth =
         Math.abs(plateConfig.width) +
         (plateConfig.offsetY || 0) +
-        wallStore.wallThickness;
+        wallStore.wallThickness + 
+        this.verticalLength;
       // 0.3;
 
       const columnLength =
         Math.abs(plateConfig.length) +
         (plateConfig.offsetX || 0) +
-        wallStore.wallThickness;
+        wallStore.wallThickness +
+        this.verticalWidth;
       // 0.5;
 
       if (plate.wall === "bottom") {
