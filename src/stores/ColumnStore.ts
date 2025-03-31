@@ -6,19 +6,38 @@ import wallStore from "./WallStore";
 
 export interface Column {
   id: string;
-  width: number;
-  length: number;
+  ColumnWidth: number;
+  ColumnLength: number;
+  HorizontalWidth: number;
+  HorizontalLength: number;
+  VerticalWidth: number;
+  VerticalLength: number;
   points: number[][];
 }
 
 export class ColumnStore {
-  width = 0;
-  length = 0;
+  ColumnWidth: number;
+  ColumnLength: number;
+  HorizontalWidth: number;
+  HorizontalLength: number;
+  VerticalWidth: number;
+  VerticalLength: number;
   columns: Column[] = [];
 
-  constructor(width = 0, length = 0) {
-    this.width = width;
-    this.length = length;
+  constructor(
+    ColumnLength: 0,
+    HorizontalWidth: 0,
+    HorizontalLength: 0,
+    VerticalWidth: 0,
+    VerticalLength: 0
+  ) {
+    this.ColumnWidth = ColumnLength;
+    this.ColumnLength = ColumnLength;
+    this.HorizontalWidth = HorizontalWidth;
+    this.HorizontalLength = HorizontalLength;
+    this.VerticalWidth = VerticalWidth;
+    this.VerticalLength = VerticalLength;
+
     makeAutoObservable(this, {}, { autoBind: true });
     reaction(
       () => baseplateStore.basePlates.slice(),
@@ -26,15 +45,39 @@ export class ColumnStore {
     );
   }
 
-  setWidth(newWidth: number) {
+  setCornerWidth(newWidth: number) {
     runInAction(() => {
-      this.width = newWidth;
+      this.ColumnWidth = newWidth;
     });
   }
 
-  setLength(newLength: number) {
+  setCornerLength(newLength: number) {
     runInAction(() => {
-      this.length = newLength;
+      this.ColumnLength = newLength;
+    });
+  }
+
+  setHorizontalWidth(newWidth: number) {
+    runInAction(() => {
+      this.HorizontalWidth = newWidth;
+    });
+  }
+
+  setHorizontalLength(newLength: number) {
+    runInAction(() => {
+      this.HorizontalLength = newLength;
+    });
+  }
+
+  setVerticalWidth(newWidth: number) {
+    runInAction(() => {
+      this.VerticalWidth = newWidth;
+    });
+  }
+
+  setVerticalLength(newLength: number) {
+    runInAction(() => {
+      this.VerticalLength = newLength;
     });
   }
 

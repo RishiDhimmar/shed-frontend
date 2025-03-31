@@ -17,13 +17,13 @@ function InputNumber({ label, value, onChange }: any) {
 
   return (
     <div className="mb-4 flex-col">
-      <label className="text-gray-500">{label}</label>
+      <label className="font-poppins text-gray-500">{label}</label>
       <input
         type="number"
         value={value === 0 ? "" : value}
         step={0.1}
         onChange={handleChange}
-        className="w-full p-3 border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1"
+        className="w-full p-3 py-1 border font-poppins border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1"
         min={0}
       />
     </div>
