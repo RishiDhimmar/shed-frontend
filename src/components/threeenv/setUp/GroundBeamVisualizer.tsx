@@ -16,7 +16,7 @@ function GroundBeamVisualizer() {
                   z: number
                 ][]
               }
-              color="#00ff00"
+              color="#00ffff"
             />
             <Line
               points={
@@ -26,7 +26,7 @@ function GroundBeamVisualizer() {
                   z: number
                 ][]
               }
-              color="#00ff00"
+              color="#00ffff"
             />
           </>
         )}

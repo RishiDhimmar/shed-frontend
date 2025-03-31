@@ -17,7 +17,7 @@ const ShedWallVisualizer = observer(() => {
                   z: number
                 ][]
               }
-              color="orange"
+              color="#ff7f00"
             />
             <Line
               points={
@@ -27,12 +27,12 @@ const ShedWallVisualizer = observer(() => {
                   z: number
                 ][]
               }
-              color="orange"
+              color="#ff7f00"
             />
           </>
         )}
     </>
   );
-})
+});
 
 export default ShedWallVisualizer;

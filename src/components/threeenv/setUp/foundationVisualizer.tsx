@@ -8,14 +8,14 @@ const FoundationVisualizer = observer(() => {
     <>
       {foundationStore.foundations.map((foundation) => (
         <>
-        {console.log(foundation)}
-        <Line
-          key={foundation.id}
-          points={
-            getClosedPoints(foundation.points) as [number, number, number][]
-          }
-          color="#ff00ff"
-        />
+          {console.log(foundation)}
+          <Line
+            key={foundation.id}
+            points={
+              getClosedPoints(foundation.points) as [number, number, number][]
+            }
+            color="#FF00FF"
+          />
         </>
       ))}
     </>
