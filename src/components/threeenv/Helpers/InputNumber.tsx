@@ -1,22 +1,28 @@
-function InputNumber({ label, value, onChange }: any) {
+import React from "react";
+
+interface InputNumberProps {
+  label: string;
+  value: number;
+  onChange: (value: number) => void;
+}
+
+const InputNumber: React.FC<InputNumberProps> = ({
+  label,
+  value,
+  onChange,
+}) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let newValue = e.target.value;
+    const newValue = e.target.value;
 
     if (newValue === "") {
-      console.log(newValue);
-
-      onChange("");
+      onChange(0);
     } else {
-      console.log(newValue);
-
-      const numValue =
-        Math.max(0, Number(newValue)) === 0 ? 0.01 : Number(newValue);
-      onChange(numValue);
+      const numValue = Math.max(0.01, Number(newValue));
     }
   };
 
   return (
-    <div className="mb-4 flex-col">
+    <div className="mb-4 flex flex-col">
       <label className="font-poppins text-gray-500">{label}</label>
       <input
         type="number"
@@ -28,6 +34,6 @@ function InputNumber({ label, value, onChange }: any) {
       />
     </div>
   );
-}
+};
 
 export default InputNumber;
