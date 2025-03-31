@@ -4,10 +4,11 @@ import { getClosedPoints } from "../../../utils/GeometryUtils";
 import foundationStore from "../../../stores/FoundationStore";
 
 const FoundationVisualizer = observer(() => {
-
   return (
     <>
       {foundationStore.foundations.map((foundation) => (
+        <>
+        {console.log(foundation)}
         <Line
           key={foundation.id}
           points={
@@ -15,6 +16,7 @@ const FoundationVisualizer = observer(() => {
           }
           color="#ff00ff"
         />
+        </>
       ))}
     </>
   );

@@ -6,6 +6,7 @@ import wallStore from "../../../stores/WallStore";
 import BasePlateVisualizer from "./BasePlateVisualizer";
 import ColumnVisualizer from "./ColumnVisualizer";
 import MullionColumnVisualizer from "./MullionColumnVisualizer";
+import FoundationVisualizer from "./foundationVisualizer";
 
 const ShadeVisualizer = observer(() => {
   // useEffect(() => {
@@ -53,6 +54,7 @@ const ShadeVisualizer = observer(() => {
 
       <BasePlateVisualizer />
       <ColumnVisualizer />
+      <FoundationVisualizer />
       <MullionColumnVisualizer />
     </>
   );

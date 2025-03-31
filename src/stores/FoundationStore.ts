@@ -30,8 +30,8 @@ export class FoundationStore {
     // Regenerate foundations when columns or RCC values change.
     reaction(
       () => [columnStore.columns.slice(), this.RccBf, this.rccLf],
-      ([columns, RccBf, rccLf]) => {
-        if (Array.isArray(columns) && columns.length > 0 && RccBf as number > 0 && rccLf as number > 0) {
+      ([, RccBf, rccLf]) => {
+        if (RccBf as number > 0 && rccLf as number > 0) {
           this.generateFoundations();
         }
       }
@@ -115,7 +115,7 @@ export class FoundationStore {
 
       // --- Second Rectangle: Based on RCC values ---
       // Use RccBf as width and rccLf as height.
-      // Ensure this rect is always bigger than Rect1.
+      // Ensure this rect is always larger than Rect1.
       let rect2Width = this.RccBf;
       let rect2Height = this.rccLf;
       if (rect2Width <= rect1Width) {
@@ -143,6 +143,8 @@ export class FoundationStore {
         points: foundationPoints2,
       });
     });
+
+    console.log("Generated Foundations:", newFoundations);
 
     runInAction(() => {
       this.foundations = newFoundations;
