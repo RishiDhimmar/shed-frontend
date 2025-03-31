@@ -6,7 +6,6 @@ import wallStore from "../../../stores/WallStore";
 import BasePlateVisualizer from "./BasePlateVisualizer";
 import { useEffect } from "react";
 import ColumnVisualizer from "./ColumnVisualizer";
-import { Foundation } from "../inputs/Foundation";
 import FoundationVisualizer from "./foundationVisualizer";
 
 const ShadeVisualizer = observer(() => {
@@ -31,11 +30,19 @@ const ShadeVisualizer = observer(() => {
         wallStore.internalWallPoints.length > 0 && (
           <>
             <Line
-              points={getClosedPoints(wallStore.externalWallPoints)}
+              points={getClosedPoints(wallStore.externalWallPoints) as [
+                x: number,
+                y: number,
+                z: number
+              ][]}
               color="orange"
             />
             <Line
-              points={getClosedPoints(wallStore.internalWallPoints)}
+              points={getClosedPoints(wallStore.internalWallPoints) as [
+                x: number,
+                y: number,
+                z: number
+              ][]}
               color="orange"
             />
           </>

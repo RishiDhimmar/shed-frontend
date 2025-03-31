@@ -1,4 +1,4 @@
-import { get, makeAutoObservable, reaction, runInAction } from "mobx";
+import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { fetchWallData } from "../components/threeenv/inputs/Fetch";
 import { getRectanglePoints } from "../utils/GeometryUtils";
 
