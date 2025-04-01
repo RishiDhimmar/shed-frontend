@@ -8,6 +8,7 @@ export interface Column {
   width: number;
   length: number;
   points: number[][];
+  wall: 'horizontal' | 'vertical' | 'corner';
 }
 
 export class ColumnStore {
@@ -148,6 +149,7 @@ export class ColumnStore {
           id: uuidv4(),
           width: columnWidth,
           length: columnLength,
+          wall: 'corner',
           points: [
             [wallPoints[0][0], wallPoints[0][1], 0],
             [wallPoints[0][0] + columnLength, wallPoints[0][1], 0],
@@ -164,6 +166,7 @@ export class ColumnStore {
           id: uuidv4(),
           width: columnWidth,
           length: columnLength,
+          wall: 'corner',
           points: [
             [wallPoints[1][0], wallPoints[1][1], 0],
             [wallPoints[1][0] - columnLength, wallPoints[1][1], 0],
@@ -180,6 +183,7 @@ export class ColumnStore {
           id: uuidv4(),
           width: columnWidth,
           length: columnLength,
+          wall: 'corner',
           points: [
             [wallPoints[2][0], wallPoints[2][1], 0],
             [wallPoints[2][0] - columnLength, wallPoints[2][1], 0],
@@ -196,6 +200,7 @@ export class ColumnStore {
           id: uuidv4(),
           width: columnWidth,
           length: columnLength,
+          wall: 'corner',
           points: [
             [wallPoints[3][0], wallPoints[3][1], 0],
             [wallPoints[3][0] + columnLength, wallPoints[3][1], 0],
@@ -236,6 +241,7 @@ export class ColumnStore {
           id: uuidv4(),
           width: columnWidth,
           length: columnLength,
+          wall: 'horizontal',
           points: [
             [
               x + plateConfig.length / 2 + this.horizontalLength,
@@ -290,6 +296,7 @@ export class ColumnStore {
           id: uuidv4(),
           width: columnWidth,
           length: columnLength,
+          wall: 'horizontal',
           points: [
             [
               x +
@@ -364,6 +371,7 @@ export class ColumnStore {
           id: uuidv4(),
           width: columnWidth,
           length: columnLength,
+          wall: 'vertical',
           points: [
             [
               x -
@@ -424,6 +432,7 @@ export class ColumnStore {
           id: uuidv4(),
           width: columnWidth,
           length: columnLength,
+          wall: 'vertical',
           points: [
             [
               x -
