@@ -1,23 +1,32 @@
 import { makeAutoObservable } from "mobx";
 
+export type currentComponentType =
+  | "plot"
+  | "shade"
+  | "baseplate"
+  | "column"
+  | "foundation"
+  | "mullionColumn"
+  | "groundBeam";
+
 class UIStore {
-  currentComponent = "plot";
+  currentComponent: currentComponentType = "plot";
   // Set initial visibility: true means visible.
   visibility = {
     plot: true,
     shade: true,
     baseplate: true,
     column: true,
-    Foundation: true,
-    MullionColumn: true,
-    groundBeam: true
+    foundation: true,
+    mullionColumn: true,
+    groundBeam: true,
   };
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  setCurrentComponent(component: string) {
+  setCurrentComponent(component: currentComponentType) {
     this.currentComponent = component;
   }
 

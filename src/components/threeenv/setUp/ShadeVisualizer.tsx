@@ -18,9 +18,9 @@ const ShadeVisualizer = observer(() => {
       {uiStore.visibility.plot && <BasePlotVisualizer />}
       {uiStore.visibility.baseplate && <BasePlateVisualizer />}
       {uiStore.visibility.column && <ColumnVisualizer />}
-      {uiStore.visibility.Foundation && <FoundationVisualizer />}
+      {uiStore.visibility.foundation && <FoundationVisualizer />}
       {uiStore.visibility.shade && <ShedWallVisualizer />}
-      {uiStore.visibility.MullionColumn && <MullionColumnVisualizer />}
+      {uiStore.visibility.mullionColumn && <MullionColumnVisualizer />}
     </>
   );
 });

@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import { PlotInput } from "./PlotInput";
 import { Shade } from "./Shade";
-import uiStore from "../../../stores/UIStore";
+import uiStore, { currentComponentType } from "../../../stores/UIStore";
 import { BaseplateInput } from "./Baseplate";
 import { Column } from "./Column";
 
@@ -16,7 +16,7 @@ export const Layout = observer(() => {
 
   const handleSelect = (title: string) => {
     setSelectedTitle(title);
-    uiStore.setCurrentComponent(title);
+    uiStore.setCurrentComponent(title as currentComponentType);
   };
 
   return (
@@ -57,18 +57,18 @@ export const Layout = observer(() => {
         <LayoutItem
           title="Foundation"
           color="bg-[#FF00FF]"
-          isHidden={!uiStore.visibility.Foundation}
-          isSelected={selectedTitle === "Foundation"}
-          onClick={() => handleSelect("Foundation")}
-          onToggleVisibility={() => uiStore.toggleVisibility("Foundation")}
+          isHidden={!uiStore.visibility.foundation}
+          isSelected={selectedTitle === "foundation"}
+          onClick={() => handleSelect("foundation")}
+          onToggleVisibility={() => uiStore.toggleVisibility("foundation")}
         />
         <LayoutItem
           title="Mullion Column"
           color="bg-[#FF0000]"
-          isHidden={!uiStore.visibility.MullionColumn}
-          isSelected={selectedTitle === "MullionColumn"}
-          onClick={() => handleSelect("MullionColumn")}
-          onToggleVisibility={() => uiStore.toggleVisibility("MullionColumn")}
+          isHidden={!uiStore.visibility.mullionColumn}
+          isSelected={selectedTitle === "mullionColumn"}
+          onClick={() => handleSelect("mullionColumn")}
+          onToggleVisibility={() => uiStore.toggleVisibility("mullionColumn")}
         />
         <LayoutItem
           title="groundBeam"
@@ -79,13 +79,13 @@ export const Layout = observer(() => {
           onToggleVisibility={() => uiStore.toggleVisibility("groundBeam")}
         />
       </div>
-      <div className="flex-1 p-8 w-[400px] absolute top-0 left-[200px]">
+      <div className="flex-1   top-0 left-[150px]">
         {uiStore.currentComponent === "plot" && <PlotInput />}
         {uiStore.currentComponent === "shade" && <Shade />}
         {uiStore.currentComponent === "baseplate" && <BaseplateInput />}
         {uiStore.currentComponent === "column" && <Column />}
-        {uiStore.currentComponent === "Foundation" && <Foundation />}
-        {uiStore.currentComponent === "MullionColumn" && <MullionColumn />}
+        {uiStore.currentComponent === "foundation" && <Foundation />}
+        {uiStore.currentComponent === "mullionColumn" && <MullionColumn />}
         {uiStore.currentComponent === "groundBeam" && <GroundBeam />}
       </div>
     </div>
