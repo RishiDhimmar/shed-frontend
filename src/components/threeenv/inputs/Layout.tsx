@@ -71,11 +71,11 @@ export const Layout = observer(() => {
           onToggleVisibility={() => uiStore.toggleVisibility("MullionColumn")}
         />
         <LayoutItem
-          title="Ground Beam"
+          title="groundBeam"
           color="bg-[#00FFFF]"
           isHidden={!uiStore.visibility.groundBeam}
-          isSelected={selectedTitle === "Ground Beam"}
-          onClick={() => handleSelect("Ground Beam")}
+          isSelected={selectedTitle === "groundBeam"}
+          onClick={() => handleSelect("groundBeam")}
           onToggleVisibility={() => uiStore.toggleVisibility("groundBeam")}
         />
       </div>
@@ -86,7 +86,7 @@ export const Layout = observer(() => {
         {uiStore.currentComponent === "column" && <Column />}
         {uiStore.currentComponent === "Foundation" && <Foundation />}
         {uiStore.currentComponent === "MullionColumn" && <MullionColumn />}
-        {uiStore.currentComponent === "Ground Beam" && <GroundBeam />}
+        {uiStore.currentComponent === "groundBeam" && <GroundBeam />}
       </div>
     </div>
   );
