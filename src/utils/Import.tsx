@@ -34,8 +34,7 @@ export const Import = () => {
   };
 
   return (
-    <div className="absolute top-6 right-5 z-10">
-      {/* Hidden file input */}
+    <div className="absolute top-6 right-6 z-10">
       <input
         type="file"
         ref={fileInputRef}
@@ -43,7 +42,6 @@ export const Import = () => {
         onChange={handleFileChange}
       />
 
-      {/* Custom button to trigger file input */}
       <button
         className="bg-white px-3 py-2 rounded-md shadow-md hover:bg-gray-300 cursor-pointer"
         onClick={() => fileInputRef.current?.click()}

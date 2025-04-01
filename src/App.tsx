@@ -1,6 +1,7 @@
 import ShadeCanvas from "./components/threeenv/ShadeCanvas";
 import { Layout } from "./components/threeenv/inputs/Layout";
 import { Import } from "./utils/Import";
+import Info from "./utils/Info";
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <Layout />
       <ShadeCanvas />
       <Import />
+      <Info />
     </div>
   );
 }
