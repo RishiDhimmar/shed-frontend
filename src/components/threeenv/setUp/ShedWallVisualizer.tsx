@@ -18,6 +18,7 @@ const ShedWallVisualizer = observer(() => {
                 ][]
               }
               color="orange"
+              lineWidth={1.5}
             />
             <Line
               points={
@@ -28,6 +29,7 @@ const ShedWallVisualizer = observer(() => {
                 ][]
               }
               color="orange"
+              lineWidth={1.5}
             />
           </>
         )}

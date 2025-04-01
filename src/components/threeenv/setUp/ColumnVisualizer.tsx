@@ -20,6 +20,7 @@ const ColumnVisualizer = observer(() => {
           }
           color="blue"
           key={column.id}
+          lineWidth={1.5}
         />
       ))}
     </>

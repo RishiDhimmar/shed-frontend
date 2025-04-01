@@ -144,7 +144,6 @@ export class FoundationStore {
       });
     });
 
-    console.log("Generated Foundations:", newFoundations);
 
     runInAction(() => {
       this.foundations = newFoundations;

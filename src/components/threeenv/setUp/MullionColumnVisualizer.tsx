@@ -2,11 +2,18 @@ import { observer } from "mobx-react-lite";
 import { Line } from "@react-three/drei";
 import mullionColumnStore from "../../../stores/MullianColumnStore";
 import { getClosedPoints } from "../../../utils/GeometryUtils";
+import { useEffect } from "react";
+import baseplateStore from "../../../stores/BasePlateStore";
 
 const MullionColumnVisualizer = observer(() => {
+  useEffect(() => {
+    mullionColumnStore.calculateMullions();
+  },[baseplateStore.basePlates])
   return (
     <>
-      {mullionColumnStore.mullionPositions.map((mullionPoints, index) => (
+      {mullionColumnStore.mullionPositions.length > 0 && mullionColumnStore.mullionPositions.map((mullionPoints, index) => (
+        <>
+        {console.log(mullionColumnStore.mullionPositions.length)}
         <Line
           key={index}
           points={
@@ -17,7 +24,9 @@ const MullionColumnVisualizer = observer(() => {
             ][]
           }
           color="red"
-        />
+          lineWidth={1.5}
+          />
+          </>
       ))}
     </>
   );

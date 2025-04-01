@@ -17,6 +17,7 @@ function GroundBeamVisualizer() {
                 ][]
               }
               color="#00ff00"
+              lineWidth={1.5}
             />
             <Line
               points={
@@ -27,6 +28,7 @@ function GroundBeamVisualizer() {
                 ][]
               }
               color="#00ff00"
+              lineWidth={1.5}
             />
           </>
         )}

@@ -15,6 +15,7 @@ const BasePlotVisualizer = observer(() => {
               z: number
             ][]
           }
+          lineWidth={1.5}
         />
       )}
     </>

@@ -17,6 +17,7 @@ const BasePlateVisualizer = observer(() => {
           }
           color="green"
           key={baseplate.id}
+          lineWidth={1.5}
         />
       ))}
     </>

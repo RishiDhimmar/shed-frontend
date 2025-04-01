@@ -17,7 +17,6 @@ export const Foundation = observer(() => {
               label="Bf:"
               value={foundationStore.RccBf}
               onChange={(newLength: number) => {
-                console.log(newLength);
                 foundationStore.setRccBF(newLength);
               }}
             />
@@ -38,7 +37,6 @@ export const Foundation = observer(() => {
               label="Bf:"
               value={foundationStore.pccWidth}
               onChange={(newLength: number) => {
-                console.log(newLength);
                 foundationStore.setPccWidth(newLength);
               }}
             />
@@ -58,7 +56,6 @@ export const Foundation = observer(() => {
               label="D:"
               value={foundationStore.depthD}
               onChange={(newLength: number) => {
-                console.log(newLength);
                 foundationStore.setDepthD(newLength);
               }}
             />
@@ -79,7 +76,6 @@ export const Foundation = observer(() => {
               label="#:"
               value={foundationStore.shortBarCount}
               onChange={(newLength: number) => {
-                console.log(newLength);
                 foundationStore.setShortBarCount(newLength);
               }}
             />
@@ -100,7 +96,6 @@ export const Foundation = observer(() => {
               label="#:"
               value={foundationStore.longBarCount}
               onChange={(newLength: number) => {
-                console.log(newLength);
                 foundationStore.setLongBarCount(newLength);
               }}
             />
