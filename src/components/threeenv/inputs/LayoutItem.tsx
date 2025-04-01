@@ -27,8 +27,10 @@ function LayoutItem({
       }`}
       onClick={onClick}
     >
-      <div className={`h-4 w-4 rounded ${color}`}></div>
-      <div className="font-medium ml-1 flex items-center ">{title}
+      <div className="flex items-center">
+        <div className={`h-4 w-4 rounded ${color}`}></div>
+        <div className="font-medium ml-2">{title}</div>
+      </div>
 
       <div
         className="h-5 w-5 flex items-center justify-center rounded"
@@ -38,7 +40,6 @@ function LayoutItem({
         }}
       >
         {isHidden ? <BiHide /> : <FaRegEye />}
-      </div>
       </div>
     </div>
   );
