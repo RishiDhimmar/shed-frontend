@@ -1,114 +1,42 @@
 import { observer } from "mobx-react-lite";
-
 import InputNumber from "../Helpers/InputNumber";
-import foundationStore from "../../../stores/FoundationStore";
+import foundationStore, {
+  FoundationType,
+} from "../../../stores/FoundationStore";
 
-export const Foundation = observer(() => {
+const Foundation = observer(() => {
+  const { values, setParameter } = foundationStore;
+
   return (
-    <div className="bg-white p-8 rounded shadow-xl w-[300px] max-w-md mx-auto z-10 overflow-y-scroll h-[calc(100vh-100px)]">
-      <form className="space-y-4">
-        <h1 className="text-2xl font-bold mb-6 text-center">
-          Corner Foundation
-        </h1>
-        <div className=" flex gap-4">
-          <h2 className="mt-2">R.C.C Size</h2>
-          <div className=" flex gap-3">
-            <InputNumber
-              label="Bf:"
-              value={foundationStore.RccBf}
-              onChange={(newLength: number) => {
-                foundationStore.setRccBF(newLength);
-              }}
-            />
-            <InputNumber
-              label="Lf:"
-              value={foundationStore.rccLf}
-              onChange={(newHeight: number) =>
-                foundationStore.setRccLf(newHeight)
-              }
-            />
-          </div>
-        </div>
+    <div className="bg-white p-8 rounded shadow-xl w-full max-w-3xl mx-auto overflow-y-scroll h-[calc(100vh-100px)]">
+      <h1 className="text-2xl font-bold mb-6">Foundation Parameters</h1>
 
-        <div className=" flex gap-4">
-          <h3>P.C.C Size</h3>
-          <div className=" flex gap-3">
-            <InputNumber
-              label="Bf:"
-              value={foundationStore.pccWidth}
-              onChange={(newLength: number) => {
-                foundationStore.setPccWidth(newLength);
-              }}
-            />
-            <InputNumber
-              label="Lf:"
-              value={foundationStore.pccLength}
-              onChange={(newHeight: number) =>
-                foundationStore.setPccLength(newHeight)
-              }
-            />
-          </div>
-        </div>
-        <div className=" flex gap-4">
-          <h3>Depth</h3>
-          <div className=" flex gap-3">
-            <InputNumber
-              label="D:"
-              value={foundationStore.depthD}
-              onChange={(newLength: number) => {
-                foundationStore.setDepthD(newLength);
-              }}
-            />
-            <InputNumber
-              label="d:"
-              value={foundationStore.depthd}
-              onChange={(newHeight: number) =>
-                foundationStore.setDepthd(newHeight)
-              }
-            />
-          </div>
-        </div>
-        <div className=" flex gap-4">
-          {" "}
-          <h3>Short Bar</h3>
-          <div className=" flex gap-3">
-            <InputNumber
-              label="#:"
-              value={foundationStore.shortBarCount}
-              onChange={(newLength: number) => {
-                foundationStore.setShortBarCount(newLength);
-              }}
-            />
-            <InputNumber
-              label="C/C:"
-              value={foundationStore.shortBarSpacing}
-              onChange={(newHeight: number) =>
-                foundationStore.setShortBarSpacing(newHeight)
-              }
-            />
-          </div>
-        </div>
+      <form className="space-y-3 ">
+        {Object.entries(values).map(([type, params]) => (
+          <div key={type} className="">
+            <h2 className="text-2xl font-semibold mb-5 mt-8">
+              {type.charAt(0).toUpperCase() + type.slice(1)} Foundation
+            </h2>
 
-        <div className=" flex gap-4">
-          <h3>Long Bar</h3>
-          <div className=" flex gap-3">
-            <InputNumber
-              label="#:"
-              value={foundationStore.longBarCount}
-              onChange={(newLength: number) => {
-                foundationStore.setLongBarCount(newLength);
-              }}
-            />
-            <InputNumber
-              label="C/C:"
-              value={foundationStore.longBarSpacing}
-              onChange={(newHeight: number) =>
-                foundationStore.setLongBarSpacing(newHeight)
-              }
-            />
+            {Object.keys(params).map((key) => (
+              <InputNumber
+                key={key}
+                label={key}
+                value={params[key as keyof typeof params]}
+                onChange={(v) =>
+                  setParameter(
+                    type as FoundationType,
+                    key as keyof typeof params,
+                    v
+                  )
+                }
+              />
+            ))}
           </div>
-        </div>
+        ))}
       </form>
     </div>
   );
 });
+
+export default Foundation;
