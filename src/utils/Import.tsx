@@ -1,6 +1,9 @@
+import { useRef } from "react";
 import wallStore from "../stores/WallStore";
 
 export const Import = () => {
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const file = e.target.files[0];
@@ -25,7 +28,6 @@ export const Import = () => {
       const data = await response.json();
       wallStore.processWallData(data);
       console.log("Parsed DXF Data:", data);
-
     } catch (error) {
       console.error("Error uploading file:", error);
     }
@@ -33,11 +35,21 @@ export const Import = () => {
 
   return (
     <div className="absolute top-6 right-5 z-10">
+      {/* Hidden file input */}
       <input
         type="file"
-        className="bg-white px-2 w-[103px] py-2 rounded-md shadow-md hover:bg-gray-300 cursor-pointer"
+        ref={fileInputRef}
+        className="hidden"
         onChange={handleFileChange}
       />
+
+      {/* Custom button to trigger file input */}
+      <button
+        className="bg-white px-3 py-2 rounded-md shadow-md hover:bg-gray-300 cursor-pointer"
+        onClick={() => fileInputRef.current?.click()}
+      >
+        Import Shade
+      </button>
     </div>
   );
 };
