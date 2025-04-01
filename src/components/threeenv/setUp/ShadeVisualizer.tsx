@@ -1,9 +1,7 @@
-// import wallStore from "../../../stores/WallStore";
 import BasePlateVisualizer from "./BasePlateVisualizer";
 import ColumnVisualizer from "./ColumnVisualizer";
 import MullionColumnVisualizer from "./MullionColumnVisualizer";
 import FoundationVisualizer from "./foundationVisualizer";
-// import { useEffect } from "react";
 import GroundBeamVisualizer from "./GroundBeamVisualizer";
 import BasePlotVisualizer from "./BasePlotVisualizer";
 import ShedWallVisualizer from "./ShedWallVisualizer";
@@ -16,14 +14,13 @@ const ShadeVisualizer = observer(() => {
   // }, []);
   return (
     <>
-      {!uiStore.visibility.groundBeam && <GroundBeamVisualizer />}
+      {uiStore.visibility.groundBeam && <GroundBeamVisualizer />}
       {uiStore.visibility.plot && <BasePlotVisualizer />}
-      {uiStore.visibility.shade && <ShedWallVisualizer />}
       {uiStore.visibility.baseplate && <BasePlateVisualizer />}
       {uiStore.visibility.column && <ColumnVisualizer />}
       {uiStore.visibility.Foundation && <FoundationVisualizer />}
+      {uiStore.visibility.shade && <ShedWallVisualizer />}
       {uiStore.visibility.MullionColumn && <MullionColumnVisualizer />}
-      {/* {uiStore.visibility.Foundation && <FoundationVisualizer />} */}
     </>
   );
 });
