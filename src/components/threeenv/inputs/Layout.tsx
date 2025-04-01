@@ -5,10 +5,11 @@ import { Shade } from "./Shade";
 import uiStore from "../../../stores/UIStore";
 import { BaseplateInput } from "./Baseplate";
 import { Column } from "./Column";
-import { Foundation } from "./Foundation";
+
 import { MullionColumn } from "./MullianColumn";
 import LayoutItem from "./LayoutItem";
 import { GroundBeam } from "./GroundBeam";
+import Foundation from "./Foundation";
 
 export const Layout = observer(() => {
   const [selectedTitle, setSelectedTitle] = useState<string | null>(null);
