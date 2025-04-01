@@ -140,6 +140,7 @@ export class ColumnStore {
         this.cornerWidth;
       // CORNER_ADDITION.width;
 
+
       // Generate corner columns exactly as in the original code
       newColumns.push(
         // Top-left
@@ -241,8 +242,8 @@ export class ColumnStore {
               y -
                 wallThickness / 2 -
                 this.horizontalWidth / 2 -
-                (columnWidth - wallThickness > 0
-                  ? columnWidth / 2 - wallThickness
+                (columnLength - wallThickness > 0
+                  ? columnLength / 2 - wallThickness
                   : 0),
               0,
             ],
@@ -254,8 +255,8 @@ export class ColumnStore {
               y -
                 wallThickness / 2 -
                 this.horizontalWidth / 2 -
-                (columnWidth - wallThickness > 0
-                  ? columnWidth / 2 - wallThickness
+                (columnLength - wallThickness > 0
+                  ? columnLength / 2 - wallThickness
                   : 0),
               0,
             ],
@@ -267,8 +268,8 @@ export class ColumnStore {
               y +
                 wallThickness / 2 +
                 this.horizontalWidth / 2 +
-                (columnWidth - wallThickness > 0
-                  ? columnWidth / 2 - wallThickness
+                (columnLength - wallThickness > 0
+                  ? columnLength / 2 - wallThickness
                   : 0),
               0,
             ],
@@ -277,8 +278,8 @@ export class ColumnStore {
               y +
                 wallThickness / 2 +
                 this.horizontalWidth / 2 +
-                (columnWidth - wallThickness > 0
-                  ? columnWidth / 2 - wallThickness
+                (columnLength - wallThickness > 0
+                  ? columnLength / 2 - wallThickness
                   : 0),
               0,
             ],
@@ -298,8 +299,8 @@ export class ColumnStore {
               y -
                 wallThickness / 2 -
                 this.horizontalWidth / 2 -
-                (columnWidth - wallThickness > 0
-                  ? columnWidth / 2 - wallThickness
+                (columnLength - wallThickness > 0
+                  ? columnLength / 2 - wallThickness
                   : 0),
               0,
             ],
@@ -308,8 +309,8 @@ export class ColumnStore {
               y -
                 wallThickness / 2 -
                 this.horizontalWidth / 2 -
-                (columnWidth - wallThickness > 0
-                  ? columnWidth / 2 - wallThickness
+                (columnLength - wallThickness > 0
+                  ? columnLength / 2 - wallThickness
                   : 0),
               0,
             ],
@@ -318,8 +319,8 @@ export class ColumnStore {
               y +
                 wallThickness / 2 +
                 this.horizontalWidth / 2 +
-                (columnWidth - wallThickness > 0
-                  ? columnWidth / 2 - wallThickness
+                (columnLength - wallThickness > 0
+                  ? columnLength / 2 - wallThickness
                   : 0),
               0,
             ],
@@ -331,8 +332,8 @@ export class ColumnStore {
               y +
                 wallThickness / 2 +
                 this.horizontalWidth / 2 +
-                (columnWidth - wallThickness > 0
-                  ? columnWidth / 2 - wallThickness
+                (columnLength - wallThickness > 0
+                  ? columnLength / 2 - wallThickness
                   : 0),
               0,
             ],
