@@ -5,12 +5,21 @@ interface LayoutItemProps {
   title: string;
   color: string;
   isHidden: boolean;
+  isSelected?: boolean;
   onClick: () => void;
   onToggleVisibility: () => void;
   className?: string;
 }
 
-function LayoutItem({ title, color, isHidden, onClick, onToggleVisibility, className }: LayoutItemProps) {
+function LayoutItem({
+  title,
+  color,
+  isHidden,
+  isSelected,
+  onClick,
+  onToggleVisibility,
+  className,
+}: LayoutItemProps) {
   return (
     <div className={`flex items-center  w-full px-1 py-1 ${className}`}>
       <div className={`h-4 w-5 rounded-sm ${color}`}></div>

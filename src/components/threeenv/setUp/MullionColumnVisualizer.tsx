@@ -23,7 +23,8 @@ const MullionColumnVisualizer = observer(() => {
               number
             ][]
           }
-          color="red"
+          color="#FF0000"
+        
           lineWidth={1.5}
           />
           </>

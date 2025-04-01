@@ -16,7 +16,8 @@ function GroundBeamVisualizer() {
                   z: number
                 ][]
               }
-              color="#00ff00"
+              color="#00ffff"
+          
               lineWidth={1.5}
             />
             <Line
@@ -27,7 +28,8 @@ function GroundBeamVisualizer() {
                   z: number
                 ][]
               }
-              color="#00ff00"
+              color="#00ffff"
+              
               lineWidth={1.5}
             />
           </>

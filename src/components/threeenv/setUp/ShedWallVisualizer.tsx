@@ -17,7 +17,8 @@ const ShedWallVisualizer = observer(() => {
                   z: number
                 ][]
               }
-              color="orange"
+              color="#ff7f00"
+             
               lineWidth={1.5}
             />
             <Line
@@ -28,13 +29,14 @@ const ShedWallVisualizer = observer(() => {
                   z: number
                 ][]
               }
-              color="orange"
+              color="#ff7f00"
+             
               lineWidth={1.5}
             />
           </>
         )}
     </>
   );
-})
+});
 
 export default ShedWallVisualizer;
