@@ -1,7 +1,7 @@
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { fetchWallData } from "../components/threeenv/inputs/Fetch";
 import { getRectanglePoints } from "../utils/GeometryUtils";
-import { arrayToPointArray } from "../utils/ConversionUtils";
+// import { arrayToPointArray } from "../utils/ConversionUtils";
 
 export class WallStore {
   width = 0;
@@ -79,7 +79,7 @@ export class WallStore {
     this.internalWallPoints = internal; // Convert to Point[] for internal;
     this.calculateDimensions();
     this.calculateThickness();
-    console.log(this.externalWallPoints)
+    console.log(this.externalWallPoints);
   }
 
   calculateDimensions() {
@@ -97,8 +97,6 @@ export class WallStore {
       this.width = maxX - minX;
       this.height = maxY - minY;
     });
-
- 
   }
 
   calculateThickness() {
@@ -113,7 +111,8 @@ export class WallStore {
 
     for (
       let i = 0;
-      i < Math.min(this.externalWallPoints.length, this.internalWallPoints.length);
+      i <
+      Math.min(this.externalWallPoints.length, this.internalWallPoints.length);
       i++
     ) {
       const ey = this.externalWallPoints[i][1]; // External Y
