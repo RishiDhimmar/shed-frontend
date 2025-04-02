@@ -9,8 +9,6 @@ import { MullionColumn } from "./MullianColumn";
 import LayoutItem from "./LayoutItem";
 import { GroundBeam } from "./GroundBeam";
 import Foundation from "./Foundation";
-import SaveButton from "./SaveButton";
-import { UploadJson } from "./upload";
 
 export const Layout = observer(() => {
   const [selectedTitle, setSelectedTitle] = useState<string | null>(null);
@@ -21,7 +19,7 @@ export const Layout = observer(() => {
   };
 
   return (
-    <div className="flex relative z-10">
+    <div className="flex h-[calc(100vh-64px)] z-10 ">
       <div className="w-[200px] bg-gray-800 text-white flex flex-col items-start px-2 py-4">
         <LayoutItem
           title="Plot"
@@ -79,10 +77,8 @@ export const Layout = observer(() => {
           onClick={() => handleSelect("groundBeam")}
           onToggleVisibility={() => uiStore.toggleVisibility("groundBeam")}
         />
-        <SaveButton />
-        <UploadJson />
       </div>
-      <div className=" flex flex-col  overflow-y-scroll h-screen w-[300px] ml-1 bg-white rounded shadow-xl  z-10 top-0 ">
+      <div className=" flex flex-col  overflow-y-scroll h- w-[300px] ml-1 bg-white rounded shadow-xl  z-10 top-0 ">
         {uiStore.currentComponent === "plot" && <PlotInput />}
         {uiStore.currentComponent === "shade" && <Shade />}
         {uiStore.currentComponent === "baseplate" && <BaseplateInput />}

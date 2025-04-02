@@ -14,13 +14,10 @@ export const Import = () => {
     formData.append("dxfFile", file);
 
     try {
-      const response = await fetch(
-        BACKEND_URL + "api/upload-dxf",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+      const response = await fetch(BACKEND_URL + "api/upload-dxf", {
+        method: "POST",
+        body: formData,
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -35,7 +32,7 @@ export const Import = () => {
   };
 
   return (
-    <div className="absolute top-6 right-6 z-10">
+    <div className="">
       <input
         type="file"
         ref={fileInputRef}
@@ -44,7 +41,7 @@ export const Import = () => {
       />
 
       <button
-        className="bg-white px-3 py-2 rounded-md shadow-md hover:bg-gray-300 cursor-pointer"
+        className="bg-white px-3 py-2 rounded shadow-md hover:bg-gray-300 cursor-pointer"
         onClick={() => fileInputRef.current?.click()}
       >
         Import Shade
