@@ -5,7 +5,6 @@ import { Shade } from "./Shade";
 import uiStore, { currentComponentType } from "../../../stores/UIStore";
 import { BaseplateInput } from "./Baseplate";
 import { Column } from "./Column";
-
 import { MullionColumn } from "./MullianColumn";
 import LayoutItem from "./LayoutItem";
 import { GroundBeam } from "./GroundBeam";
@@ -71,7 +70,7 @@ export const Layout = observer(() => {
           onToggleVisibility={() => uiStore.toggleVisibility("mullionColumn")}
         />
         <LayoutItem
-          title="groundBeam"
+          title="Ground Beam"
           color="bg-[#00FFFF]"
           isHidden={!uiStore.visibility.groundBeam}
           isSelected={selectedTitle === "groundBeam"}
@@ -79,7 +78,7 @@ export const Layout = observer(() => {
           onToggleVisibility={() => uiStore.toggleVisibility("groundBeam")}
         />
       </div>
-      <div className="flex-1   top-0 left-[150px]">
+      <div className=" flex flex-col  overflow-y-scroll h-screen w-[300px] ml-1 bg-white rounded shadow-xl  z-10 top-0 ">
         {uiStore.currentComponent === "plot" && <PlotInput />}
         {uiStore.currentComponent === "shade" && <Shade />}
         {uiStore.currentComponent === "baseplate" && <BaseplateInput />}
