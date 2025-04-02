@@ -44,14 +44,9 @@
 
 // export default App;
 import { useEffect } from "react";
-import { Assumptions } from "./components/threeenv/Helpers/Assumptions";
-import ShadeCanvas from "./components/threeenv/ShadeCanvas";
-import { Layout } from "./components/threeenv/inputs/Layout";
 import Navbar from "./components/uiElements/Navbar";
-import { Import } from "./utils/Import";
-import Info from "./utils/Info";
-import Save from "./utils/Save";
 import uiStore from "./stores/UIStore";
+import { Outlet } from "react-router-dom";
 
 function App() {
   useEffect(() => {
@@ -70,20 +65,7 @@ function App() {
       <Navbar />
 
       <div className="flex  overflow-hidden">
-        <Layout />
-
-        {/* Make the ShadeCanvas take up all the remaining space */}
-        <div className="flex-1">
-          <ShadeCanvas />
-        </div>
-
-        {/* Right panel stays fixed width and full height */}
-        <div className="bg-gray-100 shadow-md px-4 py-2 flex flex-col items-center h-full gap-2 w-60">
-          <Import />
-          <Save />
-          <Assumptions />
-          <Info />
-        </div>
+        <Outlet />
       </div>
     </div>
   );

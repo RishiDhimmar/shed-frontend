@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { FaRegStar } from "react-icons/fa6";
-import CreateProjectPopup from "./CreateProjectPopup";
+import { useNavigate } from "react-router-dom";
 
 const ListView = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const projects = Array(5)
     .fill(undefined)
     .map((_, i) => ({
@@ -13,9 +11,9 @@ const ListView = () => {
       logo: "abc",
     }));
 
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
+
+
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen bg-white">
@@ -24,7 +22,7 @@ const ListView = () => {
           <h1 className="text-2xl font-bold">Projects</h1>
           <button
             className="bg-gray-800 hover:bg-blue-900 text-white py-2 px-4 rounded"
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => navigate("/project")}
           >
             Create Project
           </button>
@@ -66,11 +64,11 @@ const ListView = () => {
       </div>
 
       {/* Import and use the CreateProjectModal component */}
-      <CreateProjectPopup
+      {/* <CreateProjectPopup
         isOpen={isModalOpen}
         onClose={handleModalClose}
         onSubmit={handleCreateProject}
-      />
+      /> */}
     </div>
   );
 };
