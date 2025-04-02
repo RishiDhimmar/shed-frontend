@@ -30,18 +30,16 @@ const InputNumber: React.FC<InputNumberProps> = ({
     if (!input) return;
 
     const handleWheel = (e: WheelEvent) => {
-      // Only prevent when input is focused
       if (document.activeElement === input) {
         e.preventDefault();
+        e.stopPropagation();
 
         const step = parseInt(input.step || "100", 10);
         const delta = e.deltaY < 0 ? step : -step;
-        const newValue = Math.max(0, parseInt(input.value || "0", 10) + delta);
+        const current = parseInt(input.value || "0", 10);
+        const newValue = Math.max(0, current + delta);
 
-        // Trigger change
-        input.value = newValue.toString();
-        const event = new Event("input", { bubbles: true });
-        input.dispatchEvent(event);
+        onChange(newValue / 1000);
       }
     };
 
@@ -50,7 +48,7 @@ const InputNumber: React.FC<InputNumberProps> = ({
     return () => {
       input.removeEventListener("wheel", handleWheel);
     };
-  }, []);
+  }, [onChange]);
 
   const displayValue = value === 0 ? "" : (value * 1000).toString();
 
