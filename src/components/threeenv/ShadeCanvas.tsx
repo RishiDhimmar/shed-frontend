@@ -3,7 +3,7 @@ import ExperienceSetup from "./setUp/ExperienceSetup";
 
 function ShadeCanvas() {
   return (
-    <div className=" w-screen h-screen z-1">
+    <div className=" w-full h-[calc(100vh-64px)] z-1">
       <Canvas>
         <ExperienceSetup />
       </Canvas>

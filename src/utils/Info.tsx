@@ -6,7 +6,7 @@ const Info = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className="absolute bottom-6 right-6 z-10">
+    <div className="absolute bottom-10 right-6 z-10">
       {/* Info button */}
       <div
         className="p-1 rounded-full flex items-center  cursor-pointer relative hover:bg-gray-300"

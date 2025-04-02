@@ -1,5 +1,5 @@
 export const plotAssumptions = (
-  <div className="w-[200px] bg-gray-100 p-3 rounded shadow-md ">
+  <div className="w-[200px] p-3  ">
     <div className="text-sm text-gray-700 mb-1">
       - The plot is assumed to be <strong>rectangular</strong> in shape.
     </div>
@@ -10,7 +10,7 @@ export const plotAssumptions = (
   </div>
 );
 export const shadeAssumptions = (
-  <div className="w-[200px] bg-gray-100 p-3 rounded shadow-md">
+  <div className="w-[200px]  p-3">
     <div className="text-sm text-gray-700 mb-1">
       - The shade is imported from a <strong>DXF file </strong>as a single
       rectangle.
@@ -23,7 +23,7 @@ export const shadeAssumptions = (
 );
 
 export const baseplateAssumptions = (
-  <div className="w-[200px] bg-gray-100 p-3 rounded shadow-md">
+  <div className="w-[200px]  p-3">
     <div className="text-sm text-gray-700 mb-1">
       - Each corner always have a baseplate and it is placed at
       <strong>ideal distances</strong>.
@@ -36,7 +36,7 @@ export const baseplateAssumptions = (
 );
 
 export const columnAssumptions = (
-  <div className="w-[200px] bg-gray-100 p-3 rounded shadow-md">
+  <div className="w-[200px]  p-3">
     <div className="text-sm text-gray-700 mb-1">
       - The column is designed to fully{" "}
       <strong>cover the baseplate and the mullion column</strong>.
@@ -49,7 +49,7 @@ export const columnAssumptions = (
 );
 
 export const foundationAssumptions = (
-  <div className="w-[200px] bg-gray-100 p-3 rounded shadow-md">
+  <div className="w-[200px]  p-3">
     <div className="text-sm text-gray-700 mb-1">
       - The foundation is derived from the center of the column.
     </div>
@@ -64,13 +64,13 @@ export const foundationAssumptions = (
 );
 
 export const mullionColumnAssumptions = (
-  <>
-    <h1>Mullion Column Assumptions</h1>
-  </>
+  <div className="w-[200px]  p-3">
+    <div className="text-sm text-gray-700 mb-1">Mullion Column Assumptions</div>
+  </div>
 );
 
 export const groundBeamAssumptions = (
-  <>
-    <h1>Ground Beam Assumptions</h1>
-  </>
+  <div className="w-[200px]  p-3">
+    <div className="text-sm text-gray-700 mb-1">Ground Beam Assumptions</div>
+  </div>
 );
