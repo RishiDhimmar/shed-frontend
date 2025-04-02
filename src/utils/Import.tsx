@@ -41,7 +41,7 @@ export const Import = () => {
       />
 
       <button
-        className="bg-white px-3 py-2 rounded-md shadow-md hover:bg-gray-300 cursor-pointer"
+        className="bg-white px-3 py-2 rounded shadow-md hover:bg-gray-300 cursor-pointer"
         onClick={() => fileInputRef.current?.click()}
       >
         Import Shade

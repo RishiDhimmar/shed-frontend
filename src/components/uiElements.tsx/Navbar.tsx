@@ -1,5 +1,4 @@
-import { Import } from "../../utils/Import";
-import Save from "../../utils/Save";
+import UserName from "./UserName";
 
 function Navbar() {
   return (
@@ -8,8 +7,7 @@ function Navbar() {
         <img src="assets/resolute-logo.png" alt="Logo" className="w-30 h-10" />
       </div>
       <div className="flex gap-3">
-        <Save />
-        <Import />
+        <UserName />
       </div>
     </div>
   );
