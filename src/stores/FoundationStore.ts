@@ -98,7 +98,7 @@ class FoundationStore {
     const newFoundations: Foundation[] = [];
 
     columnStore.columns.forEach((column) => {
-      if (!column.points || column.points.length < 4) return;
+      // if (!column.points || column.points.length < 4) return;
 
       // Compute the bounding box and center of the column
       const xs = column.points.map((p) => p[0]);

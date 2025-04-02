@@ -79,6 +79,12 @@ export class ColumnStore {
     this.generateColumns();
   }
 
+  setColumns(newColumns: Column[]) {
+    runInAction(() => {
+      this.columns = newColumns;
+    });
+  }
+
   // Helper method to get plates by type
   private getPlatesByType() {
     const { basePlates } = baseplateStore;
@@ -263,12 +269,12 @@ export class ColumnStore {
   generateColumns() {
     const { hasRequiredPlates, hasWallPoints, platesByType } = this.checkPrerequisites();
     
-    if (!hasRequiredPlates || !hasWallPoints) {
-      runInAction(() => {
-        this.columns = [];
-      });
-      return;
-    }
+    // if (!hasRequiredPlates || !hasWallPoints) {
+    //   runInAction(() => {
+    //     this.columns = [];
+    //   });
+    //   return;
+    // }
 
     const newColumns: Column[] = [];
     const { wallThickness } = wallStore;
