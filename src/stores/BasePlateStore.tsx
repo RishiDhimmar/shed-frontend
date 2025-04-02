@@ -85,6 +85,19 @@ class BaseplateStore {
       }
     });
   }
+  
+  setBasePlates(newBasePlates: Baseplate[]) {
+    runInAction(() => {
+      this.basePlates = newBasePlates;
+    });
+  }
+
+  setBasePlateConfig(newConfig: Record<BaseplateType, BaseplateConfig>) {
+    runInAction(() => {
+      this.config = newConfig;
+    });
+  }
+
 
   generatePlates() {
     const corners = wallStore.internalWallPoints;
@@ -120,7 +133,7 @@ class BaseplateStore {
       y,
       type,
       points: getRectanglePoints(cfg.length, cfg.width, [x, y]),
-      wall
+      wall,
     };
   }
 
@@ -179,14 +192,18 @@ class BaseplateStore {
     // Add plates above center on left wall
     let d = this.idealVerticalDistance;
     while (centerY + d <= topCenterY) {
-      plates.push(this.createBaseplate(leftX, centerY + d, "horizontal", "left"));
+      plates.push(
+        this.createBaseplate(leftX, centerY + d, "horizontal", "left")
+      );
       d += this.idealVerticalDistance;
     }
 
     // Add plates below center on left wall
     d = this.idealVerticalDistance;
     while (centerY - d >= bottomCenterY) {
-      plates.push(this.createBaseplate(leftX, centerY - d, "horizontal", "left"));
+      plates.push(
+        this.createBaseplate(leftX, centerY - d, "horizontal", "left")
+      );
       d += this.idealVerticalDistance;
     }
 
@@ -196,19 +213,25 @@ class BaseplateStore {
     const rightPlates: Baseplate[] = [];
 
     // Add center plate on right wall
-    rightPlates.push(this.createBaseplate(rightX, centerY, "horizontal", "right"));
+    rightPlates.push(
+      this.createBaseplate(rightX, centerY, "horizontal", "right")
+    );
 
     // Add plates above center on right wall
     d = this.idealVerticalDistance;
     while (centerY + d <= topCenterY) {
-      rightPlates.push(this.createBaseplate(rightX, centerY + d, "horizontal", "right"));
+      rightPlates.push(
+        this.createBaseplate(rightX, centerY + d, "horizontal", "right")
+      );
       d += this.idealVerticalDistance;
     }
 
     // Add plates below center on right wall
     d = this.idealVerticalDistance;
     while (centerY - d >= bottomCenterY) {
-      rightPlates.push(this.createBaseplate(rightX, centerY - d, "horizontal", "right"));
+      rightPlates.push(
+        this.createBaseplate(rightX, centerY - d, "horizontal", "right")
+      );
       d += this.idealVerticalDistance;
     }
 
@@ -253,19 +276,25 @@ class BaseplateStore {
     const bottomPlates: Baseplate[] = [];
 
     // Add center plate on bottom wall
-    bottomPlates.push(this.createBaseplate(centerX, bottomY, "vertical", "bottom"));
+    bottomPlates.push(
+      this.createBaseplate(centerX, bottomY, "vertical", "bottom")
+    );
 
     // Add plates to left of center on bottom wall
     d = this.idealHorizontalDistance;
     while (centerX - d >= leftCenterX) {
-      bottomPlates.push(this.createBaseplate(centerX - d, bottomY, "vertical", "bottom"));
+      bottomPlates.push(
+        this.createBaseplate(centerX - d, bottomY, "vertical", "bottom")
+      );
       d += this.idealHorizontalDistance;
     }
 
     // Add plates to right of center on bottom wall
     d = this.idealHorizontalDistance;
     while (centerX + d <= rightCenterX) {
-      bottomPlates.push(this.createBaseplate(centerX + d, bottomY, "vertical", "bottom"));
+      bottomPlates.push(
+        this.createBaseplate(centerX + d, bottomY, "vertical", "bottom")
+      );
       d += this.idealHorizontalDistance;
     }
 
