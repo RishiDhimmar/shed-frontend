@@ -32,7 +32,7 @@ export const Import = () => {
   };
 
   return (
-    <div className="">
+    <div className="w-full">
       <input
         type="file"
         ref={fileInputRef}
@@ -41,7 +41,7 @@ export const Import = () => {
       />
 
       <button
-        className="bg-white px-3 py-2 rounded shadow-md hover:bg-gray-300 cursor-pointer "
+        className=" bg-gray-800 text-white px-3 py-2 rounded shadow-md hover:text-gray-300 cursor-pointer w-full"
         onClick={() => fileInputRef.current?.click()}
       >
         Import Shade

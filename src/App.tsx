@@ -20,12 +20,14 @@ function App() {
         </div>
 
         <div className="  bg-gray-100 shadow-md px-4 py-2 flex flex-col items-center absolute right-0 top-16 h-[calc(100vh-64px)] gap-2">
-          <Import />
-          <div className="flex flex gap-2">
-            <Save />
-            <Upload />
+          <div className="flex flex-col gap-2">
+            <Import />
+            <div className=" flex gap-2">
+              <Save />
+              <Upload />
+            </div>
+            <Assumptions />
           </div>
-          <Assumptions />
           <Info />
         </div>
       </div>
