@@ -13,7 +13,6 @@ const MullionColumnVisualizer = observer(() => {
     <>
       {mullionColumnStore.mullionPositions.length > 0 && mullionColumnStore.mullionPositions.map((mullionPoints, index) => (
         <>
-        {console.log(mullionColumnStore.mullionPositions.length)}
         <Line
           key={index}
           points={

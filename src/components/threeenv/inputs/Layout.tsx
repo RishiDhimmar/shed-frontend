@@ -10,6 +10,7 @@ import { MullionColumn } from "./MullianColumn";
 import LayoutItem from "./LayoutItem";
 import { GroundBeam } from "./GroundBeam";
 import Foundation from "./Foundation";
+import SaveButton from "./SaveButton";
 
 export const Layout = observer(() => {
   const [selectedTitle, setSelectedTitle] = useState<string | null>(null);
@@ -78,6 +79,7 @@ export const Layout = observer(() => {
           onClick={() => handleSelect("groundBeam")}
           onToggleVisibility={() => uiStore.toggleVisibility("groundBeam")}
         />
+        <SaveButton />
       </div>
       <div className="flex-1   top-0 left-[150px]">
         {uiStore.currentComponent === "plot" && <PlotInput />}
