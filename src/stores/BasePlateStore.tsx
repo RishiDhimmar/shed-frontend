@@ -2,7 +2,6 @@ import { makeAutoObservable, observable, action, runInAction } from "mobx";
 import wallStore from "./WallStore";
 import { getRectanglePoints } from "../utils/GeometryUtils";
 import { v4 as uuidv4 } from "uuid";
-import foundationStore from "./FoundationStore";
 
 export type BaseplateType = "corner" | "horizontal" | "vertical";
 
@@ -165,7 +164,7 @@ class BaseplateStore {
     const horizontalCfg = this.config.horizontal;
     const cornerCfg = this.config.corner;
     const bottomCenterY =
-      bottomLeft[1] + cornerCfg.width / 2 + (cornerCfg.offsetY || 0) ;
+      bottomLeft[1] + cornerCfg.width / 2 + (cornerCfg.offsetY || 0);
     const topCenterY =
       topLeft[1] - cornerCfg.width / 2 - (cornerCfg.offsetY || 0);
     const centerY = (topCenterY + bottomCenterY) / 2;

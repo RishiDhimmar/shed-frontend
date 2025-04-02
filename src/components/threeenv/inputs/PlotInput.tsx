@@ -10,7 +10,7 @@ export const PlotInput = observer(() => {
         <InputNumber
           label="Length:"
           value={plotStore.length}
-          onChange={(newHeight: number) => plotStore.setLength(newHeight)}
+          onChange={(newLength: number) => plotStore.setLength(newLength)}
         />
         <InputNumber
           label="Width:"

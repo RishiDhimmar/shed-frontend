@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 
 interface InputNumberProps {
   label: string;
@@ -25,40 +25,10 @@ const InputNumber: React.FC<InputNumberProps> = ({
     }
   };
 
-  useEffect(() => {
-    const input = inputRef.current;
-    if (!input) return;
-
-    const handleWheel = (e: WheelEvent) => {
-      // Only prevent when input is focused
-      if (document.activeElement === input) {
-        e.preventDefault();
-
-        const step = parseInt(input.step || "100", 10);
-        const delta = e.deltaY < 0 ? step : -step;
-        const newValue = Math.max(0, parseInt(input.value || "0", 10) + delta);
-
-        // Trigger change
-        input.value = newValue.toString();
-        const event = new Event("input", { bubbles: true });
-        input.dispatchEvent(event);
-      }
-    };
-
-    input.addEventListener("wheel", handleWheel, { passive: false });
-
-    return () => {
-      input.removeEventListener("wheel", handleWheel);
-    };
-  }, []);
-
   const displayValue = value === 0 ? "" : (value * 1000).toString();
 
   return (
-    <div
-      className="mb-4 flex flex-col"
-      style={{ overscrollBehavior: "contain" }} // Prevents scroll from reaching the sidebar
-    >
+    <div className="mb-4 flex flex-col">
       <label className="font-poppins text-gray-500">{label}</label>
       <input
         ref={inputRef}

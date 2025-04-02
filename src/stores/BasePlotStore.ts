@@ -16,6 +16,7 @@ export class BasePlotStore {
 
   setWidth(newWidth: number) {
     this.width = newWidth;
+    console.log(this.width)
     this.updatePointsIfValid();
   }
 
