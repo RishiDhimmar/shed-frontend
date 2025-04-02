@@ -12,30 +12,42 @@ const BaseplateDimensions = observer(({ type }: BaseplateDimensionsProps) => {
 
   return (
     <>
-      <InputNumber
-        label="Length:"
-        value={config.length}
-        onChange={(newLength: number) => baseplateStore.setLength(type, newLength)}
-      />
-      <InputNumber
-        label="Width:"
-        value={config.width}
-        onChange={(newWidth: number) => baseplateStore.setWidth(type, newWidth)}
-      />
-      {config.offsetX !== undefined && (
+      <div className="flex gap-2">
         <InputNumber
-          label="OffsetX:"
-          value={config.offsetX}
-          onChange={(newOffsetX: number) => baseplateStore.setOffsetX(type, newOffsetX)}
+          label="Length:"
+          value={config.length}
+          onChange={(newLength: number) =>
+            baseplateStore.setLength(type, newLength)
+          }
         />
-      )}
-      {config.offsetY !== undefined && (
         <InputNumber
-          label="OffsetY:"
-          value={config.offsetY}
-          onChange={(newOffsetY: number) => baseplateStore.setOffsetY(type, newOffsetY)}
+          label="Width:"
+          value={config.width}
+          onChange={(newWidth: number) =>
+            baseplateStore.setWidth(type, newWidth)
+          }
         />
-      )}
+      </div>
+      <div className="flex gap-4">
+        {config.offsetX !== undefined && (
+          <InputNumber
+            label="OffsetX:"
+            value={config.offsetX}
+            onChange={(newOffsetX: number) =>
+              baseplateStore.setOffsetX(type, newOffsetX)
+            }
+          />
+        )}
+        {config.offsetY !== undefined && (
+          <InputNumber
+            label="OffsetY:"
+            value={config.offsetY}
+            onChange={(newOffsetY: number) =>
+              baseplateStore.setOffsetY(type, newOffsetY)
+            }
+          />
+        )}
+      </div>
     </>
   );
 });
