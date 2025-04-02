@@ -1,7 +1,9 @@
+import { BACKEND_URL } from "../../../Constants";
+
 export async function fetchWallData() {
   try {
     const response = await fetch(
-      "https://3rdp084j-3000.inc1.devtunnels.ms/api/dxf-entities"
+      BACKEND_URL + "api/dxf-entities"
     );
 
     if (!response.ok) {

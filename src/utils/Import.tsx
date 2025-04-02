@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import wallStore from "../stores/WallStore";
+import { BACKEND_URL } from "../Constants";
 
 export const Import = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -14,7 +15,7 @@ export const Import = () => {
 
     try {
       const response = await fetch(
-        "https://3rdp084j-3000.inc1.devtunnels.ms/api/upload-dxf",
+        BACKEND_URL + "api/upload-dxf",
         {
           method: "POST",
           body: formData,
