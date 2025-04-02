@@ -1,5 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import { getRectanglePoints } from "../utils/GeometryUtils";
+import uiStore from "./UIStore";
 
 export class BasePlotStore {
   width: number;
@@ -16,21 +17,24 @@ export class BasePlotStore {
 
   setWidth(newWidth: number) {
     this.width = newWidth;
-    console.log(this.width)
     this.updatePointsIfValid();
+    uiStore.setModified(true);
   }
 
   setLength(newLength: number) {
     this.length = newLength;
     this.updatePointsIfValid();
+    uiStore.setModified(true);
   }
 
   addPoint(point: number[]) {
     this.points.push(point);
+    uiStore.setModified(true);
   }
 
   setPoints(newPoints: number[][]) {
     this.points = newPoints;
+    uiStore.setModified(true);
   }
 
   updatePointsIfValid() {

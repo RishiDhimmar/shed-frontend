@@ -1,6 +1,7 @@
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { v4 as uuidv4 } from "uuid";
 import columnStore from "./ColumnStore";
+import uiStore from "./UIStore";
 
 export type FoundationType = "corner" | "horizontal" | "vertical";
 
@@ -88,6 +89,7 @@ class FoundationStore {
           [key]: value,
         },
       };
+      uiStore.setModified(true);
     });
   
     this.generateFoundations();
@@ -155,3 +157,4 @@ class FoundationStore {
 
 const foundationStore = new FoundationStore();
 export default foundationStore;
+

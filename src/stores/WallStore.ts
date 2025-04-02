@@ -1,7 +1,7 @@
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { fetchWallData } from "../components/threeenv/inputs/Fetch";
 import { getRectanglePoints } from "../utils/GeometryUtils";
-// import { arrayToPointArray } from "../utils/ConversionUtils";
+import uiStore from "./UIStore";
 
 export class WallStore {
   width = 0;
@@ -29,14 +29,25 @@ export class WallStore {
 
   setWidth(newWidth: number) {
     this.width = newWidth;
+    uiStore.setModified(true);
   }
 
   setHeight(newHeight: number) {
     this.height = newHeight;
+    uiStore.setModified(true);
   }
 
   setWallThickness(newThickness: number) {
     this.wallThickness = newThickness;
+    uiStore.setModified(true);
+  }
+
+  setWallPoints(external: number[][], internal: number[][]) {
+    this.externalWallPoints = external; // Convert to Point[] for external;
+    this.internalWallPoints = internal; // Convert to Point[] for internal;
+    this.calculateDimensions();
+    this.calculateThickness();
+    uiStore.setModified(true);
   }
 
   async loadWallData() {
@@ -72,14 +83,6 @@ export class WallStore {
     } else {
       console.warn("No valid entities found in wall data");
     }
-  }
-
-  setWallPoints(external: number[][], internal: number[][]) {
-    this.externalWallPoints = external; // Convert to Point[] for external;
-    this.internalWallPoints = internal; // Convert to Point[] for internal;
-    this.calculateDimensions();
-    this.calculateThickness();
-    console.log(this.externalWallPoints);
   }
 
   calculateDimensions() {

@@ -7,7 +7,7 @@ const BasePlateVisualizer = observer(() => {
 
   return (
     <>
-      {baseplateStore.basePlates.map((baseplate) => (
+      {baseplateStore.basePlates && baseplateStore.basePlates.map((baseplate) => (
         <Line
           points={
             getClosedPoints(baseplate.points) as [
