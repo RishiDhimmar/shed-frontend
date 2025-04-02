@@ -1,4 +1,3 @@
-import React from "react";
 import { handleSaveProject } from "../../../utils/handleSaveProject";
 
 function SaveButton() {

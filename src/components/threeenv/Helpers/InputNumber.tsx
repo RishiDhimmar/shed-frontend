@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 interface InputNumberProps {
   label: string;
@@ -24,6 +24,31 @@ const InputNumber: React.FC<InputNumberProps> = ({
       }
     }
   };
+
+  useEffect(() => {
+    const input = inputRef.current;
+    if (!input) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (document.activeElement === input) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const step = parseInt(input.step || "100", 10);
+        const delta = e.deltaY < 0 ? step : -step;
+        const current = parseInt(input.value || "0", 10);
+        const newValue = Math.max(0, current + delta);
+
+        onChange(newValue / 1000);
+      }
+    };
+
+    input.addEventListener("wheel", handleWheel, { passive: false });
+
+    return () => {
+      input.removeEventListener("wheel", handleWheel);
+    };
+  }, [onChange]);
 
   const displayValue = value === 0 ? "" : (value * 1000).toString();
 
