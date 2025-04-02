@@ -2,6 +2,7 @@ import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { getRectanglePoints } from "../utils/GeometryUtils";
 import wallStore from "./WallStore";
 import baseplateStore from "./BasePlateStore";
+import uiStore from "./UIStore";
 
 class MullionColumnStore {
   mullionLength: number = 0;
@@ -61,28 +62,59 @@ class MullionColumnStore {
 
     const horizontal = baseplateStore.basePlates.filter(
       (plate) => plate.type === "horizontal"
-    )
+    );
     horizontal.map((plate) => {
       const { x, y } = plate;
-      if(plate.wall === "left") {
-        
-        newMullions.push(getRectanglePoints(wallThickness, wallThickness, [x - baseplateStore.config[plate.type].length / 2 - (baseplateStore.config[plate.type].offsetX ?? 0) - wallThickness/2, y]));
-      } else if(plate.wall === "right") {
-        newMullions.push(getRectanglePoints(wallThickness, wallThickness, [x + baseplateStore.config[plate.type].length / 2 + (baseplateStore.config[plate.type].offsetX ?? 0) + wallThickness/2, y]));
+      if (plate.wall === "left") {
+        newMullions.push(
+          getRectanglePoints(wallThickness, wallThickness, [
+            x -
+              baseplateStore.config[plate.type].length / 2 -
+              (baseplateStore.config[plate.type].offsetX ?? 0) -
+              wallThickness / 2,
+            y,
+          ])
+        );
+      } else if (plate.wall === "right") {
+        newMullions.push(
+          getRectanglePoints(wallThickness, wallThickness, [
+            x +
+              baseplateStore.config[plate.type].length / 2 +
+              (baseplateStore.config[plate.type].offsetX ?? 0) +
+              wallThickness / 2,
+            y,
+          ])
+        );
       }
-    })
+    });
 
     const vertical = baseplateStore.basePlates.filter(
       (plate) => plate.type === "vertical"
-    )
+    );
     vertical.map((plate) => {
       const { x, y } = plate;
-      if(plate.wall === "top") {
-        newMullions.push(getRectanglePoints(wallThickness, wallThickness, [x, y + baseplateStore.config[plate.type].width / 2 + (baseplateStore.config[plate.type].offsetY ?? 0) + wallThickness/2]));
-      } else if(plate.wall === "bottom") {
-        newMullions.push(getRectanglePoints(wallThickness, wallThickness, [x, y - baseplateStore.config[plate.type].width / 2 - (baseplateStore.config[plate.type].offsetY ?? 0) - wallThickness/2]));
+      if (plate.wall === "top") {
+        newMullions.push(
+          getRectanglePoints(wallThickness, wallThickness, [
+            x,
+            y +
+              baseplateStore.config[plate.type].width / 2 +
+              (baseplateStore.config[plate.type].offsetY ?? 0) +
+              wallThickness / 2,
+          ])
+        );
+      } else if (plate.wall === "bottom") {
+        newMullions.push(
+          getRectanglePoints(wallThickness, wallThickness, [
+            x,
+            y -
+              baseplateStore.config[plate.type].width / 2 -
+              (baseplateStore.config[plate.type].offsetY ?? 0) -
+              wallThickness / 2,
+          ])
+        );
       }
-    })
+    });
 
     runInAction(() => {
       this.mullionPositions = newMullions;
@@ -91,10 +123,12 @@ class MullionColumnStore {
 
   setMullionLength(value: number) {
     this.mullionLength = value;
+    uiStore.setModified(true);
   }
 
   setMullionWidth(value: number) {
     this.mullionWidth = value;
+    uiStore.setModified(true);
   }
 }
 

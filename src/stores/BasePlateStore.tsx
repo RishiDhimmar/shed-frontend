@@ -2,6 +2,7 @@ import { makeAutoObservable, observable, action, runInAction } from "mobx";
 import wallStore from "./WallStore";
 import { getRectanglePoints } from "../utils/GeometryUtils";
 import { v4 as uuidv4 } from "uuid";
+import uiStore from "./UIStore";
 
 export type BaseplateType = "corner" | "horizontal" | "vertical";
 
@@ -43,20 +44,22 @@ class BaseplateStore {
       generatePlates: action,
     });
   }
-
   setIdealHorizontalDistance(newVal: number) {
     this.idealHorizontalDistance = newVal;
+    uiStore.setModified(true);
     this.generatePlates();
   }
 
   setIdealVerticalDistance(newVal: number) {
     this.idealVerticalDistance = newVal;
+    uiStore.setModified(true);
     this.generatePlates();
   }
 
   setLength(type: BaseplateType, newLength: number) {
     runInAction(() => {
       this.config[type].length = newLength;
+      uiStore.setModified(true);
       this.generatePlates();
     });
   }
@@ -64,6 +67,7 @@ class BaseplateStore {
   setWidth(type: BaseplateType, newWidth: number) {
     runInAction(() => {
       this.config[type].width = newWidth;
+      uiStore.setModified(true);
       this.generatePlates();
     });
   }
@@ -72,6 +76,7 @@ class BaseplateStore {
     runInAction(() => {
       if (this.config[type].offsetX !== undefined) {
         this.config[type].offsetX = newOffsetX;
+        uiStore.setModified(true);
         this.generatePlates();
       }
     });
@@ -81,23 +86,25 @@ class BaseplateStore {
     runInAction(() => {
       if (this.config[type].offsetY !== undefined) {
         this.config[type].offsetY = newOffsetY;
+        uiStore.setModified(true);
         this.generatePlates();
       }
     });
   }
-  
+
   setBasePlates(newBasePlates: Baseplate[]) {
     runInAction(() => {
       this.basePlates = newBasePlates;
+      uiStore.setModified(true);
     });
   }
 
   setBasePlateConfig(newConfig: Record<BaseplateType, BaseplateConfig>) {
     runInAction(() => {
       this.config = newConfig;
+      uiStore.setModified(true);
     });
   }
-
 
   generatePlates() {
     const corners = wallStore.internalWallPoints;
@@ -304,4 +311,3 @@ class BaseplateStore {
 
 const baseplateStore = new BaseplateStore();
 export default baseplateStore;
-

@@ -6,6 +6,7 @@ import columnStore from "../stores/ColumnStore";
 import foundationStore from "../stores/FoundationStore";
 import wallStore from "../stores/WallStore";
 import mullionColumnStore from "../stores/MullianColumnStore";
+import uiStore from "../stores/UIStore";
 
 export const handleSaveProject = () => {
   const projectData = {
@@ -22,4 +23,6 @@ export const handleSaveProject = () => {
     type: "application/json",
   });
   saveAs(jsonBlob, "project_data.json");
+
+  uiStore.isModified = false;
 };

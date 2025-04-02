@@ -22,6 +22,8 @@ class UIStore {
     groundBeam: true,
   };
 
+  isModified = false;
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -32,6 +34,10 @@ class UIStore {
 
   toggleVisibility(component: keyof typeof this.visibility) {
     this.visibility[component] = !this.visibility[component];
+  }
+
+  setModified(modified: boolean) {
+    this.isModified = modified;
   }
 }
 
