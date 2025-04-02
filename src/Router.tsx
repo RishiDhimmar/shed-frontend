@@ -9,7 +9,7 @@ const Router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: "listing",
+        path: "",
         element: <ListView />,
       },
       {
