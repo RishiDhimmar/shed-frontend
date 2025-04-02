@@ -47,7 +47,7 @@ import { useEffect } from "react";
 import { Assumptions } from "./components/threeenv/Helpers/Assumptions";
 import ShadeCanvas from "./components/threeenv/ShadeCanvas";
 import { Layout } from "./components/threeenv/inputs/Layout";
-import Navbar from "./components/uiElements.tsx/Navbar";
+import Navbar from "./components/uiElements/Navbar";
 import { Import } from "./utils/Import";
 import Info from "./utils/Info";
 import Save from "./utils/Save";

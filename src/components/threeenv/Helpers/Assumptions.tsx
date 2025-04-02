@@ -12,7 +12,7 @@ import { observer } from "mobx-react-lite";
 
 export const Assumptions = observer(() => {
   return (
-    <div className="text-sm w-full max-w-md bg-white p-4 shadow-lg rounded-md">
+    <div className="text-sm w-full max-w-md bg-white p-4 shadow-lg rounded-md mt-2">
       <div className="text-lg font-bold text-center mb-2">Assumptions</div>
       <div className="text-sm w-full max-w-md">
         {uiStore.currentComponent === "plot" && plotAssumptions}
