@@ -36,7 +36,7 @@ export const PlotDimensions = observer(() => {
       <Line points={widthLinePoints} color="black" lineWidth={2} />
       <Text
         position={widthTextPosition}
-        fontSize={2}
+        fontSize={0.8}
         color="black"
         anchorX="center"
         anchorY="middle"
@@ -47,7 +47,7 @@ export const PlotDimensions = observer(() => {
       <Line points={lengthLinePoints} color="black" lineWidth={2} />
       <Text
         position={lengthTextPosition}
-        fontSize={2}
+        fontSize={0.8}
         color="black"
         rotation={[0, 0, Math.PI / 2]}
         anchorX="center"
