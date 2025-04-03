@@ -13,6 +13,11 @@ class MullionColumnStore {
   ringCc: number = 0;
 
   mullionPositions: number[][][] = []; // Stores rectangle points for each mullion
+  mullionDimensions: {
+    width: number;
+    height: number;
+    points: [number, number, number][];
+  }[] = [];
 
   constructor() {
     makeAutoObservable(this);
