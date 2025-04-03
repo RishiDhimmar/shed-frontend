@@ -17,7 +17,7 @@
 // export default ShadeCanvas;
 
 // ShadeCanvas.jsx
-import  { useState } from "react";
+import { useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import ExperienceSetup from "./setUp/ExperienceSetup";
 import ScreenshotProvider from "./inputs/TakeSnapButton";
@@ -25,11 +25,16 @@ import { RiScreenshot2Line } from "react-icons/ri";
 
 function ShadeCanvas() {
   // State to hold the screenshot function from inside the Canvas
-  const [takeScreenshot, setTakeScreenshot] = useState<(() => void) | null>(null);
+  const [takeScreenshot, setTakeScreenshot] = useState<(() => void) | null>(
+    null
+  );
 
   return (
     <div className="relative h-[calc(100vh-64px)]">
-      <Canvas style={{ background: "white" }} gl={{ preserveDrawingBuffer: true }}>
+      <Canvas
+        style={{ background: "white" }}
+        gl={{ preserveDrawingBuffer: true }}
+      >
         <ExperienceSetup />
         <ScreenshotProvider setScreenshotFn={setTakeScreenshot} />
       </Canvas>
@@ -41,7 +46,7 @@ function ShadeCanvas() {
             takeScreenshot();
           }
         }}
-        className="fixed bottom-15 right-5 z-50 text-3xl p-2 bg-white shadow-lg cursor-pointer hover:bg-gray-200 transition"
+        className="fixed bottom-14 right-5 z-50 text-3xl p-1 bg-white shadow-lg cursor-pointer hover:bg-gray-200 transition rounded"
       >
         <RiScreenshot2Line />
       </button>

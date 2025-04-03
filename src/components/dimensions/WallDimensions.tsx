@@ -37,7 +37,7 @@ const WallDimensions = observer(() => {
           [external.maxX, external.maxY + offset, 0],
         ]}
         color="blue"
-        lineWidth={2}
+        lineWidth={1}
       />
       <Line
         points={[
@@ -45,7 +45,7 @@ const WallDimensions = observer(() => {
           [external.maxX + offset, external.maxY, 0],
         ]}
         color="blue"
-        lineWidth={2}
+        lineWidth={1}
       />
       <Text
         position={[
@@ -78,7 +78,7 @@ const WallDimensions = observer(() => {
           [internal.maxX, internal.maxY - offset, 0],
         ]}
         color="red"
-        lineWidth={2}
+        lineWidth={1}
       />
       <Line
         points={[
@@ -86,7 +86,7 @@ const WallDimensions = observer(() => {
           [internal.maxX - offset, internal.maxY, 0],
         ]}
         color="red"
-        lineWidth={2}
+        lineWidth={1}
       />
       <Text
         position={[
