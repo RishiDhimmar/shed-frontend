@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { IoMdInformationCircleOutline } from "react-icons/io";
 
 interface InputNumberProps {
   label: string;
@@ -54,7 +55,10 @@ const InputNumber: React.FC<InputNumberProps> = ({
 
   return (
     <div className="mb-4 flex flex-col">
-      <label className="font-poppins text-gray-500">{label}</label>
+      <div className="flex justify-between">
+        <label className="font-poppins text-xs text-gray-500">{label}</label>
+        <IoMdInformationCircleOutline className="w-4 h-4 mt-0.5 cursor-pointer" />
+      </div>
       <input
         ref={inputRef}
         type="number"

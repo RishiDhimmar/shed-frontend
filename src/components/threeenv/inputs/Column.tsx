@@ -5,8 +5,9 @@ import columnStore from "../../../stores/ColumnStore";
 export const Column = observer(() => {
   return (
     <div className=" p-6">
+      <h1 className="text-lg font-bold mb-4 "> Column Inputs</h1>
       <form className="space-y-4">
-        <h1 className="text-xl font-bold mb-4 ">Corner Column</h1>
+        <h1 className="text-md font-medium mb-4 ">Corner Column</h1>
 
         <div className="flex  gap-2">
           <InputNumber
@@ -24,7 +25,7 @@ export const Column = observer(() => {
             }
           />
         </div>
-        <h1 className="text-xl font-bold mb-4 ">Horizontal Column</h1>
+        <h1 className="text-md font-medium mb-4 ">Horizontal Column</h1>
         <div className="flex gap-2">
           <InputNumber
             label="Length:"
@@ -41,7 +42,7 @@ export const Column = observer(() => {
             }
           />
         </div>
-        <h1 className="text-xl font-bold mb-4">Vertical Column </h1>
+        <h1 className="text-md font-medium mb-4">Vertical Column </h1>
         <div className="flex gap-2">
           <InputNumber
             label="Length:"

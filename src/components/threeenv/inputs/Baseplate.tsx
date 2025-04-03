@@ -24,15 +24,15 @@ export const BaseplateInput = observer(() => {
         />
       </div>
       <div className="flex-col gap-4">
-        <h1 className="text-md font-bold mb-4 ">Corner Baseplate</h1>
+        <h1 className="text-md font-medium mb-4 ">Corner Baseplate</h1>
         <BaseplateDimensions type="corner" />
       </div>
       <div className="flex-col gap-4">
-        <h1 className="text-md font-bold mb-4">Horizontal Baseplate</h1>
+        <h1 className="text-md font-medium mb-4">Horizontal Baseplate</h1>
         <BaseplateDimensions type="horizontal" />
       </div>
       <div className="flex-col gap-4">
-        <h1 className="text-md font-bold mb-4">Vertical Baseplate</h1>
+        <h1 className="text-md font-medium mb-4">Vertical Baseplate</h1>
         <BaseplateDimensions type="vertical" />
       </div>
     </div>

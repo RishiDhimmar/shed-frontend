@@ -7,6 +7,11 @@ import uiStore from "./UIStore";
 class MullionColumnStore {
   mullionLength: number = 0;
   mullionWidth: number = 0;
+  main1: number = 0;
+  mainCc: number = 0;
+  ring1: number = 0;
+  ringCc: number = 0;
+
   mullionPositions: number[][][] = []; // Stores rectangle points for each mullion
 
   constructor() {
@@ -129,6 +134,18 @@ class MullionColumnStore {
   setMullionWidth(value: number) {
     this.mullionWidth = value;
     uiStore.setModified(true);
+  }
+  setMain1(value: number) {
+    this.main1 = value;
+  }
+  setMainCc(value: number) {
+    this.mainCc = value;
+  }
+  setRing1(value: number) {
+    this.ring1 = value;
+  }
+  setRingCc(value: number) {
+    this.ringCc = value;
   }
 }
 
