@@ -2,6 +2,7 @@ import wallStore from "../../../stores/WallStore";
 import { Line } from "@react-three/drei";
 import { getClosedPoints } from "../../../utils/GeometryUtils";
 import { observer } from "mobx-react-lite";
+import WallDimensions from "../../dimensions/WallDimensions";
 
 const ShedWallVisualizer = observer(() => {
   return (
@@ -18,7 +19,6 @@ const ShedWallVisualizer = observer(() => {
                 ][]
               }
               color="#ff7f00"
-             
               lineWidth={1.5}
             />
             <Line
@@ -30,9 +30,9 @@ const ShedWallVisualizer = observer(() => {
                 ][]
               }
               color="#ff7f00"
-             
               lineWidth={1.5}
             />
+            <WallDimensions />
           </>
         )}
     </>
