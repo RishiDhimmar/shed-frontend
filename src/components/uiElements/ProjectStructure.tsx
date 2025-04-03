@@ -5,10 +5,12 @@ import Save from "../../utils/Save";
 import Upload from "../../utils/Upload";
 import { Assumptions } from "../threeenv/Helpers/Assumptions";
 import Info from "../../utils/Info";
+import Sidebar from "./Sidebar";
 
 function ProjectStructure() {
   return (
     <>
+    <Sidebar />
       <Layout />
 
       <div className=" flex-1">

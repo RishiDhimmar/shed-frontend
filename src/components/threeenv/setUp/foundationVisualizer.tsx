@@ -23,3 +23,6 @@ const FoundationVisualizer = observer(() => {
 });
 
 export default FoundationVisualizer;
+
+
+

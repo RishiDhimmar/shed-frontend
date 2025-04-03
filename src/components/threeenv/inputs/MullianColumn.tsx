@@ -13,16 +13,13 @@ export const MullionColumn = observer(() => {
           <InputNumber
             label="Length:"
             value={mullionColumnStore.mullionLength}
-            // onChange={(newLength: number) => {
-            //   mullionColumnStore.setMullionLength(newLength);
-            // }}
-          />
+            onChange={() => {}}
+            />
           <InputNumber
             label="width:"
             value={mullionColumnStore.mullionWidth}
-            // onChange={(newHeight: number) =>
-            //   mullionColumnStore.setMullionWidth(newHeight)
-            // }
+            onChange={() => {}}
+            
           />
         </div>
 

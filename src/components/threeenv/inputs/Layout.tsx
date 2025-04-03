@@ -20,7 +20,7 @@ export const Layout = observer(() => {
 
   return (
     <div className="flex h-[calc(100vh-64px)] z-10 ">
-      <div className="w-[200px] bg-gray-800 text-white flex flex-col items-start px-2 py-4">
+      <div className="w-[190px] bg-gray-800 text-white flex flex-col items-start px-2 py-4">
         <LayoutItem
           title="Plot"
           color="bg-[#FFFFFF]"
