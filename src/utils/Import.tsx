@@ -37,6 +37,7 @@ export const Import = () => {
         type="file"
         ref={fileInputRef}
         className="hidden"
+        accept=".dxf"
         onChange={handleFileChange}
       />
 

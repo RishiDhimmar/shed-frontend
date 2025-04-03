@@ -2,8 +2,13 @@ import { observer } from "mobx-react-lite";
 import { Line } from "@react-three/drei";
 import { getClosedPoints } from "../../../utils/GeometryUtils";
 import columnStore from "../../../stores/ColumnStore";
+import { useMemo } from "react";
+import baseplateStore from "../../../stores/BasePlateStore";
 
 const ColumnVisualizer = observer(() => {
+  useMemo(() => {
+    columnStore.generateColumns()
+  },[baseplateStore.basePlates])
   return (
     <>
       {columnStore.columns.map((column) => (

@@ -3,6 +3,7 @@ import wallStore from "./WallStore";
 import { getRectanglePoints } from "../utils/GeometryUtils";
 import { v4 as uuidv4 } from "uuid";
 import uiStore from "./UIStore";
+import foundationStore from "./FoundationStore";
 
 export type BaseplateType = "corner" | "horizontal" | "vertical";
 
@@ -198,7 +199,7 @@ class BaseplateStore {
 
     // Add plates above center on left wall
     let d = this.idealVerticalDistance;
-    while (centerY + d <= topCenterY) {
+    while (centerY + d <= topCenterY - foundationStore.values.corner.rccLf/2 - foundationStore.values.horizontal.rccLf/2) {
       plates.push(
         this.createBaseplate(leftX, centerY + d, "horizontal", "left")
       );
@@ -207,7 +208,7 @@ class BaseplateStore {
 
     // Add plates below center on left wall
     d = this.idealVerticalDistance;
-    while (centerY - d >= bottomCenterY) {
+    while (centerY - d >= bottomCenterY + foundationStore.values.corner.rccLf/2 + foundationStore.values.horizontal.rccLf/2) {
       plates.push(
         this.createBaseplate(leftX, centerY - d, "horizontal", "left")
       );
@@ -226,7 +227,7 @@ class BaseplateStore {
 
     // Add plates above center on right wall
     d = this.idealVerticalDistance;
-    while (centerY + d <= topCenterY) {
+    while (centerY + d <= topCenterY - foundationStore.values.corner.rccLf/2 - foundationStore.values.horizontal.rccLf/2) {
       rightPlates.push(
         this.createBaseplate(rightX, centerY + d, "horizontal", "right")
       );
@@ -235,7 +236,7 @@ class BaseplateStore {
 
     // Add plates below center on right wall
     d = this.idealVerticalDistance;
-    while (centerY - d >= bottomCenterY) {
+    while (centerY - d >= bottomCenterY + foundationStore.values.corner.rccLf/2 + foundationStore.values.horizontal.rccLf/2) {
       rightPlates.push(
         this.createBaseplate(rightX, centerY - d, "horizontal", "right")
       );
@@ -268,14 +269,14 @@ class BaseplateStore {
 
     // Add plates to left of center on top wall
     let d = this.idealHorizontalDistance;
-    while (centerX - d >= leftCenterX) {
+    while (centerX - d >= leftCenterX + foundationStore.values.corner.RccBf/2 + foundationStore.values.vertical.RccBf/2) {
       plates.push(this.createBaseplate(centerX - d, topY, "vertical", "top"));
       d += this.idealHorizontalDistance;
     }
 
     // Add plates to right of center on top wall
     d = this.idealHorizontalDistance;
-    while (centerX + d <= rightCenterX) {
+    while (centerX + d <= rightCenterX - foundationStore.values.corner.RccBf/2 - foundationStore.values.vertical.RccBf/2) {
       plates.push(this.createBaseplate(centerX + d, topY, "vertical", "top"));
       d += this.idealHorizontalDistance;
     }
@@ -289,7 +290,7 @@ class BaseplateStore {
 
     // Add plates to left of center on bottom wall
     d = this.idealHorizontalDistance;
-    while (centerX - d >= leftCenterX) {
+    while (centerX - d >= leftCenterX + foundationStore.values.corner.RccBf/2 + foundationStore.values.vertical.RccBf/2) {
       bottomPlates.push(
         this.createBaseplate(centerX - d, bottomY, "vertical", "bottom")
       );
@@ -298,7 +299,7 @@ class BaseplateStore {
 
     // Add plates to right of center on bottom wall
     d = this.idealHorizontalDistance;
-    while (centerX + d <= rightCenterX) {
+    while (centerX + d <= rightCenterX - foundationStore.values.corner.RccBf/2 - foundationStore.values.vertical.RccBf/2) {
       bottomPlates.push(
         this.createBaseplate(centerX + d, bottomY, "vertical", "bottom")
       );
