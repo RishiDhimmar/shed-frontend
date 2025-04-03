@@ -134,7 +134,7 @@ const DimensionLine = observer(({
 
       {/* Display the length label at variable offset */}
       <Text position={textPosition} color={textColor} fontSize={textSize}>
-        {length.toFixed(2)}
+        {(length*1000).toFixed().split('.')[0]}
       </Text>
     </>
   );

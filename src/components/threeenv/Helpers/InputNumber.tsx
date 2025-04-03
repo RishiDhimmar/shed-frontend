@@ -51,7 +51,7 @@ const InputNumber: React.FC<InputNumberProps> = ({
     };
   }, [onChange]);
 
-  const displayValue = value === 0 ? "" : (value * 1000).toString();
+  const displayValue = value === 0 ? "" : (value * 1000).toString().split(".")[0];
 
   return (
     <div className="mb-4 flex flex-col">
