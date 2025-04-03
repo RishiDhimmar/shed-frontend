@@ -1,41 +1,14 @@
 import wallStore from "../../../stores/WallStore";
-import { getClosedPoints } from "../../../utils/GeometryUtils";
-import { Line } from "@react-three/drei";
+import LineVisualizer from "../Helpers/LineVisualizerProps";
+import { observer } from "mobx-react-lite";
 
-function GroundBeamVisualizer() {
+const GroundBeamVisualizer = observer(() => {
   return (
     <>
-      {wallStore.externalWallPoints.length > 0 &&
-        wallStore.internalWallPoints.length > 0 && (
-          <>
-            <Line
-              points={
-                getClosedPoints(wallStore.externalWallPoints) as [
-                  x: number,
-                  y: number,
-                  z: number
-                ][]
-              }
-              color="#00ffff"
-          
-              lineWidth={1.5}
-            />
-            <Line
-              points={
-                getClosedPoints(wallStore.internalWallPoints) as [
-                  x: number,
-                  y: number,
-                  z: number
-                ][]
-              }
-              color="#00ffff"
-              
-              lineWidth={1.5}
-            />
-          </>
-        )}
+      <LineVisualizer points={wallStore.externalWallPoints} color="#00ffff" />
+      <LineVisualizer points={wallStore.internalWallPoints} color="#00ffff" />
     </>
   );
-}
+})
 
 export default GroundBeamVisualizer;
