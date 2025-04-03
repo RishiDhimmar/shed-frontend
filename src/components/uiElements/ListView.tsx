@@ -11,8 +11,6 @@ const ListView = () => {
       logo: "abc",
     }));
 
-
-
   const navigate = useNavigate();
 
   return (
@@ -35,11 +33,11 @@ const ListView = () => {
                 key={project.id}
                 className="relative border border-gray-200 rounded-lg overflow-hidden"
               >
-                <div className="relative h-36">
+                <div className="relative h-40">
                   <img
                     src="assets/resolute-logo.png"
                     alt={project.name}
-                    className="w-full h-full  p-2"
+                    className="w-full h-full object-contain"
                   />
                   <button className="absolute top-2 right-2 text-white">
                     <FaRegStar size={24} />

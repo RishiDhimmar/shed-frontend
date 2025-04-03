@@ -19,16 +19,18 @@ function ScreenshotButton() {
   };
 
   return (
-    <Html
-      style={{
-          position: "absolute",
-          top: "250px",
-          left: "300px",
-          zIndex: 1
-      }}
-
-    >
-      <button onClick={takeScreenshot} style={{ fontSize: "30px", cursor : "pointer"}}><RiScreenshot2Line /></button>
+    <Html>
+      <div
+        className="fixed top-70
+       right-85 z-50"
+      >
+        <button
+          onClick={takeScreenshot}
+          className="text-3xl p-2 bg-white shadow-lg cursor-pointer hover:bg-gray-200 transition"
+        >
+          <RiScreenshot2Line />
+        </button>
+      </div>
     </Html>
   );
 }

@@ -65,12 +65,17 @@ export const foundationAssumptions = (
 
 export const mullionColumnAssumptions = (
   <div className="w-[200px]  p-3">
-    <div className="text-sm text-gray-700 mb-1">Mullion Column Assumptions</div>
+    <div className="text-sm text-gray-700 mb-1">
+      The mullion column dimensions are determined based on the thickness of the
+      wall. Adjust the wall thickness to modify the mullion size accordingly.
+    </div>
   </div>
 );
 
 export const groundBeamAssumptions = (
   <div className="w-[200px]  p-3">
-    <div className="text-sm text-gray-700 mb-1">Ground Beam Assumptions</div>
+    <div className="text-sm text-gray-700 mb-1">
+      The ground beam follows the same structure and dimensions as the shade.
+    </div>
   </div>
 );
