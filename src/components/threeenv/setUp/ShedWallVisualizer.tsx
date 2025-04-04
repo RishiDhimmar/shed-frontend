@@ -53,6 +53,11 @@ const ShedWallVisualizer = observer(() => {
     wallStore.internalWallPoints.length === 0
   )
     return null;
+  if (
+    wallStore.externalWallPoints.length === 0 ||
+    wallStore.internalWallPoints.length === 0
+  )
+    return null;
 
   return (
     <>
