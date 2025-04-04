@@ -40,6 +40,7 @@ import { useEffect } from "react";
 import baseplateStore from "../../../stores/BasePlateStore";
 import LineVisualizer from "../Helpers/LineVisualizerProps";
 import DimensionLine from "../Helpers/DimensionLine";
+import uiStore from "../../../stores/UIStore";
 
 const MullionColumnVisualizer = observer(() => {
   useEffect(() => {
@@ -72,32 +73,37 @@ const MullionColumnVisualizer = observer(() => {
         return (
           <group key={`dim-${index}`}>
             {/* Width Dimension */}
-            <DimensionLine
-              startPoint={p1}
-              endPoint={p2}
-              length={width}
-              lineColor="#FF0000"
-              textColor="#FF0000"
-              lineDirection="-y"
-              textDirection="-y"
-              lineOffset={0.3}
-              textOffset={0.5}
-              textSize={0.25}
-            />
 
-            {/* Height Dimension */}
-            <DimensionLine
-              startPoint={p2}
-              endPoint={p3}
-              length={height}
-              lineColor="#FF0000"
-              textColor="#FF0000"
-              lineDirection="-x"
-              textDirection="-x"
-              lineOffset={0.3}
-              textOffset={0.5}
-              textSize={0.25}
-            />
+            {uiStore.currentComponent === "mullionColumn" && (
+              <>
+                <DimensionLine
+                  startPoint={p1}
+                  endPoint={p2}
+                  length={width}
+                  lineColor="#FF0000"
+                  textColor="#FF0000"
+                  lineDirection="-y"
+                  textDirection="-y"
+                  lineOffset={0.3}
+                  textOffset={0.5}
+                  textSize={0.25}
+                />
+
+                {/* Height Dimension */}
+                <DimensionLine
+                  startPoint={p2}
+                  endPoint={p3}
+                  length={height}
+                  lineColor="#FF0000"
+                  textColor="#FF0000"
+                  lineDirection="-x"
+                  textDirection="-x"
+                  lineOffset={0.3}
+                  textOffset={0.5}
+                  textSize={0.25}
+                />
+              </>
+            )}
           </group>
         );
       })}

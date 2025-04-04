@@ -35,14 +35,13 @@ const FoundationVisualizer = observer(() => {
     <>
       {foundationStore.foundations.map((foundation) => (
         <>
+          <LineVisualizer
+            key={foundation.id}
+            points={foundation.points}
+            color="#ff00ff"
+          />
           {uiStore.currentComponent === "foundation" && (
             <>
-              <LineVisualizer
-                key={foundation.id}
-                points={foundation.points}
-                color="#ff00ff"
-              />
-
               <DimensionLine
                 startPoint={foundation.points[0] as [number, number, number]}
                 endPoint={foundation.points[1] as [number, number, number]}
