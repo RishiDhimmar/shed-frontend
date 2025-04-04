@@ -28,17 +28,17 @@ const Foundation = observer(() => {
   ];
 
   return (
-    <div className="p-6">
-      <h1 className="text-lg font-bold mb-6">Foundation Parameters</h1>
-      <form className="space-y-6">
+    <div className="p-6 z-0">
+      <h1 className="text-lg font-bold mb-2">Foundation Parameters</h1>
+      <form className="space-y-2">
         {Object.entries(foundationStore.values).map(([type, params]) => (
           <div key={type}>
-            <h2 className="text-md font-semibold mb-4 mt-6">
+            <h2 className="text-md font-semibold mb-3">
               {type.charAt(0).toUpperCase() + type.slice(1)} Foundation
             </h2>
-            <div className="space-y-4">
+            <div className="space-y-1">
               {groups.map((group) => (
-                <div key={group.label} className="space-y-2">
+                <div key={group.label} className="space-y-1">
                   <div className="text-sm ">{group.label}</div>
                   <div className="flex gap-2">
                     {group.keys.map((key) => (

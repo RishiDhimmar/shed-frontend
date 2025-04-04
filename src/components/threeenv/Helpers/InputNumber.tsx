@@ -5,12 +5,14 @@ interface InputNumberProps {
   label: string;
   value: number;
   onChange: (value: number) => void;
+  infoText?: string; // Optional prop for info tooltip text
 }
 
 const InputNumber: React.FC<InputNumberProps> = ({
   label,
   value,
   onChange,
+  infoText = "This is some helpful information.",
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -51,13 +53,19 @@ const InputNumber: React.FC<InputNumberProps> = ({
     };
   }, [onChange]);
 
-  const displayValue = value === 0 ? "" : (value * 1000).toString().split(".")[0];
+  const displayValue =
+    value === 0 ? "" : (value * 1000).toString().split(".")[0];
 
   return (
-    <div className="mb-4 flex flex-col">
-      <div className="flex justify-between">
+    <div className="mb-4 flex flex-col relative">
+      <div className="flex justify-between items-center">
         <label className="font-poppins text-xs text-gray-500">{label}</label>
-        <IoMdInformationCircleOutline className="w-4 h-4 mt-0.5 cursor-pointer" />
+        <div className="relative group flex items-center">
+          <IoMdInformationCircleOutline className="w-4 h-4 cursor-pointer" />
+          <div className="absolute top-full left-0 mt-1 w-15 p-2 text-xs text-white bg-gray-800 rounded-md shadow-lg z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+            {infoText}
+          </div>
+        </div>
       </div>
       <input
         ref={inputRef}

@@ -10,7 +10,7 @@ import Sidebar from "./Sidebar";
 function ProjectStructure() {
   return (
     <>
-    <Sidebar />
+      <Sidebar />
       <Layout />
 
       <div className=" flex-1">
