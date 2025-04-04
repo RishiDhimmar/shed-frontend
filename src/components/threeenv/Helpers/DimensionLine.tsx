@@ -138,13 +138,12 @@ const DimensionLine = observer(
           lineWidth={1.5}
         />
 
-        {/* Display the length label at variable offset */}
-        <Text position={textPosition} color={textColor} fontSize={textSize}>
-          {length.toFixed(2)}
-        </Text>
-      </>
-    );
-  }
-);
+      {/* Display the length label at variable offset */}
+      <Text position={textPosition} color={textColor} fontSize={textSize}>
+        {(length*1000).toFixed().split('.')[0]}
+      </Text>
+    </>
+  );
+});
 
 export default DimensionLine;
