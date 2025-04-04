@@ -41,12 +41,20 @@ export const Import = () => {
         onChange={handleFileChange}
       />
 
-      <button
-        className=" bg-gray-800 text-white px-3 py-2 rounded shadow-md hover:bg-gray-600  cursor-pointer w-full"
-        onClick={() => fileInputRef.current?.click()}
-      >
-        Import Shade
-      </button>
+      <div className="flex ">
+        <button
+          className=" bg-gray-800 text-white m-1 rounded shadow-md hover:bg-gray-600  cursor-pointer w-full text-sm"
+          onClick={() => fileInputRef.current?.click()}
+        >
+          Import Shade
+        </button>
+        <button
+          className=" bg-gray-800 text-white m-1 rounded shadow-md hover:bg-gray-600  cursor-pointer w-full text-sm"
+          onClick={() => fileInputRef.current?.click()}
+        >
+          Import Baseplate
+        </button>
+      </div>
     </div>
   );
 };
