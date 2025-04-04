@@ -3,7 +3,7 @@ export default function UserName() {
     <div className="flex items-center gap-2">
       <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
         <img
-          src="assets/resolute-logo.png"
+          src="assets/user-logo.png"
           alt="Logo"
           className="w-full h-full object-contain "
         />
