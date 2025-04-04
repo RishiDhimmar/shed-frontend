@@ -23,7 +23,7 @@ const ListView = () => {
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold">Projects</h1>
           <button
-            className="bg-gray-800 hover:bg-blue-900 text-white py-2 px-4 rounded"
+            className="bg-gray-800 hover:bg-gray-600 text-white py-2 px-4 rounded"
             onClick={() => setIsModalOpen(true)}
           >
             Create Project

@@ -43,13 +43,13 @@ export const Import = () => {
 
       <div className="flex ">
         <button
-          className=" bg-gray-800 text-white m-1 rounded shadow-md hover:bg-gray-600  cursor-pointer w-full text-sm"
+          className=" bg-gray-700 text-white m-1 rounded shadow-md hover:bg-gray-600  cursor-pointer w-full text-sm"
           onClick={() => fileInputRef.current?.click()}
         >
           Import Shade
         </button>
         <button
-          className=" bg-gray-800 text-white m-1 rounded shadow-md hover:bg-gray-600  cursor-pointer w-full text-sm"
+          className=" bg-gray-700 text-white m-1 rounded shadow-md hover:bg-gray-600  cursor-pointer w-full text-sm"
           onClick={() => fileInputRef.current?.click()}
         >
           Import Baseplate

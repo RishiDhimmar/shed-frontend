@@ -19,8 +19,8 @@ export const Layout = observer(() => {
   };
 
   return (
-    <div className="flex h-[calc(100vh-64px)] z-10 ">
-      <div className="w-[190px] bg-gray-800 text-white flex flex-col items-start px-2 py-4">
+    <div className="flex h-[calc(100vh-64px)] z-10 ml-11  ">
+      <div className="w-[250px] bg-gray-800 text-white flex flex-col items-start px-2 py-4">
         <LayoutItem
           title="Plot"
           color="bg-[#FFFFFF]"
@@ -78,7 +78,7 @@ export const Layout = observer(() => {
           onToggleVisibility={() => uiStore.toggleVisibility("groundBeam")}
         />
       </div>
-      <div className=" flex flex-col  overflow-y-scroll h- w-[300px] ml-1 bg-white rounded shadow-xl  z-10 top-0 ">
+      <div className=" flex flex-col  overflow-y-scroll overflow-x-hidden h- w-[300px] ml-1 bg-white rounded shadow-xl  z-1 top-0 ">
         {uiStore.currentComponent === "plot" && <PlotInput />}
         {uiStore.currentComponent === "shade" && <Shade />}
         {uiStore.currentComponent === "baseplate" && <BaseplateInput />}
