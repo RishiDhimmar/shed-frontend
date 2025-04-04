@@ -2,6 +2,7 @@ import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { fetchWallData } from "../components/threeenv/inputs/Fetch";
 import { getRectanglePoints } from "../utils/GeometryUtils";
 import uiStore from "./UIStore";
+import baseplateStore from "./BasePlateStore";
 
 export class WallStore {
   width = 0;
@@ -144,6 +145,100 @@ export class WallStore {
     );
 
     this.setWallPoints(external, internal);
+  }
+
+  // generateWallPointsFromBaseplates() {
+  //   const basePlates = baseplateStore.basePlates;
+  //   if (basePlates.length === 0) return;
+
+  //   const config = baseplateStore.config;
+
+  //   // Step 1: Filter only corner plates
+  //   const cornerPlates = basePlates.filter((p) => p.type === "corner");
+  //   if (cornerPlates.length < 3) {
+  //     console.warn("Need at least 3 corner plates to define an inner wall");
+  //     return;
+  //   }
+
+  //   const maxX = cornerPlates.map((p) => p.x).reduce((a, b) => Math.max(a, b));
+  //   const minX = cornerPlates.map((p) => p.x).reduce((a, b) => Math.min(a, b));
+  //   const maxY = cornerPlates.map((p) => p.y).reduce((a, b) => Math.max(a, b));
+  //   const minY = cornerPlates.map((p) => p.y).reduce((a, b) => Math.min(a, b));
+
+  //   console.log(maxX, minX, maxY, minY);
+
+  //   const innerWallPoints = [
+  //     [minX, minY],
+  //     [maxX, minY],
+  //     [maxX, maxY],
+  //     [minX, maxY],
+  //   ];
+
+  //   wallStore.internalWallPoints = innerWallPoints
+
+  //   const externalWallPoints = [
+  //     [minX - this.wallThickness, minY - this.wallThickness],
+  //     [maxX + this.wallThickness, minY - this.wallThickness],
+  //     [maxX + this.wallThickness, maxY + this.wallThickness],
+  //     [minX - this.wallThickness, maxY + this.wallThickness],
+  //   ]
+
+  //   this.internalWallPoints = innerWallPoints
+  //   this.externalWallPoints = externalWallPoints
+  //   this.calculateThickness();
+  //   this.calculateDimensions();
+  // }
+
+  generateWallPointsFromBaseplates() {
+    const basePlates = baseplateStore.basePlates;
+    if (basePlates.length === 0) return;
+
+    const cornerConfig = baseplateStore.config.corner;
+
+    const cornerPlates = basePlates.filter((p) => p.type === "corner");
+    if (cornerPlates.length < 3) {
+      console.warn("Need at least 3 corner plates to define an inner wall");
+      return;
+    }
+
+    const allPoints = cornerPlates.flatMap((p) => p.points);
+
+    const xValues = allPoints.map((p) => p[0]);
+    const yValues = allPoints.map((p) => p[1]);
+
+    const minX = Math.min(...xValues);
+    const maxX = Math.max(...xValues);
+    const minY = Math.min(...yValues);
+    const maxY = Math.max(...yValues);
+
+    console.log("Wall bounds from corner plate points:", {
+      minX,
+      maxX,
+      minY,
+      maxY,
+    });
+
+    const innerWallPoints = [
+      [minX - (cornerConfig.offsetX ?? 0), minY - (cornerConfig.offsetY ?? 0)],
+      [maxX + (cornerConfig.offsetX ?? 0), minY - (cornerConfig.offsetY ?? 0)],
+      [maxX + (cornerConfig.offsetX ?? 0), maxY + (cornerConfig.offsetY ?? 0)],
+      [minX - (cornerConfig.offsetX ?? 0), maxY + (cornerConfig.offsetY ?? 0)],
+    ];
+
+    this.wallThickness = 0.5;
+
+    const externalWallPoints = [
+      [minX - this.wallThickness, minY - this.wallThickness],
+      [maxX + this.wallThickness, minY - this.wallThickness],
+      [maxX + this.wallThickness, maxY + this.wallThickness],
+      [minX - this.wallThickness, maxY + this.wallThickness],
+    ];
+
+    // Step 5: Set wall points and calculate values
+    this.externalWallPoints = externalWallPoints;
+    this.internalWallPoints = innerWallPoints;
+    this.calculateThickness();
+    this.calculateDimensions();
   }
 
   // Computed getters for inner dimensions without modifying other logic.

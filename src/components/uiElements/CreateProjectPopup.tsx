@@ -1,6 +1,11 @@
 import { useNavigate } from "react-router-dom";
+interface CreateProjectPopupProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-const CreateProjectPopup = ({ isOpen, onClose }) => {
+
+const CreateProjectPopup = ({ isOpen, onClose }: CreateProjectPopupProps) => {
   const navigate = useNavigate();
   if (!isOpen) return null;
 
