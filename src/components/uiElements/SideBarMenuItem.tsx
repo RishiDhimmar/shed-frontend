@@ -1,19 +1,3 @@
-// import React from "react";
-// import { MdMenu } from "react-icons/md";
-
-// function SideBarMenuItem() {
-//   return (
-//     <div className="flex items-center gap-2 p-2 text-center">
-//       <MdMenu className="text-white text-3xl cursor-pointer hover:bg-gray-600 rounded " />
-//       <div className="text-white text-center ">Home</div>
-//     </div>
-//   );
-// }
-
-// export default SideBarMenuItem;
-import React from "react";
-import { MdMenu } from "react-icons/md";
-
 function SideBarMenuItem({ isHovered, icon, label, onClick }) {
   return (
     <div
@@ -25,7 +9,7 @@ function SideBarMenuItem({ isHovered, icon, label, onClick }) {
 
       {/* Only the text fades in/out */}
       <div
-        className={`text-white text-center transition-all duration-500 transform ${
+        className={`text-white text-center  transition-all duration-500 transform whitespace-nowrap ${
           isHovered ? "opacity-100  w-auto" : "opacity-0  w-0"
         }`}
       >
