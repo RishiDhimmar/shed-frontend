@@ -130,18 +130,20 @@ const DimensionLine = observer(
       0,
     ];
 
+    console.log(lineColor, textColor);
+
     return (
       <>
-        {!uiStore.isDimensionsVisible && (
+        {uiStore.isDimensionsVisible && (
           <>
             <Line
               points={[startOffset, endOffset]}
-              color={lineColor}
+              color={"black"}
               lineWidth={1.5}
             />
 
             {/* Display the length label at variable offset */}
-            <Text position={textPosition} color={textColor} fontSize={textSize}>
+            <Text position={textPosition} color={"black"} fontSize={textSize}>
               {(length * 1000).toFixed().split(".")[0]}
             </Text>
           </>

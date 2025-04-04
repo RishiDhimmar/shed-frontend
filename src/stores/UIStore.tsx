@@ -21,7 +21,7 @@ class UIStore {
     mullionColumn: true,
     groundBeam: true,
   };
-  isDimensionsVisible : boolean = true;
+  isDimensionsVisible : boolean = false;
 
   isModified = false;
 

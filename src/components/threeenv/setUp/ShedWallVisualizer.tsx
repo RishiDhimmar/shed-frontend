@@ -98,7 +98,7 @@ const ShedWallVisualizer = observer(() => {
             textOffset={0.5}
             textSize={0.6}
           />
-          <DimensionLine
+          {/* <DimensionLine
             startPoint={
               wallStore.internalWallPoints[0] as [number, number, number]
             }
@@ -129,7 +129,7 @@ const ShedWallVisualizer = observer(() => {
             lineColor="#ff7f00"
             textOffset={0.5}
             textSize={0.6}
-          />
+          /> */}
         </>
       )}
     </>

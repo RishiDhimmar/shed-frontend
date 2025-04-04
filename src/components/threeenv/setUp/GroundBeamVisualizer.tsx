@@ -33,7 +33,7 @@ const GroundBeamVisualizer = observer(() => {
             textOffset={0.5}
             textSize={0.6}
           />
-          <DimensionLine
+          {/* <DimensionLine
             startPoint={
               wallStore.internalWallPoints[1] as [number, number, number]
             }
@@ -52,8 +52,8 @@ const GroundBeamVisualizer = observer(() => {
           <LineVisualizer
             points={wallStore.internalWallPoints}
             color="#00ffff"
-          />
-          <DimensionLine
+          /> */}
+          {/* <DimensionLine
             startPoint={
               wallStore.internalWallPoints[0] as [number, number, number]
             }
@@ -68,7 +68,7 @@ const GroundBeamVisualizer = observer(() => {
             lineColor="#00ffff"
             textOffset={0.5}
             textSize={0.6}
-          />
+          /> */}
 
           <DimensionLine
             startPoint={

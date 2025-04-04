@@ -14,16 +14,14 @@ export const GroundBeam = observer(() => {
           <InputNumber
             label="Length:"
             value={columnStore.cornerLength}
-            onChange={(newLength: number) => {
-              columnStore.setCornerLength(newLength);
+            onChange={() => {
+
             }}
           />
           <InputNumber
             label="width:"
             value={columnStore.cornerWidth}
-            onChange={(newHeight: number) =>
-              columnStore.setCornerWidth(newHeight)
-            }
+            onChange={() => {}}
           />
         </div>
 
@@ -32,16 +30,12 @@ export const GroundBeam = observer(() => {
           <InputNumber
             label="#"
             value={columnStore.verticalLength}
-            onChange={(newLength: number) => {
-              columnStore.setVerticalLength(newLength);
-            }}
+            onChange={() => {}}
           />
           <InputNumber
             label="C/C"
             value={columnStore.verticalWidth}
-            onChange={(newHeight: number) =>
-              columnStore.setVerticalWidth(newHeight)
-            }
+            onChange={() => {}}
           />
         </div>
         <h1 className="text-md font-semi-Bold">Main Ref </h1>
@@ -49,16 +43,12 @@ export const GroundBeam = observer(() => {
           <InputNumber
             label="#"
             value={columnStore.verticalLength}
-            onChange={(newLength: number) => {
-              columnStore.setVerticalLength(newLength);
-            }}
+            onChange={() => {}}
           />
           <InputNumber
             label="C/C"
             value={columnStore.verticalWidth}
-            onChange={(newHeight: number) =>
-              columnStore.setVerticalWidth(newHeight)
-            }
+            onChange={() => {}}
           />
         </div>
       </form>

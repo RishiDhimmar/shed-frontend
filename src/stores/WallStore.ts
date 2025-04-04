@@ -146,49 +146,6 @@ export class WallStore {
 
     this.setWallPoints(external, internal);
   }
-
-  // generateWallPointsFromBaseplates() {
-  //   const basePlates = baseplateStore.basePlates;
-  //   if (basePlates.length === 0) return;
-
-  //   const config = baseplateStore.config;
-
-  //   // Step 1: Filter only corner plates
-  //   const cornerPlates = basePlates.filter((p) => p.type === "corner");
-  //   if (cornerPlates.length < 3) {
-  //     console.warn("Need at least 3 corner plates to define an inner wall");
-  //     return;
-  //   }
-
-  //   const maxX = cornerPlates.map((p) => p.x).reduce((a, b) => Math.max(a, b));
-  //   const minX = cornerPlates.map((p) => p.x).reduce((a, b) => Math.min(a, b));
-  //   const maxY = cornerPlates.map((p) => p.y).reduce((a, b) => Math.max(a, b));
-  //   const minY = cornerPlates.map((p) => p.y).reduce((a, b) => Math.min(a, b));
-
-  //   console.log(maxX, minX, maxY, minY);
-
-  //   const innerWallPoints = [
-  //     [minX, minY],
-  //     [maxX, minY],
-  //     [maxX, maxY],
-  //     [minX, maxY],
-  //   ];
-
-  //   wallStore.internalWallPoints = innerWallPoints
-
-  //   const externalWallPoints = [
-  //     [minX - this.wallThickness, minY - this.wallThickness],
-  //     [maxX + this.wallThickness, minY - this.wallThickness],
-  //     [maxX + this.wallThickness, maxY + this.wallThickness],
-  //     [minX - this.wallThickness, maxY + this.wallThickness],
-  //   ]
-
-  //   this.internalWallPoints = innerWallPoints
-  //   this.externalWallPoints = externalWallPoints
-  //   this.calculateThickness();
-  //   this.calculateDimensions();
-  // }
-
   generateWallPointsFromBaseplates() {
     const basePlates = baseplateStore.basePlates;
     if (basePlates.length === 0) return;

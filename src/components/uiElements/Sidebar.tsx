@@ -36,7 +36,7 @@ const Sidebar = observer(() => {
 
   return (
     <div
-      className={`bg-gray-700 flex flex-col py-4 p-1 absolute z-20 top-16 left-0 h-screen transition-[width] duration-500 ${
+      className={`bg-gray-700 flex flex-col py-4 p-1 absolute z-20 top-16 left-0 h-[calc(100vh-64px)] transition-[width] duration-500 ${
         isHovered ? "w-[300px]" : "w-[50px]"
       }`}
       onMouseEnter={() => setIsHovered(true)}
