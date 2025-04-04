@@ -65,6 +65,7 @@
 
 import { Line, Text } from "@react-three/drei";
 import { observer } from "mobx-react-lite";
+import uiStore from "../../../stores/UIStore";
 
 interface DimensionLineProps {
   startPoint: [number, number, number];
@@ -131,19 +132,23 @@ const DimensionLine = observer(
 
     return (
       <>
-        {/* Draw the offset dimension line */}
-        <Line
-          points={[startOffset, endOffset]}
-          color={lineColor}
-          lineWidth={1.5}
-        />
+        {!uiStore.isDimensionsVisible && (
+          <>
+            <Line
+              points={[startOffset, endOffset]}
+              color={lineColor}
+              lineWidth={1.5}
+            />
 
-      {/* Display the length label at variable offset */}
-      <Text position={textPosition} color={textColor} fontSize={textSize}>
-        {(length*1000).toFixed().split('.')[0]}
-      </Text>
-    </>
-  );
-});
+            {/* Display the length label at variable offset */}
+            <Text position={textPosition} color={textColor} fontSize={textSize}>
+              {(length * 1000).toFixed().split(".")[0]}
+            </Text>
+          </>
+        )}
+      </>
+    );
+  }
+);
 
 export default DimensionLine;

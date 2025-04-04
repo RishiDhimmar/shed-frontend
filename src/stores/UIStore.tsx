@@ -21,6 +21,7 @@ class UIStore {
     mullionColumn: true,
     groundBeam: true,
   };
+  isDimensionsVisible : boolean = true;
 
   isModified = false;
 
@@ -34,6 +35,14 @@ class UIStore {
 
   toggleVisibility(component: keyof typeof this.visibility) {
     this.visibility[component] = !this.visibility[component];
+  }
+
+  setDimensionsVisibility(visible: boolean) {
+    this.isDimensionsVisible = visible;
+  }
+
+  toggleDimensionsVisibility() {
+    this.isDimensionsVisible = !this.isDimensionsVisible;
   }
 
   setModified(modified: boolean) {
