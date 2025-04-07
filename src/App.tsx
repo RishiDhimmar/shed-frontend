@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Navbar from "./components/uiElements/Navbar";
 import uiStore from "./stores/UIStore";
 import { Outlet } from "react-router-dom";
+import "react-tooltip/dist/react-tooltip.css";
 
 function App() {
   useEffect(() => {
