@@ -424,17 +424,11 @@ export class ColumnStore {
         ],
         [
           x - effectiveLength - widthOffset,
-          y +
-            plateConfig.width / 2 +
-            (plateConfig.offsetY ?? 0) +
-            this.verticalLength,
+          y + plateConfig.width / 2 + this.verticalLength,
         ],
         [
           x + effectiveLength + widthOffset,
-          y +
-            plateConfig.width / 2 +
-            (plateConfig.offsetY ?? 0) +
-            this.verticalLength,
+          y + plateConfig.width / 2 + this.verticalLength,
         ],
         [
           x + effectiveLength + widthOffset,

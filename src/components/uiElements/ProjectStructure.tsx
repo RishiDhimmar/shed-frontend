@@ -6,6 +6,7 @@ import Upload from "../../utils/Upload";
 import { Assumptions } from "../threeenv/Helpers/Assumptions";
 import Info from "../../utils/Info";
 import Sidebar from "./Sidebar";
+import ExportDxf from "./ExportDxf";
 
 function ProjectStructure() {
   return (
@@ -25,6 +26,7 @@ function ProjectStructure() {
             <Upload />
           </div>
           <Assumptions />
+          <ExportDxf />
         </div>
         <Info />
       </div>

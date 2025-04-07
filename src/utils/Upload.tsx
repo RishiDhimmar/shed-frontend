@@ -33,15 +33,16 @@ export default function Upload() {
         jsonData.baseplate.idealHorizontalDistance
       );
       baseplateStore.setIdealVerticalDistance(
-        jsonData.baseplat.e.idealVerticalDistance
+        jsonData.baseplate.idealVerticalDistance
       );
-
-      columnStore.setColumns(jsonData.column.columns);
+      console.log(jsonData.column.columns)
       columnStore.setHorizontalLength(jsonData.column.horizontalLength);
       columnStore.setHorizontalWidth(jsonData.column.horizontalWidth);
       columnStore.setCornerLength(jsonData.column.cornerLength);
       columnStore.setCornerWidth(jsonData.column.cornerWidth);
       columnStore.setVerticalLength(jsonData.column.verticalLength);
+      columnStore.setVerticalWidth(jsonData.column.verticalWidth);
+      columnStore.setColumns(jsonData.column.columns);
 
       foundationStore.foundations = jsonData.foundation.foundations;
       foundationStore.values = jsonData.foundation.values;
