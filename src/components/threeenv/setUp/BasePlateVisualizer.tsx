@@ -1,11 +1,13 @@
 import { observer } from "mobx-react-lite";
 import baseplateStore from "../../../stores/BasePlateStore";
 import LineVisualizer from "../Helpers/LineVisualizerProps";
-import DimensionLine from "../Helpers/DimensionLine";
 import uiStore from "../../../stores/UIStore";
+import DimensionLine from "../Helpers/DimensionLine";
+// import TestComp from "./testComp";
 
 const BasePlateVisualizer = observer(() => (
   <>
+    {/* {<TestComp />} */}
     {baseplateStore.basePlates.map((baseplate) => (
       <>
         <LineVisualizer
@@ -16,6 +18,7 @@ const BasePlateVisualizer = observer(() => (
 
         {uiStore.currentComponent === "baseplate" && (
           <>
+          {console.log(baseplate.points)}
             <DimensionLine
               startPoint={baseplate.points[0] as [number, number, number]}
               endPoint={baseplate.points[1] as [number, number, number]}

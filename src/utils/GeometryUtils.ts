@@ -9,7 +9,7 @@ export const getRectanglePoints = (
   center: [number, number] = [0, 0]
 ): number[][] => {
   const [cx, cy] = center;
-
+  // debugger
   if (!length || !width) {
     console.log("Invalid width and length values : ", length, width);
     return [];

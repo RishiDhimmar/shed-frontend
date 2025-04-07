@@ -147,6 +147,7 @@ export class WallStore {
     this.setWallPoints(external, internal);
   }
   generateWallPointsFromBaseplates() {
+    // debugger
     const basePlates = baseplateStore.basePlates;
     if (basePlates.length === 0) return;
 
