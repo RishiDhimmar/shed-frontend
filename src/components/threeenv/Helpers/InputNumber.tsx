@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { IoMdInformationCircleOutline } from "react-icons/io";
-
+import { Tooltip } from "react-tooltip";
 interface InputNumberProps {
   label: string;
   value: number;
   onChange: (value: number) => void;
-  infoText?: string; // Optional prop for info tooltip text
+  infoText?: string;
 }
 
 const InputNumber: React.FC<InputNumberProps> = ({
@@ -60,20 +60,27 @@ const InputNumber: React.FC<InputNumberProps> = ({
     <div className="mb-4 flex flex-col relative">
       <div className="flex justify-between items-center">
         <label className="font-poppins text-xs text-gray-500">{label}</label>
-        <div className="relative group flex items-center">
-          <IoMdInformationCircleOutline className="w-4 h-4 cursor-pointer" />
-          <div className="absolute top-full left-0 mt-1 w-15 p-2 text-xs text-white bg-gray-800 rounded-md shadow-lg z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-            {infoText}
-          </div>
+        <div>
+          <IoMdInformationCircleOutline
+            className="w-4 h-4 text-gray-500 cursor-pointer"
+            data-tooltip-id="info-tooltip"
+            data-tooltip-content={infoText}
+            data-tooltip-place="top"
+          />
+          <Tooltip
+            id="info-tooltip"
+            className="!text-sm !font-poppins !w-32 !p-1  !bg-gray-600"
+          />
         </div>
       </div>
+
       <input
         ref={inputRef}
         type="number"
         value={displayValue}
         step={100}
         onChange={handleChange}
-        className="w-full p-3 py-1 border font-poppins border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1"
+        className="w-full p-3 py-1  border font-poppins border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1"
         min={0}
       />
     </div>
