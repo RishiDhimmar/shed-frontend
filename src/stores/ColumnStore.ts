@@ -22,8 +22,28 @@ export class ColumnStore {
 
   columns: Column[] = [];
 
+  // Store previous valid values to revert in case of overlap
+  previousValues = {
+    cornerWidth: 0,
+    cornerLength: 0,
+    horizontalWidth: 0,
+    horizontalLength: 0,
+    verticalWidth: 0,
+    verticalLength: 0,
+  };
+
   constructor() {
     makeAutoObservable(this, {}, { autoBind: true });
+
+    // Initialize previous values
+    this.previousValues = {
+      cornerWidth: this.cornerWidth,
+      cornerLength: this.cornerLength,
+      horizontalWidth: this.horizontalWidth,
+      horizontalLength: this.horizontalLength,
+      verticalWidth: this.verticalWidth,
+      verticalLength: this.verticalLength,
+    };
 
     reaction(
       () => [
@@ -34,53 +54,188 @@ export class ColumnStore {
     );
   }
 
-  // Setter methods
+  // Helper method to check if two polygons overlap
+  checkOverlap(rect1: number[][], rect2: number[][]): boolean {
+    // Get bounding boxes for quick overlap check
+    const rect1BBox = this.getBoundingBox(rect1);
+    const rect2BBox = this.getBoundingBox(rect2);
+
+    // Check if bounding boxes overlap
+    if (
+      rect1BBox.maxX < rect2BBox.minX ||
+      rect1BBox.minX > rect2BBox.maxX ||
+      rect1BBox.maxY < rect2BBox.minY ||
+      rect1BBox.minY > rect2BBox.maxY
+    ) {
+      return false; // No overlap
+    }
+
+    // If bounding boxes overlap, we have an overlap
+    return true;
+  }
+
+  // Helper to get bounding box of a polygon
+  getBoundingBox(points: number[][]) {
+    const xs = points.map((p) => p[0]);
+    const ys = points.map((p) => p[1]);
+
+    return {
+      minX: Math.min(...xs),
+      maxX: Math.max(...xs),
+      minY: Math.min(...ys),
+      maxY: Math.max(...ys),
+    };
+  }
+
+  // Modified setter methods with overlap prevention
   setCornerWidth(newWidth: number) {
+    this.previousValues.cornerWidth = this.cornerWidth;
+
     runInAction(() => {
       this.cornerWidth = newWidth;
       uiStore.setModified(true);
     });
-    this.generateColumns();
+
+    const hasOverlap = this.generateColumns();
+
+    if (hasOverlap) {
+      runInAction(() => {
+        this.cornerWidth = this.previousValues.cornerWidth;
+      });
+
+      this.generateColumns();
+      console.warn("Column width change reverted due to overlap");
+      alert("Cannot increase size: This would cause columns to overlap");
+
+      return false;
+    }
+
+    return true;
   }
 
   setCornerLength(newLength: number) {
+    this.previousValues.cornerLength = this.cornerLength;
+
     runInAction(() => {
       this.cornerLength = newLength;
       uiStore.setModified(true);
     });
-    this.generateColumns();
+
+    const hasOverlap = this.generateColumns();
+
+    if (hasOverlap) {
+      runInAction(() => {
+        this.cornerLength = this.previousValues.cornerLength;
+      });
+
+      this.generateColumns();
+      console.warn("Column length change reverted due to overlap");
+      alert("Cannot increase size: This would cause columns to overlap");
+
+      return false;
+    }
+
+    return true;
   }
 
   setHorizontalWidth(newWidth: number) {
+    this.previousValues.horizontalWidth = this.horizontalWidth;
+
     runInAction(() => {
       this.horizontalWidth = newWidth;
       uiStore.setModified(true);
     });
-    this.generateColumns();
+
+    const hasOverlap = this.generateColumns();
+
+    if (hasOverlap) {
+      runInAction(() => {
+        this.horizontalWidth = this.previousValues.horizontalWidth;
+      });
+
+      this.generateColumns();
+      console.warn("Column width change reverted due to overlap");
+      alert("Cannot increase size: This would cause columns to overlap");
+
+      return false;
+    }
+
+    return true;
   }
 
   setHorizontalLength(newLength: number) {
+    this.previousValues.horizontalLength = this.horizontalLength;
+
     runInAction(() => {
       this.horizontalLength = newLength;
       uiStore.setModified(true);
     });
-    this.generateColumns();
+
+    const hasOverlap = this.generateColumns();
+
+    if (hasOverlap) {
+      runInAction(() => {
+        this.horizontalLength = this.previousValues.horizontalLength;
+      });
+
+      this.generateColumns();
+      console.warn("Column length change reverted due to overlap");
+      alert("Cannot increase size: This would cause columns to overlap");
+
+      return false;
+    }
+
+    return true;
   }
 
   setVerticalWidth(newWidth: number) {
+    this.previousValues.verticalWidth = this.verticalWidth;
+
     runInAction(() => {
       this.verticalWidth = newWidth;
       uiStore.setModified(true);
     });
-    this.generateColumns();
+
+    const hasOverlap = this.generateColumns();
+
+    if (hasOverlap) {
+      runInAction(() => {
+        this.verticalWidth = this.previousValues.verticalWidth;
+      });
+
+      this.generateColumns();
+      console.warn("Column width change reverted due to overlap");
+      alert("Cannot increase size: This would cause columns to overlap");
+
+      return false;
+    }
+
+    return true;
   }
 
   setVerticalLength(newLength: number) {
+    this.previousValues.verticalLength = this.verticalLength;
+
     runInAction(() => {
       this.verticalLength = newLength;
       uiStore.setModified(true);
     });
-    this.generateColumns();
+
+    const hasOverlap = this.generateColumns();
+
+    if (hasOverlap) {
+      runInAction(() => {
+        this.verticalLength = this.previousValues.verticalLength;
+      });
+
+      this.generateColumns();
+      console.warn("Column length change reverted due to overlap");
+      alert("Cannot increase size: This would cause columns to overlap");
+
+      return false;
+    }
+
+    return true;
   }
 
   setColumns(newColumns: Column[]) {
@@ -351,8 +506,8 @@ export class ColumnStore {
     );
   }
 
-  // Main method to generate all columns
-  generateColumns() {
+  // Main method to generate all columns - now returns boolean to indicate if there's an overlap
+  generateColumns(): boolean {
     const { hasRequiredPlates, hasWallPoints, platesByType } =
       this.checkPrerequisites();
 
@@ -360,40 +515,130 @@ export class ColumnStore {
       runInAction(() => {
         this.columns = [];
       });
-      return;
+      return false;
     }
 
     const newColumns: Column[] = [];
     const { wallThickness } = wallStore;
     const wallPoints = wallStore.externalWallPoints;
+    let hasOverlap = false;
 
     // Generate corner columns
     if (platesByType.corner.length > 0) {
-      newColumns.push(
-        ...this.generateCornerColumns(platesByType.corner, wallPoints)
+      const cornerColumns = this.generateCornerColumns(
+        platesByType.corner,
+        wallPoints
       );
+
+      // Check for overlap among corner columns
+      for (let i = 0; i < cornerColumns.length; i++) {
+        for (let j = i + 1; j < cornerColumns.length; j++) {
+          if (
+            this.checkOverlap(cornerColumns[i].points, cornerColumns[j].points)
+          ) {
+            hasOverlap = true;
+            break;
+          }
+        }
+        if (hasOverlap) break;
+      }
+
+      // Only add corner columns if there's no overlap
+      if (!hasOverlap) {
+        newColumns.push(...cornerColumns);
+      }
     }
 
-    // Generate horizontal columns
-    platesByType.horizontal.forEach((plate) => {
-      const plateConfig = baseplateStore.config[plate.type];
-      newColumns.push(
-        this.createHorizontalColumn(plate, plateConfig, wallThickness)
-      );
-    });
+    // If there's no overlap with corner columns, proceed with horizontal columns
+    if (!hasOverlap) {
+      // Generate horizontal columns
+      const horizontalColumns: Column[] = [];
+      platesByType.horizontal.forEach((plate) => {
+        const plateConfig = baseplateStore.config[plate.type];
+        const column = this.createHorizontalColumn(
+          plate,
+          plateConfig,
+          wallThickness
+        );
+        horizontalColumns.push(column);
+      });
 
-    // Generate vertical columns
-    platesByType.vertical.forEach((plate) => {
-      const plateConfig = baseplateStore.config[plate.type];
-      newColumns.push(
-        this.createVerticalColumn(plate, plateConfig, wallThickness)
-      );
-    });
+      // Check for overlaps among all columns
+      for (const column of horizontalColumns) {
+        let columnOverlaps = false;
 
-    // Update the store with the new columns
-    runInAction(() => {
-      this.columns = newColumns;
-    });
+        // Check against existing columns
+        for (const existingColumn of newColumns) {
+          if (this.checkOverlap(column.points, existingColumn.points)) {
+            columnOverlaps = true;
+            hasOverlap = true;
+            break;
+          }
+        }
+
+        // Check against other horizontal columns
+        if (!columnOverlaps) {
+          for (const existingHColumn of horizontalColumns) {
+            if (
+              column.id !== existingHColumn.id &&
+              this.checkOverlap(column.points, existingHColumn.points)
+            ) {
+              columnOverlaps = true;
+              hasOverlap = true;
+              break;
+            }
+          }
+        }
+
+        // Add column if no overlap
+        if (!columnOverlaps) {
+          newColumns.push(column);
+        }
+      }
+    }
+
+    // If there's still no overlap, proceed with vertical columns
+    if (!hasOverlap) {
+      // Generate vertical columns
+      const verticalColumns: Column[] = [];
+      platesByType.vertical.forEach((plate) => {
+        const plateConfig = baseplateStore.config[plate.type];
+        const column = this.createVerticalColumn(
+          plate,
+          plateConfig,
+          wallThickness
+        );
+        verticalColumns.push(column);
+      });
+
+      // Check for overlaps among all columns
+      for (const column of verticalColumns) {
+        let columnOverlaps = false;
+
+        // Check against existing columns
+        for (const existingColumn of newColumns) {
+          if (this.checkOverlap(column.points, existingColumn.points)) {
+            columnOverlaps = true;
+            hasOverlap = true;
+            break;
+          }
+        }
+
+        // Add column if no overlap
+        if (!columnOverlaps) {
+          newColumns.push(column);
+        }
+      }
+    }
+
+    // Update the store with the new columns if there's no overlap
+    if (!hasOverlap) {
+      runInAction(() => {
+        this.columns = newColumns;
+      });
+    }
+
+    return hasOverlap;
   }
 }
 
