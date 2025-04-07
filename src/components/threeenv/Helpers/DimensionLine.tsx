@@ -65,6 +65,12 @@ const DimensionLine = observer(
       0,
     ];
 
+    // Determine rotation: vertical lines need 90deg (PI/2 rad)
+    const isVertical = lineDirection === "+y" || lineDirection === "-y";
+    const textRotation: [number, number, number] = isVertical
+      ? [0, 0, 0]
+      : [0, 0, Math.PI / 2];
+
     console.log(lineColor, textColor);
 
     return (
@@ -78,7 +84,12 @@ const DimensionLine = observer(
             />
 
             {/* Display the length label at variable offset */}
-            <Text position={textPosition} color={"black"} fontSize={textSize}>
+            <Text
+              position={textPosition}
+              color={"black"}
+              fontSize={textSize}
+              rotation={textRotation}
+            >
               {(length * 1000).toFixed().split(".")[0]}
             </Text>
           </>

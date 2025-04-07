@@ -95,7 +95,7 @@ const ShedWallVisualizer = observer(() => {
             textDirection="-x"
             textColor="#ff7f00"
             lineColor="#ff7f00"
-            textOffset={0.5}
+            textOffset={-0.6}
             textSize={0.6}
           />
           {/* <DimensionLine
