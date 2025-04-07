@@ -50,6 +50,7 @@ const ColumnVisualizer = observer(() => {
                   textSize={0.5}
                   lineOffset={1}
                 />
+
                 <DimensionLine
                   startPoint={column.points[1] as [number, number, number]}
                   endPoint={column.points[2] as [number, number, number]}

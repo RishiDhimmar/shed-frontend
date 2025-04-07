@@ -91,10 +91,9 @@
 //       };
 //       uiStore.setModified(true);
 //     });
-  
+
 //     this.generateFoundations();
 //   }
-  
 
 //   generateFoundations() {
 //     const newFoundations: Foundation[] = [];
@@ -157,9 +156,6 @@
 
 // const foundationStore = new FoundationStore();
 // export default foundationStore;
-
-
-
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { v4 as uuidv4 } from "uuid";
 import columnStore from "./ColumnStore";
@@ -229,8 +225,26 @@ class FoundationStore {
 
   foundations: Foundation[] = [];
 
+  // Store previous valid parameter values to revert in case of overlap
+  previousValues: Record<FoundationType, Record<string, number>> = {
+    corner: {},
+    horizontal: {},
+    vertical: {},
+  };
+
   constructor() {
     makeAutoObservable(this);
+
+    // Initialize previousValues with current values
+    Object.keys(this.values).forEach((type) => {
+      const foundationType = type as FoundationType;
+      Object.keys(this.values[foundationType]).forEach((key) => {
+        this.previousValues[foundationType][key] =
+          this.values[foundationType][
+            key as keyof (typeof this.values)[FoundationType]
+          ];
+      });
+    });
 
     reaction(
       () => [columnStore.columns.slice(), this.values],
@@ -243,6 +257,9 @@ class FoundationStore {
     key: keyof (typeof this.values)["corner"],
     value: number
   ) {
+    // Store the previous value before making changes
+    this.previousValues[type][key] = this.values[type][key];
+
     runInAction(() => {
       this.values = {
         ...this.values,
@@ -253,18 +270,74 @@ class FoundationStore {
       };
       uiStore.setModified(true);
     });
-  
-    this.generateFoundations();
-  }
-  
 
-  generateFoundations() {
+    // Generate foundations with new parameters and check for overlaps
+    const hasOverlap = this.generateFoundations();
+
+    // If overlap detected, revert to previous value
+    if (hasOverlap) {
+      runInAction(() => {
+        this.values = {
+          ...this.values,
+          [type]: {
+            ...this.values[type],
+            [key]: this.previousValues[type][key],
+          },
+        };
+      });
+
+      // Regenerate foundations with reverted parameters
+      this.generateFoundations();
+
+      // Show warning to user
+      console.warn(`Parameter change reverted due to foundation overlap`);
+      alert("Cannot increase size: This would cause foundations to overlap");
+
+      return false;
+    }
+
+    return true;
+  }
+
+  // Check if two foundations overlap
+  checkOverlap(rect1: number[][], rect2: number[][]): boolean {
+    // Get bounding boxes for quick overlap check
+    const rect1BBox = this.getBoundingBox(rect1);
+    const rect2BBox = this.getBoundingBox(rect2);
+
+    // Check if bounding boxes overlap
+    if (
+      rect1BBox.maxX < rect2BBox.minX ||
+      rect1BBox.minX > rect2BBox.maxX ||
+      rect1BBox.maxY < rect2BBox.minY ||
+      rect1BBox.minY > rect2BBox.maxY
+    ) {
+      return false; // No overlap
+    }
+
+    // If bounding boxes overlap, we have an overlap
+    return true;
+  }
+
+  // Helper to get bounding box of a polygon
+  getBoundingBox(points: number[][]) {
+    const xs = points.map((p) => p[0]);
+    const ys = points.map((p) => p[1]);
+
+    return {
+      minX: Math.min(...xs),
+      maxX: Math.max(...xs),
+      minY: Math.min(...ys),
+      maxY: Math.max(...ys),
+    };
+  }
+
+  generateFoundations(): boolean {
     const newFoundations: Foundation[] = [];
+    let hasOverlap = false;
 
     columnStore.columns.forEach((column) => {
-      // if (!column.points || column.points.length < 4) return;
-
-      // Compute the bounding box and center of the column
+      // Calculate points for the column
       const xs = column.points.map((p) => p[0]);
       const ys = column.points.map((p) => p[1]);
       const minX = Math.min(...xs);
@@ -305,13 +378,32 @@ class FoundationStore {
         [center[0] - rect2Width / 2, center[1] - rect2Height / 2, center[2]], // Close the loop
       ];
 
-      newFoundations.push({ id: uuidv4(), points: foundationPoints1 });
-      newFoundations.push({ id: uuidv4(), points: foundationPoints2 });
+      // Check for overlap with existing foundations
+      for (const foundation of newFoundations) {
+        if (
+          this.checkOverlap(foundationPoints1, foundation.points) ||
+          this.checkOverlap(foundationPoints2, foundation.points)
+        ) {
+          hasOverlap = true;
+          break;
+        }
+      }
+
+      // Only add new foundations if there's no overlap
+      if (!hasOverlap) {
+        newFoundations.push({ id: uuidv4(), points: foundationPoints1 });
+        newFoundations.push({ id: uuidv4(), points: foundationPoints2 });
+      }
     });
 
-    runInAction(() => {
-      this.foundations = newFoundations;
-    });
+    // Update store only if there's no overlap
+    if (!hasOverlap) {
+      runInAction(() => {
+        this.foundations = newFoundations;
+      });
+    }
+
+    return hasOverlap;
   }
 }
 
