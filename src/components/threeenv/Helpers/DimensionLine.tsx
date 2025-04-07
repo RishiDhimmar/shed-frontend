@@ -20,8 +20,6 @@ const DimensionLine = observer(
     startPoint,
     endPoint,
     length,
-    lineColor = "#ff0000",
-    textColor = "#ffffff",
     lineDirection,
     lineOffset = 0.5,
     textDirection,

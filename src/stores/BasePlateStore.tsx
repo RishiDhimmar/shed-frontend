@@ -362,7 +362,7 @@ import foundationStore from "./FoundationStore";
 
 export type BaseplateType = "corner" | "horizontal" | "vertical";
 
-export type WallType = "left" | "right" | "top" | "bottom";
+export type WallType = "left" | "right" | "top" | "bottom" | "top-left" | "top-right" | "bottom-left" | "bottom-right";
 
 export interface Baseplate {
   id: string;
@@ -733,28 +733,28 @@ class BaseplateStore {
         topLeft[0] + length / 2 + offsetX,
         topLeft[1] - width / 2 - offsetY,
         "corner",
-        null
+        "top-left"
       ),
       // Top right corner
       this.createBaseplate(
         topRight[0] - length / 2 - offsetX,
         topRight[1] - width / 2 - offsetY,
         "corner",
-        null
+        "top-right"
       ),
       // Bottom right corner
       this.createBaseplate(
         bottomRight[0] - length / 2 - offsetX,
         bottomRight[1] + width / 2 + offsetY,
         "corner",
-        null
+        "bottom-right"
       ),
       // Bottom left corner
       this.createBaseplate(
         bottomLeft[0] + length / 2 + offsetX,
         bottomLeft[1] + width / 2 + offsetY,
         "corner",
-        null
+        "bottom-left"
       ),
     ];
   }
