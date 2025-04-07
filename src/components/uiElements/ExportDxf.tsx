@@ -1,5 +1,4 @@
 import { toJS } from "mobx";
-import React from "react";
 import basePlotStore from "../../stores/BasePlotStore";
 import wallStore from "../../stores/WallStore";
 import baseplateStore from "../../stores/BasePlateStore";
