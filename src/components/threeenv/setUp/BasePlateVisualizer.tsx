@@ -3,11 +3,9 @@ import baseplateStore from "../../../stores/BasePlateStore";
 import LineVisualizer from "../Helpers/LineVisualizerProps";
 import uiStore from "../../../stores/UIStore";
 import DimensionLine from "../Helpers/DimensionLine";
-// import TestComp from "./testComp";
 
 const BasePlateVisualizer = observer(() => (
   <>
-    {/* {<TestComp />} */}
     {baseplateStore.basePlates.map((baseplate) => (
       <>
         <LineVisualizer

@@ -43,5 +43,5 @@ export class BasePlotStore {
     }
   }
 }
-const basePlotStore = new BasePlotStore(35, 40);
+const basePlotStore = new BasePlotStore(50, 55);
 export default basePlotStore;

@@ -2,6 +2,8 @@ import { useRef } from "react";
 import wallStore from "../stores/WallStore";
 import { BACKEND_URL } from "../Constants";
 import baseplateStore from "../stores/BasePlateStore";
+import processBaseplates from "./processBaseplateDXFData";
+
 
 export const Import = () => {
   const shadeInputRef = useRef<HTMLInputElement | null>(null);
@@ -38,30 +40,43 @@ export const Import = () => {
     const file = e.target.files[0];
     if (!file) return;
   
+    const formData = new FormData();
+    formData.append("dxfFile", file);
+  
     try {
-      const text = await file.text();
-      const jsonData = await JSON.parse(text);
+      const response = await fetch(
+        "http://ec2-13-201-98-117.ap-south-1.compute.amazonaws.com:3000/api/upload-dxf",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
   
-      // Feed the values into the baseplate store
-      if (jsonData.config) {
-        baseplateStore.setBasePlateConfig(jsonData.config);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
-      if (typeof jsonData.idealHorizontalDistance === "number") {
-        baseplateStore.setIdealHorizontalDistance(jsonData.idealHorizontalDistance);
-      }
-      if (typeof jsonData.idealVerticalDistance === "number") {
-        baseplateStore.setIdealVerticalDistance(jsonData.idealVerticalDistance);
-      }
-      if (Array.isArray(jsonData.basePlates)) {
-        baseplateStore.setBasePlates(jsonData.basePlates);
-      }
-      wallStore.generateWallPointsFromBaseplates()
   
-      console.log("✅ Baseplate JSON imported:", jsonData);
+      const jsonData = await response.json();
+      console.log(jsonData);
+  
+      // Clean up previous baseplates
+      baseplateStore.clearBaseplates(); // ✅ clear the previous baseplates before processing
+      wallStore.clearWallData();        // ✅ if needed, clear walls too
+  
+      processBaseplates(jsonData);
+  
+      console.log("✅ Baseplate JSON imported via API:", jsonData);
     } catch (error) {
-      console.error("❌ Error parsing baseplate JSON file:", error);
+      console.error("❌ Error uploading baseplate JSON file:", error);
+    } finally {
+      // reset file input
+      if (baseplateInputRef.current) {
+        baseplateInputRef.current.value = "";
+      }
     }
   };
+  
+  
   
 
   return (
@@ -78,7 +93,7 @@ export const Import = () => {
         type="file"
         ref={baseplateInputRef}
         className="hidden"
-        accept=".json"
+        accept=".dxf"
         onChange={handleBaseplateJsonChange}
       />
 
@@ -100,3 +115,4 @@ export const Import = () => {
     </div>
   );
 };
+
