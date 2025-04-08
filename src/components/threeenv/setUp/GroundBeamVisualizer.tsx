@@ -1,6 +1,7 @@
 import uiStore from "../../../stores/UIStore";
 import wallStore from "../../../stores/WallStore";
 import DimensionLine from "../Helpers/DimensionLine";
+import HatchingLines from "../Helpers/HatchingLines";
 import LineVisualizer from "../Helpers/LineVisualizerProps";
 import { observer } from "mobx-react-lite";
 
@@ -14,6 +15,16 @@ const GroundBeamVisualizer = observer(() => {
   return (
     <>
       <LineVisualizer points={wallStore.externalWallPoints} color="#00ffff" />
+      <LineVisualizer points={wallStore.internalWallPoints} color="#00ffff" />
+      <HatchingLines
+        outerPolygon={wallStore.externalWallPoints.map(([x, y]) => [x, y])}
+        innerPolygon={wallStore.internalWallPoints.map(([x, y]) => [x, y])}
+        spacing={0.2}
+        angle={45}
+        color="#00ffff"
+        lineWidth={0.7}
+        depthOffset={0.01}
+      />
 
       {uiStore.currentComponent === "groundBeam" && (
         <>

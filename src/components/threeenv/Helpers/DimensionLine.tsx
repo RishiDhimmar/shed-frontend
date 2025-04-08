@@ -69,8 +69,6 @@ const DimensionLine = observer(
       ? [0, 0, 0]
       : [0, 0, Math.PI / 2];
 
-    console.log(lineColor, textColor);
-
     return (
       <>
         {uiStore.isDimensionsVisible && (
