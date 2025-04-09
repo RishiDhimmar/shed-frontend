@@ -11,6 +11,7 @@ export type currentComponentType =
 
 class UIStore {
   currentComponent: currentComponentType = "plot";
+  isSidebarOpen = false;
   // Set initial visibility: true means visible.
   visibility = {
     plot: true,
@@ -21,12 +22,14 @@ class UIStore {
     mullionColumn: true,
     groundBeam: true,
   };
-  isDimensionsVisible : boolean = false;
+  isDimensionsVisible: boolean = false;
 
   isModified = false;
 
   screenshotFn: () => void = () => {};
-  pdfExportFn: () => void = () => {console.log("first")};
+  pdfExportFn: () => void = () => {
+    console.log("first");
+  };
 
   constructor() {
     makeAutoObservable(this);
@@ -53,12 +56,20 @@ class UIStore {
   }
 
   setScreenshotFn(fn: () => void) {
-    console.log("hii")
+    console.log("hii");
     this.screenshotFn = fn;
   }
 
   setPdfExportFn(fn: () => void) {
     this.pdfExportFn = fn;
+  }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  setSidebarOpen(open: boolean) {
+    this.isSidebarOpen = open;
   }
 }
 
