@@ -14,10 +14,10 @@ const BasePlateVisualizer = observer(() => (
       const horizontalLength = p1[0] - p0[0]; // Width (X)
       const verticalLength = p2[1] - p1[1];   // Height (Y)
 
-      let horizontalLineDirection = "+y";
-      let horizontalTextDirection = "+y";
-      let verticalLineDirection = "+x";
-      let verticalTextDirection = "+x";
+      let horizontalLineDirection: "+x" | "-x" | "+y" | "-y" = "+y";
+      let horizontalTextDirection: "+x" | "-x" | "+y" | "-y" = "+y";
+      let verticalLineDirection: "+x" | "-x" | "+y" | "-y" = "+x";
+      let verticalTextDirection: "+x" | "-x" | "+y" | "-y" = "+x";
 
       let horizontalLineOffset = 2;
       let horizontalTextOffset = 0.5;

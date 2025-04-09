@@ -100,10 +100,10 @@ const ColumnVisualizer = observer(() => {
           Math.pow(p2[0] - p1[0], 2) + Math.pow(p2[1] - p1[1], 2)
         );
 
-        let horizontalLineDirection = "+y";
-        let horizontalTextDirection = "+y";
-        let verticalLineDirection = "+x";
-        let verticalTextDirection = "+x";
+        let horizontalLineDirection: "+x" | "-x" | "+y" | "-y" = "+y";
+        let horizontalTextDirection: "+x" | "-x" | "+y" | "-y" = "+y";
+        let verticalLineDirection: "+x" | "-x" | "+y" | "-y" = "+x";
+        let verticalTextDirection: "+x" | "-x" | "+y" | "-y" = "+x";
         let horizontalLineOffset = 1;
         let horizontalTextOffset = 0.5;
         let verticalLineOffset = 1;

@@ -274,7 +274,7 @@ export class ColumnStore {
     cornerIndex: number,
     wallPoints: number[][],
     dimensions: { width: number; length: number },
-    wall: string
+    wall: WallType | null
   ): Column {
     const { width, length } = dimensions;
 
@@ -488,7 +488,7 @@ export class ColumnStore {
   ): Column[] {
     if (cornerPlates.length === 0) return [];
     console.log(cornerPlates);
-    const tempWalls = ['bottom-left', 'bottom-right', 'top-right', 'top-left'];
+    const tempWalls: WallType[] = ['bottom-left', 'bottom-right', 'top-right', 'top-left'];
 
     const plateConfig =
       baseplateStore.config[cornerPlates[0].type as BaseplateType];

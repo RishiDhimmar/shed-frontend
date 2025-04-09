@@ -76,50 +76,59 @@ import { useEffect } from "react";
 import * as THREE from "three";
 import jsPDF from "jspdf";
 import uiStore from "../../../stores/UIStore";
+import { observer } from "mobx-react-lite";
 
-export default function ExportControls() {
+const ExportControls = observer(() => {
   const { gl, scene, camera } = useThree();
 
   useEffect(() => {
+    console.log("Mounting ExportControls", gl, scene, camera);
     const screenshotHandler = () => {
+      console.log("Taking screenshot...");
       gl.render(scene, camera);
       const dataUrl = gl.domElement.toDataURL("image/png");
-
+  
       const a = document.createElement("a");
       a.href = dataUrl;
       a.download = "screenshot.png";
       a.click();
     };
-
+  
     uiStore.setScreenshotFn(() => screenshotHandler);
   }, [gl, scene, camera]);
-
+  
   useEffect(() => {
+    console.log("Mounting PDF handler");
     const pdfHandler = () => {
+      console.log("Exporting to PDF...");
       const originalSize = gl.getSize(new THREE.Vector2());
       const originalRatio = gl.getPixelRatio();
-
+  
       gl.setPixelRatio(2);
       gl.setSize(1920, 1080);
       gl.render(scene, camera);
-
+  
       const dataUrl = gl.domElement.toDataURL("image/jpeg");
-
+  
       gl.setPixelRatio(originalRatio);
       gl.setSize(originalSize.x, originalSize.y);
-
+  
       const pdf = new jsPDF({
         orientation: "landscape",
         unit: "px",
         format: [1920, 1080],
       });
-
+  
       pdf.addImage(dataUrl, "JPEG", 0, 0, 1920, 1080);
       pdf.save("scene.pdf");
     };
-
+  
     uiStore.setPdfExportFn(() => pdfHandler);
   }, [gl, scene, camera]);
+  
 
   return null;
-}
+})
+
+
+export default ExportControls;

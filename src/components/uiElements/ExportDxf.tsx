@@ -8,8 +8,9 @@ import foundationStore from "../../stores/FoundationStore";
 import mullionColumnStore from "../../stores/MullianColumnStore";
 import { BACKEND_URL } from "../../Constants";
 import uiStore from "../../stores/UIStore";
+import { observer } from "mobx-react-lite";
 
-function ExportMenu() {
+const ExportMenu = observer(() => {
   const [showOptions, setShowOptions] = useState(false);
 
   const handleExportDXF = async () => {
@@ -44,11 +45,6 @@ function ExportMenu() {
     }
   };
 
-  const handleExportPDF = () => {
-    // Add your PDF export logic here
-  };
-
-  const handleExportPNG = () => {};
 
   return (
     <div className="relative w-full">
@@ -73,7 +69,10 @@ function ExportMenu() {
           <button
             className="w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100 text-sm"
             onClick={() => {
-              uiStore.pdfExportFn();
+              const temp: void | (() => void) = uiStore.pdfExportFn();
+              if (typeof temp === "function") {
+                (temp as () => void)();
+              }
               setShowOptions(false);
             }}
           >
@@ -82,8 +81,11 @@ function ExportMenu() {
           <button
             className="w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100 text-sm"
             onClick={() => {
+              const temp: void | (() => void) = uiStore.screenshotFn();
+              if (typeof temp === "function") {
+                (temp as () => void)();
+              }
               setShowOptions(false);
-              uiStore.screenshotFn();
             }}
           >
             Export as PNG
@@ -92,7 +94,5 @@ function ExportMenu() {
       )}
     </div>
   );
-}
-
+});
 export default ExportMenu;
-
