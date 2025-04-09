@@ -1,4 +1,3 @@
-
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { v4 as uuidv4 } from "uuid";
 import columnStore from "./ColumnStore";
@@ -194,6 +193,7 @@ class FoundationStore {
       ];
 
       const type = column.type;
+      if (!type) return;
       const params = this.values[type];
 
       // --- First Rectangle: Slightly bigger than the column rectangle ---

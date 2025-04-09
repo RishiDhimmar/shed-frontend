@@ -45,11 +45,6 @@ const ExportMenu = observer(() => {
     }
   };
 
-  const handleExportPDF = () => {
-    // Add your PDF export logic here
-  };
-
-  const handleExportPNG = () => {};
 
   return (
     <div className="relative w-full">

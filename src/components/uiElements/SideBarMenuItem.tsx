@@ -14,7 +14,7 @@
 
 interface SideBarMenuItemProps {
   isHovered: boolean;
-  icon: string;
+  icon: any;
   label: string;
   onClick: () => void;
 }
