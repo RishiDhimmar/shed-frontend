@@ -76,6 +76,7 @@ export class ColumnStore {
 
   // Helper to get bounding box of a polygon
   getBoundingBox(points: number[][]) {
+    if (!points || points.length === 0) return { minX: 0, maxX: 0, minY: 0, maxY: 0 };
     const xs = points.map((p) => p[0]);
     const ys = points.map((p) => p[1]);
 
