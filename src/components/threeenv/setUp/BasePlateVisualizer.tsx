@@ -154,13 +154,14 @@ const BasePlateVisualizer = observer(() => (
       const verticalLength = Math.abs(p2[1] - p1[1]); // Height (Y)
 
       // Default values
-      let horizontalLineDirection = "+y";
-      let horizontalTextDirection = "+y";
-      let verticalLineDirection = "+x";
-      let verticalTextDirection = "+x";
+      let horizontalLineDirection: "+x" | "-x" | "+y" | "-y" = "+y";
+      let horizontalTextDirection: "+x" | "-x" | "+y" | "-y" = "+y";
+      let verticalLineDirection: "+x" | "-x" | "+y" | "-y" = "+x";
+      let verticalTextDirection: "+x" | "-x" | "+y" | "-y" = "+x";
       let horizontalLineOffset = 2;
       let horizontalTextOffset = 0.5;
       let verticalLineOffset = 3;
+
       let verticalTextOffset = 0.5;
 
       // Points to use for dimension lines
@@ -343,8 +344,12 @@ const BasePlateVisualizer = observer(() => (
                 length={horizontalLength}
                 lineColor="#00ff00"
                 textColor="#00ff00"
-                lineDirection={horizontalLineDirection}
-                textDirection={horizontalTextDirection}
+                lineDirection={
+                  horizontalLineDirection as "+x" | "-x" | "+y" | "-y"
+                }
+                textDirection={
+                  horizontalTextDirection as "+x" | "-x" | "+y" | "-y"
+                }
                 textOffset={horizontalTextOffset}
                 textSize={0.5}
                 lineOffset={horizontalLineOffset}
