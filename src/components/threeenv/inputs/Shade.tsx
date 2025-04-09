@@ -6,7 +6,7 @@ import { useState } from "react";
 
 export const Shade = observer(() => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [selectedShed, setSelectedShed] = useState<string | null>(null);
+  const [, setSelectedShed] = useState<string | null>(null);
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
