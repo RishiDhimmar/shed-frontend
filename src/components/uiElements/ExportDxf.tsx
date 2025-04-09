@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { toJS } from "mobx";
 import basePlotStore from "../../stores/BasePlotStore";
 import wallStore from "../../stores/WallStore";
@@ -7,8 +8,10 @@ import foundationStore from "../../stores/FoundationStore";
 import mullionColumnStore from "../../stores/MullianColumnStore";
 import { BACKEND_URL } from "../../Constants";
 
-function ExportDxf() {
-  const handleExport = async () => {
+function ExportMenu() {
+  const [showOptions, setShowOptions] = useState(false);
+
+  const handleExportDXF = async () => {
     try {
       const response = await fetch(BACKEND_URL + "api/generate-dxf", {
         method: "POST",
@@ -30,7 +33,6 @@ function ExportDxf() {
 
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
-
       const a = document.createElement("a");
       a.href = url;
       a.download = "shed.dxf";
@@ -41,16 +43,54 @@ function ExportDxf() {
     }
   };
 
+  const handleExportPDF = () => {
+    // Add your PDF export logic here
+  };
+
+  const handleExportPNG = () => {};
+
   return (
-    <div className="w-full">
+    <div className="relative w-full">
       <button
         className="bg-gray-800 py-2 text-white m-1 rounded shadow-md hover:bg-gray-600 cursor-pointer w-full text-sm"
-        onClick={handleExport}
+        onClick={() => setShowOptions((prev) => !prev)}
       >
-        Export DXF
+        Export
       </button>
+
+      {showOptions && (
+        <div className="absolute bg-white border border-gray-300 rounded shadow-md top-full mt-1 left-0 w-full z-10">
+          <button
+            className="w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100 text-sm"
+            onClick={() => {
+              setShowOptions(false);
+              handleExportDXF();
+            }}
+          >
+            Export as DXF
+          </button>
+          <button
+            className="w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100 text-sm"
+            onClick={() => {
+              setShowOptions(false);
+              handleExportPDF();
+            }}
+          >
+            Export as PDF
+          </button>
+          <button
+            className="w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100 text-sm"
+            onClick={() => {
+              setShowOptions(false);
+              handleExportPNG();
+            }}
+          >
+            Export as PNG
+          </button>
+        </div>
+      )}
     </div>
   );
 }
 
-export default ExportDxf;
+export default ExportMenu;

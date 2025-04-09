@@ -29,30 +29,39 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideBarMenuItem from "./SideBarMenuItem";
 import { BiLogOutCircle } from "react-icons/bi";
+import { HiOutlineTemplate } from "react-icons/hi";
 
 const Sidebar = observer(() => {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+
+  const toggleSidebar = () => {
+    setIsOpen((prev) => !prev);
+  };
 
   return (
     <div
       className={`bg-gray-700 flex flex-col py-4 p-1 absolute z-20 top-16 left-0 h-[calc(100vh-64px)] transition-[width] duration-500 ${
-        isHovered ? "w-[300px]" : "w-[50px]"
+        isOpen ? "w-[300px]" : "w-[50px]"
       }`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       <SideBarMenuItem
-        isHovered={isHovered}
+        isHovered={isOpen}
         icon={<MdMenu />}
-        label="Home"
-        onClick={() => navigate("/listview")}
+        label="Menu"
+        onClick={toggleSidebar}
       />
       <SideBarMenuItem
-        isHovered={isHovered}
+        isHovered={isOpen}
         icon={<BiLogOutCircle />}
         label="Log Out"
         onClick={() => navigate("/")}
+      />
+      <SideBarMenuItem
+        isHovered={isOpen}
+        icon={<HiOutlineTemplate />}
+        label="Templates"
+        onClick={() => {}}
       />
     </div>
   );

@@ -72,6 +72,7 @@ const ShedWallVisualizer = observer(() => {
         color="#ff7f00"
         lineWidth={0.7}
         depthOffset={0.01}
+        type="shade"
       />
 
       {uiStore.currentComponent === "shade" && (
