@@ -23,7 +23,8 @@ const GroundBeamVisualizer = observer(() => {
         angle={45}
         color="#00ffff"
         lineWidth={0.7}
-        depthOffset={0.01}
+        depthOffset={0.2}
+        type="groundBeam"
       />
 
       {uiStore.currentComponent === "groundBeam" && (
@@ -44,42 +45,6 @@ const GroundBeamVisualizer = observer(() => {
             textOffset={0.5}
             textSize={0.6}
           />
-          {/* <DimensionLine
-            startPoint={
-              wallStore.internalWallPoints[1] as [number, number, number]
-            }
-            endPoint={
-              wallStore.internalWallPoints[2] as [number, number, number]
-            }
-            length={wallStore.innerWidth}
-            lineDirection="+x"
-            lineOffset={3}
-            textDirection="+x"
-            textColor="#00ffff"
-            lineColor="#00ffff"
-            textOffset={1}
-            textSize={0.6}
-          />
-          <LineVisualizer
-            points={wallStore.internalWallPoints}
-            color="#00ffff"
-          /> */}
-          {/* <DimensionLine
-            startPoint={
-              wallStore.internalWallPoints[0] as [number, number, number]
-            }
-            endPoint={
-              wallStore.internalWallPoints[1] as [number, number, number]
-            }
-            length={wallStore.innerWidth}
-            lineDirection="-y"
-            lineOffset={3}
-            textDirection="-y"
-            textColor="#00ffff"
-            lineColor="#00ffff"
-            textOffset={0.5}
-            textSize={0.6}
-          /> */}
 
           <DimensionLine
             startPoint={

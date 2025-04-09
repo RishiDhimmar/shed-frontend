@@ -12,6 +12,7 @@ interface HatchingLinesProps {
   lineWidth?: number;
   depth?: number;
   depthOffset?: number;
+  type?: "shade" | "groundBeam"; // Add type to distinguish between shade and ground beam
 }
 
 const HatchingLines: React.FC<HatchingLinesProps> = ({
@@ -24,6 +25,7 @@ const HatchingLines: React.FC<HatchingLinesProps> = ({
   lineWidth = 1,
   depth = 0.01,
   depthOffset = 0.001,
+  type = "shade", // Default to shade
 }) => {
   const hatchLines = useMemo(() => {
     if (
@@ -60,90 +62,108 @@ const HatchingLines: React.FC<HatchingLinesProps> = ({
     const baseDepth = depth;
 
     for (let i = -numLines / 2; i < numLines / 2; i++) {
-      const offsetX = i * spacing * perpX;
-      const offsetY = i * spacing * perpY;
+      // Check if this line should be rendered based on the type
+      // For shade (orange): render only odd lines
+      // For groundBeam (cyan): render only even lines
+      if (
+        (type === "shade" && i % 2 !== 0) ||
+        (type === "groundBeam" && i % 2 === 0)
+      ) {
+        const offsetX = i * spacing * perpX;
+        const offsetY = i * spacing * perpY;
 
-      const startX = centerX + offsetX - dirX * diagonalLength;
-      const startY = centerY + offsetY - dirY * diagonalLength;
-      const endX = centerX + offsetX + dirX * diagonalLength;
-      const endY = centerY + offsetY + dirY * diagonalLength;
+        const startX = centerX + offsetX - dirX * diagonalLength;
+        const startY = centerY + offsetY - dirY * diagonalLength;
+        const endX = centerX + offsetX + dirX * diagonalLength;
+        const endY = centerY + offsetY + dirY * diagonalLength;
 
-      const lineSegment = new THREE.Line3(
-        new THREE.Vector3(startX, startY, 0),
-        new THREE.Vector3(endX, endY, 0)
-      );
+        const lineSegment = new THREE.Line3(
+          new THREE.Vector3(startX, startY, 0),
+          new THREE.Vector3(endX, endY, 0)
+        );
 
-      const outerIntersections = findIntersectionsWithPolygon(
-        lineSegment,
-        outerPolygon
-      );
-      const innerIntersections = findIntersectionsWithPolygon(
-        lineSegment,
-        innerPolygon
-      );
+        const outerIntersections = findIntersectionsWithPolygon(
+          lineSegment,
+          outerPolygon
+        );
+        const innerIntersections = findIntersectionsWithPolygon(
+          lineSegment,
+          innerPolygon
+        );
 
-      if (outerIntersections.length >= 2) {
-        const allIntersections = [...outerIntersections, ...innerIntersections];
+        if (outerIntersections.length >= 2) {
+          const allIntersections = [
+            ...outerIntersections,
+            ...innerIntersections,
+          ];
 
-        const uniqueIntersections: [number, number][] = [];
-        for (let j = 0; j < allIntersections.length; j++) {
-          let isDuplicate = false;
-          for (let k = 0; k < uniqueIntersections.length; k++) {
-            const dist = Math.hypot(
-              allIntersections[j][0] - uniqueIntersections[k][0],
-              allIntersections[j][1] - uniqueIntersections[k][1]
-            );
-            if (dist < epsilon) {
-              isDuplicate = true;
-              break;
+          const uniqueIntersections: [number, number][] = [];
+          for (let j = 0; j < allIntersections.length; j++) {
+            let isDuplicate = false;
+            for (let k = 0; k < uniqueIntersections.length; k++) {
+              const dist = Math.hypot(
+                allIntersections[j][0] - uniqueIntersections[k][0],
+                allIntersections[j][1] - uniqueIntersections[k][1]
+              );
+              if (dist < epsilon) {
+                isDuplicate = true;
+                break;
+              }
+            }
+            if (!isDuplicate) {
+              uniqueIntersections.push(allIntersections[j]);
             }
           }
-          if (!isDuplicate) {
-            uniqueIntersections.push(allIntersections[j]);
-          }
-        }
 
-        uniqueIntersections.sort((a, b) => {
-          const distA = Math.pow(a[0] - startX, 2) + Math.pow(a[1] - startY, 2);
-          const distB = Math.pow(b[0] - startX, 2) + Math.pow(b[1] - startY, 2);
-          return distA - distB;
-        });
+          uniqueIntersections.sort((a, b) => {
+            const distA =
+              Math.pow(a[0] - startX, 2) + Math.pow(a[1] - startY, 2);
+            const distB =
+              Math.pow(b[0] - startX, 2) + Math.pow(b[1] - startY, 2);
+            return distA - distB;
+          });
 
-        for (let j = 0; j < uniqueIntersections.length - 1; j++) {
-          const p1 = uniqueIntersections[j];
-          const p2 = uniqueIntersections[j + 1];
+          for (let j = 0; j < uniqueIntersections.length - 1; j++) {
+            const p1 = uniqueIntersections[j];
+            const p2 = uniqueIntersections[j + 1];
 
-          const segmentLength = Math.hypot(p2[0] - p1[0], p2[1] - p1[1]);
-          if (segmentLength < epsilon) continue;
+            const segmentLength = Math.hypot(p2[0] - p1[0], p2[1] - p1[1]);
+            if (segmentLength < epsilon) continue;
 
-          const midX = (p1[0] + p2[0]) / 2;
-          const midY = (p1[1] + p2[1]) / 2;
+            const midX = (p1[0] + p2[0]) / 2;
+            const midY = (p1[1] + p2[1]) / 2;
 
-          const isInOuter = pointInPolygon([midX, midY], outerPolygon);
-          const isInHole = pointInPolygon([midX, midY], innerPolygon);
-          const isInWall = isInOuter && !isInHole;
+            const isInOuter = pointInPolygon([midX, midY], outerPolygon);
+            const isInHole = pointInPolygon([midX, midY], innerPolygon);
+            const isInWall = isInOuter && !isInHole;
 
-          const isInExclusionArea = exclusionAreas.some(
-            ([x, y, width, height]) =>
-              midX >= x - width / 2 &&
-              midX <= x + width / 2 &&
-              midY >= y - height / 2 &&
-              midY <= y + height / 2
-          );
+            const isInExclusionArea = exclusionAreas.some(
+              ([x, y, width, height]) =>
+                midX >= x - width / 2 &&
+                midX <= x + width / 2 &&
+                midY >= y - height / 2 &&
+                midY <= y + height / 2
+            );
 
-          if (isInWall && !isInExclusionArea) {
-            const zPos = baseDepth + Math.random() * 0.0001;
-            const startPoint: [number, number, number] = [
-              Math.round(p1[0] * 1e6) / 1e6,
-              Math.round(p1[1] * 1e6) / 1e6,
-              zPos,
-            ];
-            const endPoint: [number, number, number] = [
-              Math.round(p2[0] * 1e6) / 1e6,
-              Math.round(p2[1] * 1e6) / 1e6,
-              zPos,
-            ];
-            lines.push([startPoint, endPoint]);
+            if (isInWall && !isInExclusionArea) {
+              // Set different z-positions for shade and ground beam
+              const zPos =
+                type === "shade"
+                  ? baseDepth + depthOffset
+                  : baseDepth + depthOffset * 2; // Higher depth for ground beam
+
+              const startPoint: [number, number, number] = [
+                Math.round(p1[0] * 1e6) / 1e6,
+                Math.round(p1[1] * 1e6) / 1e6,
+                zPos,
+              ];
+              const endPoint: [number, number, number] = [
+                Math.round(p2[0] * 1e6) / 1e6,
+                Math.round(p2[1] * 1e6) / 1e6,
+                zPos,
+              ];
+              lines.push([startPoint, endPoint]);
+            }
           }
         }
       }
@@ -158,13 +178,14 @@ const HatchingLines: React.FC<HatchingLinesProps> = ({
     angle,
     depth,
     depthOffset,
+    type, // Add type to dependencies
   ]);
 
   return (
     <>
       {hatchLines.map((points, index) => (
         <Line
-          key={`hatch-line-${index}`}
+          key={`hatch-line-${type}-${index}`}
           points={points}
           color={color}
           lineWidth={lineWidth}
@@ -173,7 +194,7 @@ const HatchingLines: React.FC<HatchingLinesProps> = ({
           depthWrite={true}
           transparent={false}
           opacity={1}
-          renderOrder={0}
+          renderOrder={type === "shade" ? 1 : 2} // Higher render order for ground beam
         />
       ))}
     </>
