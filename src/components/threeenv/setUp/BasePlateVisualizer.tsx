@@ -1,62 +1,10 @@
-// import { observer } from "mobx-react-lite";
-// import baseplateStore from "../../../stores/BasePlateStore";
-// import LineVisualizer from "../Helpers/LineVisualizerProps";
-// import DimensionLine from "../Helpers/DimensionLine";
-// import uiStore from "../../../stores/UIStore";
 
-// const BasePlateVisualizer = observer(() => (
-
-//   <>
-//     {baseplateStore.basePlates.map((baseplate) => (
-
-//       <>
-//         <LineVisualizer
-//           key={baseplate.id}
-//           points={baseplate.points}
-//           color="#00ff00"
-//         />
-
-//         {uiStore.currentComponent === "baseplate" && (
-//           <>
-//             <DimensionLine
-//               startPoint={baseplate.points[0] as [number, number, number]}
-//               endPoint={baseplate.points[1] as [number, number, number]}
-//               length={baseplate.points[1][0] - baseplate.points[0][0]}
-//               lineColor="#00ff00"
-//               textColor="#00ff00"
-//               lineDirection="-y"
-//               textDirection="-y"
-//               textOffset={0.5}
-//               textSize={0.5}
-//               lineOffset={0.5}
-//             />
-
-//             <DimensionLine
-//               startPoint={baseplate.points[1] as [number, number, number]}
-//               endPoint={baseplate.points[2] as [number, number, number]}
-//               length={Math.abs(baseplate.points[2][1] - baseplate.points[1][1])}
-//               lineColor="#00ff00"
-//               textColor="#00ff00"
-//               lineDirection={baseplate.wall === "left" ? "-x" : "+x"}
-//               textDirection={baseplate.wall === "left" ? "-x" : "+x"}
-//               textOffset={1}
-//               textSize={0.5}
-//               lineOffset={3}
-//             />
-//           </>
-//         )}
-//       </>
-//     ))}
-//   </>
-// ));
-
-// export default BasePlateVisualizer;
 import { observer } from "mobx-react-lite";
 import baseplateStore from "../../../stores/BasePlateStore";
 import LineVisualizer from "../Helpers/LineVisualizerProps";
 import uiStore from "../../../stores/UIStore";
 import DimensionLine from "../Helpers/DimensionLine";
-// import TestComp from "./testComp";
+import React from "react";
 
 const BasePlateVisualizer = observer(() => (
   <>
@@ -64,24 +12,92 @@ const BasePlateVisualizer = observer(() => (
       const [p0, p1, p2] = baseplate.points;
 
       const horizontalLength = p1[0] - p0[0]; // Width (X)
-      const verticalLength = p2[1] - p1[1]; // Height (Y)
+      const verticalLength = p2[1] - p1[1];   // Height (Y)
 
-      const isLeftSide = p1[0] < 0;
-      const isTopSide = p0[1] > 0;
+      let horizontalLineDirection = "+y";
+      let horizontalTextDirection = "+y";
+      let verticalLineDirection = "+x";
+      let verticalTextDirection = "+x";
 
-      const verticalLineDirection = isLeftSide ? "-x" : "+x";
-      const verticalTextDirection = verticalLineDirection;
+      let horizontalLineOffset = 2;
+      let horizontalTextOffset = 0.5;
+      let verticalLineOffset = 3;
+      let verticalTextOffset = 0.5;
 
-      const horizontalLineDirection = isTopSide ? "+y" : "-y";
-      const horizontalTextDirection = horizontalLineDirection;
+      const subtype = baseplate.wall;
+
+      switch (subtype) {
+        case "top-left":
+          horizontalLineDirection = "+y";
+          horizontalTextDirection = "+y";
+          verticalLineDirection = "-x";
+          verticalTextDirection = "-x";
+          horizontalLineOffset = 2;
+          verticalLineOffset = 3;
+          break;
+        case "bottom-left":
+          horizontalLineDirection = "-y";
+          horizontalTextDirection = "-y";
+          verticalLineDirection = "-x";
+          verticalTextDirection = "-x";
+          horizontalLineOffset = 2;
+          verticalLineOffset = 3;
+          break;
+        case "top-right":
+          horizontalLineDirection = "+y";
+          horizontalTextDirection = "+y";
+          verticalLineDirection = "+x";
+          verticalTextDirection = "+x";
+          horizontalLineOffset = 2;
+          verticalLineOffset = 3;
+          break;
+        case "bottom-right":
+          horizontalLineDirection = "-y";
+          horizontalTextDirection = "-y";
+          verticalLineDirection = "+x";
+          verticalTextDirection = "+x";
+          horizontalLineOffset = 2;
+          verticalLineOffset = 3;
+          break;
+        case "left":
+          horizontalLineDirection = "-y";
+          horizontalTextDirection = "-y";
+          verticalLineDirection = "-x";
+          verticalTextDirection = "-x";
+          horizontalLineOffset = 1;
+          verticalLineOffset = 3;
+          break;
+        case "right":
+          horizontalLineDirection = "-y";
+          horizontalTextDirection = "-y";
+          verticalLineDirection = "+x";
+          verticalTextDirection = "+x";
+          horizontalLineOffset = 1;
+          verticalLineOffset = 3;
+          break;
+        case "top":
+          horizontalLineDirection = "+y";
+          horizontalTextDirection = "+y";
+          verticalLineDirection = "+x";
+          verticalTextDirection = "+x";
+          horizontalLineOffset = 2;
+          verticalLineOffset = 1;
+          break;
+        case "bottom":
+          horizontalLineDirection = "-y";
+          horizontalTextDirection = "-y";
+          verticalLineDirection = "+x";
+          verticalTextDirection = "+x";
+          horizontalLineOffset = 2;
+          verticalLineOffset = 1;
+          break;
+        default:
+          break;
+      }
 
       return (
-        <>
-          <LineVisualizer
-            key={baseplate.id}
-            points={baseplate.points}
-            color="#00ff00"
-          />
+        <React.Fragment key={baseplate.id}>
+          <LineVisualizer points={baseplate.points} color="#00ff00" />
 
           {uiStore.currentComponent === "baseplate" && (
             <>
@@ -94,9 +110,9 @@ const BasePlateVisualizer = observer(() => (
                 textColor="#00ff00"
                 lineDirection={horizontalLineDirection}
                 textDirection={horizontalTextDirection}
-                textOffset={0.5}
+                textOffset={horizontalTextOffset}
                 textSize={0.5}
-                lineOffset={2}
+                lineOffset={horizontalLineOffset}
               />
 
               {/* Vertical dimension (Y-axis) */}
@@ -108,13 +124,13 @@ const BasePlateVisualizer = observer(() => (
                 textColor="#00ff00"
                 lineDirection={verticalLineDirection}
                 textDirection={verticalTextDirection}
-                textOffset={1}
+                textOffset={verticalTextOffset}
                 textSize={0.5}
-                lineOffset={3}
+                lineOffset={verticalLineOffset}
               />
             </>
           )}
-        </>
+        </React.Fragment>
       );
     })}
   </>

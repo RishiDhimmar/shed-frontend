@@ -25,6 +25,9 @@ class UIStore {
 
   isModified = false;
 
+  screenshotFn: () => void = () => {};
+  pdfExportFn: () => void = () => {console.log("first")};
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -47,6 +50,15 @@ class UIStore {
 
   setModified(modified: boolean) {
     this.isModified = modified;
+  }
+
+  setScreenshotFn(fn: () => void) {
+    console.log("hii")
+    this.screenshotFn = fn;
+  }
+
+  setPdfExportFn(fn: () => void) {
+    this.pdfExportFn = fn;
   }
 }
 

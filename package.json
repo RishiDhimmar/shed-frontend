@@ -16,6 +16,7 @@
     "@tailwindcss/vite": "^4.0.16",
     "@types/three": "^0.174.0",
     "file-saver": "^2.0.5",
+    "jspdf": "^3.0.1",
     "mobx": "^6.13.7",
     "mobx-react-lite": "^4.1.0",
     "react": "^19.0.0",

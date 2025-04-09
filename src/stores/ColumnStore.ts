@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction, reaction } from "mobx";
 import { v4 as uuidv4 } from "uuid";
-import baseplateStore, { BaseplateType } from "./BasePlateStore";
+import baseplateStore, { BaseplateType, WallType } from "./BasePlateStore";
 import wallStore from "./WallStore";
 import uiStore from "./UIStore";
 
@@ -9,7 +9,8 @@ export interface Column {
   width: number;
   length: number;
   points: number[][];
-  wall: "horizontal" | "vertical" | "corner";
+  type: BaseplateType | null;
+  wall: WallType | null;
 }
 
 export class ColumnStore {
@@ -76,7 +77,8 @@ export class ColumnStore {
 
   // Helper to get bounding box of a polygon
   getBoundingBox(points: number[][]) {
-    if (!points || points.length === 0) return { minX: 0, maxX: 0, minY: 0, maxY: 0 };
+    if (!points || points.length === 0)
+      return { minX: 0, maxX: 0, minY: 0, maxY: 0 };
     const xs = points.map((p) => p[0]);
     const ys = points.map((p) => p[1]);
 
@@ -271,7 +273,8 @@ export class ColumnStore {
   private createCornerColumn(
     cornerIndex: number,
     wallPoints: number[][],
-    dimensions: { width: number; length: number }
+    dimensions: { width: number; length: number },
+    wall: string
   ): Column {
     const { width, length } = dimensions;
 
@@ -311,8 +314,9 @@ export class ColumnStore {
       id: uuidv4(),
       width,
       length,
-      wall: "corner",
+      type: "corner",
       points: positionConfigs[cornerIndex],
+      wall,
     };
   }
 
@@ -388,8 +392,9 @@ export class ColumnStore {
       id: uuidv4(),
       width: columnWidth,
       length: columnLength,
-      wall: "horizontal",
+      type: "horizontal",
       points,
+      wall
     };
   }
 
@@ -470,8 +475,9 @@ export class ColumnStore {
       id: uuidv4(),
       width: columnWidth,
       length: columnLength,
-      wall: "vertical",
+      type: "vertical",
       points: points!,
+      wall
     };
   }
 
@@ -481,6 +487,8 @@ export class ColumnStore {
     wallPoints: number[][]
   ): Column[] {
     if (cornerPlates.length === 0) return [];
+    console.log(cornerPlates);
+    const tempWalls = ['bottom-left', 'bottom-right', 'top-right', 'top-left'];
 
     const plateConfig =
       baseplateStore.config[cornerPlates[0].type as BaseplateType];
@@ -500,10 +508,15 @@ export class ColumnStore {
 
     // Generate all four corners
     return [0, 1, 2, 3].map((index) =>
-      this.createCornerColumn(index, wallPoints, {
-        width: columnWidth,
-        length: columnLength,
-      })
+      this.createCornerColumn(
+        index,
+        wallPoints,
+        {
+          width: columnWidth,
+          length: columnLength,
+        },
+        tempWalls[index]
+      )
     );
   }
 
