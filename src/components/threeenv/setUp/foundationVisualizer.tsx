@@ -33,14 +33,14 @@ import uiStore from "../../../stores/UIStore";
 const FoundationVisualizer = observer(() => {
   return (
     <>
-      {foundationStore.foundations.map((foundation) => (
+      {foundationStore.foundations.map((foundation, index) => (
         <>
           <LineVisualizer
             key={foundation.id}
             points={foundation.points}
             color="#ff00ff"
           />
-          {uiStore.currentComponent === "foundation" && (
+          {uiStore.currentComponent === "foundation" && index % 2 !== 0 && (
             <>
               <DimensionLine
                 startPoint={foundation.points[0] as [number, number, number]}
@@ -54,7 +54,7 @@ const FoundationVisualizer = observer(() => {
                 textDirection="+y"
                 textOffset={0.5}
                 textSize={0.5}
-                lineOffset={2}
+                lineOffset={3}
               />
 
               <DimensionLine
@@ -69,7 +69,7 @@ const FoundationVisualizer = observer(() => {
                 textDirection="+x"
                 textOffset={0.5}
                 textSize={0.5}
-                lineOffset={1}
+                lineOffset={0.5}
               />
             </>
           )}
