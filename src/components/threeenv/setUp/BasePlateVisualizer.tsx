@@ -4,6 +4,7 @@ import baseplateStore from "../../../stores/BasePlateStore";
 import LineVisualizer from "../Helpers/LineVisualizerProps";
 import uiStore from "../../../stores/UIStore";
 import DimensionLine from "../Helpers/DimensionLine";
+import React from "react";
 
 const BasePlateVisualizer = observer(() => (
   <>

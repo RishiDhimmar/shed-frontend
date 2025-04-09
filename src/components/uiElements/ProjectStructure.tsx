@@ -7,6 +7,7 @@ import { Assumptions } from "../threeenv/Helpers/Assumptions";
 import Info from "../../utils/Info";
 import Sidebar from "./Sidebar";
 import ExportDxf from "./ExportDxf";
+// import ExportControls from "../threeenv/inputs/TakeSnapButton";
 
 function ProjectStructure() {
   return (
@@ -24,6 +25,7 @@ function ProjectStructure() {
           <div className=" flex gap-2">
             <Save />
             <Upload />
+            {/* <ExportControls /> */}
           </div>
           <Assumptions />
           <ExportDxf />

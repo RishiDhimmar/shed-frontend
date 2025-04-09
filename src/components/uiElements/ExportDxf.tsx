@@ -7,6 +7,7 @@ import columnStore from "../../stores/ColumnStore";
 import foundationStore from "../../stores/FoundationStore";
 import mullionColumnStore from "../../stores/MullianColumnStore";
 import { BACKEND_URL } from "../../Constants";
+import uiStore from "../../stores/UIStore";
 
 function ExportMenu() {
   const [showOptions, setShowOptions] = useState(false);
@@ -72,8 +73,8 @@ function ExportMenu() {
           <button
             className="w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100 text-sm"
             onClick={() => {
+              uiStore.pdfExportFn();
               setShowOptions(false);
-              handleExportPDF();
             }}
           >
             Export as PDF
@@ -82,7 +83,7 @@ function ExportMenu() {
             className="w-full px-4 py-2 text-left text-gray-800 hover:bg-gray-100 text-sm"
             onClick={() => {
               setShowOptions(false);
-              handleExportPNG();
+              uiStore.screenshotFn();
             }}
           >
             Export as PNG
@@ -94,3 +95,4 @@ function ExportMenu() {
 }
 
 export default ExportMenu;
+
