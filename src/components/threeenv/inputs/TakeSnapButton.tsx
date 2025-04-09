@@ -1,4 +1,3 @@
-
 // import { useEffect, useState } from "react";
 // import { useThree } from "@react-three/fiber";
 // import jsPDF from "jspdf";
@@ -35,37 +34,36 @@
 //     const pdfExportHandler = () => {
 //       const originalSize = gl.getSize(new THREE.Vector2());
 //       const originalPixelRatio = gl.getPixelRatio();
-  
+
 //       const exportWidth = 1920; // Desired resolution width
 //       const exportHeight = 1080; // Desired resolution height
-  
+
 //       // Set temporary high-resolution render target
 //       gl.setPixelRatio(2); // You can increase this for even better quality
 //       gl.setSize(exportWidth, exportHeight);
 //       gl.render(scene, camera);
-  
+
 //       // Get image from canvas
 //       const dataUrl = gl.domElement.toDataURL("image/jpeg", 1.0); // 100% quality
-  
+
 //       // Restore original size and pixel ratio
 //       gl.setPixelRatio(originalPixelRatio);
 //       gl.setSize(originalSize.x, originalSize.y);
-  
+
 //       // Create PDF and add image
 //       const pdf = new jsPDF({
 //         orientation: exportWidth > exportHeight ? "landscape" : "portrait",
 //         unit: "px",
 //         format: [exportWidth, exportHeight],
 //       });
-  
+
 //       pdf.addImage(dataUrl, "JPEG", 0, 0, exportWidth, exportHeight);
 //       pdf.save("scene-export.pdf");
 //     };
-  
+
 //     setPDFExportFn(() => pdfExportHandler);
 //   }, [gl, scene, camera]);
-  
-  
+
 //   return (
 //    <></>
 //   );

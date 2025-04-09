@@ -13,31 +13,31 @@
 // export default SideBarMenuItem;
 
 interface SideBarMenuItemProps {
-  isHovered: boolean;
-  icon: any;
+  showLabel: boolean;
+  icon: React.ReactNode;
   label: string;
-  onClick: () => void;
+  onIconClick?: () => void;
+  onLabelClick?: () => void;
 }
 
 function SideBarMenuItem({
-  isHovered,
+  showLabel,
   icon,
   label,
-  onClick,
+  onIconClick,
+  onLabelClick,
 }: SideBarMenuItemProps) {
   return (
-    <div
-      className="flex items-center gap-2 px-2 py-2 text-center hover:bg-gray-600 cursor-pointer"
-      onClick={onClick}
-    >
-      {/* Icon remains visible at all times */}
-      <div className="text-white text-xl cursor-pointer  rounded ">{icon}</div>
+    <div className="flex items-center gap-2 px-2 py-2 hover:bg-gray-600 min-w-0">
+      <div className="text-white text-xl cursor-pointer" onClick={onIconClick}>
+        {icon}
+      </div>
 
-      {/* Only the text fades in/out */}
       <div
-        className={`text-white text-center  transition-all duration-500 transform whitespace-nowrap ${
-          isHovered ? "opacity-100  w-auto" : "opacity-0  w-0"
+        className={`text-white ml-2 transition-all duration-300 ${
+          showLabel ? "opacity-100 scale-100" : "opacity-0 scale-0"
         }`}
+        onClick={onLabelClick}
       >
         {label}
       </div>
