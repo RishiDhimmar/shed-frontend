@@ -6,7 +6,7 @@ const LoginPage = () => {
     <div className="flex h-screen">
       <div className="w-3/4 h-full bg-gray-200">
         <img
-          src="assets/login-img.jpg"
+          src="assets/login-page.png"
           alt="Building"
           className="w-full h-full object-cover"
         />

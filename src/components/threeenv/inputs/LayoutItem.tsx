@@ -22,7 +22,7 @@ function LayoutItem({
 }: LayoutItemProps) {
   return (
     <div
-      className={`flex items-center justify-between w-full px-1 py-1 cursor-pointer ${className} ${
+      className={`flex items-center justify-between w-full hover:bg-gray-600 px-1 py-1 cursor-pointer ${className} ${
         isSelected ? "text-blue-300" : "text-white"
       }`}
       onClick={onClick}
