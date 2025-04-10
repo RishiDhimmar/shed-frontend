@@ -30,7 +30,7 @@ export const Layout = observer(() => {
           onToggleVisibility={() => uiStore.toggleDimensionsVisibility()}
         />
 
-        <div className="line border w-full -my-1.5 border-gray-600"></div>
+        <div className="line border w-full my-1 border-gray-600"></div>
         <LayoutItem
           title="Visibility"
           color="bg-black"
