@@ -81,7 +81,6 @@ export const Shade = observer(() => {
     setSelectedShed(shade);
     setShowDropdown(false);
 
-    // Set static values based on selected shade
     if (shade === "Shade 1") {
       wallStore.setHeight(50);
       wallStore.setWidth(60);
@@ -91,6 +90,12 @@ export const Shade = observer(() => {
       wallStore.setWidth(40);
       wallStore.setWallThickness(0.8);
     }
+  };
+
+  // Predefined values for each shade
+  const shadePresets = {
+    "Shade 1": { height: 50, width: 60 },
+    "Shade 2": { height: 60, width: 40 },
   };
 
   return (
@@ -106,18 +111,15 @@ export const Shade = observer(() => {
         />
         {showDropdown && (
           <div className="absolute top-8 left-20 bg-white shadow-md rounded p-2 z-10">
-            <div
-              className="cursor-pointer hover:bg-gray-200 p-1"
-              onClick={() => handleSelect("Shade 1")}
-            >
-              Shade 1
-            </div>
-            <div
-              className="cursor-pointer hover:bg-gray-200 p-1"
-              onClick={() => handleSelect("Shade 2")}
-            >
-              Shade 2
-            </div>
+            {Object.entries(shadePresets).map(([shade, values]) => (
+              <div
+                key={shade}
+                className="cursor-pointer hover:bg-gray-200 p-1"
+                onClick={() => handleSelect(shade)}
+              >
+                {`${shade} (${values.height / 10} × ${values.width / 10})`}
+              </div>
+            ))}
           </div>
         )}
       </div>

@@ -26,7 +26,7 @@ export const baseplateAssumptions = (
   <div className="w-[200px]  p-3">
     <div className="text-sm text-gray-700 mb-1">
       - Each corner always have a baseplate and it is placed at
-      <strong>ideal distances</strong>.
+      <strong> ideal distances</strong>.
     </div>
     <div className="text-sm text-gray-700">
       - The baseplates are rectangular, and the inner shade's center always

@@ -28,7 +28,7 @@ function SideBarMenuItem({
   onLabelClick,
 }: SideBarMenuItemProps) {
   return (
-    <div className="flex items-center gap-2 px-2 py-2 hover:bg-gray-600 min-w-0">
+    <div className="flex items-center gap-2   hover:bg-gray-600 min-w-0">
       <div className="text-white text-xl cursor-pointer" onClick={onIconClick}>
         {icon}
       </div>
