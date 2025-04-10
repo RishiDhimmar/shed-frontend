@@ -34,7 +34,7 @@ export const Layout = observer(() => {
         <LayoutItem
           title="Visibility"
           color="bg-black"
-          isHidden={!uiStore.isDimensionsVisible}
+          isHidden={Object.values(uiStore.visibility).includes(false)}
           isSelected={uiStore.isDimensionsVisible}
           onClick={() => {}}
           onToggleVisibility={() => uiStore.toggleAllLayoutVisibility()}

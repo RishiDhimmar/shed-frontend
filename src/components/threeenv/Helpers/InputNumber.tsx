@@ -228,7 +228,7 @@ const InputNumber: React.FC<InputNumberProps> = observer(
                 onClick={() => handleOptionClick(option)}
                 className="p-2 hover:bg-gray-100 cursor-pointer"
               >
-                {option}
+                {option.toString().split(".")[0]}
               </div>
             ))}
           </div>
