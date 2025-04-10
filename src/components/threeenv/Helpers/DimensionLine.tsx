@@ -165,8 +165,9 @@ const DimensionLine = observer(
       ? [0, 0, 0]
       : [0, 0, Math.PI / 2];
 
-    console.log(textColor);
-    console.log(lineColor);
+
+    console.log(lineColor)
+    console.log(textColor)
 
     return (
       <>
@@ -175,7 +176,7 @@ const DimensionLine = observer(
             {/* Dotted line from startPoint to startOffset */}
             <Line
               points={[startPoint, startOffset]}
-              color={"black"}
+              color={"black" }
               lineWidth={1}
               dashed
               dashSize={0.1}

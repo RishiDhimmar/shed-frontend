@@ -149,9 +149,10 @@ const BasePlateVisualizer = observer(() => (
     {baseplateStore.basePlates.map((baseplate) => {
       const [p0, p1, p2, p3] = baseplate.points;
 
-      // Calculate correct dimensions based on actual points
-      const horizontalLength = Math.abs(p1[0] - p0[0]); // Width (X)
-      const verticalLength = Math.abs(p2[1] - p1[1]); // Height (Y)
+      if (!p0 || !p1 || !p2 || !p3) return null;
+
+      const horizontalLength = p2[0] - p3[0]; // Width (X)
+      const verticalLength = p2[1] - p1[1];   // Height (Y)
 
       // Default values
       let horizontalLineDirection: "+x" | "-x" | "+y" | "-y" = "+y";
@@ -339,8 +340,8 @@ const BasePlateVisualizer = observer(() => (
             <>
               {/* Horizontal dimension (X-axis) */}
               <DimensionLine
-                startPoint={horizontalStartPoint as [number, number, number]}
-                endPoint={horizontalEndPoint as [number, number, number]}
+                startPoint={p2 as [number, number, number]}
+                endPoint={p3 as [number, number, number]}
                 length={horizontalLength}
                 lineColor="#00ff00"
                 textColor="#00ff00"
