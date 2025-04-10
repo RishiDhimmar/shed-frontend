@@ -9,6 +9,7 @@ import { MullionColumn } from "./MullianColumn";
 import LayoutItem from "./LayoutItem";
 import { GroundBeam } from "./GroundBeam";
 import Foundation from "./Foundation";
+import Update from "../../../utils/Update";
 
 export const Layout = observer(() => {
   const [selectedTitle, setSelectedTitle] = useState<string | null>(null);
@@ -106,6 +107,7 @@ export const Layout = observer(() => {
         {uiStore.currentComponent === "foundation" && <Foundation />}
         {uiStore.currentComponent === "mullionColumn" && <MullionColumn />}
         {uiStore.currentComponent === "groundBeam" && <GroundBeam />}
+        <Update />
       </div>
     </div>
   );
