@@ -30,13 +30,14 @@ import SideBarMenuItem from "./SideBarMenuItem";
 import { BiLogOutCircle } from "react-icons/bi";
 import { HiOutlineTemplate } from "react-icons/hi";
 import uiStore from "../../stores/UIStore";
+import { PiStandardDefinitionBold } from "react-icons/pi";
 
 const Sidebar = observer(() => {
   const navigate = useNavigate();
 
   return (
     <div
-      className={`bg-gray-700 flex flex-col py-4 p-1 absolute z-20 top-16 left-0 h-[calc(100vh-64px)] transition-[width] duration-500 ease-in-out ${
+      className={`bg-gray-700 flex flex-col py-4 px-2 absolute z-20 top-16 left-0 h-[calc(100vh-64px)] transition-[width] duration-500 ease-in-out ${
         uiStore.isSidebarOpen ? "w-[300px]" : "w-[50px]"
       }`}
     >
@@ -57,6 +58,18 @@ const Sidebar = observer(() => {
         icon={<HiOutlineTemplate />}
         label="Templates"
         onIconClick={() => uiStore.toggleSidebar()}
+        showLabel={uiStore.isSidebarOpen}
+      />
+      <SideBarMenuItem
+        icon={<PiStandardDefinitionBold />}
+        label="Standard"
+        onIconClick={() => {
+          uiStore.toggleSidebar();
+        }}
+        onLabelClick={() => {
+          uiStore.toggleStandardInputs();
+          uiStore.setSidebarOpen(false);
+        }}
         showLabel={uiStore.isSidebarOpen}
       />
     </div>

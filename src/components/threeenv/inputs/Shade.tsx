@@ -110,7 +110,7 @@ export const Shade = observer(() => {
           onClick={toggleDropdown}
         />
         {showDropdown && (
-          <div className="absolute top-8 left-20 bg-white shadow-md rounded p-2 z-10">
+          <div className="absolute top-8 left-20 bg-white shadow-md rounded p-2 z-50">
             {Object.entries(shadePresets).map(([shade, values]) => (
               <div
                 key={shade}

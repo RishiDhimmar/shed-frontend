@@ -34,7 +34,7 @@ function SideBarMenuItem({
       </div>
 
       <div
-        className={`text-white ml-2 transition-all duration-300 ${
+        className={`text-white ml-2 transition-all duration-300 cursor-pointer ${
           showLabel ? "opacity-100 scale-100" : "opacity-0 scale-0"
         }`}
         onClick={onLabelClick}

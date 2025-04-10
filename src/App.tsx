@@ -3,6 +3,7 @@ import Navbar from "./components/uiElements/Navbar";
 import uiStore from "./stores/UIStore";
 import { Outlet } from "react-router-dom";
 import "react-tooltip/dist/react-tooltip.css";
+import "antd/dist/antd.css";
 
 function App() {
   useEffect(() => {

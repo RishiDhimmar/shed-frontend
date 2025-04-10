@@ -32,6 +32,16 @@ export const Layout = observer(() => {
 
         <div className="line border w-full my-3 border-gray-600"></div>
         <LayoutItem
+          title="Visibility"
+          color="bg-black"
+          isHidden={!uiStore.isDimensionsVisible}
+          isSelected={uiStore.isDimensionsVisible}
+          onClick={() => {}}
+          onToggleVisibility={() => uiStore.toggleAllLayoutVisibility()}
+        />
+
+        <div className="line border w-full my-3 border-gray-600"></div>
+        <LayoutItem
           title="Plot"
           color="bg-[#FFFFFF]"
           isHidden={!uiStore.visibility.plot}

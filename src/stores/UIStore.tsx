@@ -12,6 +12,7 @@ export type currentComponentType =
 class UIStore {
   currentComponent: currentComponentType = "plot";
   isSidebarOpen = false;
+  useStandardInputs = false;
   // Set initial visibility: true means visible.
   visibility = {
     plot: true,
@@ -43,6 +44,13 @@ class UIStore {
     this.visibility[component] = !this.visibility[component];
   }
 
+  toggleAllLayoutVisibility() {
+    const allHidden = Object.values(this.visibility).every((v) => !v);
+    for (const key in this.visibility) {
+      this.visibility[key as keyof typeof this.visibility] = allHidden; // if all are hidden, show all, else hide all
+    }
+  }
+
   setDimensionsVisibility(visible: boolean) {
     this.isDimensionsVisible = visible;
   }
@@ -66,6 +74,9 @@ class UIStore {
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
+  }
+  toggleStandardInputs() {
+    this.useStandardInputs = !this.useStandardInputs;
   }
 
   setSidebarOpen(open: boolean) {
