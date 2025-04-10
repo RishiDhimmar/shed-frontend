@@ -9,9 +9,11 @@ import React from "react";
 const BasePlateVisualizer = observer(() => (
   <>
     {baseplateStore.basePlates.map((baseplate) => {
-      const [p0, p1, p2] = baseplate.points;
+      const [p0, p1, p2, p3] = baseplate.points;
 
-      const horizontalLength = p1[0] - p0[0]; // Width (X)
+      if (!p0 || !p1 || !p2 || !p3) return null;
+
+      const horizontalLength = p2[0] - p3[0]; // Width (X)
       const verticalLength = p2[1] - p1[1];   // Height (Y)
 
       let horizontalLineDirection: "+x" | "-x" | "+y" | "-y" = "+y";
@@ -103,8 +105,8 @@ const BasePlateVisualizer = observer(() => (
             <>
               {/* Horizontal dimension (X-axis) */}
               <DimensionLine
-                startPoint={p0 as [number, number, number]}
-                endPoint={p1 as [number, number, number]}
+                startPoint={p2 as [number, number, number]}
+                endPoint={p3 as [number, number, number]}
                 length={horizontalLength}
                 lineColor="#00ff00"
                 textColor="#00ff00"
