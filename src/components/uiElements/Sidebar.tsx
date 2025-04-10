@@ -30,7 +30,7 @@ import SideBarMenuItem from "./SideBarMenuItem";
 import { BiLogOutCircle } from "react-icons/bi";
 import { HiOutlineTemplate } from "react-icons/hi";
 import uiStore from "../../stores/UIStore";
-import { PiStandardDefinitionBold } from "react-icons/pi";
+import { PiSlidersBold, PiStandardDefinitionBold } from "react-icons/pi";
 
 const Sidebar = observer(() => {
   const navigate = useNavigate();
@@ -61,8 +61,14 @@ const Sidebar = observer(() => {
         showLabel={uiStore.isSidebarOpen}
       />
       <SideBarMenuItem
-        icon={<PiStandardDefinitionBold />}
-        label="Standard"
+        icon={
+          uiStore.useStandardInputs ? (
+            <PiSlidersBold />
+          ) : (
+            <PiStandardDefinitionBold />
+          )
+        }
+        label={uiStore.useStandardInputs ? "Custom" : "Standard"}
         onIconClick={() => {
           uiStore.toggleSidebar();
         }}
