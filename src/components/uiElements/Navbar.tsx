@@ -8,7 +8,7 @@ function Navbar() {
     <div className="w-full bg-gray-200 h-16 flex items-center justify-between px-4">
       <div>
         <img
-          src="assets/resolute-logo.png"
+          src="/assets/resolute-logo.png"
           alt="Logo"
           className="w-30 h-10 object-contain"
         />

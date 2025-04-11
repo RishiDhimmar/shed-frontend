@@ -20,7 +20,7 @@ export const Layout = observer(() => {
   };
 
   return (
-    <div className="flex h-[calc(100vh-64px)] z-10 ml-11  ">
+    <div className="flex h-full z-10   ">
       <div className="w-[250px] bg-gray-800  text-white flex flex-col items-start px-2 py-4">
         <LayoutItem
           title="Dimensions"

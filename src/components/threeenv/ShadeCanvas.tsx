@@ -26,7 +26,6 @@ import uiStore from "../../stores/UIStore";
 function ShadeCanvas() {
   // State to hold the screenshot function from inside the Canvas
 
-
   return (
     <div className="relative h-[calc(100vh-64px)]">
       <Canvas
@@ -36,17 +35,16 @@ function ShadeCanvas() {
         <ExperienceSetup />
         {/* <ScreenshotProvider setScreenshotFn={setTakeScreenshot} /> */}
         <ExportControls />
-
       </Canvas>
 
       {/* Render the button outside the Canvas */}
       <button
         onClick={() => {
           // if (takeScreenshot) {
-            const temp : void | (() => void) = uiStore.screenshotFn();
-            if (typeof temp === 'function') {
-              (temp as () => void)();
-            }
+          const temp: void | (() => void) = uiStore.screenshotFn();
+          if (typeof temp === "function") {
+            (temp as () => void)();
+          }
           // }
         }}
         className="fixed bottom-14 right-5 z-50 text-3xl p-1 bg-white shadow-lg cursor-pointer hover:bg-gray-200 transition rounded"

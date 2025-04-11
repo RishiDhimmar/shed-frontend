@@ -38,7 +38,7 @@ const LoginPage = () => {
             </a>
             <button
               className="w-full bg-gray-800 text-white p-3 rounded-lg cursor-pointer"
-              onClick={() => navigate("/listView")}
+              onClick={() => navigate("/app/listView")}
             >
               Sign In
             </button>

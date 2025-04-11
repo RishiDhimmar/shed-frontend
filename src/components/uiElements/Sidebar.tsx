@@ -1,44 +1,33 @@
-// import { MdMenu } from "react-icons/md";
-// import { observer } from "mobx-react-lite";
-// import { useState } from "react";
-// import { FaChevronRight } from "react-icons/fa";
-// import { useNavigate } from "react-router-dom";
-// import SideBarMenuItem from "./SideBarMenuItem";
-
-// const Sidebar = observer(() => {
-//   const [isMenuOpen, setIsMenuOpen] = useState(false);
-//   const navigate = useNavigate();
-
-//   return (
-//     <div className="bg-gray-700 flex flex-col  py-3 p-1 absolute z-20 top-16 left-0 h-screen hover:w-[250px] transition-all duration-1300">
-//       <MdMenu
-//         className="text-white text-3xl cursor-pointer hover:bg-gray-600 m-1 p-1 rounded "
-//         onClick={() => setIsMenuOpen(!isMenuOpen)}
-//       />
-
-//       <SideBarMenuItem />
-//     </div>
-//   );
-// });
-
-// export default Sidebar;
-
 import { MdMenu } from "react-icons/md";
 import { observer } from "mobx-react-lite";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import SideBarMenuItem from "./SideBarMenuItem";
-import { BiLogOutCircle } from "react-icons/bi";
+import { BiLayer, BiLogOutCircle } from "react-icons/bi";
 import { HiOutlineTemplate } from "react-icons/hi";
 import uiStore from "../../stores/UIStore";
-import { PiSlidersBold, PiStandardDefinitionBold } from "react-icons/pi";
+import { PiSlidersBold } from "react-icons/pi";
 
 const Sidebar = observer(() => {
   const navigate = useNavigate();
+  const location = useLocation();
 
+  const [showMasterSubMenu, setShowMasterSubMenu] = useState(false);
+
+  const handleTemplatesClick = () => {
+    navigate("/app/templates");
+    setShowMasterSubMenu(false);
+  };
+
+  const handleStandardInputsClick = () => {
+    uiStore.toggleStandardInputs();
+    setShowMasterSubMenu(false);
+    uiStore.toggleSidebar();
+  };
   return (
     <div
-      className={`bg-gray-700 flex flex-col py-4 px-2 absolute z-20 top-16 left-0 h-[calc(100vh-64px)] transition-[width] duration-500 ease-in-out ${
-        uiStore.isSidebarOpen ? "w-[300px]" : "w-[50px]"
+      className={`bg-gray-700 flex flex-col z-10 py-4 px-2 h-full transition-[width] duration-500  ease-in-out ${
+        uiStore.isSidebarOpen ? "w-[200px]" : "w-[50px]"
       }`}
     >
       <SideBarMenuItem
@@ -57,27 +46,43 @@ const Sidebar = observer(() => {
       <SideBarMenuItem
         icon={<HiOutlineTemplate />}
         label="Templates"
-        onIconClick={() => uiStore.toggleSidebar()}
+        onIconClick={() => {
+          uiStore.toggleSidebar();
+        }}
         showLabel={uiStore.isSidebarOpen}
       />
       <SideBarMenuItem
-        icon={
-          uiStore.useStandardInputs ? (
-            <PiSlidersBold />
-          ) : (
-            <PiStandardDefinitionBold />
-          )
-        }
-        label={uiStore.useStandardInputs ? "Custom" : "Standard"}
+        icon={uiStore.useStandardInputs ? <PiSlidersBold /> : <BiLayer />}
+        label="Master"
         onIconClick={() => {
           uiStore.toggleSidebar();
         }}
         onLabelClick={() => {
-          uiStore.toggleStandardInputs();
-          uiStore.setSidebarOpen(false);
+          if (uiStore.isSidebarOpen) {
+            setShowMasterSubMenu(!showMasterSubMenu);
+          }
         }}
         showLabel={uiStore.isSidebarOpen}
       />
+
+      {showMasterSubMenu && uiStore.isSidebarOpen && (
+        <div className="ml-8 mt-1">
+          <div
+            className={`text-white py-2 px-4 hover:bg-gray-600 cursor-pointer rounded ${
+              location.pathname.includes("templates") ? "bg-gray-600" : ""
+            }`}
+            onClick={handleTemplatesClick}
+          >
+            Templates
+          </div>
+          <div
+            className="text-white py-2 px-4 hover:bg-gray-600 cursor-pointer rounded"
+            onClick={handleStandardInputsClick}
+          >
+            {uiStore.useStandardInputs ? "Custom Inputs" : "Standard Inputs"}
+          </div>
+        </div>
+      )}
     </div>
   );
 });

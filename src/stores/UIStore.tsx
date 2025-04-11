@@ -9,6 +9,55 @@ export type currentComponentType =
   | "mullionColumn"
   | "groundBeam";
 
+export type TemplateType =
+  | "baseplate"
+  | "column"
+  | "foundation"
+  | "groundBeam"
+  | "shade";
+
+interface TemplateDimensions {
+  length: string | number;
+  width: string | number;
+  thickness: string | number;
+}
+
+// For baseplate specific dimensions
+export interface BaseplateTemplateDimensions {
+  corner: { width: number; length: number; offsetX?: number; offsetY?: number };
+  horizontal: {
+    width: number;
+    length: number;
+    offsetX?: number;
+    offsetY?: number;
+  };
+  vertical: {
+    width: number;
+    length: number;
+    offsetX?: number;
+    offsetY?: number;
+  };
+}
+
+// For shade specific dimensions
+export interface ShadeTemplateDimensions {
+  length: number;
+  width: number;
+  thickness: number;
+}
+
+export interface Template {
+  id: number;
+  name: string;
+  type: string;
+  dimensions:
+    | TemplateDimensions
+    | BaseplateTemplateDimensions
+    | ShadeTemplateDimensions
+    | null;
+  createdAt: string;
+}
+
 class UIStore {
   currentComponent: currentComponentType = "plot";
   isSidebarOpen = false;
@@ -32,8 +81,22 @@ class UIStore {
     console.log("first");
   };
 
+  templates: Template[] = [];
   constructor() {
     makeAutoObservable(this);
+  }
+
+  addTemplate(template: Omit<Template, "id" | "createdAt">) {
+    this.templates.push({
+      ...template,
+      id: this.templates.length + 1,
+      createdAt: new Date().toLocaleDateString(),
+    });
+    this.setModified(true);
+  }
+
+  getTemplatesByType(type: TemplateType): Template[] {
+    return this.templates.filter((template) => template.type === type);
   }
 
   setCurrentComponent(component: currentComponentType) {

@@ -4,7 +4,7 @@ import mullionColumnStore from "../../../stores/MullianColumnStore";
 
 export const MullionColumn = observer(() => {
   return (
-    <div className=" p-4">
+    <div className=" p-6">
       <h1 className="text-lg font-bold mb-4">Mullion Column</h1>
       <form className="space-y-2">
         <h1 className="text-md font-medium ">Size</h1>
@@ -14,12 +14,11 @@ export const MullionColumn = observer(() => {
             label="Length:"
             value={mullionColumnStore.mullionLength}
             onChange={() => {}}
-            />
+          />
           <InputNumber
             label="width:"
             value={mullionColumnStore.mullionWidth}
             onChange={() => {}}
-            
           />
         </div>
 

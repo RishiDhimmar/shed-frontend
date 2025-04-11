@@ -1,8 +1,14 @@
 import { FaRegStar } from "react-icons/fa6";
-import CreateProjectPopup from "./CreateProjectPopup";
 import { useState } from "react";
+import CreateProjectPopup from "./CreateProjectPopup";
 
-const ListView = () => {
+function ListView() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
   const projects = Array(5)
     .fill(undefined)
     .map((_, i) => ({
@@ -11,15 +17,9 @@ const ListView = () => {
       lastEdited: "2 days ago",
       logo: "abc",
     }));
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
   return (
-    <div className="min-h-screen bg-white">
-      <div className="p-6">
+    <div className=" min-h-screen w-full">
+      <div className="p-6 h-full">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold">Projects</h1>
           <button
@@ -31,7 +31,7 @@ const ListView = () => {
         </div>
 
         <div className="overflow-y-auto flex-grow">
-          <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5 gap-6">
             {projects.map((project) => (
               <div
                 key={project.id}
@@ -39,7 +39,7 @@ const ListView = () => {
               >
                 <div className="relative h-40">
                   <img
-                    src="assets/resolute-logo.png"
+                    src="/assets/resolute-logo.png"
                     alt={project.name}
                     className="w-full h-full object-contain"
                   />
@@ -63,12 +63,10 @@ const ListView = () => {
             ))}
           </div>
         </div>
+        <CreateProjectPopup isOpen={isModalOpen} onClose={handleModalClose} />
       </div>
-
-      {/* Import and use the CreateProjectModal component */}
-      <CreateProjectPopup isOpen={isModalOpen} onClose={handleModalClose} />
     </div>
   );
-};
+}
 
 export default ListView;

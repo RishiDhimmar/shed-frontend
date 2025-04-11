@@ -4,7 +4,7 @@ import columnStore from "../../../stores/ColumnStore";
 
 export const GroundBeam = observer(() => {
   return (
-    <div className="p-4">
+    <div className="p-6">
       <h1 className="text-lg font-bold mb-4">Ground Beam</h1>
       <h2 className="text-md font-semibold">Coping Beam</h2>
       <form className="space-y-2">
@@ -14,9 +14,7 @@ export const GroundBeam = observer(() => {
           <InputNumber
             label="Length:"
             value={columnStore.cornerLength}
-            onChange={() => {
-
-            }}
+            onChange={() => {}}
           />
           <InputNumber
             label="width:"

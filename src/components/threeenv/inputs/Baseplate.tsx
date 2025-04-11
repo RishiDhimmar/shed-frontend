@@ -149,6 +149,10 @@ import InputNumber from "../Helpers/InputNumber";
 import { IoIosArrowDropdown } from "react-icons/io";
 import { useState } from "react";
 import { BaseplateType } from "../../../stores/BasePlateStore";
+import uiStore, {
+  BaseplateTemplateDimensions,
+  Template,
+} from "../../../stores/UIStore";
 
 // Dimension presets with labels
 const dimensionPresets: Record<
@@ -227,6 +231,27 @@ export const BaseplateInput = observer(() => {
     }
   };
 
+  const handleTemplatePreset = (template: Template) => {
+    setShowDimensionDropdown(false);
+
+    const dimensions = template.dimensions as BaseplateTemplateDimensions;
+    if (!dimensions) return;
+
+    for (const type of Object.keys(dimensions) as BaseplateType[]) {
+      const config = dimensions[type];
+      if (!config) continue;
+
+      baseplateStore.setLength(type, config.length);
+      baseplateStore.setWidth(type, config.width);
+      if (config.offsetX !== undefined)
+        baseplateStore.setOffsetX(type, config.offsetX);
+      if (config.offsetY !== undefined)
+        baseplateStore.setOffsetY(type, config.offsetY);
+    }
+  };
+
+  const baseplateTemplates = uiStore.getTemplatesByType("baseplate");
+
   return (
     <div className="p-6">
       <div className="flex gap-3 items-center justify-content-between relative mb-4">
@@ -239,6 +264,7 @@ export const BaseplateInput = observer(() => {
         />
         {showDimensionDropdown && (
           <div className="absolute top-8 left-40 bg-white shadow-md rounded p-2 z-10 w-full">
+            {/* Existing hardcoded dimension presets */}
             {Object.entries(dimensionPresets).map(([key, preset]) => (
               <div
                 key={key}
@@ -246,6 +272,17 @@ export const BaseplateInput = observer(() => {
                 onClick={() => handleDimensionPreset(key)}
               >
                 {preset.label}
+              </div>
+            ))}
+
+            {/* Dynamic template list */}
+            {baseplateTemplates.map((template) => (
+              <div
+                key={template.id}
+                className="cursor-pointer hover:bg-gray-100 p-1 text-sm text-blue-600"
+                onClick={() => handleTemplatePreset(template)}
+              >
+                {template.name}
               </div>
             ))}
           </div>

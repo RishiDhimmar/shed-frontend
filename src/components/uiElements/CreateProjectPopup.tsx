@@ -4,7 +4,6 @@ interface CreateProjectPopupProps {
   onClose: () => void;
 }
 
-
 const CreateProjectPopup = ({ isOpen, onClose }: CreateProjectPopupProps) => {
   const navigate = useNavigate();
   if (!isOpen) return null;
@@ -90,7 +89,7 @@ const CreateProjectPopup = ({ isOpen, onClose }: CreateProjectPopupProps) => {
             <button
               type="submit"
               className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-blue-900"
-              onClick={() => navigate("/project")}
+              onClick={() => navigate("/app/project")}
             >
               Create
             </button>

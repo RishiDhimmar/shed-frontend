@@ -205,7 +205,7 @@ const InputNumber: React.FC<InputNumberProps> = observer(
             className="border border-gray-300 px-3 py-1 mt-1 rounded-md flex justify-between items-center cursor-pointer"
             onClick={() => setShowDropdown((prev) => !prev)}
           >
-            <span>{numericValue}</span>
+            <span>{Math.round(numericValue)}</span>
             <IoIosArrowDropdown className="text-gray-500" />
           </div>
         ) : (
