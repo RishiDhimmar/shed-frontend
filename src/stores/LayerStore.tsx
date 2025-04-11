@@ -45,7 +45,7 @@ class LayerStore {
       this.setLoading(true);
       this.setError(null);
 
-      const res = await fetch(BACKEND_URL + "/api/dxf/upload-dxf", {
+      const res = await fetch(BACKEND_URL + "api/dxf/upload-dxf", {
         method: "POST",
         body: formData,
       });
