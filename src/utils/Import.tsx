@@ -18,7 +18,7 @@ export const Import = () => {
     formData.append("dxfFile", file);
 
     try {
-      const response = await fetch(`${BACKEND_URL}api/upload-dxf`, {
+      const response = await fetch(`${BACKEND_URL}api/dxf/upload-dxf`, {
         method: "POST",
         body: formData,
       });
@@ -45,7 +45,7 @@ export const Import = () => {
   
     try {
       const response = await fetch(
-        "http://ec2-13-201-98-117.ap-south-1.compute.amazonaws.com:3000/api/upload-dxf",
+       BACKEND_URL + "api/dxf/upload-dxf",
         {
           method: "POST",
           body: formData,

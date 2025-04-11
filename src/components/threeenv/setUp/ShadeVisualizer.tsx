@@ -7,6 +7,7 @@ import BasePlotVisualizer from "./BasePlotVisualizer";
 import ShedWallVisualizer from "./ShedWallVisualizer";
 import uiStore from "../../../stores/UIStore";
 import { observer } from "mobx-react-lite";
+import LayerEntitiesVisualizer from "./LayerEntitiesVisualizer";
 // import { useEffect } from "react";
 // import wallStore from "../../../stores/WallStore";
 
@@ -23,6 +24,7 @@ const ShadeVisualizer = observer(() => {
       {uiStore.visibility.foundation && <FoundationVisualizer />}
       {uiStore.visibility.shade && <ShedWallVisualizer />}
       {uiStore.visibility.mullionColumn && <MullionColumnVisualizer />}
+      <LayerEntitiesVisualizer />
     </>
   );
 });
