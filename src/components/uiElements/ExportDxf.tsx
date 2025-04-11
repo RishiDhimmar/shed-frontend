@@ -15,7 +15,7 @@ const ExportMenu = observer(() => {
 
   const handleExportDXF = async () => {
     try {
-      const response = await fetch(BACKEND_URL + "api/generate-dxf", {
+      const response = await fetch(BACKEND_URL + "api/dxf/generate-dxf", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

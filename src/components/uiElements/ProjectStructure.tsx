@@ -7,6 +7,7 @@ import { Assumptions } from "../threeenv/Helpers/Assumptions";
 import Info from "../../utils/Info";
 import Sidebar from "./Sidebar";
 import ExportDxf from "./ExportDxf";
+import GetLayerDxf from "./GetLayerDxf";
 
 function ProjectStructure() {
   return (
@@ -27,6 +28,7 @@ function ProjectStructure() {
           </div>
           <Assumptions />
           <ExportDxf />
+          <GetLayerDxf />
         </div>
         <Info />
       </div>
