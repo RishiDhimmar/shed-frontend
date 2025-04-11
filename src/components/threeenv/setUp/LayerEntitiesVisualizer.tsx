@@ -95,7 +95,7 @@ const LayerEntitiesVisualizer = observer(() => {
               key={`line-${index}`}
               points={points}
               color="blue"
-              dashed={false}
+            //   dashed={false}
             />
           );
         }
@@ -111,7 +111,7 @@ const LayerEntitiesVisualizer = observer(() => {
                 key={`polyline-${index}-${i}`}
                 points={[points[i], points[i + 1]]}
                 color="green"
-                dashed={false}
+                // dashed={false}
               />
             );
           }
@@ -122,7 +122,7 @@ const LayerEntitiesVisualizer = observer(() => {
                 key={`polyline-${index}-closing`}
                 points={[points[points.length - 1], points[0]]}
                 color="green"
-                dashed={false}
+                // dashed={false}
               />
             );
           }
@@ -150,7 +150,7 @@ const LayerEntitiesVisualizer = observer(() => {
                 key={`circle-${index}-${i}`}
                 points={[points[i], points[i + 1]]}
                 color="orange"
-                dashed={false}
+                // dashed={false}
               />
             );
           }
@@ -180,7 +180,7 @@ const LayerEntitiesVisualizer = observer(() => {
                 key={`arc-${index}-${i}`}
                 points={[points[i], points[i + 1]]}
                 color="purple"
-                dashed={false}
+                // dashed={false}
               />
             );
           }
@@ -201,7 +201,7 @@ const LayerEntitiesVisualizer = observer(() => {
                 [x + size, y + size, 0],
               ]}
               color="red"
-              dashed={false}
+            //   dashed={false}
             />
           );
         }
