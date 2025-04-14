@@ -797,8 +797,8 @@ class BaseplateStore {
       const { x, y, wall } = baseplate;
 
       const points = { 
-        horizontal: [], 
-        vertical: [] 
+        horizontal: [] as number[][], 
+        vertical: [] as number[][]
       };
 
       switch (wall) {
