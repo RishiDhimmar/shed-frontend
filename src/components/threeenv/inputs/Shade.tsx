@@ -3,6 +3,7 @@ import wallStore from "../../../stores/WallStore";
 import InputNumber from "../Helpers/InputNumber";
 import { IoIosArrowDropdown } from "react-icons/io";
 import { useState } from "react";
+import uiStore, { Template } from "../../../stores/UIStore";
 
 export const Shade = observer(() => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -12,26 +13,18 @@ export const Shade = observer(() => {
     setShowDropdown(!showDropdown);
   };
 
-  const handleSelect = (shade: string) => {
-    setSelectedShed(shade);
+  const handleSelectTemplate = (template: Template) => {
+    setSelectedShed(template.name);
     setShowDropdown(false);
 
-    if (shade === "Shade 1") {
-      wallStore.setHeight(50);
-      wallStore.setWidth(60);
-      wallStore.setWallThickness(0.5);
-    } else if (shade === "Shade 2") {
-      wallStore.setHeight(60);
-      wallStore.setWidth(40);
-      wallStore.setWallThickness(0.8);
-    }
+    const dims = template.dimensions as any;
+
+    wallStore.setHeight(dims.height ?? dims.length); // depending on format
+    wallStore.setWidth(dims.width);
+    wallStore.setWallThickness(dims.thickness ?? 0.5); // or handle thickness better
   };
 
-  // Predefined values for each shade
-  const shadePresets = {
-    "Shade 1": { height: 50, width: 60 },
-    "Shade 2": { height: 60, width: 40 },
-  };
+  const shedTemplates = uiStore.getTemplatesByType("shed");
 
   return (
     <div className="p-6">
@@ -46,15 +39,20 @@ export const Shade = observer(() => {
         />
         {showDropdown && (
           <div className="absolute top-8 left-20 bg-white shadow-md rounded p-2 z-50">
-            {Object.entries(shadePresets).map(([shade, values]) => (
-              <div
-                key={shade}
-                className="cursor-pointer hover:bg-gray-200 p-1"
-                onClick={() => handleSelect(shade)}
-              >
-                {`${shade} (${values.height / 10} × ${values.width / 10})`}
-              </div>
-            ))}
+            {shedTemplates.map((template) => {
+              const dims = template.dimensions as any;
+              return (
+                <div
+                  key={template.id}
+                  className="cursor-pointer hover:bg-gray-200 p-1"
+                  onClick={() => handleSelectTemplate(template)}
+                >
+                  {`${template.name} (${dims.height ?? dims.length} × ${
+                    dims.width
+                  })`}
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
@@ -70,7 +68,7 @@ export const Shade = observer(() => {
           onChange={(newWidth: number) => wallStore.setWidth(newWidth)}
         />
         <InputNumber
-          label="Thickness:"
+          label="Thickness: "
           value={wallStore.wallThickness}
           onChange={(newThickness: number) =>
             wallStore.setWallThickness(newThickness)

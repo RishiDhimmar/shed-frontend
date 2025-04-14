@@ -1,8 +1,8 @@
 // AddTemplateModal.jsx
 import { useState } from "react";
-import uiStore from "../../stores/UIStore";
+import uiStore, { Template } from "../../stores/UIStore";
 
-const AddTemplateModal = ({ onClose }) => {
+const AddTemplateModal = ({ onClose }: { onClose: () => void }) => {
   const [templateName, setTemplateName] = useState("");
   const [templateType, setTemplateType] = useState("");
   const [length, setLength] = useState("");
@@ -12,25 +12,17 @@ const AddTemplateModal = ({ onClose }) => {
   const [VerticalDistance, setVerticalDistance] = useState("");
 
   const handleSubmit = () => {
-    let dimensions = null;
-    if (templateType === "Shed") {
-      dimensions = {
-        length,
-        width,
-        thickness,
-      };
-    } else if (templateType === "Baseplate") {
-      dimensions = {
-        horizontalDistance,
-        VerticalDistance,
-      };
-    }
-    const newTemplate = {
+    const newTemplate: Omit<Template, "id" | "createdAt"> = {
       name: templateName,
       type: templateType,
-      dimensions,
+      dimensions:
+        templateType === "shed"
+          ? { length, width, thickness }
+          : {
+              idealHorizontalDistance: parseFloat(horizontalDistance),
+              idealVerticalDistance: parseFloat(VerticalDistance),
+            },
     };
-
     uiStore.addTemplate(newTemplate);
     onClose();
   };
@@ -63,18 +55,18 @@ const AddTemplateModal = ({ onClose }) => {
               className="w-full p-2 border rounded focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="">Select Type</option>
-              <option value="Shed">Shed</option>
-              <option value="Baseplate">Baseplate</option>
+              <option value="shed">Shed</option>
+              <option value="baseplate">Baseplate</option>
             </select>
           </div>
 
-          {templateType === "Shed" && (
+          {templateType === "shed" && (
             <div className="p-4 border rounded bg-gray-50">
               <h4 className="text-sm font-medium mb-2">Shed Dimensions</h4>
               <div className="grid grid-cols-3 gap-3">
                 <div>
                   <label className="block text-xs text-gray-500 mb-1">
-                    Length
+                    Length (m)
                   </label>
                   <input
                     type="number"
@@ -85,7 +77,7 @@ const AddTemplateModal = ({ onClose }) => {
                 </div>
                 <div>
                   <label className="block text-xs text-gray-500 mb-1">
-                    Width
+                    Width (m)
                   </label>
                   <input
                     type="number"
@@ -96,7 +88,7 @@ const AddTemplateModal = ({ onClose }) => {
                 </div>
                 <div>
                   <label className="block text-xs text-gray-500 mb-1">
-                    Thickness
+                    Thickness (m)
                   </label>
                   <input
                     type="number"
@@ -109,7 +101,7 @@ const AddTemplateModal = ({ onClose }) => {
             </div>
           )}
 
-          {templateType === "Baseplate" && (
+          {templateType === "baseplate" && (
             <div className="p-4 border rounded bg-gray-50">
               <h4 className="text-sm font-medium mb-2">Baseplate Dimensions</h4>
               <div className="flex gap-3">

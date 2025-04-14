@@ -1,6 +1,6 @@
 import { MdMenu } from "react-icons/md";
 import { observer } from "mobx-react-lite";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import SideBarMenuItem from "./SideBarMenuItem";
 import { BiLayer, BiLogOutCircle } from "react-icons/bi";
@@ -10,23 +10,25 @@ import { PiSlidersBold } from "react-icons/pi";
 
 const Sidebar = observer(() => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const [showMasterSubMenu, setShowMasterSubMenu] = useState(false);
+  const [selectedSubMenu, setSelectedSubMenu] = useState("");
 
   const handleTemplatesClick = () => {
+    setSelectedSubMenu("templates");
     navigate("/app/templates");
     setShowMasterSubMenu(false);
   };
 
   const handleStandardInputsClick = () => {
+    setSelectedSubMenu("standardInputs");
     uiStore.toggleStandardInputs();
     setShowMasterSubMenu(false);
     uiStore.toggleSidebar();
   };
   return (
     <div
-      className={`bg-gray-700 flex flex-col z-10 py-4 px-2 h-full transition-[width] duration-500  ease-in-out ${
+      className={`bg-gray-700 flex flex-col z-20 py-4 px-2 h-calc(100vh-64px) transition-[width] duration-500  ease-in-out  absolute h-screen ${
         uiStore.isSidebarOpen ? "w-[200px]" : "w-[50px]"
       }`}
     >
@@ -69,14 +71,19 @@ const Sidebar = observer(() => {
         <div className="ml-8 mt-1">
           <div
             className={`text-white py-2 px-4 hover:bg-gray-600 cursor-pointer rounded ${
-              location.pathname.includes("templates") ? "bg-gray-600" : ""
+              selectedSubMenu === "templates" ? "bg-gray-600" : ""
             }`}
-            onClick={handleTemplatesClick}
+            onClick={() => {
+              handleTemplatesClick();
+              uiStore.setSidebarOpen(false);
+            }}
           >
             Templates
           </div>
           <div
-            className="text-white py-2 px-4 hover:bg-gray-600 cursor-pointer rounded"
+            className={`text-white py-2 px-4 hover:bg-gray-600 cursor-pointer rounded" ${
+              selectedSubMenu === "standardInputs" ? "bg-gray-600" : ""
+            }`}
             onClick={handleStandardInputsClick}
           >
             {uiStore.useStandardInputs ? "Custom Inputs" : "Standard Inputs"}

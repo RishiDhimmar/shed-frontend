@@ -59,9 +59,11 @@ import TemplatesManagement from "./components/uiElements/TemplatesManagement";
 const MainLayout = () => (
   <div className="flex flex-col h-screen">
     <Navbar />
-    <div className="flex w-full h-full overflow-hidden">
+    <div className="flex w-full h-full overflow-hidden relative">
       <Sidebar />
-      <Outlet />
+      <div className="ml-12 flex w-full">
+        <Outlet />
+      </div>
     </div>
   </div>
 );
@@ -78,7 +80,14 @@ const Router = createBrowserRouter([
     children: [
       { path: "listView", element: <ListView /> },
       { path: "project", element: <ProjectStructure /> },
-      { path: "templates", element: <TemplatesManagement /> },
+      {
+        path: "templates",
+        element: (
+          <TemplatesManagement
+            onClose={() => console.log("Templates management closed")}
+          />
+        ),
+      },
     ],
   },
 ]);

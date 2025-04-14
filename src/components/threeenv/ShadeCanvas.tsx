@@ -47,7 +47,7 @@ function ShadeCanvas() {
           }
           // }
         }}
-        className="fixed bottom-14 right-5 z-50 text-3xl p-1 bg-white shadow-lg cursor-pointer hover:bg-gray-200 transition rounded"
+        className="fixed top-18 right-65 z-50 text-3xl p-1  shadow-lg cursor-pointer hover:bg-gray-300 transition rounded-full"
       >
         <RiScreenshot2Line />
       </button>

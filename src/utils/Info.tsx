@@ -6,7 +6,7 @@ const Info = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className="absolute bottom-4 right-6 z-10">
+    <div className="absolute top-4 right-75 z-10">
       {/* Info button */}
       <div
         className="p-1 rounded-full flex items-center  cursor-pointer relative hover:bg-gray-300"
@@ -18,7 +18,7 @@ const Info = () => {
 
       {/* Tooltip: It will be shown when isHovered is true */}
       {isHovered && (
-        <div className="absolute top-[-185px] bottom-0 right-full w-[250px] mr-1 whitespace-normal bg-gray-200 text-sm px-2 py-1 rounded z-10 shadow-md mb-2">
+        <div className="absolute   right-full w-[250px] mr-1 whitespace-normal bg-gray-200 text-sm px-2 py-1 rounded z-10 shadow-md mb-2">
           <strong>3D Environment Controls:</strong> <br />
           <hr className="my-1 border-gray-200"></hr>
           <strong>1. Zoom</strong>: Scroll to zoom in or out of the scene.{" "}

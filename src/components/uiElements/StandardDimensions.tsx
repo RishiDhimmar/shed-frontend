@@ -1,7 +1,14 @@
 // StandardDimensions.jsx
 import wallStore from "../../stores/WallStore";
 
-const StandardDimensions = ({ onClose }) => {
+interface Shed {
+  name: string;
+  height: number;
+  width: number;
+  thickness: number;
+}
+
+const StandardDimensions = ({ onClose }: { onClose: () => void }) => {
   // Standard shed dimensions
   const standardSheds = [
     { name: "Small Shed", height: 40, width: 50, thickness: 0.4 },
@@ -11,7 +18,7 @@ const StandardDimensions = ({ onClose }) => {
   ];
 
   // Function to apply selected standard shed dimensions directly to the store
-  const applyStandardDimensions = (shed) => {
+  const applyStandardDimensions = (shed: Shed) => {
     wallStore.setHeight(shed.height);
     wallStore.setWidth(shed.width);
     wallStore.setWallThickness(shed.thickness);

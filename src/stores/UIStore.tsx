@@ -14,7 +14,7 @@ export type TemplateType =
   | "column"
   | "foundation"
   | "groundBeam"
-  | "shade";
+  | "shed";
 
 interface TemplateDimensions {
   length: string | number;
@@ -23,21 +23,6 @@ interface TemplateDimensions {
 }
 
 // For baseplate specific dimensions
-export interface BaseplateTemplateDimensions {
-  corner: { width: number; length: number; offsetX?: number; offsetY?: number };
-  horizontal: {
-    width: number;
-    length: number;
-    offsetX?: number;
-    offsetY?: number;
-  };
-  vertical: {
-    width: number;
-    length: number;
-    offsetX?: number;
-    offsetY?: number;
-  };
-}
 
 // For shade specific dimensions
 export interface ShadeTemplateDimensions {
@@ -46,14 +31,18 @@ export interface ShadeTemplateDimensions {
   thickness: number;
 }
 
+interface BaseplateTemplateDimensions {
+  idealHorizontalDistance: number;
+  idealVerticalDistance: number;
+}
 export interface Template {
   id: number;
   name: string;
   type: string;
   dimensions:
     | TemplateDimensions
-    | BaseplateTemplateDimensions
     | ShadeTemplateDimensions
+    | BaseplateTemplateDimensions
     | null;
   createdAt: string;
 }
