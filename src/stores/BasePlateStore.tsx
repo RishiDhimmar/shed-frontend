@@ -24,6 +24,7 @@ export interface Baseplate {
   type: BaseplateType;
   points: number[][];
   wall: WallType | null;
+  centerLinePoints: { horizontal: number[][]; vertical: number[][] } | null;
 }
 
 export interface BaseplateConfig {
@@ -380,6 +381,7 @@ class BaseplateStore {
         ? points
         : getRectanglePoints(cfg.length, cfg.width, [x, y]),
       wall,
+      centerLinePoints: null,
     };
   }
 
@@ -600,6 +602,358 @@ class BaseplateStore {
   public clearBaseplates() {
     this.setBasePlates([]);
   }
+
+  // updateCenterLinePoints() {
+  //   const bottomLeft = baseplateStore.basePlates.find(
+  //     (baseplate) => baseplate.wall === "bottom-left"
+  //   );
+  //   const bottomRight = baseplateStore.basePlates.find(
+  //     (baseplate) => baseplate.wall === "bottom-right"
+  //   );
+  //   const topLeft = baseplateStore.basePlates.find(
+  //     (baseplate) => baseplate.wall === "top-left"
+  //   );
+  //   const topRight = baseplateStore.basePlates.find(
+  //     (baseplate) => baseplate.wall === "top-right"
+  //   );
+
+  //   this.basePlates.forEach((baseplate) => {
+  //     const { x, y, wall } = baseplate;
+
+  //     const points: {
+  //       horizontal: [number, number][];
+  //       vertical: [number, number][];
+  //     } = { horizontal: [], vertical: [] };
+
+  //     switch (wall) {
+  //       case "left":
+  //         points.horizontal.push(
+  //           [x + baseplateStore.config.horizontal.length / 2, y],
+  //           [
+  //             x +
+  //               wallStore.innerWidth +
+  //               baseplateStore.config.horizontal.length / 2,
+  //             y,
+  //           ]
+  //         );
+  //         points.vertical.push(
+  //           [x, y - Math.abs(bottomLeft!.y - y)],
+  //           [x, y + Math.abs(topLeft!.y - y)]
+  //         );
+  //         break;
+
+  //       case "right":
+  //         points.horizontal.push(
+  //           [x - baseplateStore.config.horizontal.length / 2, y],
+  //           [
+  //             x -
+  //               wallStore.innerWidth -
+  //               baseplateStore.config.horizontal.length / 2,
+  //             y,
+  //           ]
+  //         );
+  //         points.vertical.push(
+  //           [x, y - Math.abs(bottomRight!.y - y)],
+  //           [x, y + Math.abs(topRight!.y - y)]
+  //         );
+  //         break;
+
+  //       case "top":
+  //         points.horizontal.push(
+  //           [x - Math.abs(bottomLeft!.x - x), y],
+  //           [x + Math.abs(topRight!.x - x), y]
+  //         );
+  //         points.vertical.push(
+  //           [x, y + baseplateStore.config.vertical.length / 2],
+  //           [
+  //             x,
+  //             y -
+  //               wallStore.innerHeight -
+  //               baseplateStore.config.vertical.length / 2,
+  //           ]
+  //         );
+  //         break;
+
+  //       case "bottom":
+  //         points.horizontal.push(
+  //           [x - Math.abs(bottomLeft!.x - x), y],
+  //           [x + Math.abs(bottomRight!.x - x), y]
+  //         );
+  //         points.vertical.push(
+  //           [x, y - baseplateStore.config.vertical.length / 2],
+  //           [
+  //             x,
+  //             y +
+  //               wallStore.innerHeight +
+  //               baseplateStore.config.vertical.length / 2,
+  //           ]
+  //         );
+  //         break;
+
+  //       case "top-left":
+  //         points.horizontal.push(
+  //           [topLeft!.x - baseplateStore.config.corner.length, topLeft!.y],
+  //           [
+  //             topRight!.x + baseplateStore.config.corner.length || topLeft!.x,
+  //             topLeft!.y,
+  //           ]
+  //         );
+  //         points.vertical.push(
+  //           [topLeft!.x, topLeft!.y + baseplateStore.config.corner.width],
+  //           [
+  //             bottomLeft!.x || topLeft!.x,
+  //             bottomLeft!.y - baseplateStore.config.corner.width || topLeft!.y,
+  //           ]
+  //         );
+  //         break;
+
+  //       case "top-right":
+  //         points.horizontal.push(
+  //           [
+  //             topLeft!.x - baseplateStore.config.corner.length || topRight!.x,
+  //             topRight!.y,
+  //           ],
+  //           [topRight!.x + baseplateStore.config.corner.length, topRight!.y]
+  //         );
+  //         points.vertical.push(
+  //           [topRight!.x, topRight!.y + baseplateStore.config.corner.width],
+  //           [
+  //             bottomRight!.x || topRight!.x,
+  //             bottomRight!.y - baseplateStore.config.corner.width ||
+  //               topRight!.y,
+  //           ]
+  //         );
+  //         break;
+
+  //       case "bottom-right":
+  //         points.horizontal.push(
+  //           [
+  //             bottomRight!.x + baseplateStore.config.corner.width,
+  //             bottomRight!.y,
+  //           ],
+  //           [
+  //             bottomLeft!.x - baseplateStore.config.corner.width ||
+  //               bottomRight!.x,
+  //             bottomRight!.y,
+  //           ]
+  //         );
+  //         points.vertical.push(
+  //           [
+  //             bottomRight!.x,
+  //             bottomRight!.y - baseplateStore.config.corner.width,
+  //           ],
+  //           [
+  //             topRight!.x || bottomRight!.x,
+  //             topRight!.y + baseplateStore.config.corner.width ||
+  //               bottomRight!.y,
+  //           ]
+  //         );
+  //         break;
+
+  //       case "bottom-left":
+  //         points.horizontal.push(
+  //           [
+  //             bottomRight!.x + baseplateStore.config.corner.width ||
+  //               bottomLeft!.x,
+  //             bottomLeft!.y,
+  //           ],
+  //           [bottomLeft!.x - baseplateStore.config.corner.width, bottomLeft!.y]
+  //         );
+  //         points.vertical.push(
+  //           [bottomLeft!.x, bottomLeft!.y - baseplateStore.config.corner.width],
+  //           [
+  //             topLeft!.x || bottomLeft!.x,
+  //             topLeft!.y + baseplateStore.config.corner.width || bottomLeft!.y,
+  //           ]
+  //         );
+  //         break;
+
+  //       default:
+  //         points.horizontal.push([0, 0]);
+  //         points.vertical.push([0, 0]);
+  //         break;
+  //     }
+
+  //     baseplate.centerLinePoints = points;
+  //     console.log(`${wall} centerLinePoints:`, points);
+  //   });
+  // }
+
+  updateCenterLinePoints() {
+    const bottomLeft = baseplateStore.basePlates.find(
+      (baseplate) => baseplate.wall === "bottom-left"
+    );
+    const bottomRight = baseplateStore.basePlates.find(
+      (baseplate) => baseplate.wall === "bottom-right"
+    );
+    const topLeft = baseplateStore.basePlates.find(
+      (baseplate) => baseplate.wall === "top-left"
+    );
+    const topRight = baseplateStore.basePlates.find(
+      (baseplate) => baseplate.wall === "top-right"
+    );
+
+    this.basePlates.forEach((baseplate) => {
+      const { x, y, wall } = baseplate;
+
+      const points = { 
+        horizontal: [], 
+        vertical: [] 
+      };
+
+      switch (wall) {
+        case "left":
+          points.horizontal.push(
+            [x + baseplateStore.config.horizontal.length / 2, y],
+            [
+              x +
+                wallStore.innerWidth +
+                baseplateStore.config.horizontal.length / 2,
+              y,
+            ]
+          );
+          points.vertical.push(
+            [x, y - Math.abs(bottomLeft!.y - y)],
+            [x, y + Math.abs(topLeft!.y - y)]
+          );
+          break;
+
+        case "right":
+          points.horizontal.push(
+            [x - baseplateStore.config.horizontal.length / 2, y],
+            [
+              x -
+                wallStore.innerWidth -
+                baseplateStore.config.horizontal.length / 2,
+              y,
+            ]
+          );
+          points.vertical.push(
+            [x, y - Math.abs(bottomRight!.y - y)],
+            [x, y + Math.abs(topRight!.y - y)]
+          );
+          break;
+
+        case "top":
+          points.horizontal.push(
+            [x - Math.abs(topLeft!.x - x), y],
+            [x + Math.abs(topRight!.x - x), y]
+          );
+          points.vertical.push(
+            [x, y + baseplateStore.config.vertical.length / 2],
+            [
+              x,
+              y -
+                wallStore.innerHeight -
+                baseplateStore.config.vertical.length / 2,
+            ]
+          );
+          break;
+
+        case "bottom":
+          points.horizontal.push(
+            [x - Math.abs(bottomLeft!.x - x), y],
+            [x + Math.abs(bottomRight!.x - x), y]
+          );
+          points.vertical.push(
+            [x, y - baseplateStore.config.vertical.length / 2],
+            [
+              x,
+              y +
+                wallStore.innerHeight +
+                baseplateStore.config.vertical.length / 2,
+            ]
+          );
+          break;
+
+        case "top-left":
+          points.horizontal.push(
+            [topLeft!.x - baseplateStore.config.corner.length, topLeft!.y],
+            [
+              topRight!.x + baseplateStore.config.corner.length || topLeft!.x,
+              topLeft!.y,
+            ]
+          );
+          points.vertical.push(
+            [topLeft!.x, topLeft!.y + baseplateStore.config.corner.width],
+            [
+              bottomLeft!.x || topLeft!.x,
+              bottomLeft!.y - baseplateStore.config.corner.width || topLeft!.y,
+            ]
+          );
+          break;
+
+        case "top-right":
+          points.horizontal.push(
+            [
+              topLeft!.x - baseplateStore.config.corner.length || topRight!.x,
+              topRight!.y,
+            ],
+            [topRight!.x + baseplateStore.config.corner.length, topRight!.y]
+          );
+          points.vertical.push(
+            [topRight!.x, topRight!.y + baseplateStore.config.corner.width],
+            [
+              bottomRight!.x || topRight!.x,
+              bottomRight!.y - baseplateStore.config.corner.width ||
+                topRight!.y,
+            ]
+          );
+          break;
+
+        case "bottom-right":
+          points.horizontal.push(
+            [
+              bottomRight!.x + baseplateStore.config.corner.width,
+              bottomRight!.y,
+            ],
+            [
+              bottomLeft!.x - baseplateStore.config.corner.width ||
+                bottomRight!.x,
+              bottomRight!.y,
+            ]
+          );
+          points.vertical.push(
+            [
+              bottomRight!.x,
+              bottomRight!.y - baseplateStore.config.corner.width,
+            ],
+            [
+              topRight!.x || bottomRight!.x,
+              topRight!.y + baseplateStore.config.corner.width ||
+                bottomRight!.y,
+            ]
+          );
+          break;
+
+        case "bottom-left":
+          points.horizontal.push(
+            [
+              bottomRight!.x + baseplateStore.config.corner.width ||
+                bottomLeft!.x,
+              bottomLeft!.y,
+            ],
+            [bottomLeft!.x - baseplateStore.config.corner.width, bottomLeft!.y]
+          );
+          points.vertical.push(
+            [bottomLeft!.x, bottomLeft!.y - baseplateStore.config.corner.width],
+            [
+              topLeft!.x || bottomLeft!.x,
+              topLeft!.y + baseplateStore.config.corner.width || bottomLeft!.y,
+            ]
+          );
+          break;
+
+        default:
+          points.horizontal.push([0, 0]);
+          points.vertical.push([0, 0]);
+          break;
+      }
+
+      baseplate.centerLinePoints = points;
+      console.log(`${wall} centerLinePoints:`, points);
+    });
+}
 }
 
 const baseplateStore = new BaseplateStore();

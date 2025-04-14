@@ -115,6 +115,7 @@ const InputNumber: React.FC<InputNumberProps> = observer(
 
     const numericValue = value * 1000;
 
+    const numberStep = 100;
     let step = 1000;
     if (numericValue <= 1000) step = 100;
     if (numericValue <= 100) step = 50;
@@ -213,7 +214,7 @@ const InputNumber: React.FC<InputNumberProps> = observer(
             ref={inputRef}
             type="number"
             value={value === 0 ? "" : (value * 1000).toString().split(".")[0]}
-            step={step}
+            step={numberStep}
             onChange={handleChange}
             className="w-full p-3 py-1 border font-poppins border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1"
             min={0}
