@@ -248,7 +248,7 @@ const AddStandardModel = ({ onClose }: { onClose: () => void }) => {
                 Enter multiple values separated by commas (e.g., 2.0, 2.5, 3.0)
               </p>
 
-              <div className="grid grid-cols-1 gap-4">
+              <div className="flex gap-2">
                 <div>
                   <label className="block text-xs text-gray-500 mb-1">
                     Length (m)
@@ -293,7 +293,7 @@ const AddStandardModel = ({ onClose }: { onClose: () => void }) => {
                 Enter multiple values separated by commas (e.g., 2.0, 2.5, 3.0)
               </p>
 
-              <div className="grid grid-cols-1 gap-4">
+              <div className="flex gap-2">
                 <div>
                   <label className="block text-xs text-gray-500 mb-1">
                     Ideal Horizontal Distance (m)

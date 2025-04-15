@@ -6,7 +6,8 @@ import SideBarMenuItem from "./SideBarMenuItem";
 import { BiLayer, BiLogOutCircle } from "react-icons/bi";
 import { RiListView } from "react-icons/ri";
 import uiStore from "../../stores/UIStore";
-import { PiSlidersBold, PiStandardDefinition } from "react-icons/pi";
+import { PiStandardDefinition } from "react-icons/pi";
+import { TfiWrite } from "react-icons/tfi";
 
 const Sidebar = observer(() => {
   const navigate = useNavigate();
@@ -52,7 +53,7 @@ const Sidebar = observer(() => {
         showLabel={uiStore.isSidebarOpen}
       />
       <SideBarMenuItem
-        icon={uiStore.useStandardInputs ? <PiSlidersBold /> : <BiLayer />}
+        icon={<BiLayer />}
         label="Master"
         onIconClick={() => {
           uiStore.toggleSidebar();
@@ -89,14 +90,19 @@ const Sidebar = observer(() => {
         </div>
       )}
       <SideBarMenuItem
-        icon={<PiStandardDefinition />}
-        label="Standard Input"
+        icon={
+          !uiStore.useStandardInputs ? (
+            <PiStandardDefinition />
+          ) : (
+            <TfiWrite size={17} />
+          )
+        }
+        label={!uiStore.useStandardInputs ? "Standard Input" : "Custom Input"}
         onIconClick={() => uiStore.toggleSidebar()}
         showLabel={uiStore.isSidebarOpen}
         onLabelClick={() => {
           uiStore.setSidebarOpen(false);
           uiStore.toggleStandardInputs();
-          uiStore.toggleSidebar();
         }}
       />
       <div className="items-end">
