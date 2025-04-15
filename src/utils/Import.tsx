@@ -1,19 +1,18 @@
-import { useRef } from "react";
+import { useState } from "react";
 import wallStore from "../stores/WallStore";
-import { BACKEND_URL } from "../Constants";
 import baseplateStore from "../stores/BasePlateStore";
+import { BACKEND_URL } from "../Constants";
 import processBaseplates from "./processBaseplateDXFData";
-
+import ImportModel from "../components/uiElements/ImportModel";
 
 export const Import = () => {
-  const shadeInputRef = useRef<HTMLInputElement | null>(null);
-  const baseplateInputRef = useRef<HTMLInputElement | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleShadeFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    const file = e.target.files[0];
-    if (!file) return;
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
 
+  const handleShadeFileChange = async (file: File) => {
     const formData = new FormData();
     formData.append("dxfFile", file);
 
@@ -23,9 +22,8 @@ export const Import = () => {
         body: formData,
       });
 
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);
-      }
 
       const data = await response.json();
       wallStore.processWallData(data);
@@ -35,84 +33,46 @@ export const Import = () => {
     }
   };
 
-  const handleBaseplateJsonChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    const file = e.target.files[0];
-    if (!file) return;
-  
+  const handleBaseplateJsonChange = async (file: File) => {
     const formData = new FormData();
     formData.append("dxfFile", file);
-  
+
     try {
-      const response = await fetch(
-       BACKEND_URL + "api/dxf/upload-dxf",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-  
-      if (!response.ok) {
+      const response = await fetch(BACKEND_URL + "api/dxf/upload-dxf", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok)
         throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-  
+
       const jsonData = await response.json();
-      console.log(jsonData);
-  
-      // Clean up previous baseplates
-      baseplateStore.clearBaseplates(); // ✅ clear the previous baseplates before processing
-      wallStore.clearWallData();        // ✅ if needed, clear walls too
-  
+      baseplateStore.clearBaseplates();
+      wallStore.clearWallData();
       processBaseplates(jsonData);
-  
       console.log("✅ Baseplate JSON imported via API:", jsonData);
     } catch (error) {
       console.error("❌ Error uploading baseplate JSON file:", error);
-    } finally {
-      // reset file input
-      if (baseplateInputRef.current) {
-        baseplateInputRef.current.value = "";
-      }
     }
   };
-  
-  
-  
 
   return (
     <div className="w-full">
-      {/* Hidden Inputs */}
-      <input
-        type="file"
-        ref={shadeInputRef}
-        className="hidden"
-        accept=".dxf"
-        onChange={handleShadeFileChange}
-      />
-      <input
-        type="file"
-        ref={baseplateInputRef}
-        className="hidden"
-        accept=".dxf"
-        onChange={handleBaseplateJsonChange}
-      />
-
-      {/* Buttons */}
       <div className="flex">
         <button
-          className="bg-gray-800 text-white m-1 rounded shadow-md hover:bg-gray-600 cursor-pointer w-full text-sm"
-          onClick={() => shadeInputRef.current?.click()}
+          className="bg-gray-800 text-white m-1 p-2 rounded shadow-md hover:bg-gray-600 cursor-pointer w-full text-sm"
+          onClick={() => setIsModalOpen(true)}
         >
-          Import Shade 
+          Import Files
         </button>
-        <button
-          className="bg-gray-800 text-white m-1 rounded shadow-md hover:bg-gray-600 cursor-pointer w-full text-sm"
-          onClick={() => baseplateInputRef.current?.click()}
-        >
-          Import Baseplate
-        </button>
+
+        <ImportModel
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          onShadeImport={handleShadeFileChange}
+          onBaseplateImport={handleBaseplateJsonChange}
+        />
       </div>
     </div>
   );
 };
-

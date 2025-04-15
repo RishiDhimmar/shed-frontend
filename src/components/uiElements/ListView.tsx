@@ -1,8 +1,10 @@
 import { FaRegStar } from "react-icons/fa6";
 import { useState } from "react";
 import CreateProjectPopup from "./CreateProjectPopup";
+import { useNavigate } from "react-router-dom";
 
 function ListView() {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalClose = () => {
@@ -35,7 +37,8 @@ function ListView() {
             {projects.map((project) => (
               <div
                 key={project.id}
-                className="relative border border-gray-200 rounded-lg overflow-hidden"
+                className="relative border border-gray-200 rounded-lg overflow-hidden cursor-pointer "
+                onClick={() => navigate(`/app/project`)}
               >
                 <div className="relative h-40">
                   <img

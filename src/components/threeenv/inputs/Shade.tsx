@@ -61,11 +61,15 @@ export const Shade = observer(() => {
           label="Height:"
           value={wallStore.height}
           onChange={(newHeight: number) => wallStore.setHeight(newHeight)}
+          standardType="shed"
+          dimensionField="length"
         />
         <InputNumber
           label="Width:"
           value={wallStore.width}
           onChange={(newWidth: number) => wallStore.setWidth(newWidth)}
+          standardType="shed"
+          dimensionField="width"
         />
         <InputNumber
           label="Thickness: "
@@ -73,6 +77,8 @@ export const Shade = observer(() => {
           onChange={(newThickness: number) =>
             wallStore.setWallThickness(newThickness)
           }
+          standardType="shed"
+          dimensionField="thickness"
         />
       </form>
     </div>
