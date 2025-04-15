@@ -210,8 +210,8 @@ class FoundationStore {
       ];
 
       // --- Second Rectangle: Use the exact RccBf and rccLf values directly ---
-      const rect2Width = params.RccBf;
-      const rect2Height = params.rccLf;
+      const rect2Width = params.pccWidth;
+      const rect2Height = params.pccLength;
 
       const foundationPoints2 = [
         [center[0] - rect2Width / 2, center[1] - rect2Height / 2, center[2]],

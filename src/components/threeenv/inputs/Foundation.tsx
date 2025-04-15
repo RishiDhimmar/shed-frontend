@@ -20,8 +20,8 @@ const LABEL_MAP: { [key: string]: string } = {
 
 const Foundation = observer(() => {
   const groups = [
-    { label: "R.C.C Size", keys: ["RccBf", "rccLf"] },
     { label: "P.C.C Size", keys: ["pccWidth", "pccLength"] },
+    { label: "R.C.C Size", keys: ["RccBf", "rccLf"] },
     { label: "Depth", keys: ["depthD", "depthd"] },
     { label: "Short Bar", keys: ["shortBarCount", "shortBarSpacing"] },
     { label: "Long Bar", keys: ["longBarCount", "longBarSpacing"] },

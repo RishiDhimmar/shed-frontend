@@ -411,6 +411,8 @@ export const BaseplateInput = observer(() => {
           onChange={(val: number) =>
             baseplateStore.setIdealHorizontalDistance(val)
           }
+          standardType="baseplate"
+          dimensionField="horizontalDistance"
         />
         <InputNumber
           label="Ideal Vertical Distance:"
@@ -418,6 +420,8 @@ export const BaseplateInput = observer(() => {
           onChange={(val: number) =>
             baseplateStore.setIdealVerticalDistance(val)
           }
+          standardType="baseplate"
+          dimensionField="verticalDistance"
         />
       </div>
 
