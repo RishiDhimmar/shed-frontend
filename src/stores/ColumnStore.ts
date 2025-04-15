@@ -487,7 +487,7 @@ export class ColumnStore {
     wallPoints: number[][]
   ): Column[] {
     if (cornerPlates.length === 0) return [];
-    console.log(cornerPlates);
+    // console.log(cornerPlates);
     const tempWalls: WallType[] = ['bottom-left', 'bottom-right', 'top-right', 'top-left'];
 
     const plateConfig =
