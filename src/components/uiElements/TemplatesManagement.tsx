@@ -4,6 +4,8 @@ import { observer } from "mobx-react-lite";
 import uiStore, { Template } from "../../stores/UIStore";
 import AddTemplateModal from "./AddTemplateModal";
 import { useNavigate } from "react-router-dom";
+import { BiPencil } from "react-icons/bi";
+import { AnimatePresence } from "framer-motion";
 
 // Add templates functionality to UIStore if it doesn't exist
 if (!("templates" in uiStore)) {
@@ -16,6 +18,16 @@ if (!("templates" in uiStore)) {
       createdAt: new Date().toLocaleDateString(),
     });
   };
+
+  store.editTemplate = function (
+    id: number,
+    updatedTemplate: Partial<Template>
+  ) {
+    const index = this.templates.findIndex((t: Template) => t.id === id);
+    if (index !== -1) {
+      this.templates[index] = { ...this.templates[index], ...updatedTemplate };
+    }
+  };
 }
 
 type TemplatesManagementProps = {
@@ -26,6 +38,14 @@ const TemplatesManagement = observer(
   ({ onClose }: TemplatesManagementProps) => {
     const navigate = useNavigate();
     const [showAddTemplateModal, setShowAddTemplateModal] = useState(false);
+    const [editingTemplate, setEditingTemplate] = useState<Template | null>(
+      null
+    );
+
+    const handleEditTemplate = (template: Template) => {
+      setEditingTemplate(template);
+      setShowAddTemplateModal(true);
+    };
 
     return (
       <div className=" w-full  bg-white  flex flex-col">
@@ -48,6 +68,7 @@ const TemplatesManagement = observer(
                   <th className="py-3 px-4 border text-left">Template Name</th>
                   <th className="py-3 px-4 border text-left">Template Type</th>
                   <th className="py-3 px-4 border text-left">Created At</th>
+                  <th className="py-3 px-4 border text-left">Actions </th>
                 </tr>
               </thead>
               <tbody>
@@ -58,6 +79,15 @@ const TemplatesManagement = observer(
                       <td className="py-2 px-4 border">{template.name}</td>
                       <td className="py-2 px-4 border">{template.type}</td>
                       <td className="py-2 px-4 border">{template.createdAt}</td>
+                      <td className="py-2 px-4 border">
+                        <button
+                          onClick={() => handleEditTemplate(template)}
+                          className="p-1 text-black hover:text-gray-500"
+                          title="Edit Template"
+                        >
+                          <BiPencil size={18} />
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 {(!uiStore.templates || uiStore.templates.length === 0) && (
@@ -89,9 +119,14 @@ const TemplatesManagement = observer(
           </button>
         </div>
 
-        {showAddTemplateModal && (
-          <AddTemplateModal onClose={() => setShowAddTemplateModal(false)} />
-        )}
+        <AnimatePresence>
+          {showAddTemplateModal && (
+            <AddTemplateModal
+              onClose={() => setShowAddTemplateModal(false)}
+              templateToEdit={editingTemplate}
+            />
+          )}
+        </AnimatePresence>
       </div>
     );
   }

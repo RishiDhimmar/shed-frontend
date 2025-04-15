@@ -8,7 +8,7 @@
 
 *{
   font-family: var(--font-poppins);
-  transition-duration: 300ms;
+
 }
 
 ::-webkit-scrollbar {

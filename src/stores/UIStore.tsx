@@ -120,6 +120,40 @@ class UIStore {
     this.setModified(true);
   }
 
+  editTemplate(
+    id: number,
+    updatedTemplate: Partial<Omit<Template, "id" | "createdAt">>
+  ) {
+    runInAction(() => {
+      const index = this.templates.findIndex((template) => template.id === id);
+      if (index !== -1) {
+        // Preserve id and createdAt, update other fields
+        this.templates[index] = {
+          ...this.templates[index],
+          ...updatedTemplate,
+        };
+        this.setModified(true);
+      }
+    });
+  }
+
+  editStandard(
+    id: number,
+    updatedStandard: Partial<Omit<Standard, "id" | "createdAt">>
+  ) {
+    runInAction(() => {
+      const index = this.standards.findIndex((standard) => standard.id === id);
+      if (index !== -1) {
+        // Preserve id and createdAt, update other fields
+        this.standards[index] = {
+          ...this.standards[index],
+          ...updatedStandard,
+        };
+        this.setModified(true);
+      }
+    });
+  }
+
   getTemplatesByType(type: TemplateType): Template[] {
     return this.templates.filter((template) => template.type === type);
   }

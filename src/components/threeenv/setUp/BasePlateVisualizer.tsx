@@ -241,8 +241,6 @@
 
 // export default BasePlateVisualizer;
 
-
-
 import { observer } from "mobx-react-lite";
 import baseplateStore from "../../../stores/BasePlateStore";
 import LineVisualizer from "../Helpers/LineVisualizerProps";
@@ -252,7 +250,6 @@ import React, { useMemo } from "react";
 import { Line } from "@react-three/drei";
 
 const BasePlateVisualizer = observer(() => {
-  
   useMemo(() => {
     baseplateStore.updateCenterLinePoints();
   }, [
@@ -462,11 +459,14 @@ const BasePlateVisualizer = observer(() => {
           <React.Fragment key={baseplate.id}>
             <LineVisualizer points={baseplate.points} color="#00ff00" />
 
-            
             <Line
               points={
                 baseplate.centerLinePoints?.horizontal
-                  ? baseplate.centerLinePoints.horizontal as [number, number, number][]
+                  ? (baseplate.centerLinePoints.horizontal as [
+                      number,
+                      number,
+                      number
+                    ][])
                   : [
                       [0, 0, 0],
                       [0, 0, 0],
@@ -480,7 +480,11 @@ const BasePlateVisualizer = observer(() => {
             <Line
               points={
                 baseplate.centerLinePoints?.vertical
-                  ? baseplate.centerLinePoints.vertical as [number, number, number][]
+                  ? (baseplate.centerLinePoints.vertical as [
+                      number,
+                      number,
+                      number
+                    ][])
                   : [
                       [0, 0, 0],
                       [0, 0, 0],
@@ -544,7 +548,7 @@ const BasePlateVisualizer = observer(() => {
 
       <Line
         points={[
-          [topRight?.x, topRight?.y  + baseplateStore.config.corner.width],
+          [topRight?.x, topRight?.y  + baseplateStore.config.corner.width],z
           [
             bottomRight?.x,
             bottomRight?.y - baseplateStore.config.corner.width ,

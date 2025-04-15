@@ -1,8 +1,15 @@
 // AddTemplateModal.jsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import uiStore, { Template } from "../../stores/UIStore";
+import { motion } from "framer-motion";
 
-const AddTemplateModal = ({ onClose }: { onClose: () => void }) => {
+const AddTemplateModal = ({
+  onClose,
+  templateToEdit = null,
+}: {
+  onClose: () => void;
+  templateToEdit?: Template | null;
+}) => {
   const [templateName, setTemplateName] = useState("");
   const [templateType, setTemplateType] = useState("");
   const [length, setLength] = useState("");
@@ -10,6 +17,35 @@ const AddTemplateModal = ({ onClose }: { onClose: () => void }) => {
   const [thickness, setThickness] = useState("");
   const [horizontalDistance, setHorizontalDistance] = useState("");
   const [verticalDistance, setVerticalDistance] = useState("");
+
+  // Populate form when editing an existing template
+  useEffect(() => {
+    if (templateToEdit) {
+      setTemplateName(templateToEdit.name);
+      setTemplateType(templateToEdit.type);
+
+      if (templateToEdit.type === "shed" && templateToEdit.dimensions) {
+        const dimensions = templateToEdit.dimensions as {
+          length: string;
+          width: string;
+          thickness: string;
+        };
+        setLength(dimensions.length);
+        setWidth(dimensions.width);
+        setThickness(dimensions.thickness);
+      } else if (
+        templateToEdit.type === "baseplate" &&
+        templateToEdit.dimensions
+      ) {
+        const dimensions = templateToEdit.dimensions as {
+          idealHorizontalDistance: number;
+          idealVerticalDistance: number;
+        };
+        setHorizontalDistance(dimensions.idealHorizontalDistance.toString());
+        setVerticalDistance(dimensions.idealVerticalDistance.toString());
+      }
+    }
+  }, [templateToEdit]);
 
   const handleSubmit = () => {
     const newTemplate: Omit<Template, "id" | "createdAt"> = {
@@ -23,13 +59,25 @@ const AddTemplateModal = ({ onClose }: { onClose: () => void }) => {
               idealVerticalDistance: parseFloat(verticalDistance),
             },
     };
-    uiStore.addTemplate(newTemplate);
+
+    if (templateToEdit) {
+      uiStore.editTemplate(templateToEdit.id, newTemplate);
+    } else {
+      uiStore.addTemplate(newTemplate);
+    }
+
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-40">
-      <div className="bg-white rounded-lg p-6 w-1/2 max-w-md">
+    <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-[999]">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.3 }}
+        className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md"
+      >
         <h3 className="text-lg font-medium mb-4">Add New Template</h3>
 
         <div className="space-y-4 mb-6">
@@ -151,7 +199,7 @@ const AddTemplateModal = ({ onClose }: { onClose: () => void }) => {
             Submit
           </button>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
