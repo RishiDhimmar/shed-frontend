@@ -29,12 +29,15 @@ function SideBarMenuItem({
 }: SideBarMenuItemProps) {
   return (
     <div className="flex items-center gap-2  hover:bg-gray-600 h-10 p-1">
-      <div className="text-white text-xl cursor-pointer flex items-center justify-center" onClick={onIconClick}>
+      <div
+        className="text-white text-xl cursor-pointer flex items-center justify-center"
+        onClick={onIconClick}
+      >
         {icon}
       </div>
 
       <div
-        className={`text-white ml-2 transition-all duration-300 cursor-pointer ${
+        className={`text-white ml-2 transition-all duration-400 cursor-pointer ${
           showLabel ? "opacity-100 scale-100" : "opacity-0 scale-0"
         }`}
         onClick={onLabelClick}

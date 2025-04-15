@@ -54,6 +54,7 @@ import LoginPage from "./components/uiElements/LoginPage";
 import Navbar from "./components/uiElements/Navbar";
 import Sidebar from "./components/uiElements/Sidebar";
 import TemplatesManagement from "./components/uiElements/TemplatesManagement";
+import StandardManagement from "./components/uiElements/StandardManagement";
 
 // Layout component that includes the Navbar
 const MainLayout = () => (
@@ -80,6 +81,7 @@ const Router = createBrowserRouter([
     children: [
       { path: "listView", element: <ListView /> },
       { path: "project", element: <ProjectStructure /> },
+      { path: "standards", element: <StandardManagement onClose={() => {}} /> },
       {
         path: "templates",
         element: (

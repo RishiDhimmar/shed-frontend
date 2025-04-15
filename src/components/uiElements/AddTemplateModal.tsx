@@ -9,7 +9,7 @@ const AddTemplateModal = ({ onClose }: { onClose: () => void }) => {
   const [width, setWidth] = useState("");
   const [thickness, setThickness] = useState("");
   const [horizontalDistance, setHorizontalDistance] = useState("");
-  const [VerticalDistance, setVerticalDistance] = useState("");
+  const [verticalDistance, setVerticalDistance] = useState("");
 
   const handleSubmit = () => {
     const newTemplate: Omit<Template, "id" | "createdAt"> = {
@@ -20,7 +20,7 @@ const AddTemplateModal = ({ onClose }: { onClose: () => void }) => {
           ? { length, width, thickness }
           : {
               idealHorizontalDistance: parseFloat(horizontalDistance),
-              idealVerticalDistance: parseFloat(VerticalDistance),
+              idealVerticalDistance: parseFloat(verticalDistance),
             },
     };
     uiStore.addTemplate(newTemplate);
@@ -122,7 +122,7 @@ const AddTemplateModal = ({ onClose }: { onClose: () => void }) => {
                   </label>
                   <input
                     type="number"
-                    value={VerticalDistance}
+                    value={verticalDistance}
                     onChange={(e) => setVerticalDistance(e.target.value)}
                     className="w-full p-2 border rounded"
                   />

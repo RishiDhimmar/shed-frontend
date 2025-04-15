@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 
 export type currentComponentType =
   | "plot"
@@ -47,6 +47,27 @@ export interface Template {
   createdAt: string;
 }
 
+// Updated interfaces for standards with options
+
+export interface ShadeTemplateOptions {
+  lengthOptions: number[];
+  widthOptions: number[];
+  thicknessOptions: number[];
+}
+
+export interface BaseplateTemplateOptions {
+  idealHorizontalDistanceOptions: number[];
+  idealVerticalDistanceOptions: number[];
+}
+
+export interface Standard {
+  id: number;
+  name: string;
+  type: string;
+  dimensions: ShadeTemplateOptions | BaseplateTemplateOptions | null;
+  createdAt: string;
+}
+
 class UIStore {
   currentComponent: currentComponentType = "plot";
   isSidebarOpen = false;
@@ -71,6 +92,8 @@ class UIStore {
   };
 
   templates: Template[] = [];
+  standards: Standard[] = [];
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -84,8 +107,25 @@ class UIStore {
     this.setModified(true);
   }
 
+  addStandard(standard: Omit<Standard, "id" | "createdAt">) {
+    runInAction(() => {
+      this.standards.push({
+        ...standard,
+        id: this.standards.length + 1,
+        createdAt: new Date().toLocaleDateString(),
+      });
+      console.log(this.standards);
+    });
+
+    this.setModified(true);
+  }
+
   getTemplatesByType(type: TemplateType): Template[] {
     return this.templates.filter((template) => template.type === type);
+  }
+
+  getStandardsByType(type: string): Standard[] {
+    return this.standards.filter((standard) => standard.type === type);
   }
 
   setCurrentComponent(component: currentComponentType) {
