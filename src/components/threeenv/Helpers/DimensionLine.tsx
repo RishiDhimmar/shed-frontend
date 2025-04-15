@@ -165,9 +165,10 @@ const DimensionLine = observer(
       ? [0, 0, 0]
       : [0, 0, Math.PI / 2];
 
-
-    console.log(lineColor)
-    console.log(textColor)
+    // console.log(lineColor)
+    // console.log(textColor)
+    lineColor = "black";
+    textColor = "black";
 
     return (
       <>
@@ -176,7 +177,7 @@ const DimensionLine = observer(
             {/* Dotted line from startPoint to startOffset */}
             <Line
               points={[startPoint, startOffset]}
-              color={"black" }
+              color={lineColor}
               lineWidth={1}
               dashed
               dashSize={0.1}
@@ -186,14 +187,14 @@ const DimensionLine = observer(
             {/* Main dimension line */}
             <Line
               points={[startOffset, endOffset]}
-              color={"black"}
+              color={lineColor}
               lineWidth={1.5}
             />
 
             {/* Dotted line from endOffset to endPoint */}
             <Line
               points={[endOffset, endPoint]}
-              color={"black"}
+              color={lineColor}
               lineWidth={1}
               dashed
               dashSize={0.1}
@@ -203,7 +204,7 @@ const DimensionLine = observer(
             {/* Text label */}
             <Text
               position={textPosition}
-              color={"black"}
+              color={textColor}
               fontSize={textSize}
               rotation={textRotation}
             >

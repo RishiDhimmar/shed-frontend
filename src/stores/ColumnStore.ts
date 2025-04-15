@@ -1,8 +1,9 @@
-import { makeAutoObservable, runInAction, reaction } from "mobx";
+import { makeAutoObservable, runInAction, reaction, } from "mobx";
 import { v4 as uuidv4 } from "uuid";
 import baseplateStore, { BaseplateType, WallType } from "./BasePlateStore";
 import wallStore from "./WallStore";
 import uiStore from "./UIStore";
+import { generateCenterFromRectanglePoints } from "../utils/GeometryUtils";
 
 export interface Column {
   id: string;
@@ -11,6 +12,9 @@ export interface Column {
   points: number[][];
   type: BaseplateType | null;
   wall: WallType | null;
+  label: string | null;
+  labelPosition: number[] | null;
+  labelRotation: number | null;
 }
 
 export class ColumnStore {
@@ -20,6 +24,7 @@ export class ColumnStore {
   horizontalLength: number = 0;
   verticalWidth: number = 0;
   verticalLength: number = 0;
+  uniqueColumnNumber = 0;
 
   columns: Column[] = [];
 
@@ -335,6 +340,13 @@ export class ColumnStore {
       type: "corner",
       points: positionConfigs[cornerIndex],
       wall,
+      label: `C${this.uniqueColumnNumber}`,
+      labelPosition: [
+        generateCenterFromRectanglePoints(positionConfigs[cornerIndex]).X,
+        generateCenterFromRectanglePoints(positionConfigs[cornerIndex]).Y,
+        0,
+      ],
+      labelRotation: 0,
     };
   }
 
@@ -434,6 +446,9 @@ export class ColumnStore {
       type: "horizontal",
       points,
       wall,
+      label: null,
+      labelPosition: null,
+      labelRotation: 0,
     };
   }
 
@@ -452,11 +467,11 @@ export class ColumnStore {
 
     const effectiveLength =
       wallThickness < plateConfig.length + this.offsetDistance
-        ? plateConfig.length / 2  + this.offsetDistance
-        : wallThickness / 2 ;
+        ? plateConfig.length / 2 + this.offsetDistance
+        : wallThickness / 2;
 
     // const widthOffset = this.verticalWidth / 4
-    const widthOffset = 0
+    const widthOffset = 0;
     let offset = 0;
 
     if (plateConfig.length + this.offsetDistance * 2 > wallThickness) {
@@ -523,6 +538,9 @@ export class ColumnStore {
       type: "vertical",
       points: points!,
       wall,
+      label: null,
+      labelPosition: null,
+      labelRotation: 0,
     };
   }
 
@@ -702,7 +720,180 @@ export class ColumnStore {
       });
     }
 
+    this.generateColumnLables();
+
     return hasOverlap;
+  }
+  // generateColumnLables() {
+  //   let count = 1;
+
+  //   const topLeftColumn = this.columns.find(
+  //     (column) => column.wall === "top-left"
+  //   );
+  //   const topRightColumn = this.columns.find(
+  //     (column) => column.wall === "top-right"
+  //   );
+  //   const bottomLeftColumn = this.columns.find(
+  //     (column) => column.wall === "bottom-left"
+  //   );
+  //   const bottomRightColumn = this.columns.find(
+  //     (column) => column.wall === "bottom-right"
+  //   );
+
+  //   const leftWallColumns = this.columns.filter(
+  //     (column) => column.wall === "left"
+  //   );
+  //   const rightWallColumns = this.columns.filter(
+  //     (column) => column.wall === "right"
+  //   );
+  //   const topWallColumns = this.columns.filter(
+  //     (column) => column.wall === "top"
+  //   );
+  //   const bottomWallColumns = this.columns.filter(
+  //     (column) => column.wall === "bottom"
+  //   );
+
+  //   const leftUpperColumns = leftWallColumns.slice(leftWallColumns.length / 2 - 1).reverse();
+  //   const leftLowerColumns = leftWallColumns.slice(
+  //     0,
+  //     leftWallColumns.length / 2 - 1
+  //   ).reverse();
+
+  //   const rightUpperColumns = rightWallColumns.slice(
+  //     0,
+  //     rightWallColumns.length / 2
+  //   ).reverse();
+  //   const rightLowerColumns = rightWallColumns.slice(
+  //     rightWallColumns.length / 2
+  //   ).reverse();
+
+  //   const topLeftColumns = topWallColumns.slice(topWallColumns.length / 2 , topWallColumns.length);
+  //   ;
+  //   const topRightColumns = topWallColumns.slice(0, topWallColumns.length / 2   );
+  //   // topRightColumns.reverse();
+
+  //   const bottomLeftColumns = bottomWallColumns.slice(
+  //     0,
+  //     bottomWallColumns.length / 2
+  //   ).reverse();
+  //   const bottomRightColumns = bottomWallColumns.slice(
+  //     bottomWallColumns.length / 2
+  //   ).reverse();
+
+  //   const allColumns = [
+  //     topLeftColumn,
+  //     ...topRightColumns,
+  //     ...topLeftColumns,
+  //     topRightColumn,
+  //     ...rightUpperColumns,
+  //     ...rightLowerColumns,
+  //     ...bottomRightColumns,
+  //     bottomRightColumn,
+  //     ...bottomLeftColumns,
+  //     bottomLeftColumn,
+  //     ...leftUpperColumns,
+  //     ...leftLowerColumns,
+  //   ];
+
+  //   allColumns.map((column) => {
+  //     column!.label = `C` + count;
+  //     column!.labelPosition = [
+  //       generateCenterFromRectanglePoints(column!.points).X,
+  //       generateCenterFromRectanglePoints(column!.points).Y,
+  //       0,
+  //     ];
+  //     count++;
+  //   });
+
+  //   this.setColumns(allColumns as Column[]);
+  // }
+
+  generateColumnLables() {
+    let count = 1;
+
+    // Corner columns
+    const topLeftColumn = this.columns.find(
+      (column) => column.wall === "top-left"
+    );
+    const topRightColumn = this.columns.find(
+      (column) => column.wall === "top-right"
+    );
+    const bottomLeftColumn = this.columns.find(
+      (column) => column.wall === "bottom-left"
+    );
+    const bottomRightColumn = this.columns.find(
+      (column) => column.wall === "bottom-right"
+    );
+
+    // Wall columns
+    const leftWallColumns = this.columns.filter(
+      (column) => column.wall === "left"
+    );
+    const rightWallColumns = this.columns.filter(
+      (column) => column.wall === "right"
+    );
+    const topWallColumns = this.columns.filter(
+      (column) => column.wall === "top"
+    );
+    const bottomWallColumns = this.columns.filter(
+      (column) => column.wall === "bottom"
+    );
+
+    // Use Math.floor to get predictable indices
+    const leftUpperColumns = leftWallColumns.slice(
+      0,
+      leftWallColumns.length / 2 + 1
+    );
+    const leftLowerColumns = leftWallColumns
+      .slice(leftWallColumns.length / 2 + 1)
+      .reverse();
+
+    const rightUpperColumns = rightWallColumns
+      .slice(0, rightWallColumns.length / 2 + 1)
+      .reverse();
+    const rightLowerColumns = rightWallColumns.slice(
+      rightWallColumns.length / 2 + 1
+    );
+
+    const topLeftColumns = topWallColumns
+      .slice(0, topWallColumns.length / 2 + 1)
+      .reverse();
+    const topRightColumns = topWallColumns.slice(topWallColumns.length / 2 + 1);
+
+    const bottomLeftColumns = bottomWallColumns.slice(
+      0,
+      bottomWallColumns.length / 2 + 1
+    );
+    const bottomRightColumns = bottomWallColumns
+      .slice(bottomWallColumns.length / 2 + 1)
+      .reverse();
+
+    // Construct the final ordered array
+    const allColumns = [
+      topLeftColumn,
+      ...topLeftColumns,
+      ...topRightColumns,
+      topRightColumn,
+      ...rightUpperColumns,
+      ...rightLowerColumns,
+      bottomRightColumn,
+      ...bottomRightColumns,
+      ...bottomLeftColumns,
+      bottomLeftColumn,
+      ...leftLowerColumns,
+      ...leftUpperColumns,
+    ].filter(Boolean); // Remove any undefined columns
+
+    // Assign labels and calculate positions
+    allColumns.forEach((column) => {
+      if(!column) return
+      column.label = `C${count}`;
+      const center = generateCenterFromRectanglePoints(column.points);
+      column.labelPosition = [center.X, center.Y, 0];
+      count++;
+    });
+    console.log("Final allColumns:", allColumns);
+    this.setColumns(allColumns as Column[]);
   }
 }
 
