@@ -30,8 +30,8 @@ class FoundationStore {
     corner: {
       RccBf: 3.0,
       rccLf: 2.5,
-      pccWidth: 1.5,
-      pccLength: 1.5,
+      pccWidth: 3.8,
+      pccLength: 3.4,
       depthD: 0.5,
       depthd: 0.3,
       shortBarCount: 4,
@@ -42,7 +42,7 @@ class FoundationStore {
     horizontal: {
       RccBf: 3.5,
       rccLf: 2.8,
-      pccWidth: 1.6,
+      pccWidth: 3.8,
       pccLength: 1.6,
       depthD: 0.6,
       depthd: 0.35,
@@ -54,8 +54,8 @@ class FoundationStore {
     vertical: {
       RccBf: 2.8,
       rccLf: 2.3,
-      pccWidth: 1.4,
-      pccLength: 1.4,
+      pccWidth: 1.6,
+      pccLength: 3.4,
       depthD: 0.45,
       depthd: 0.25,
       shortBarCount: 3,

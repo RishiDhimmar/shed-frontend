@@ -265,7 +265,7 @@ export const processBaseplates = (jsonData: string) => {
         bp.baseplateType as BaseplateType,
         bp.wallType,
         pointArrayToArrayLowerCase(bp.vertices),
-        
+        ""
       )
     );
   } else {
