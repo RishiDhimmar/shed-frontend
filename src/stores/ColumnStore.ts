@@ -23,6 +23,8 @@ export class ColumnStore {
 
   columns: Column[] = [];
 
+  private offsetDistance = 0.075;
+
   // Store previous valid values to revert in case of overlap
   previousValues = {
     cornerWidth: 0,
@@ -283,30 +285,46 @@ export class ColumnStore {
       // Top-left
       [
         [wallPoints[0][0], wallPoints[0][1], 0],
-        [wallPoints[0][0] + length, wallPoints[0][1], 0],
-        [wallPoints[0][0] + length, wallPoints[0][1] + width, 0],
-        [wallPoints[0][0], wallPoints[0][1] + width, 0],
+        [wallPoints[0][0] + length + this.offsetDistance, wallPoints[0][1], 0],
+        [
+          wallPoints[0][0] + length + this.offsetDistance,
+          wallPoints[0][1] + width + this.offsetDistance,
+          0,
+        ],
+        [wallPoints[0][0], wallPoints[0][1] + width + this.offsetDistance, 0],
       ],
       // Top-right
       [
         [wallPoints[1][0], wallPoints[1][1], 0],
-        [wallPoints[1][0] - length, wallPoints[1][1], 0],
-        [wallPoints[1][0] - length, wallPoints[1][1] + width, 0],
-        [wallPoints[1][0], wallPoints[1][1] + width, 0],
+        [wallPoints[1][0] - length - this.offsetDistance, wallPoints[1][1], 0],
+        [
+          wallPoints[1][0] - length - this.offsetDistance,
+          wallPoints[1][1] + width + this.offsetDistance,
+          0,
+        ],
+        [wallPoints[1][0], wallPoints[1][1] + width + this.offsetDistance, 0],
       ],
       // Bottom-right
       [
         [wallPoints[2][0], wallPoints[2][1], 0],
-        [wallPoints[2][0] - length, wallPoints[2][1], 0],
-        [wallPoints[2][0] - length, wallPoints[2][1] - width, 0],
-        [wallPoints[2][0], wallPoints[2][1] - width, 0],
+        [wallPoints[2][0] - length - this.offsetDistance, wallPoints[2][1], 0],
+        [
+          wallPoints[2][0] - length - this.offsetDistance,
+          wallPoints[2][1] - width - this.offsetDistance,
+          0,
+        ],
+        [wallPoints[2][0], wallPoints[2][1] - width - this.offsetDistance, 0],
       ],
       // Bottom-left
       [
         [wallPoints[3][0], wallPoints[3][1], 0],
-        [wallPoints[3][0] + length, wallPoints[3][1], 0],
-        [wallPoints[3][0] + length, wallPoints[3][1] - width, 0],
-        [wallPoints[3][0], wallPoints[3][1] - width, 0],
+        [wallPoints[3][0] + length + this.offsetDistance, wallPoints[3][1], 0],
+        [
+          wallPoints[3][0] + length + this.offsetDistance,
+          wallPoints[3][1] - width - this.offsetDistance,
+          0,
+        ],
+        [wallPoints[3][0], wallPoints[3][1] - width - this.offsetDistance, 0],
       ],
     ];
 
@@ -329,28 +347,31 @@ export class ColumnStore {
     const { x, y, wall } = plate;
 
     const columnWidth =
-      Math.abs(plateConfig.width) +
-      (plateConfig.offsetY || 0) +
-      wallThickness +
-      this.horizontalWidth;
+      Math.abs(plateConfig.width) + (plateConfig.offsetY || 0) + wallThickness;
+    // this.horizontalWidth;
 
     const columnLength =
-      Math.abs(plateConfig.length) +
-      (plateConfig.offsetX || 0) +
-      wallThickness +
-      this.horizontalLength;
+      Math.abs(plateConfig.length) + (plateConfig.offsetX || 0) + wallThickness;
+    // this.horizontalLength;
 
     const effectiveWidth =
-      wallThickness < plateConfig.width
-        ? plateConfig.width / 2
-        : wallThickness / 2;
+      wallThickness < plateConfig.width ? plateConfig.width : wallThickness / 2;
 
-    const offset = effectiveWidth + this.horizontalWidth / 2;
+    let offset = effectiveWidth + this.horizontalWidth / 2;
 
+    if (plateConfig.width + this.offsetDistance * 2 > wallThickness) {
+      offset = plateConfig.width / 2 + this.offsetDistance;
+    }
     let points;
     if (wall === "left") {
       points = [
-        [x + plateConfig.length / 2 + this.horizontalLength, y - offset],
+        [
+          x +
+            plateConfig.length / 2 +
+            this.horizontalLength +
+            this.offsetDistance,
+          y - offset,
+        ],
         [
           x -
             plateConfig.length / 2 -
@@ -365,7 +386,13 @@ export class ColumnStore {
             wallThickness,
           y + offset,
         ],
-        [x + plateConfig.length / 2 + this.horizontalLength, y + offset],
+        [
+          x +
+            plateConfig.length / 2 +
+            this.horizontalLength +
+            this.offsetDistance,
+          y + offset,
+        ],
       ];
     } else {
       points = [
@@ -376,8 +403,20 @@ export class ColumnStore {
             wallThickness,
           y - offset,
         ],
-        [x - plateConfig.length / 2 - this.horizontalLength, y - offset],
-        [x - plateConfig.length / 2 - this.horizontalLength, y + offset],
+        [
+          x -
+            plateConfig.length / 2 -
+            this.horizontalLength -
+            this.offsetDistance,
+          y - offset,
+        ],
+        [
+          x -
+            plateConfig.length / 2 -
+            this.horizontalLength -
+            this.offsetDistance,
+          y + offset,
+        ],
         [
           x +
             plateConfig.length / 2 +
@@ -394,7 +433,7 @@ export class ColumnStore {
       length: columnLength,
       type: "horizontal",
       points,
-      wall
+      wall,
     };
   }
 
@@ -412,29 +451,35 @@ export class ColumnStore {
       Math.abs(plateConfig.length) + (plateConfig.offsetX || 0);
 
     const effectiveLength =
-      wallThickness < plateConfig.length
-        ? plateConfig.length / 2
-        : wallThickness / 2;
+      wallThickness < plateConfig.length + this.offsetDistance
+        ? plateConfig.length / 2  + this.offsetDistance
+        : wallThickness / 2 ;
 
-    const widthOffset = this.verticalWidth / 4;
+    // const widthOffset = this.verticalWidth / 4
+    const widthOffset = 0
+    let offset = 0;
+
+    if (plateConfig.length + this.offsetDistance * 2 > wallThickness) {
+      offset = 0;
+    }
 
     let points;
     if (wall === "bottom") {
       points = [
         [
-          x - effectiveLength - widthOffset,
+          x - effectiveLength - widthOffset - offset,
           y -
             plateConfig.width / 2 -
             (plateConfig.offsetY ?? 0) -
             wallThickness,
         ],
         [
-          x - effectiveLength - widthOffset,
-          y + plateConfig.width / 2 + this.verticalLength,
+          x - effectiveLength - widthOffset - offset,
+          y + plateConfig.width / 2 + this.verticalLength + this.offsetDistance,
         ],
         [
           x + effectiveLength + widthOffset,
-          y + plateConfig.width / 2 + this.verticalLength,
+          y + plateConfig.width / 2 + this.verticalLength + this.offsetDistance,
         ],
         [
           x + effectiveLength + widthOffset,
@@ -455,11 +500,11 @@ export class ColumnStore {
         ],
         [
           x - effectiveLength - widthOffset,
-          y - plateConfig.width / 2 - this.verticalLength,
+          y - plateConfig.width / 2 - this.verticalLength - this.offsetDistance,
         ],
         [
           x + effectiveLength + widthOffset,
-          y - plateConfig.width / 2 - this.verticalLength,
+          y - plateConfig.width / 2 - this.verticalLength - this.offsetDistance,
         ],
         [
           x + effectiveLength + widthOffset,
@@ -477,7 +522,7 @@ export class ColumnStore {
       length: columnLength,
       type: "vertical",
       points: points!,
-      wall
+      wall,
     };
   }
 
@@ -488,7 +533,12 @@ export class ColumnStore {
   ): Column[] {
     if (cornerPlates.length === 0) return [];
     // console.log(cornerPlates);
-    const tempWalls: WallType[] = ['bottom-left', 'bottom-right', 'top-right', 'top-left'];
+    const tempWalls: WallType[] = [
+      "bottom-left",
+      "bottom-right",
+      "top-right",
+      "top-left",
+    ];
 
     const plateConfig =
       baseplateStore.config[cornerPlates[0].type as BaseplateType];
