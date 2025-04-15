@@ -279,6 +279,7 @@ const InputNumber: React.FC<InputNumberProps> = observer(
 
     const numericValue = value * 1000;
 
+
     // Get options from standards based on type and field
     const getStandardOptions = () => {
       if (!standardType || !dimensionField) return [];
@@ -334,6 +335,7 @@ const InputNumber: React.FC<InputNumberProps> = observer(
       if (numericValue <= 1000) step = 100;
       if (numericValue <= 100) step = 50;
       if (numericValue <= 10) step = 10;
+
 
       const options = [];
       for (let i = -2; i <= 2; i++) {
@@ -440,6 +442,7 @@ const InputNumber: React.FC<InputNumberProps> = observer(
             ref={inputRef}
             type="number"
             value={value === 0 ? "" : (value * 1000).toString().split(".")[0]}
+
             onChange={handleChange}
             className="w-full p-3 py-1 border font-poppins border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1"
             min={0}
