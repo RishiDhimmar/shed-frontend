@@ -244,9 +244,9 @@
 // export default InputNumber;
 
 import React, { useState, useRef, useEffect } from "react";
-import { IoMdInformationCircleOutline } from "react-icons/io";
+// import { IoMdInformationCircleOutline } from "react-icons/io";
 import { IoIosArrowDropdown } from "react-icons/io";
-import { Tooltip } from "react-tooltip";
+// import { Tooltip } from "react-tooltip";
 import uiStore from "../../../stores/UIStore";
 import { observer } from "mobx-react-lite";
 
@@ -269,7 +269,7 @@ const InputNumber: React.FC<InputNumberProps> = observer(
     label,
     value,
     onChange,
-    infoText = "This is some helpful information.",
+    // infoText = "This is some helpful information.",
     standardType,
     dimensionField,
   }) => {
@@ -278,7 +278,6 @@ const InputNumber: React.FC<InputNumberProps> = observer(
     const inputRef = useRef<HTMLInputElement>(null);
 
     const numericValue = value * 1000;
-
 
     // Get options from standards based on type and field
     const getStandardOptions = () => {
@@ -335,7 +334,6 @@ const InputNumber: React.FC<InputNumberProps> = observer(
       if (numericValue <= 1000) step = 100;
       if (numericValue <= 100) step = 50;
       if (numericValue <= 10) step = 10;
-
 
       const options = [];
       for (let i = -2; i <= 2; i++) {
@@ -417,7 +415,7 @@ const InputNumber: React.FC<InputNumberProps> = observer(
       <div className="mb-4 relative font-poppins" ref={containerRef}>
         <div className="flex gap-5 justify-between items-center">
           <label className="text-xs text-gray-500">{label}</label>
-          <IoMdInformationCircleOutline
+          {/* <IoMdInformationCircleOutline
             className="w-4 h-4 text-gray-500 cursor-pointer"
             data-tooltip-id="info-tooltip"
             data-tooltip-content={infoText}
@@ -426,7 +424,7 @@ const InputNumber: React.FC<InputNumberProps> = observer(
           <Tooltip
             id="info-tooltip"
             className="!text-sm !w-32 !p-1 !bg-gray-600"
-          />
+          /> */}
         </div>
 
         {uiStore.useStandardInputs ? (
@@ -442,7 +440,6 @@ const InputNumber: React.FC<InputNumberProps> = observer(
             ref={inputRef}
             type="number"
             value={value === 0 ? "" : (value * 1000).toString().split(".")[0]}
-
             onChange={handleChange}
             className="w-full p-3 py-1 border font-poppins border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1"
             min={0}
