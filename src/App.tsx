@@ -21,7 +21,7 @@ function App() {
     <div className="flex flex-col h-screen">
       <Navbar />
 
-      <div className="flex  overflow-hidden">
+      <div className="flex  overflow-hidden ">
         <Outlet />
       </div>
     </div>

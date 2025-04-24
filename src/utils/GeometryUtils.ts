@@ -50,3 +50,71 @@ export const generateCenterFromRectanglePoints = (points: number[][]): Point => 
   const centerY = (points[0][1] + points[2][1]) / 2;
   return { X: centerX, Y: centerY };
 }
+
+
+export const EPSILON = 0.01;
+export const SCALE = 1 / 100;
+
+export const key = (p) => `${p.x.toFixed(4)}:${p.y.toFixed(4)}`;
+export const equal = (a, b) => Math.abs(a.x - b.x) < EPSILON && Math.abs(a.y - b.y) < EPSILON;
+export const scalePoint = (pt) => ({ x: pt.x * SCALE, y: pt.y * SCALE });
+
+export function isPointInPolygon(point, polygon) {
+  let inside = false;
+  let x = point.x, y = point.y;
+
+  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+    const xi = polygon[i].x, yi = polygon[i].y;
+    const xj = polygon[j].x, yj = polygon[j].y;
+
+    const intersect = yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+    if (intersect) inside = !inside;
+  }
+
+  return inside;
+}
+
+export function calculateBoundingBoxArea(polygon) {
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+
+  for (const point of polygon) {
+    minX = Math.min(minX, point.x);
+    minY = Math.min(minY, point.y);
+    maxX = Math.max(maxX, point.x);
+    maxY = Math.max(maxY, point.y);
+  }
+
+  return (maxX - minX) * (maxY - minY);
+}
+
+export function getEdgeCenter(p1, p2) {
+  return { x: (p1.x + p2.x) / 2, y: (p1.y + p2.y) / 2 };
+}
+
+export function getEdgeNormal(p1, p2) {
+  const dx = p2.x - p1.x;
+  const dy = p2.y - p1.y;
+  const length = Math.hypot(dx, dy);
+  return { x: -dy / length, y: dx / length };
+}
+
+export function raySegmentIntersection(rayOrigin, rayDir, segA, segB) {
+  const v1 = { x: rayOrigin.x - segA.x, y: rayOrigin.y - segA.y };
+  const v2 = { x: segB.x - segA.x, y: segB.y - segA.y };
+  const v3 = { x: -rayDir.y, y: rayDir.x };
+
+  const dot = v2.x * v3.x + v2.y * v3.y;
+  if (Math.abs(dot) < 1e-8) return null;
+
+  const t1 = (v2.x * v1.y - v2.y * v1.x) / dot;
+  const t2 = (v1.x * v3.x + v1.y * v3.y) / dot;
+
+  if (t1 >= 0 && t2 >= 0 && t2 <= 1) {
+    return {
+      x: rayOrigin.x + rayDir.x * t1,
+      y: rayOrigin.y + rayDir.y * t1
+    };
+  }
+
+  return null;
+}

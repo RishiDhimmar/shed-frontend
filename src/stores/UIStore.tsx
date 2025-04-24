@@ -85,6 +85,7 @@ class UIStore {
   isDimensionsVisible: boolean = false;
 
   isModified = false;
+  activeKey = "data2";
 
   screenshotFn: () => void = () => {};
   pdfExportFn: () => void = () => {
@@ -96,6 +97,10 @@ class UIStore {
 
   constructor() {
     makeAutoObservable(this);
+  }
+
+  setActiveKey(key: string | null) {
+    this.activeKey = key;
   }
 
   addTemplate(template: Omit<Template, "id" | "createdAt">) {

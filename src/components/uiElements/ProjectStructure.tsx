@@ -8,30 +8,37 @@ import Info from "../../utils/Info";
 // import Sidebar from "./Sidebar";
 import ExportDxf from "./ExportDxf";
 import GetLayerDxf from "./GetLayerDxf";
+import ShedSelector from "../threeenv/Helpers/ShedSelector";
+import Test from "../threeenv/Helpers/Test";
+import { PolygonRenderer } from "../../utils/PolygonRenderer";
+import CanvasController from "../threeenv/Helpers/CanvasController";
 
 function ProjectStructure() {
   return (
     <>
       {/* <Sidebar /> */}
-      <Layout />
+      {/* <Layout /> */}
+      <ShedSelector />
 
-      <div className=" flex-1">
-        <ShadeCanvas />
+      <div className="flex-1 ">
+        {/* <ShadeCanvas /> */}
+
+        <Test />
       </div>
 
-      <div className="  bg-white px-2 py-2 mr-2.5 flex flex-col items-center w-60 h-[calc(100vh-64px)] gap-2 ">
+      {/*<div className="  bg-white px-2 py-2 mr-2.5 flex flex-col items-center w-60 h-[calc(100vh-64px)] gap-2 ">
         <div className="flex flex-col gap-2">
-          <Import />
+           <Import /> 
           <div className=" flex gap-2">
-            <Save />
-            <Upload />
+             <Save />
+            <Upload /> 
           </div>
-          <Assumptions />
+           <Assumptions />
           <ExportDxf />
-          <GetLayerDxf />
+          <GetLayerDxf /> 
         </div>
         <Info />
-      </div>
+      </div>*/}
     </>
   );
 }

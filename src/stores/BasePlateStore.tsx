@@ -56,6 +56,7 @@ class BaseplateStore {
   idealVerticalDistance = 6;
   basePlates: Baseplate[] = observable([]);
   previousBasePlates: Baseplate[] = [];
+  polygons: { points: number[][] }[] = [];
 
   constructor() {
     makeAutoObservable(this, {

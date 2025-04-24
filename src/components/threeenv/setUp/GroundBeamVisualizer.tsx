@@ -16,7 +16,7 @@ const GroundBeamVisualizer = observer(() => {
     <>
       <LineVisualizer points={wallStore.externalWallPoints} color="#00ffff" />
       <LineVisualizer points={wallStore.internalWallPoints} color="#00ffff" />
-      <HatchingLines
+      {/* <HatchingLines
         outerPolygon={wallStore.externalWallPoints.map(([x, y]) => [x, y])}
         innerPolygon={wallStore.internalWallPoints.map(([x, y]) => [x, y])}
         spacing={0.2}
@@ -25,7 +25,7 @@ const GroundBeamVisualizer = observer(() => {
         lineWidth={0.7}
         depthOffset={0.2}
         type="groundBeam"
-      />
+      /> */}
 
       {uiStore.currentComponent === "groundBeam" && (
         <>

@@ -27,6 +27,7 @@ const HatchingLines: React.FC<HatchingLinesProps> = ({
   depthOffset = 0.001,
   type = "shade", // Default to shade
 }) => {
+  
   const hatchLines = useMemo(() => {
     if (
       !outerPolygon ||

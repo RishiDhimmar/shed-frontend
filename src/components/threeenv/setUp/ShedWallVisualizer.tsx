@@ -49,6 +49,7 @@ import uiStore from "../../../stores/UIStore";
 import HatchingLines from "../Helpers/HatchingLines";
 
 const ShedWallVisualizer = observer(() => {
+  console.log(wallStore.externalWallPoints, wallStore.internalWallPoints);
   if (
     wallStore.externalWallPoints.length === 0 ||
     wallStore.internalWallPoints.length === 0
@@ -60,6 +61,8 @@ const ShedWallVisualizer = observer(() => {
   )
     return null;
 
+  console.log(wallStore.externalWallPoints, wallStore.internalWallPoints);
+
   return (
     <>
       <LineVisualizer points={wallStore.externalWallPoints} color="#ff7f00" />
@@ -67,7 +70,7 @@ const ShedWallVisualizer = observer(() => {
       <HatchingLines
         outerPolygon={wallStore.externalWallPoints.map(([x, y]) => [x, y])}
         innerPolygon={wallStore.internalWallPoints.map(([x, y]) => [x, y])}
-        spacing={0.2}
+        spacing={5}
         angle={45}
         color="#ff7f00"
         lineWidth={0.7}
