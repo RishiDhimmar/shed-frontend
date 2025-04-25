@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction, reaction, } from "mobx";
+import { makeAutoObservable, runInAction, reaction } from "mobx";
 import { v4 as uuidv4 } from "uuid";
 import baseplateStore, { BaseplateType, WallType } from "./BasePlateStore";
 import wallStore from "./WallStore";
@@ -25,6 +25,8 @@ export class ColumnStore {
   verticalWidth: number = 0;
   verticalLength: number = 0;
   uniqueColumnNumber = 0;
+  internalOffset: number = 0.75;
+  polygons: number[][][] = [];
 
   columns: Column[] = [];
 
@@ -251,6 +253,18 @@ export class ColumnStore {
   setColumns(newColumns: Column[]) {
     runInAction(() => {
       this.columns = newColumns;
+      uiStore.setModified(true);
+    });
+  }
+  setInternalOffset(newOffset: number) {
+    runInAction(() => {
+      this.internalOffset = newOffset;
+      uiStore.setModified(true);
+    });
+  }
+  setPolygons(newPolygons: number[][][]) {
+    runInAction(() => {
+      this.polygons = newPolygons;
       uiStore.setModified(true);
     });
   }
@@ -886,7 +900,7 @@ export class ColumnStore {
 
     // Assign labels and calculate positions
     allColumns.forEach((column) => {
-      if(!column) return
+      if (!column) return;
       column.label = `C${count}`;
       const center = generateCenterFromRectanglePoints(column.points);
       column.labelPosition = [center.X, center.Y, 0];
