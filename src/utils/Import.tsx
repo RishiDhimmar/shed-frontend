@@ -4,6 +4,8 @@ import baseplateStore from "../stores/BasePlateStore";
 import { BACKEND_URL } from "../Constants";
 import processBaseplates from "./processBaseplateDXFData";
 import ImportModel from "../components/uiElements/ImportModel";
+import { extractPolygonsFromDXF } from "./DXFUtils";
+import uiStore from "../stores/UIStore";
 
 export const Import = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -114,6 +116,7 @@ export const Import = () => {
      */
   }
 
+  // const handleShedBaseplateDxfChange = async (file: File) => {
   const handleShedBaseplateDxfChange = async (file: File) => {
     const formData = new FormData();
     formData.append("dxfFile", file);
@@ -131,29 +134,32 @@ export const Import = () => {
       baseplateStore.clearBaseplates();
       wallStore.clearWallData();
 
-      const externalWallLines = jsonData.entities.filter(
-        (line: any) => line.layer === "ExternalWall"
-      );
-      const internalWallLines = jsonData.entities.filter(
-        (line: any) => line.layer === "InternalWall"
-      );
+      // const externalWallLines = jsonData.entities.filter(
+      //   (line: any) => line.layer === "ExternalWall"
+      // );
+      // const internalWallLines = jsonData.entities.filter(
+      //   (line: any) => line.layer === "InternalWall"
+      // );
 
-      externalWallLines[0].vertices.forEach((vertex: any) => {
-        vertex.x = vertex.x / 1000;
-        vertex.y = vertex.y / 1000;
-        vertex.z = 0;
-      });
+      // externalWallLines[0].vertices.forEach((vertex: any) => {
+      //   vertex.x = vertex.x / 1000;
+      //   vertex.y = vertex.y / 1000;
+      //   vertex.z = 0;
+      // });
 
-      internalWallLines[0].vertices.forEach((vertex: any) => {
-        vertex.x = vertex.x / 1000;
-        vertex.y = vertex.y / 1000;
-        vertex.z = 0;
-      });
+      // internalWallLines[0].vertices.forEach((vertex: any) => {
+      //   vertex.x = vertex.x / 1000;
+      //   vertex.y = vertex.y / 1000;
+      //   vertex.z = 0;
+      // });
 
-      wallStore.processWallData({
-        entities: [externalWallLines[0], internalWallLines[0]],
-      });
-      processBaseplates(jsonData);
+      // wallStore.processWallData({
+      //   entities: [externalWallLines[0], internalWallLines[0]],
+      // });
+      // processBaseplates(jsonData);
+      const polygons = extractPolygonsFromDXF(jsonData);
+      uiStore.setPolygons(polygons);
+      // console.log("Polygons:", polygons);
 
       console.log("✅ Baseplate DXF imported via API:", jsonData);
     } catch (error) {

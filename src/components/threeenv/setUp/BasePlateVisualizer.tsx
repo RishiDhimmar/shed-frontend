@@ -3,11 +3,27 @@ import baseplateStore from "../../../stores/BasePlateStore";
 import LineVisualizer from "../Helpers/LineVisualizerProps";
 import uiStore from "../../../stores/UIStore";
 import DimensionLine from "../Helpers/DimensionLine";
-import React, {  } from "react";
+import React, { useMemo } from "react";
 import { Line } from "@react-three/drei";
 import TextWrapper from "../Helpers/TextWrapper";
 
 const BasePlateVisualizer = observer(() => {
+  useMemo(() => {
+    baseplateStore.updateCenterLinePoints();
+  }, [
+    baseplateStore.config.corner.length,
+    baseplateStore.config.horizontal.length,
+    baseplateStore.config.vertical.length,
+    baseplateStore.config.corner.width,
+    baseplateStore.config.horizontal.width,
+    baseplateStore.config.vertical.width,
+    baseplateStore.config.corner.offsetX,
+    baseplateStore.config.horizontal.offsetX,
+    baseplateStore.config.corner.offsetY,
+    baseplateStore.config.horizontal.offsetY,
+    baseplateStore.idealHorizontalDistance,
+    baseplateStore.idealVerticalDistance,
+  ]);
 
   return (
     <>
@@ -200,9 +216,6 @@ const BasePlateVisualizer = observer(() => {
         return (
           <React.Fragment key={baseplate.id}>
             <LineVisualizer points={baseplate.points} color="#00ff00" />
-            
-
-       
 
             <Line
               points={
@@ -243,18 +256,18 @@ const BasePlateVisualizer = observer(() => {
 
             {uiStore.currentComponent === "baseplate" && (
               <>
-              {baseplate.label ? (
-              <>
-                {console.log(baseplate.label)}
-                <TextWrapper
-                  text={baseplate.label}
-                  position={baseplate.labelPosition}
-                  rotation={baseplate.labelRotation}
-                  color={"#00ff00"}
-                  fontSize={0.4}
-                />
-              </>
-            ) : null}
+                {baseplate.label ? (
+                  <>
+                    {console.log(baseplate.label)}
+                    <TextWrapper
+                      text={baseplate.label}
+                      position={baseplate.labelPosition}
+                      rotation={baseplate.labelRotation}
+                      color={"#00ff00"}
+                      fontSize={0.4}
+                    />
+                  </>
+                ) : null}
                 {/* Horizontal dimension (X-axis) */}
                 <DimensionLine
                   startPoint={p2 as [number, number, number]}
