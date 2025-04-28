@@ -18,6 +18,7 @@ class MullionColumnStore {
     height: number;
     points: [number, number, number][];
   }[] = [];
+  polygons : number[][][] = []
 
   constructor() {
     makeAutoObservable(this);
@@ -34,6 +35,9 @@ class MullionColumnStore {
         this.calculateMullions();
       }
     );
+  }
+  setPolygons(polygons) {
+    this.polygons = polygons
   }
 
   calculateMullions() {
