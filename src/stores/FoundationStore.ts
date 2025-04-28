@@ -30,8 +30,8 @@ class FoundationStore {
     corner: {
       RccBf: 3.0,
       rccLf: 2.5,
-      pccWidth: 3.8,
-      pccLength: 3.4,
+      pccWidth: 18.50,
+      pccLength: 21,
       depthD: 0.5,
       depthd: 0.3,
       shortBarCount: 4,
@@ -66,6 +66,8 @@ class FoundationStore {
   };
 
   foundations: Foundation[] = [];
+  innerPolygons: number[][][] = [];
+  outerPolygons: number[][][] = [];
 
   // Store previous valid parameter values to revert in case of overlap
   previousValues: Record<FoundationType, Record<string, number>> = {
@@ -139,6 +141,19 @@ class FoundationStore {
     }
 
     return true;
+  }
+  setInnerPolygons(newPolygons: number[][][]) {
+    runInAction(() => {
+      this.innerPolygons = newPolygons;
+      uiStore.setModified(true);
+    });
+  }
+
+  setOuterPolygons(newPolygons: number[][][]) {
+    runInAction(() => {
+      this.outerPolygons = newPolygons;
+      uiStore.setModified(true);
+    });
   }
 
   // Check if two foundations overlap

@@ -69,6 +69,14 @@ export const Column = observer(() => {
             disabled={true}
           />
         </div>
+        <InputNumber
+            label="InnerOffset:"
+            value={columnStore.internalOffset}
+            onChange={(newLength: number) => {
+              columnStore.setInternalOffset(newLength);
+            }}
+            // disabled = {true}
+          />
       </form>
     </div>
   );

@@ -25,6 +25,8 @@ export class ColumnStore {
   verticalWidth: number = 0;
   verticalLength: number = 0;
   uniqueColumnNumber = 0;
+  internalOffset: number = 0.75;
+  polygons: number[][][] = [];
 
   columns: Column[] = [];
 
@@ -251,6 +253,18 @@ export class ColumnStore {
   setColumns(newColumns: Column[]) {
     runInAction(() => {
       this.columns = newColumns;
+      uiStore.setModified(true);
+    });
+  }
+  setInternalOffset(newOffset: number) {
+    runInAction(() => {
+      this.internalOffset = newOffset;
+      uiStore.setModified(true);
+    });
+  }
+  setPolygons(newPolygons: number[][][]) {
+    runInAction(() => {
+      this.polygons = newPolygons;
       uiStore.setModified(true);
     });
   }

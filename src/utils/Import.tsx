@@ -118,6 +118,7 @@ export const Import = () => {
      */
   }
 
+  // const handleShedBaseplateDxfChange = async (file: File) => {
   const handleShedBaseplateDxfChange = async (file: File) => {
     const formData = new FormData();
     formData.append("dxfFile", file);
@@ -135,24 +136,24 @@ export const Import = () => {
       baseplateStore.clearBaseplates();
       wallStore.clearWallData();
 
-      const externalWallLines = jsonData.entities.filter(
-        (line: any) => line.layer === "ExternalWall"
-      );
-      const internalWallLines = jsonData.entities.filter(
-        (line: any) => line.layer === "InternalWall"
-      );
+      // const externalWallLines = jsonData.entities.filter(
+      //   (line: any) => line.layer === "ExternalWall"
+      // );
+      // const internalWallLines = jsonData.entities.filter(
+      //   (line: any) => line.layer === "InternalWall"
+      // );
 
-      externalWallLines[0].vertices.forEach((vertex: any) => {
-        vertex.x = vertex.x / 1000;
-        vertex.y = vertex.y / 1000;
-        vertex.z = 0;
-      });
+      // externalWallLines[0].vertices.forEach((vertex: any) => {
+      //   vertex.x = vertex.x / 1000;
+      //   vertex.y = vertex.y / 1000;
+      //   vertex.z = 0;
+      // });
 
-      internalWallLines[0].vertices.forEach((vertex: any) => {
-        vertex.x = vertex.x / 1000;
-        vertex.y = vertex.y / 1000;
-        vertex.z = 0;
-      });
+      // internalWallLines[0].vertices.forEach((vertex: any) => {
+      //   vertex.x = vertex.x / 1000;
+      //   vertex.y = vertex.y / 1000;
+      //   vertex.z = 0;
+      // });
 
       wallStore.processWallData({
         entities: [externalWallLines[0], internalWallLines[0]],

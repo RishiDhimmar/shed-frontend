@@ -93,6 +93,7 @@ class UIStore {
 
   templates: Template[] = [];
   standards: Standard[] = [];
+  polygons: number[][][] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -206,6 +207,9 @@ class UIStore {
 
   setSidebarOpen(open: boolean) {
     this.isSidebarOpen = open;
+  }
+  setPolygons(polygons: number[][][]) {
+    this.polygons = polygons;
   }
 }
 

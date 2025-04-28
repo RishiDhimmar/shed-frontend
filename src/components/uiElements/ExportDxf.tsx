@@ -13,26 +13,75 @@ import { observer } from "mobx-react-lite";
 const ExportMenu = observer(() => {
   const [showOptions, setShowOptions] = useState(false);
 
+  // const handleExportDXF = async () => {
+  //   try {
+  //     const response = await fetch(BACKEND_URL + "api/dxf/generate-dxf", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         basePlot: toJS(basePlotStore),
+  //         wall: toJS(wallStore),
+  //         baseplate: toJS(baseplateStore),
+  //         column: toJS(columnStore),
+  //         foundation: toJS(foundationStore),
+  //         mullionColumn: toJS(mullionColumnStore),
+  //         groundBeam: toJS(basePlotStore),
+  //       }),
+  //     });
+
+  //     if (!response.ok) throw new Error("Failed to export DXF");
+
+  //     const blob = await response.blob();
+  //     const url = window.URL.createObjectURL(blob);
+  //     const a = document.createElement("a");
+  //     a.href = url;
+  //     a.download = "shed.dxf";
+  //     a.click();
+  //     window.URL.revokeObjectURL(url);
+  //   } catch (error) {
+  //     console.error("Export failed:", error);
+  //   }
+  // };
+
   const handleExportDXF = async () => {
     try {
+      const payload: Record<string, any> = {};
+  
+      if (uiStore.visibility.plot) {
+        payload.basePlot = toJS(basePlotStore);
+      }
+      if (uiStore.visibility.shade) {
+        // Add shade store if available
+        payload.wall = toJS(wallStore);
+      }
+      if (uiStore.visibility.baseplate) {
+        payload.baseplate = toJS(baseplateStore);
+      }
+      if (uiStore.visibility.column) {
+        payload.column = toJS(columnStore);
+      }
+      if (uiStore.visibility.foundation) {
+        payload.foundation = toJS(foundationStore);
+      }
+      if (uiStore.visibility.mullionColumn) {
+        payload.mullionColumn = toJS(mullionColumnStore);
+      }
+      if (uiStore.visibility.groundBeam) {
+        payload.groundBeam = toJS(basePlotStore); // Assuming you meant a different store here?
+      }
+  
       const response = await fetch(BACKEND_URL + "api/dxf/generate-dxf", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          basePlot: toJS(basePlotStore),
-          wall: toJS(wallStore),
-          baseplate: toJS(baseplateStore),
-          column: toJS(columnStore),
-          foundation: toJS(foundationStore),
-          mullionColumn: toJS(mullionColumnStore),
-          groundBeam: toJS(basePlotStore),
-        }),
+        body: JSON.stringify(payload),
       });
-
+  
       if (!response.ok) throw new Error("Failed to export DXF");
-
+  
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -45,7 +94,7 @@ const ExportMenu = observer(() => {
     }
   };
 
-
+  
   return (
     <div className="relative w-full">
       <button
