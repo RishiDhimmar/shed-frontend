@@ -4,6 +4,7 @@ import baseplateStore from "../stores/BasePlateStore";
 import { BACKEND_URL } from "../Constants";
 import processBaseplates from "./processBaseplateDXFData";
 import ImportModel from "../components/uiElements/ImportModel";
+import { toast, Toaster } from "react-hot-toast";
 
 export const Import = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,6 +28,7 @@ export const Import = () => {
 
       const data = await response.json();
       wallStore.processWallData(data);
+      toast.success(" Please select walls and baseplate!");
       console.log("Parsed Shade DXF Data:", data);
     } catch (error) {
       console.error("Error uploading shade file:", error);
@@ -50,6 +52,8 @@ export const Import = () => {
       baseplateStore.clearBaseplates();
       wallStore.clearWallData();
       processBaseplates(jsonData);
+      toast.success(" Please select walls and baseplate!");
+
       console.log("✅ Baseplate JSON imported via API:", jsonData);
     } catch (error) {
       console.error("❌ Error uploading baseplate JSON file:", error);
@@ -154,6 +158,7 @@ export const Import = () => {
         entities: [externalWallLines[0], internalWallLines[0]],
       });
       processBaseplates(jsonData);
+      toast.success(" Please select walls and baseplate!");
 
       console.log("✅ Baseplate DXF imported via API:", jsonData);
     } catch (error) {
@@ -163,6 +168,7 @@ export const Import = () => {
 
   return (
     <div className="w-full">
+      <Toaster position="top-center" reverseOrder={false} />
       <div className="flex">
         <button
           className="bg-gray-800 text-white m-1 p-2 rounded shadow-md hover:bg-gray-600 cursor-pointer w-full text-sm"

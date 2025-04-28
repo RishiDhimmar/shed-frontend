@@ -34,7 +34,6 @@ const ImportModel = ({
     if (file) setSelectedFile(file);
   };
 
-
   const handleImport = () => {
     if (!selectedFile || !selectedType) return;
 
