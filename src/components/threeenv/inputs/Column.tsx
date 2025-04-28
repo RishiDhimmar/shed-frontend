@@ -16,6 +16,7 @@ export const Column = observer(() => {
             onChange={(newLength: number) => {
               columnStore.setCornerLength(newLength);
             }}
+            disabled = {true}
           />
           <InputNumber
             label="width:"
@@ -23,6 +24,7 @@ export const Column = observer(() => {
             onChange={(newHeight: number) =>
               columnStore.setCornerWidth(newHeight)
             }
+            disabled = {true}
           />
         </div>
         <h1 className="text-md font-medium mb-4 ">Horizontal Column</h1>
@@ -33,6 +35,7 @@ export const Column = observer(() => {
             onChange={(newLength: number) => {
               columnStore.setHorizontalLength(newLength);
             }}
+            disabled = {true}
           />
           <InputNumber
             label="width:"
@@ -40,6 +43,7 @@ export const Column = observer(() => {
             onChange={(newHeight: number) =>
               columnStore.setHorizontalWidth(newHeight)
             }
+            disabled = {true}
           />
         </div>
         <h1 className="text-md font-medium mb-4">Vertical Column </h1>
@@ -50,6 +54,7 @@ export const Column = observer(() => {
             onChange={(newLength: number) => {
               columnStore.setVerticalLength(newLength);
             }}
+            disabled = {true}
           />
           <InputNumber
             label="width:"
@@ -57,6 +62,7 @@ export const Column = observer(() => {
             onChange={(newHeight: number) =>
               columnStore.setVerticalWidth(newHeight)
             }
+            disabled = {true}
           />
         </div>
       </form>

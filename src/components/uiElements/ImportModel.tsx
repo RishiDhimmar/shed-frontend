@@ -5,6 +5,7 @@ interface ImportModelProps {
   onClose: () => void;
   onShadeImport: (file: File) => void;
   onBaseplateImport: (file: File) => void;
+  onShedBaseplateImport: (file: File) => void;
 }
 
 const ImportModel = ({
@@ -12,6 +13,7 @@ const ImportModel = ({
   onClose,
   onShadeImport,
   onBaseplateImport,
+  onShedBaseplateImport,
 }: ImportModelProps) => {
   const [selectedType, setSelectedType] = useState<
     "shade" | "baseplate" | "combination" | null
@@ -32,6 +34,7 @@ const ImportModel = ({
     if (file) setSelectedFile(file);
   };
 
+
   const handleImport = () => {
     if (!selectedFile || !selectedType) return;
 
@@ -44,6 +47,7 @@ const ImportModel = ({
         break;
       case "combination":
         // Add combination handler if needed
+        onShedBaseplateImport(selectedFile);
         break;
     }
     onClose();

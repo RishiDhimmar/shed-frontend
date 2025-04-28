@@ -262,6 +262,7 @@ interface InputNumberProps {
     | "thickness"
     | "horizontalDistance"
     | "verticalDistance";
+  disabled?: boolean;
 }
 
 const InputNumber: React.FC<InputNumberProps> = observer(
@@ -272,6 +273,7 @@ const InputNumber: React.FC<InputNumberProps> = observer(
     // infoText = "This is some helpful information.",
     standardType,
     dimensionField,
+    disabled,
   }) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -443,6 +445,7 @@ const InputNumber: React.FC<InputNumberProps> = observer(
             onChange={handleChange}
             className="w-full p-3 py-1 border font-poppins border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1"
             min={0}
+            disabled={disabled}
           />
         )}
 

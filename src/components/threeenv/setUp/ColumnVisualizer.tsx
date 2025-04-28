@@ -81,6 +81,7 @@ import baseplateStore from "../../../stores/BasePlateStore";
 import LineVisualizer from "../Helpers/LineVisualizerProps";
 import DimensionLine from "../Helpers/DimensionLine";
 import uiStore from "../../../stores/UIStore";
+import TextWrapper from "../Helpers/TextWrapper";
 
 const ColumnVisualizer = observer(() => {
   useMemo(() => {
@@ -90,6 +91,7 @@ const ColumnVisualizer = observer(() => {
   return (
     <>
       {columnStore.columns.map((column) => {
+        if (!column.points) return null;
         const [p0, p1, p2] = column.points;
 
         // Dynamically calculate lengths from points
@@ -183,9 +185,18 @@ const ColumnVisualizer = observer(() => {
         return (
           <>
             <LineVisualizer points={column.points} color="#6363E1" />
-
+  
             {uiStore.currentComponent === "column" && (
               <>
+              { column.label ? (
+                <TextWrapper
+                  text={column.label}
+                  position={column.labelPosition as [number, number, number]}
+                  color="#6363E1"
+                  rotation={0}
+                  fontSize={0.5}
+                  />
+              ): <></>}
                 <DimensionLine
                   startPoint={p0 as [number, number, number]}
                   endPoint={p1 as [number, number, number]}

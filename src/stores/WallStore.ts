@@ -63,6 +63,7 @@ export class WallStore {
   }
 
   processWallData(data: any) {
+    console.log(data.entities[0].ver)
     if (data?.entities?.length) {
       const externalPolyline = data.entities[0]?.vertices || [];
       const internalPolyline = data.entities[1]?.vertices || [];
@@ -79,6 +80,7 @@ export class WallStore {
         0,
       ]);
 
+      console.log(newExternalPoints, newInternalPoints);
       this.setWallPoints(newExternalPoints, newInternalPoints);
       this.calculateThickness();
       this.calculateDimensions();

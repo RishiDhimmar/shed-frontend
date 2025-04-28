@@ -190,7 +190,6 @@ class UIStore {
   }
 
   setScreenshotFn(fn: () => void) {
-    console.log("hii");
     this.screenshotFn = fn;
   }
 
