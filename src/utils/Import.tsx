@@ -4,7 +4,7 @@ import baseplateStore from "../stores/BasePlateStore";
 import { BACKEND_URL } from "../Constants";
 import processBaseplates from "./processBaseplateDXFData";
 import ImportModel from "../components/uiElements/ImportModel";
-import { extractPolygonsFromDXF } from "./DXFUtils";
+import { extractAllFromDXF, extractPolygonsFromDXF } from "./DXFUtils";
 import uiStore from "../stores/UIStore";
 
 export const Import = () => {
@@ -158,6 +158,7 @@ export const Import = () => {
       // });
       // processBaseplates(jsonData);
       const polygons = extractPolygonsFromDXF(jsonData);
+      console.log(extractAllFromDXF(jsonData));
       uiStore.setPolygons(polygons);
       // console.log("Polygons:", polygons);
 
