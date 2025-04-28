@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction, reaction, } from "mobx";
+import { makeAutoObservable, runInAction, reaction } from "mobx";
 import { v4 as uuidv4 } from "uuid";
 import baseplateStore, { BaseplateType, WallType } from "./BasePlateStore";
 import wallStore from "./WallStore";
@@ -886,7 +886,7 @@ export class ColumnStore {
 
     // Assign labels and calculate positions
     allColumns.forEach((column) => {
-      if(!column) return
+      if (!column) return;
       column.label = `C${count}`;
       const center = generateCenterFromRectanglePoints(column.points);
       column.labelPosition = [center.X, center.Y, 0];
@@ -894,6 +894,36 @@ export class ColumnStore {
     });
     console.log("Final allColumns:", allColumns);
     this.setColumns(allColumns as Column[]);
+  }
+
+  getColumnDataByType(
+    type: BaseplateType
+  ): { points: number[][]; width: number; length: number; id: string }[] {
+    const data = this.columns
+      .filter((column) => column.type === type)
+      .map((column) => ({
+        id: column.id,
+        points: column.points,
+        width: column.width,
+        length: column.length,
+      }));
+    if (data.length === 0) {
+      console.warn(`No columns found for type: ${type}`);
+    }
+    return data;
+  }
+
+  getDimensionsByType(type: BaseplateType): { width: number; length: number } {
+    switch (type) {
+      case "corner":
+        return { width: this.cornerWidth, length: this.cornerLength };
+      case "horizontal":
+        return { width: this.horizontalWidth, length: this.horizontalLength };
+      case "vertical":
+        return { width: this.verticalWidth, length: this.verticalLength };
+      default:
+        throw new Error(`Invalid column type: ${type}`);
+    }
   }
 }
 
