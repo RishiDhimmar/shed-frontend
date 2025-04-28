@@ -444,7 +444,7 @@ const InputNumber: React.FC<InputNumberProps> = observer(
             ref={inputRef}
             type="number"
             value={value === 0 ? "" : (value * 1000).toString().split(".")[0]}
-          step={10}
+          step={50}
             onChange={handleChange}
             className="w-full p-3 py-1 border font-poppins border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1"
             min={0}

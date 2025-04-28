@@ -30,8 +30,8 @@ class FoundationStore {
     corner: {
       RccBf: 3.0,
       rccLf: 2.5,
-      pccWidth: 3.8,
-      pccLength: 3.4,
+      pccWidth: 18.50,
+      pccLength: 21,
       depthD: 0.5,
       depthd: 0.3,
       shortBarCount: 4,
