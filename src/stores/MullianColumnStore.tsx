@@ -3,6 +3,8 @@ import { getRectanglePoints } from "../utils/GeometryUtils";
 import wallStore from "./WallStore";
 import baseplateStore from "./BasePlateStore";
 import uiStore from "./UIStore";
+import { getRectanglePointsAroundCenter } from "../utils/PolygonUtils";
+import { label } from "three/tsl";
 
 class MullionColumnStore {
   mullionLength: number = 0;
@@ -18,7 +20,7 @@ class MullionColumnStore {
     height: number;
     points: [number, number, number][];
   }[] = [];
-  polygons : number[][][] = []
+  polygons: number[][][] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -37,7 +39,7 @@ class MullionColumnStore {
     );
   }
   setPolygons(polygons) {
-    this.polygons = polygons
+    this.polygons = polygons;
   }
 
   calculateMullions() {
@@ -156,7 +158,125 @@ class MullionColumnStore {
   setRingCc(value: number) {
     this.ringCc = value;
   }
-}
 
+  calculateMullionColumns() {
+    // this.polygons = baseplateStore.edgeBasePlates
+    //   .flatMap((plate) =>
+    //     plate.hits.map((hit) => {
+    //       let center = hit.hitPoint;
+
+    //       if (hit.direction === "-x") {
+    //         center = {
+    //           x: hit.hitPoint.x - wallStore.wallThickness / 2,
+    //           y: hit.hitPoint.y,
+    //         };
+    //       }
+    //       if (hit.direction === "+x") {
+    //         center = {
+    //           x: hit.hitPoint.x + wallStore.wallThickness / 2,
+    //           y: hit.hitPoint.y,
+    //         };
+    //       }
+    //       if (hit.direction === "+y") {
+    //         center = {
+    //           x: hit.hitPoint.x,
+    //           y: hit.hitPoint.y + wallStore.wallThickness / 2,
+    //         };
+    //       }
+    //       if (hit.direction === "-y") {
+    //         center = {
+    //           x: hit.hitPoint.x,
+    //           y: hit.hitPoint.y - wallStore.wallThickness / 2,
+    //         };
+    //       }
+
+    //       console.log(center);
+
+    //       return {
+    //         points: getRectanglePointsAroundCenter(
+    //           center,
+    //           wallStore.wallThickness,
+    //           wallStore.wallThickness
+    //         ),
+    //       };
+    //     })
+    //   )
+    //   .concat(
+    this.polygons = baseplateStore.cornerBasePlates
+      .map((plate) => {
+        // Initialize center from the first hit point
+        let center = { ...plate.hits[0].hitPoint }; // Create a copy to avoid mutating original
+
+        // Apply adjustments to center based on all hits
+        plate.hits.forEach((hit) => {
+          if (hit.direction === "-x") {
+            center.x = hit.hitPoint.x - wallStore.wallThickness / 2;
+          }
+          if (hit.direction === "+x") {
+            center.x = hit.hitPoint.x + wallStore.wallThickness / 2;
+          }
+          if (hit.direction === "+y") {
+            center.y = hit.hitPoint.y + wallStore.wallThickness / 2;
+          }
+          if (hit.direction === "-y") {
+            center.y = hit.hitPoint.y - wallStore.wallThickness / 2;
+          }
+        });
+
+        // Return polygon with points around the adjusted center
+        return {
+          points: getRectanglePointsAroundCenter(
+            { ...center, z: 0 },
+            wallStore.wallThickness,
+            wallStore.wallThickness
+          ),
+          label: `m${plate.label.slice(1)}`,
+        };
+      })
+      .concat(
+        baseplateStore.edgeBasePlates.flatMap((plate) =>
+          plate.hits.map((hit) => {
+            let center = hit.hitPoint;
+
+            if (hit.direction === "-x") {
+              center = {
+                x: hit.hitPoint.x - wallStore.wallThickness / 2,
+                y: hit.hitPoint.y,
+              };
+            }
+            if (hit.direction === "+x") {
+              center = {
+                x: hit.hitPoint.x + wallStore.wallThickness / 2,
+                y: hit.hitPoint.y,
+              };
+            }
+            if (hit.direction === "+y") {
+              center = {
+                x: hit.hitPoint.x,
+                y: hit.hitPoint.y + wallStore.wallThickness / 2,
+              };
+            }
+            if (hit.direction === "-y") {
+              center = {
+                x: hit.hitPoint.x,
+                y: hit.hitPoint.y - wallStore.wallThickness / 2,
+              };
+            }
+
+            console.log(center);
+
+            return {
+              points: getRectanglePointsAroundCenter(
+                center,
+                wallStore.wallThickness,
+                wallStore.wallThickness
+              ),
+              label: `m${plate.label.slice(1)}`,
+            };
+          })
+        )
+      );
+  }
+}
 const mullionColumnStore = new MullionColumnStore();
 export default mullionColumnStore;

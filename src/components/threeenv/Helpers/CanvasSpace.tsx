@@ -20,6 +20,7 @@ import baseplateStore from "../../../stores/BasePlateStore";
 import columnStore from "../../../stores/ColumnStore";
 import foundationStore from "../../../stores/FoundationStore";
 import mullionColumnStore from "../../../stores/MullianColumnStore";
+import { sortPolygonsClockwise } from "../../../utils/sortPolygonsClockwise";
 
 const CONFIG = {
   EPSILON: 0.01,
@@ -41,7 +42,7 @@ const MIN_FONT_SIZE = 8; // Minimum font size in pixels for readability
 
 const dataMap = { data, data2, data3, data4, data5, data6 };
 
-const CanvasTest = observer(() => {
+const CanvasTest : React.FC = observer(() => {
   const canvasRef = useRef(null);
   const count = useRef(0);
   const [internalPolygons, setInternalPolygons] = useState([]);
@@ -218,7 +219,11 @@ const CanvasTest = observer(() => {
 
       setDebugRays(rays);
       setIntersectingPolygons(filteredPolygons);
-      baseplateStore.polygons = filteredPolygons;
+      const tempPoly = sortPolygonsClockwise(filteredPolygons);
+      
+      baseplateStore.polygons = tempPoly;
+
+      console.log(filteredPolygons, sortPolygonsClockwise(filteredPolygons));
 
       count.current = 2;
     }
@@ -254,6 +259,8 @@ const CanvasTest = observer(() => {
         : worldToScreen(polygon[i]);
       ctx.lineTo(point.x, point.y);
     }
+
+    
 
     ctx.closePath();
     ctx.strokeStyle = color;
@@ -1513,10 +1520,8 @@ const CanvasTest = observer(() => {
       >
         {showRays ? "Hide Rays" : "Show Rays"}
       </button>
-     
     </div>
   );
 });
 
 export default CanvasTest;
-

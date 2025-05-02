@@ -8,6 +8,7 @@ export type currentComponentType =
   | "foundation"
   | "mullionColumn"
   | "groundBeam";
+  
 
 export type TemplateType =
   | "baseplate"
@@ -81,6 +82,9 @@ class UIStore {
     foundation: true,
     mullionColumn: true,
     groundBeam: true,
+    circles: true,
+    lines: true,
+    polygons: true,
   };
   isDimensionsVisible: boolean = false;
 
@@ -94,6 +98,7 @@ class UIStore {
   templates: Template[] = [];
   standards: Standard[] = [];
   polygons: number[][][] = [];
+  data = [];
 
   constructor() {
     makeAutoObservable(this);

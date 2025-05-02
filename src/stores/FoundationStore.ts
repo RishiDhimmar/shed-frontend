@@ -2,6 +2,11 @@ import { makeAutoObservable, reaction, runInAction } from "mobx";
 import { v4 as uuidv4 } from "uuid";
 import columnStore from "./ColumnStore";
 import uiStore from "./UIStore";
+import { generateCenterFromRectanglePoints } from "../utils/GeometryUtils";
+import {
+  generateBiggerPolygonAtSomeOffset,
+  getBiggerRectangleAtOffset,
+} from "../utils/PolygonUtils";
 
 export type FoundationType = "corner" | "horizontal" | "vertical";
 
@@ -30,7 +35,7 @@ class FoundationStore {
     corner: {
       RccBf: 3.0,
       rccLf: 2.5,
-      pccWidth: 18.50,
+      pccWidth: 18.5,
       pccLength: 21,
       depthD: 0.5,
       depthd: 0.3,
@@ -68,6 +73,7 @@ class FoundationStore {
   foundations: Foundation[] = [];
   innerPolygons: number[][][] = [];
   outerPolygons: number[][][] = [];
+  polygons: number[][][] = [];
 
   // Store previous valid parameter values to revert in case of overlap
   previousValues: Record<FoundationType, Record<string, number>> = {
@@ -189,79 +195,31 @@ class FoundationStore {
     };
   }
 
-  generateFoundations(): boolean {
-    const newFoundations: Foundation[] = [];
-    let hasOverlap = false;
+  generateFoundations() {
+    this.polygons = columnStore.polygons.map((polygon) => {
+      const innerFoundationPoints = getBiggerRectangleAtOffset(
+        polygon,
+        75,
+        75,
+        75,
+        75
+      );
+      const outerFoundationPoints = getBiggerRectangleAtOffset(
+        polygon,
+        500,
+        600,
+        500,
+        600
+      );
 
-    columnStore.columns.forEach((column) => {
-      // Calculate points for the column
-      const xs = column.points.map((p) => p[0]);
-      const ys = column.points.map((p) => p[1]);
-      const minX = Math.min(...xs);
-      const maxX = Math.max(...xs);
-      const minY = Math.min(...ys);
-      const maxY = Math.max(...ys);
-      const center = [
-        (minX + maxX) / 2,
-        (minY + maxY) / 2,
-        column.points[0][2] || 0,
-      ];
+      // console.log(foundationPoints);
 
-      const type = column.type;
-      if (!type) return;
-      const params = this.values[type];
-
-      // --- First Rectangle: Slightly bigger than the column rectangle ---
-      const margin = 0.3;
-      const rect1Width = maxX - minX + margin;
-      const rect1Height = maxY - minY + margin;
-
-      const foundationPoints1 = [
-        [center[0] - rect1Width / 2, center[1] - rect1Height / 2, center[2]],
-        [center[0] + rect1Width / 2, center[1] - rect1Height / 2, center[2]],
-        [center[0] + rect1Width / 2, center[1] + rect1Height / 2, center[2]],
-        [center[0] - rect1Width / 2, center[1] + rect1Height / 2, center[2]],
-        [center[0] - rect1Width / 2, center[1] - rect1Height / 2, center[2]], // Close the loop
-      ];
-
-      // --- Second Rectangle: Use the exact RccBf and rccLf values directly ---
-      const rect2Width = params.pccWidth;
-      const rect2Height = params.pccLength;
-
-      const foundationPoints2 = [
-        [center[0] - rect2Width / 2, center[1] - rect2Height / 2, center[2]],
-        [center[0] + rect2Width / 2, center[1] - rect2Height / 2, center[2]],
-        [center[0] + rect2Width / 2, center[1] + rect2Height / 2, center[2]],
-        [center[0] - rect2Width / 2, center[1] + rect2Height / 2, center[2]],
-        [center[0] - rect2Width / 2, center[1] - rect2Height / 2, center[2]], // Close the loop
-      ];
-
-      // Check for overlap with existing foundations
-      for (const foundation of newFoundations) {
-        if (
-          this.checkOverlap(foundationPoints1, foundation.points) ||
-          this.checkOverlap(foundationPoints2, foundation.points)
-        ) {
-          hasOverlap = true;
-          break;
-        }
-      }
-
-      // Only add new foundations if there's no overlap
-      if (!hasOverlap) {
-        newFoundations.push({ id: uuidv4(), points: foundationPoints1 });
-        newFoundations.push({ id: uuidv4(), points: foundationPoints2 });
-      }
+      return {
+        innerFoundationPoints: innerFoundationPoints,
+        outerFoundationPoints: outerFoundationPoints,
+        label: `f${polygon.label.slice(1)}`,
+      };
     });
-
-    // Update store only if there's no overlap
-    if (!hasOverlap) {
-      runInAction(() => {
-        this.foundations = newFoundations;
-      });
-    }
-
-    return hasOverlap;
   }
 }
 

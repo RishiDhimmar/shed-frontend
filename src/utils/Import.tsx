@@ -6,6 +6,7 @@ import processBaseplates from "./processBaseplateDXFData";
 import ImportModel from "../components/uiElements/ImportModel";
 import { extractAllFromDXF, extractPolygonsFromDXF } from "./DXFUtils";
 import uiStore from "../stores/UIStore";
+import dxfStore from "../stores/DxfStore";
 
 export const Import = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -159,7 +160,10 @@ export const Import = () => {
       // processBaseplates(jsonData);
       const polygons = extractPolygonsFromDXF(jsonData);
       console.log(extractAllFromDXF(jsonData));
+      uiStore.data = extractAllFromDXF(jsonData);
       uiStore.setPolygons(polygons);
+      console.log(polygons);
+      dxfStore.setCandidatePolygons(uiStore.data.polygons);
       // console.log("Polygons:", polygons);
 
       console.log("✅ Baseplate DXF imported via API:", jsonData);
