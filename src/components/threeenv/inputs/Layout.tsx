@@ -98,6 +98,30 @@ export const Layout = observer(() => {
           onClick={() => handleSelect("groundBeam")}
           onToggleVisibility={() => uiStore.toggleVisibility("groundBeam")}
         />
+        <LayoutItem
+          title="Circles"
+          color="bg-[#00FFFF]"
+          isHidden={!uiStore.visibility.circles}
+          isSelected={selectedTitle === "lines"}
+          onClick={() => {}}
+          onToggleVisibility={() => uiStore.toggleVisibility("circles")}
+        />
+        <LayoutItem
+          title="Lines"
+          color="bg-[#00FFFF]"
+          isHidden={!uiStore.visibility.lines}
+          isSelected={selectedTitle === "lines"}
+          onClick={() => handleSelect("lines")}
+          onToggleVisibility={() => uiStore.toggleVisibility("lines")}
+        />
+        <LayoutItem
+          title="Polygons"
+          color="bg-[#00FFFF]"
+          isHidden={!uiStore.visibility.polygons}
+          isSelected={selectedTitle === "polygons"}
+          onClick={() => handleSelect("polygons")}
+          onToggleVisibility={() => uiStore.toggleVisibility("polygons")}
+        />
       </div>
       <div className=" flex flex-col  overflow-y-scroll overflow-x-hidden h- w-[300px] ml-1 bg-white rounded shadow-xl  z-1 top-0 ">
         {uiStore.currentComponent === "plot" && <PlotInput />}

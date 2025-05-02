@@ -429,6 +429,7 @@ export class WallStore {
   }
 
   calculateThickness() {
+    console.log(this.externalWallPoints, this.internalWallPoints);
     if (
       this.externalWallPoints.length === 0 ||
       this.internalWallPoints.length === 0
