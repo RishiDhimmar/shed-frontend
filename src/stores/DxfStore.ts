@@ -11,7 +11,7 @@ import {
   findClosestPolygon,
   findClosestSmallerPolygon,
   isPolygonInsidePolygon,
-} from "../components/canvas2d/polygon";
+} from "../components/canvas2d/Polygon";
 import wallStore from "./WallStore";
 import baseplateStore from "./BasePlateStore";
 import columnStore from "./ColumnStore";
@@ -41,7 +41,7 @@ class DxfStore {
     this.calculateFirstBasePlatePolygon();
     this.recursiveRaycastingFromPolygon();
     baseplateStore.generateLabels();
-    baseplateStore.processBasePlates()
+    baseplateStore.processBasePlates();
     columnStore.generateColumnPolygons();
     foundationStore.generateFoundations();
     mullionColumnStore.calculateMullionColumns();
@@ -110,6 +110,8 @@ class DxfStore {
         wallStore.wallThickness = Math.abs(
           this.externalWallPolygon[0] - this.internalWallPolygon[0]
         );
+        wallStore.externalWallPoints = this.externalWallPolygon;
+        wallStore.internalWallPoints = this.internalWallPolygon;
         console.log("Calculated wall thickness:", wallStore.wallThickness);
 
         return flatArray;
