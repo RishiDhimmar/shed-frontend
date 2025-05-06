@@ -3,8 +3,7 @@ import { makeAutoObservable } from "mobx";
 import { traceAllPolygonsWithRays } from "../utils/PolygonUtils";
 import {
   calculateBoundingBoxArea,
-  isPointInPolygon,
-  distanceBetPoints,
+  isPointInPolygon
 } from "../utils/GeometryUtils";
 import {
   findClosestPointOnPolygon,

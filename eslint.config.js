@@ -23,6 +23,7 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      "import/no-unresolved": [2, { "caseSensitive": true }]
     },
   },
 )

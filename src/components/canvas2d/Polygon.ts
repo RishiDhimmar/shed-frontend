@@ -1,5 +1,5 @@
 // src/utils/polygon.js
-import { CONFIG } from "./constants";
+import { CONFIG } from "./Constants";
 import {
   getEdgeCenter,
   getEdgeNormal,
