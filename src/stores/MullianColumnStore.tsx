@@ -230,7 +230,7 @@ class MullionColumnStore {
             wallStore.wallThickness,
             wallStore.wallThickness
           ),
-          label: `m${plate.label.slice(1)}`,
+          label: `M${plate.label.slice(1)}`,
         };
       })
       .concat(
@@ -271,7 +271,7 @@ class MullionColumnStore {
                 wallStore.wallThickness,
                 wallStore.wallThickness
               ),
-              label: `m${plate.label.slice(1)}`,
+              label: `M${plate.label.slice(1)}`,
             };
           })
         )

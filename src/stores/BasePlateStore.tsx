@@ -61,6 +61,7 @@ class BaseplateStore {
   cornerBasePlates: any[] = [];
   edgeBasePlates: any[] = [];
   middleBasePlates: any[] = [];
+  sortedCenterPoints: any[] = [];
   groups: any[] = [
     { name: "Corner", type: "corner", basePlates: this.cornerBasePlates },
     { name: "Edge", type: "edge", basePlates: this.edgeBasePlates },
@@ -916,16 +917,17 @@ class BaseplateStore {
     const sortedPoints = sortPolygon(
       centerPoints.map((p) => ({ x: p.x, y: p.y }))
     );
+    this.sortedCenterPoints = sortedPoints;
     const sortedPolygons = sortedPoints.map(
       (p, i) => temp.find((p2) => p2.center.x === p.x && p2.center.y === p.y)!
     );
     sortedPolygons.forEach((plate, index) => {
-      plate.label = `b${index + 1}`;
+      plate.label = `B${index + 1}`;
     });
 
     //rest numbering to middle plates
     this.middleBasePlates.forEach((plate, index) => {
-      plate.label = `b${index + temp.length}`;
+      plate.label = `B${index + temp.length}`;
     });
     this.cornerBasePlates = sortedPolygons.filter((p) => p.type === "corner");
     this.edgeBasePlates = sortedPolygons.filter((p) => p.type === "edge");

@@ -158,6 +158,7 @@ export const Import = () => {
       //   entities: [externalWallLines[0], internalWallLines[0]],
       // });
       // processBaseplates(jsonData);
+      console.log(jsonData)
       const polygons = extractPolygonsFromDXF(jsonData);
       console.log(extractAllFromDXF(jsonData));
       uiStore.data = extractAllFromDXF(jsonData);

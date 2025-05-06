@@ -217,7 +217,7 @@ class FoundationStore {
       return {
         innerFoundationPoints: innerFoundationPoints,
         outerFoundationPoints: outerFoundationPoints,
-        label: `f${polygon.label.slice(1)}`,
+        label: `F${polygon.label.slice(1)}`,
       };
     });
   }

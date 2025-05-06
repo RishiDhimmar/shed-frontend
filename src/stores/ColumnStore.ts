@@ -2121,20 +2121,20 @@ export class ColumnStore {
     this.polygons = baseplateStore.cornerBasePlates
       .map((plate) => ({
         points: this.getExtendedPoints(plate.points, plate.hits, "corner"),
-        label: `c${plate.label.slice(1)}`,
+        label: `C${plate.label.slice(1)}`,
         center: plate.center,
       }))
       .concat(
         baseplateStore.edgeBasePlates.map((plate) => ({
           points: this.getExtendedPoints(plate.points, plate.hits, "edge"),
-          label: `c${plate.label.slice(1)}`,
+          label: `C${plate.label.slice(1)}`,
           center: plate.center,
         }))
       )
       .concat(
         baseplateStore.middleBasePlates.map((plate) => ({
           points: this.getExtendedPoints(plate.points, plate.hits, "middle"),
-          label: `c${plate.label.slice(1)}`,
+          label: `C${plate.label.slice(1)}`,
           center: plate.center,
         }))
       );
