@@ -1,6 +1,6 @@
 // src/utils/geometry.js
-import { CONFIG } from './constants';
-import { findClosestPointOnPolygon } from './polygon';
+import { CONFIG } from './Constants';
+import { findClosestPointOnPolygon } from './Polygon';
 
 export function getEdgeCenter(p1, p2) {
   return {
