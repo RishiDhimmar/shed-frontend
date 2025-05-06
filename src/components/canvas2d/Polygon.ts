@@ -5,7 +5,7 @@ import {
   getEdgeNormal,
   distanceBetPoints,
   projectPointToSegment,
-} from "./geometry";
+} from "./Geometry";
 import { doLinesIntersect } from "../../utils/PolygonUtils";
 
 export function traceInnerPolygonsWithRays(startPoly, otherPolys) {
