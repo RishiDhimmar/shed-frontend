@@ -1,6 +1,6 @@
 import { saveAs } from "file-saver";
 import { toJS } from "mobx";
-import basePlotStore  from "../stores/BasePlotStore";
+import basePlotStore from "../stores/BasePlotStore";
 import baseplateStore from "../stores/BasePlateStore";
 import columnStore from "../stores/ColumnStore";
 import foundationStore from "../stores/FoundationStore";
@@ -17,6 +17,10 @@ export const handleSaveProject = () => {
     foundation: toJS(foundationStore),
     mullionColumn: toJS(mullionColumnStore),
     groundBeam: toJS(basePlotStore),
+    circles: (uiStore.data.curves || []).filter((c) => c.type === "CIRCLE"),
+    lines: uiStore.data.lines || [],
+    polygons: uiStore.data.polygons || [],
+    texts: uiStore.data.texts || [],
   };
 
   const jsonBlob = new Blob([JSON.stringify(projectData, null, 2)], {

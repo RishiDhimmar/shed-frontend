@@ -48,7 +48,7 @@ const ExportMenu = observer(() => {
   const handleExportDXF = async () => {
     try {
       const payload: Record<string, any> = {};
-  
+
       if (uiStore.visibility.plot) {
         payload.basePlot = toJS(basePlotStore);
       }
@@ -71,7 +71,13 @@ const ExportMenu = observer(() => {
       if (uiStore.visibility.groundBeam) {
         payload.groundBeam = toJS(basePlotStore); // Assuming you meant a different store here?
       }
-  
+      payload.circles = (uiStore.data.curves || []).filter(
+        (c) => c.type === "CIRCLE"
+      );
+      payload.lines = uiStore.data.lines || [];
+      payload.polygons = uiStore.data.polygons || [];
+      payload.texts = uiStore.data.texts || [];
+
       const response = await fetch(BACKEND_URL + "api/dxf/generate-dxf", {
         method: "POST",
         headers: {
@@ -79,9 +85,9 @@ const ExportMenu = observer(() => {
         },
         body: JSON.stringify(payload),
       });
-  
+
       if (!response.ok) throw new Error("Failed to export DXF");
-  
+
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -94,7 +100,6 @@ const ExportMenu = observer(() => {
     }
   };
 
-  
   return (
     <div className="relative w-full">
       <button
