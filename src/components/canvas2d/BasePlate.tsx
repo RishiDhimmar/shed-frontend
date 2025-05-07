@@ -4,6 +4,7 @@ import baseplateStore from "../../stores/BasePlateStore";
 import { Line, Text, Group } from "react-konva";
 import { observer } from "mobx-react-lite";
 import Dimension from "./Dimentions";
+import { getCenterPoints } from "../../utils/PolygonUtils";
 
 const BasePlate = observer(() => {
   const [dragPositions, setDragPositions] = useState({});
@@ -124,7 +125,9 @@ const BasePlate = observer(() => {
         <Group key={baseplateKey}>
           <Line
             points={baseplate.points.flatMap((p) => [p.x, p.y])}
-            stroke="#00FF00"
+            stroke={
+              uiStore.currentComponent === "baseplate" ? "#black" : "#00FF00"
+            }
             strokeWidth={5}
             fill={uiStore.currentComponent === "baseplate" ? "#00FF00" : ""}
             opacity={uiStore.currentComponent === "baseplate" ? 0.5 : 1}
@@ -140,6 +143,7 @@ const BasePlate = observer(() => {
                 fontSize={100}
                 draggable
                 fill="#00FF00"
+                stroke={"black"}
               />
               <Dimension
                 p1={lengthPoints[0]}
@@ -171,9 +175,103 @@ const BasePlate = observer(() => {
 
   return (
     <>
-      {renderBaseplates(baseplateStore.cornerBasePlates, "corner")}
-      {renderBaseplates(baseplateStore.edgeBasePlates, "edge")}
-      {renderBaseplates(baseplateStore.middleBasePlates, "middle")}
+      
+
+      {baseplateStore.groups.map((group) =>
+        renderBaseplates(group.basePlates, group.label)
+      )}
+
+      {baseplateStore.sortedCenterPoints &&
+        baseplateStore.sortedCenterPoints.map((point, index) => (
+          <Dimension
+            key={index}
+            p1={point}
+            p2={
+              baseplateStore.sortedCenterPoints[
+                (index + 1) % baseplateStore.sortedCenterPoints.length
+              ]
+            }
+            color={"black"}
+            offset={-3000}
+            label={Math.sqrt(
+              Math.pow(
+                baseplateStore.sortedCenterPoints[
+                  (index + 1) % baseplateStore.sortedCenterPoints.length
+                ].x - baseplateStore.sortedCenterPoints[index].x,
+                2
+              ) +
+                Math.pow(
+                  baseplateStore.sortedCenterPoints[
+                    (index + 1) % baseplateStore.sortedCenterPoints.length
+                  ].y - baseplateStore.sortedCenterPoints[index].y,
+                  2
+                )
+            ).toFixed(0)}
+            isDraggable={false}
+          />
+        ))}
+      {baseplateStore.sortedCenterPoints &&
+        uiStore.currentComponent === "baseplate" && (
+          <>
+            <Line
+              key={"center"}
+              points={baseplateStore.sortedCenterPoints.flatMap((p) => [
+                p.x,
+                p.y,
+              ])}
+              stroke={"#00FF00"}
+              strokeWidth={5}
+              opacity={0.5}
+              dash={[200, 50]}
+              closed
+            />
+          </>
+        )}
+      {baseplateStore.edgeBasePlates.length > 0 &&
+        uiStore.currentComponent === "baseplate" &&
+        baseplateStore.edgeBasePlates.map((baseplate, index) => {
+          const points =
+            baseplate.hits[0].direction === "-x"
+              ? [
+                  getCenterPoints(baseplate.points).x,
+                  getCenterPoints(baseplate.points).y,
+                  getCenterPoints(baseplate.points).x + 20000,
+                  getCenterPoints(baseplate.points).y,
+                ]
+              : baseplate.hits[0].direction === "+x"
+              ? [
+                  getCenterPoints(baseplate.points).x,
+                  getCenterPoints(baseplate.points).y,
+                  getCenterPoints(baseplate.points).x - 20000,
+                  getCenterPoints(baseplate.points).y,
+                ]
+              : baseplate.hits[0].direction === "-y"
+              ? [
+                  getCenterPoints(baseplate.points).x,
+                  getCenterPoints(baseplate.points).y,
+                  getCenterPoints(baseplate.points).x,
+                  getCenterPoints(baseplate.points).y + 20000,
+                ]
+              : [
+                  getCenterPoints(baseplate.points).x,
+                  getCenterPoints(baseplate.points).y,
+                  getCenterPoints(baseplate.points).x,
+                  getCenterPoints(baseplate.points).y - 20000,
+                ];
+
+          console.log(baseplate.hits[0].direction);
+          return (
+            <Line
+              key={`edge-${index}`}
+              points={points}
+              stroke={"#00FF00"}
+              strokeWidth={5}
+              opacity={1}
+              dash={[200, 300]}
+              closed
+            />
+          );
+        })}
     </>
   );
 });

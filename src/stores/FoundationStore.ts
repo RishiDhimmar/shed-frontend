@@ -7,6 +7,8 @@ import {
   generateBiggerPolygonAtSomeOffset,
   getBiggerRectangleAtOffset,
 } from "../utils/PolygonUtils";
+import { baseplateAssumptions } from "../components/assumptions/assumptionsInfo";
+import baseplateStore from "./BasePlateStore";
 
 export type FoundationType = "corner" | "horizontal" | "vertical";
 
@@ -74,6 +76,7 @@ class FoundationStore {
   innerPolygons: number[][][] = [];
   outerPolygons: number[][][] = [];
   polygons: number[][][] = [];
+  foundationInputs: Record<string, number[]> = {};
 
   // Store previous valid parameter values to revert in case of overlap
   previousValues: Record<FoundationType, Record<string, number>> = {
@@ -81,6 +84,14 @@ class FoundationStore {
     horizontal: {},
     vertical: {},
   };
+
+  setFoundationInputs(foundationInputs: Record<string, number[]>) {
+    runInAction(() => {
+      this.foundationInputs = foundationInputs;
+      uiStore.setModified(true);
+    });
+    this.generateFoundations();
+  }
 
   constructor() {
     makeAutoObservable(this);
@@ -195,30 +206,53 @@ class FoundationStore {
     };
   }
 
-  generateFoundations() {
-    this.polygons = columnStore.polygons.map((polygon) => {
-      const innerFoundationPoints = getBiggerRectangleAtOffset(
-        polygon,
-        75,
-        75,
-        75,
-        75
-      );
-      const outerFoundationPoints = getBiggerRectangleAtOffset(
-        polygon,
-        500,
-        600,
-        500,
-        600
-      );
-
-      // console.log(foundationPoints);
-
-      return {
-        innerFoundationPoints: innerFoundationPoints,
-        outerFoundationPoints: outerFoundationPoints,
-        label: `F${polygon.label.slice(1)}`,
+  generateFoundationInputs() {
+    baseplateStore.groups.forEach((group) => {
+      this.foundationInputs[group.name] = {
+        "+x": 500,
+        "-x": 500,
+        "+y": 500,
+        "-y": 500,
       };
+    });
+  }
+
+  generateFoundations() {
+    if (Object.keys(this.foundationInputs).length == 0)
+      this.generateFoundationInputs();
+    this.polygons = columnStore.polygons.map((group) => {
+      return group.map((column) => {
+        const innerFoundationPoints = getBiggerRectangleAtOffset(
+          column,
+          75,
+          75,
+          75,
+          75
+        );
+        const outerFoundationPoints = getBiggerRectangleAtOffset(
+          column,
+          this.foundationInputs[column.group]["+x"],
+          this.foundationInputs[column.group]["-x"],
+          this.foundationInputs[column.group]["+y"],
+          this.foundationInputs[column.group]["-y"]
+        );
+
+        const ppcPoints = getBiggerRectangleAtOffset(
+          column,
+          this.foundationInputs[column.group]["+x"] + 150,
+          this.foundationInputs[column.group]["-x"] + 150,
+          this.foundationInputs[column.group]["+y"] + 150,
+          this.foundationInputs[column.group]["-y"] + 150
+        );
+
+
+        return {
+          innerFoundationPoints: innerFoundationPoints,
+          outerFoundationPoints: outerFoundationPoints,
+          ppcPoints: ppcPoints,
+          label: `F${column.label.slice(1)}`,
+        };
+      });
     });
   }
 }

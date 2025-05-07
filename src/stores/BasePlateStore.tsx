@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import uiStore from "./UIStore";
 import foundationStore from "./FoundationStore";
 import { sortPolygon } from "../utils/PolygonUtils";
+import columnStore from "./ColumnStore";
 
 export type BaseplateType = "corner" | "horizontal" | "vertical";
 
@@ -67,6 +68,7 @@ class BaseplateStore {
     { name: "Edge", type: "edge", basePlates: this.edgeBasePlates },
     { name: "Middle", type: "Middle", basePlates: this.middleBasePlates },
   ];
+  nameToBSPMapping: Record<string, any> = {};
 
   constructor() {
     makeAutoObservable(this, {
@@ -733,6 +735,34 @@ class BaseplateStore {
     this.setBasePlates([]);
   }
 
+  modifyGroups(groups: any[]) {
+    this.groups = groups;
+  }
+  addGroup(group: any) {
+    this.groups.push(group);
+    columnStore.generateColumnsInputs();
+    foundationStore.generateFoundationInputs();
+  }
+  addBaseplateToGroup(groupName: string, baseplateName: string) {
+    const group = this.groups.find((g) => g.name === groupName);
+    if (group) {
+      group.basePlates.push(
+        this.basePlates.find((b) => b.label === baseplateName)
+      );
+    }
+  }
+  removeBaseplateFromGroup(groupName: string, baseplateName: string) {
+    const group = this.groups.find((g) => g.name === groupName);
+    if (group) {
+      group.basePlates = group.basePlates.filter(
+        (b) => b.label !== baseplateName
+      );
+    }
+  }
+  deleteGroup(groupName: string) {
+    this.groups = this.groups.filter((g) => g.name !== groupName);
+  }
+
   updateCenterLinePoints() {
     const bottomLeft = baseplateStore.basePlates.find(
       (baseplate) => baseplate.wall === "bottom-left"
@@ -931,7 +961,25 @@ class BaseplateStore {
     });
     this.cornerBasePlates = sortedPolygons.filter((p) => p.type === "corner");
     this.edgeBasePlates = sortedPolygons.filter((p) => p.type === "edge");
+    this.generateNameToBSPMapping();
+    this.basePlates = [
+      ...this.cornerBasePlates,
+      ...this.edgeBasePlates,
+      ...this.middleBasePlates,
+    ];
     // this.middleBasePlates = sortedPolygons.filter((p) => p.type === "middle");
+  }
+  generateNameToBSPMapping() {
+    this.nameToBSPMapping = {};
+    this.cornerBasePlates.forEach((plate) => {
+      this.nameToBSPMapping[plate.label] = plate;
+    });
+    this.edgeBasePlates.forEach((plate) => {
+      this.nameToBSPMapping[plate.label] = plate;
+    });
+    this.middleBasePlates.forEach((plate) => {
+      this.nameToBSPMapping[plate.label] = plate;
+    });
   }
 
   processBasePlates(): { x: number; y: number; label: string }[] {
@@ -942,17 +990,14 @@ class BaseplateStore {
     ) {
       return [];
     }
-    console.log(
-      this.cornerBasePlates,
-      this.edgeBasePlates,
-      this.middleBasePlates
-    );
+    
     this.groups = [
       { name: "Group 1", type: "corner", basePlates: this.cornerBasePlates },
       { name: "Group 2", type: "edge", basePlates: this.edgeBasePlates },
       { name: "Group 3", type: "middle", basePlates: this.middleBasePlates },
     ];
   }
+  
 }
 
 const baseplateStore = new BaseplateStore();

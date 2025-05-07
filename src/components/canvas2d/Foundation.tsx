@@ -23,10 +23,14 @@ const Foundation = observer(() => {
 
   return (
     <>
-      {foundationStore.polygons.map((foundation, i) => {
+      {foundationStore.polygons.flat().map((foundation, i) => {
         const foundationKey = `foundation-${i}`;
-        const outerBbox = calculateBoundingBox(foundation.outerFoundationPoints);
-        const innerBbox = calculateBoundingBox(foundation.innerFoundationPoints);
+        const outerBbox = calculateBoundingBox(
+          foundation.outerFoundationPoints
+        );
+        const innerBbox = calculateBoundingBox(
+          foundation.innerFoundationPoints
+        );
 
         if (!dragPositions[foundationKey]) {
           setDragPositions((prev) => ({
@@ -106,7 +110,10 @@ const Foundation = observer(() => {
         return (
           <Group key={foundationKey} name={foundationKey}>
             <Line
-              points={foundation.innerFoundationPoints.flatMap((p) => [p.x, p.y])}
+              points={foundation.innerFoundationPoints.flatMap((p) => [
+                p.x,
+                p.y,
+              ])}
               stroke="#FF00FF"
               strokeWidth={5}
               fill={uiStore.currentComponent === "foundation" ? "white" : ""}
@@ -114,10 +121,20 @@ const Foundation = observer(() => {
               closed
             />
             <Line
-              points={foundation.outerFoundationPoints.flatMap((p) => [p.x, p.y])}
+              points={foundation.outerFoundationPoints.flatMap((p) => [
+                p.x,
+                p.y,
+              ])}
               stroke="#FF00FF"
               strokeWidth={5}
               fill={uiStore.currentComponent === "foundation" ? "#FF00FF" : ""}
+              opacity={uiStore.currentComponent === "foundation" ? 0.5 : 1}
+              closed
+            />
+            <Line
+              points={foundation.ppcPoints.flatMap((p) => [p.x, p.y])}
+              stroke="#FF00FF"
+              strokeWidth={5}
               opacity={uiStore.currentComponent === "foundation" ? 0.5 : 1}
               closed
             />
@@ -130,7 +147,7 @@ const Foundation = observer(() => {
                   foundation.outerFoundationPoints[j].x,
                   foundation.outerFoundationPoints[j].y,
                 ]}
-                stroke="#FF00FF"
+                stroke="black"
                 strokeWidth={5}
               />
             ))}
