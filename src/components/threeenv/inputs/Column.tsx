@@ -9,19 +9,18 @@ export const Column = observer(() => {
     <div className=" p-6">
       <h1 className="text-lg font-bold mb-4 "> Column Inputs</h1>
       <form className="space-y-4">
-        {Array.from(baseplateStore.groups.values()).map((bs) => (
+        {Object.keys(columnStore.columnInputs).map((bs) => (
           <>
-            {console.log(bs)}
-            <div className="text-sm">{bs.name}</div>
+            <div className="text-sm">{bs}</div>
             <div className="flex  gap-2">
               <InputNumber
                 label="+x Offset:"
-                value={columnStore.columnInputs[bs.type]["+x"]}
+                value={columnStore.columnInputs[bs]["+x"]}
                 onChange={(newLength: number) => {
                   columnStore.setColumnInputs({
                     ...columnStore.columnInputs,
-                    [bs.type]: {
-                      ...columnStore.columnInputs[bs.type],
+                    [bs]: {
+                      ...columnStore.columnInputs[bs],
                       ["+x"]: newLength,
                     },
                   });
@@ -29,40 +28,40 @@ export const Column = observer(() => {
               />
               <InputNumber
                 label="-y Offset:"
-                value={columnStore.columnInputs[bs.type]["+y"]}
-                onChange={(newHeight: number) =>
+                value={columnStore.columnInputs[bs]["+y"]}
+                onChange={(newHeight: number) => {
                   columnStore.setColumnInputs({
                     ...columnStore.columnInputs,
-                    [bs.type]: {
-                      ...columnStore.columnInputs[bs.type],
+                    [bs]: {
+                      ...columnStore.columnInputs[bs],
                       ["+y"]: newHeight,
                     },
-                  })
-                }
+                  });
+                }}
               />
             </div>
             <div className="flex  gap-2">
               <InputNumber
                 label="-x Offset:"
-                value={columnStore.columnInputs[bs.type]["-x"]}
-                onChange={(newLength: number) =>
+                value={columnStore.columnInputs[bs]["-x"]}
+                onChange={(newLength: number) => {
                   columnStore.setColumnInputs({
                     ...columnStore.columnInputs,
-                    [bs.type]: {
-                      ...columnStore.columnInputs[bs.type],
+                    [bs]: {
+                      ...columnStore.columnInputs[bs],
                       ["-x"]: newLength,
                     },
-                  })
-                }
+                  });
+                }}
               />
               <InputNumber
                 label="+y Offset:"
-                value={columnStore.columnInputs[bs.type]["-y"]}
+                value={columnStore.columnInputs[bs]["-y"]}
                 onChange={(newHeight: number) =>
                   columnStore.setColumnInputs({
                     ...columnStore.columnInputs,
-                    [bs.type]: {
-                      ...columnStore.columnInputs[bs.type],
+                    [bs]: {
+                      ...columnStore.columnInputs[bs],
                       ["-y"]: newHeight,
                     },
                   })

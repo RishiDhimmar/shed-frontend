@@ -23,7 +23,7 @@ const Dimension = ({
     : -offset * Math.cos(angle);
 
   return (
-    <Group draggable={isDraggable? isDraggable : true} onDragMove={onDragMove}>
+    <Group draggable={isDraggable ? isDraggable : true} onDragMove={onDragMove}>
       <Arrow
         points={[
           p1.x + offsetX,
@@ -66,7 +66,7 @@ const Dimension = ({
         y={(p1.y + p2.y) / 2 + offsetY + 50}
         text={`${label} mm`}
         fontSize={100}
-        stroke={color}
+        stroke={"black"}
         fill={color}
         align="center"
         rotation={rotation}

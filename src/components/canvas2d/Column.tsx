@@ -21,21 +21,23 @@ const Column = observer(() => {
     };
   };
 
-  const renderColumns = () =>
-    columnStore.polygons.map((column, i) => {
+  const renderColumns = () => {
+    return columnStore.polygons.flat().map((column, i) => {
       const columnKey = `column-${i}`;
       const bbox = calculateBoundingBox(column.points);
 
       if (!dragPositions[columnKey]) {
+        // Initialize dragPositions for the column
         setDragPositions((prev) => ({
           ...prev,
           [columnKey]: { lengthY: 0, heightX: 0 },
         }));
-        return null; // Wait for dragPositions to initialize
+        return null;
       }
 
       let length = (bbox.maxX - bbox.minX).toFixed(0);
       let height = (bbox.maxY - bbox.minY).toFixed(0);
+
       let lengthPoints = [
         { x: bbox.minX, y: bbox.minY },
         { x: bbox.maxX, y: bbox.minY },
@@ -145,6 +147,7 @@ const Column = observer(() => {
         </Group>
       );
     });
+  };
 
   return <>{renderColumns()}</>;
 });

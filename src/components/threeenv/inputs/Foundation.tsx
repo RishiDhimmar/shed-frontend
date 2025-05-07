@@ -30,6 +30,69 @@ const Foundation = observer(() => {
   return (
     <div className="p-6 z-0">
       <h1 className="text-lg font-bold mb-2">Foundation Parameters</h1>
+      <from className="space-y-4">
+        {Object.keys(foundationStore.foundationInputs).map((grp) => (
+          <>
+            <div className="text-sm">{grp}</div>
+            <div className="flex  gap-2">
+              <InputNumber
+                label="+x Offset:"
+                value={foundationStore.foundationInputs[grp]["+x"]}
+                onChange={(newLength: number) => {
+                  foundationStore.setFoundationInputs({
+                    ...foundationStore.foundationInputs,
+                    [grp]: {
+                      ...foundationStore.foundationInputs[grp],
+                      ["+x"]: newLength,
+                    },
+                  });
+                }}
+              />
+              <InputNumber
+                label="-y Offset:"
+                value={foundationStore.foundationInputs[grp]["+y"]}
+                onChange={(newHeight: number) => {
+                  foundationStore.setFoundationInputs({
+                    ...foundationStore.foundationInputs,
+                    [grp]: {
+                      ...foundationStore.foundationInputs[grp],
+                      ["+y"]: newHeight,
+                    },
+                  });
+                }}
+              />
+            </div>
+            <div className="flex  gap-2">
+              <InputNumber
+                label="-x Offset:"
+                value={foundationStore.foundationInputs[grp]["-x"]}
+                onChange={(newLength: number) => {
+                  foundationStore.setFoundationInputs({
+                    ...foundationStore.foundationInputs,
+                    [grp]: {
+                      ...foundationStore.foundationInputs[grp],
+                      ["-x"]: newLength,
+                    },
+                  });
+                }}
+              />
+              <InputNumber
+                label="+y Offset:"
+                value={foundationStore.foundationInputs[grp]["-y"]}
+                onChange={(newHeight: number) =>
+                  foundationStore.setFoundationInputs({
+                    ...foundationStore.foundationInputs,
+                    [grp]: {
+                      ...foundationStore.foundationInputs[grp],
+                      ["-y"]: newHeight,
+                    },
+                  })
+                }
+              />
+            </div>
+          </>
+        ))}
+      </from>
       <form className="space-y-2">
         {Object.entries(foundationStore.values).map(([type, params]) => (
           <div key={type}>

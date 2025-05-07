@@ -158,7 +158,6 @@ export const extractPolygonsFromDXF = (dxfData) => {
   return polygons.map(sortClockwise);
 };
 
-
 // export const extractAllFromDXF = (dxfData) => {
 //   if (!dxfData || typeof dxfData !== "object") {
 //     console.error("Invalid or missing DXF data");
@@ -791,7 +790,6 @@ export const extractPolygonsFromDXF = (dxfData) => {
 //   };
 // };
 
-
 export const extractAllFromDXF = (dxfData) => {
   if (!dxfData || typeof dxfData !== "object") {
     console.error("Invalid or missing DXF data");
@@ -1008,13 +1006,13 @@ export const extractAllFromDXF = (dxfData) => {
               y: entity.position?.y || entity.y || 0,
               z: entity.position?.z || entity.z || 0,
             });
-            console.log(entity);
             texts.push({
               type: entity.type,
               text: entity.text || entity.value || "",
               position,
               height: entity.height || 1,
-              rotation: entity.directionVector?.y === -1 ? 90 : (entity.rotation || 0),
+              rotation:
+                entity.directionVector?.y === -1 ? 90 : entity.rotation || 0,
               style: entity.style || "STANDARD",
               layer: entity.layer,
               color: entity.color,

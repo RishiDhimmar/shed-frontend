@@ -11,21 +11,27 @@ export const BaseplateInput = observer(() => {
   const [selectedBaseplate, setSelectedBaseplate] = useState<string | null>(
     null
   );
+  const [modifyMode, setModifyMode] = useState(false);
+  const [newGroupName, setNewGroupName] = useState("");
+  const [selectedBaseplatesToAdd, setSelectedBaseplatesToAdd] = useState<{
+    [groupName: string]: string;
+  }>({});
 
-  const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
-  };
-
-  // Only get templates of type "baseplate"
+  const toggleDropdown = () => setShowDropdown(!showDropdown);
 
   const handleSelectTemplate = (template: Template) => {
     setSelectedBaseplate(template.name);
     setShowDropdown(false);
-
     const dims = template.dimensions as any;
-
     baseplateStore.setIdealHorizontalDistance(dims.idealHorizontalDistance);
     baseplateStore.setIdealVerticalDistance(dims.idealVerticalDistance);
+  };
+
+  const handleBaseplateChange = (groupName: string, baseplateId: string) => {
+    setSelectedBaseplatesToAdd((prev) => ({
+      ...prev,
+      [groupName]: baseplateId,
+    }));
   };
 
   const baseplateTemplates = uiStore.getTemplatesByType("baseplate");
@@ -34,27 +40,121 @@ export const BaseplateInput = observer(() => {
     <div className="p-6">
       <div className="flex flex-col gap-4">
         {baseplateStore.groups.map((group) => (
-          <div key={group.name} className="space-y-1">
-            <div className="text-sm">{group.name}</div>
-            <div className="grid grid-cols-5 gap-2">
-              {group.basePlates.map((bs) => (
+          <div key={group.name} className="space-y-1 border rounded p-2">
+            <div className="flex justify-between items-center">
+              <div className="text-sm font-semibold">{group.name}</div>
+              {modifyMode && (
+                <button
+                  className="text-red-600 text-xs hover:underline"
+                  onClick={() => baseplateStore.deleteGroup(group.name)}
+                >
+                  Delete Group
+                </button>
+              )}
+            </div>
+
+            <div className="grid grid-cols-4 gap-2">
+              {group.basePlates?.map((bs) => (
                 <div
                   key={bs.id}
-                  className="inline-flex items-center justify-center text-center p-2 text-sm text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0 rounded"
+                  className="inline-flex items-center justify-between text-sm text-gray-900 ring-1 ring-gray-300 rounded px-2 py-1"
                 >
                   {bs.label}
+                  {modifyMode && (
+                    <button
+                      className="ml-2 text-red-500 text-xs cursor-pointer"
+                      onClick={() =>
+                        baseplateStore.removeBaseplateFromGroup(
+                          group.name,
+                          bs.label
+                        )
+                      }
+                    >
+                      ✕
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
+
+            {modifyMode && (
+              <div className="flex gap-2 mt-2">
+                <select
+                  className="border rounded p-1 flex-1"
+                  value={selectedBaseplatesToAdd[group.name] || ""}
+                  onChange={(e) =>
+                    handleBaseplateChange(group.name, e.target.value)
+                  }
+                >
+                  <option value="">Select baseplate</option>
+                  {baseplateStore.basePlates.map((bs) => (
+                    <option key={bs.id} value={bs.id}>
+                      {bs.label}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  onClick={() => {
+                    const selectedId = selectedBaseplatesToAdd[group.name];
+                    if (selectedId) {
+                      baseplateStore.addBaseplateToGroup(
+                        group.name,
+                        selectedId
+                      );
+                      handleBaseplateChange(group.name, "");
+                    }
+                  }}
+                >
+                  Add
+                </button>
+              </div>
+            )}
           </div>
         ))}
+
+        {modifyMode && (
+          <div className="space-y-2 border-t pt-4">
+            <div className="text-sm font-semibold">Create New Group</div>
+            <input
+              type="text"
+              className="w-full p-2 border rounded"
+              placeholder="New Group Name"
+              value={newGroupName}
+              onChange={(e) => setNewGroupName(e.target.value)}
+            />
+            <button
+              className="bg-green-500 text-white px-4 py-1 rounded mt-1"
+              onClick={() => {
+                if (newGroupName.trim()) {
+                  baseplateStore.addGroup({
+                    name: newGroupName,
+                    basePlates: [],
+                  });
+                  setNewGroupName("");
+                }
+              }}
+            >
+              Create Group
+            </button>
+          </div>
+        )}
+
+        <div className="pt-4">
+          <button
+            className="bg-gray-300 p-2 rounded-md shadow-md hover:bg-gray-400 cursor-pointer w-full"
+            onClick={() => setModifyMode(!modifyMode)}
+          >
+            {modifyMode ? "Done Modifying Groups" : "Modify Groups"}
+          </button>
+        </div>
       </div>
 
-      <div className="flex gap-3 items-center justify-content-between relative mb-4">
+      {/* Template dropdown and distances */}
+      <div className="flex gap-3 items-center justify-content-between relative mb-4 mt-6">
         <h1 className="text-xl font-bold">
-          Baseplate Input {selectedBaseplate && `-${selectedBaseplate}`}
+          Baseplate Input {selectedBaseplate && ` - ${selectedBaseplate}`}
         </h1>
-
         <IoIosArrowDropdown
           size={20}
           className="cursor-pointer"
@@ -79,11 +179,9 @@ export const BaseplateInput = observer(() => {
       </div>
 
       <div className="flex gap-3 items-center text-bold relative mb-2">
-        Distances
-        <IoIosArrowDropdown size={20} className="cursor-pointer" />
+        Distances <IoIosArrowDropdown size={20} className="cursor-pointer" />
       </div>
 
-      {/* Distance Inputs */}
       <div className="flex-col gap-4">
         <InputNumber
           label="Ideal Horizontal Distance:"

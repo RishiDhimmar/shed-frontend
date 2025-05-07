@@ -56,6 +56,16 @@ function computeCentroid(points) {
   let n = points.length;
   return { x: sumX / n, y: sumY / n };
 }
+export function getCenterPoints(points) {
+  let sumX = 0,
+    sumY = 0;
+  for (let p of points) {
+    sumX += p.x;
+    sumY += p.y;
+  }
+  let n = points.length;
+  return { x: sumX / n, y: sumY / n };
+}
 
 // Helper function to calculate the polar angle of a point relative to the centroid
 function getAngle(p, center) {

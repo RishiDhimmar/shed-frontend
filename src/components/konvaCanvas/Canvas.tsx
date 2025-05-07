@@ -470,38 +470,11 @@ const CanvasZoomPan: React.FC = observer(() => {
           <BasePlate />
           <Column />
           <Foundation />
+         
           <MullionColumn />
         </Layer>
         <Layer>
-          {baseplateStore.sortedCenterPoints &&
-            baseplateStore.sortedCenterPoints.map((point, index) => (
-              <Dimension
-                key={index}
-                p1={point}
-                p2={
-                  baseplateStore.sortedCenterPoints[
-                    (index + 1) % baseplateStore.sortedCenterPoints.length
-                  ]
-                }
-                color={"black"}
-                offset={-3000}
-                label={Math.sqrt(
-                  Math.pow(
-                    baseplateStore.sortedCenterPoints[
-                      (index + 1) % baseplateStore.sortedCenterPoints.length
-                    ].x - baseplateStore.sortedCenterPoints[index].x,
-                    2
-                  ) +
-                    Math.pow(
-                      baseplateStore.sortedCenterPoints[
-                        (index + 1) % baseplateStore.sortedCenterPoints.length
-                      ].y - baseplateStore.sortedCenterPoints[index].y,
-                      2
-                    )
-                ).toFixed(0)}
-                isDraggable={false}
-              />
-            ))}
+          
         </Layer>
       </Stage>
     </div>

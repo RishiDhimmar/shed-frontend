@@ -7,7 +7,6 @@ function EllipseDrawer({ ellipses }) {
     <>
       {ellipses.map((ellipse, i) => (
         <>
-          {console.log(ellipse.center.x)}
           <Ellipse
             key={`ellipse-${i}`}
             x={ellipse.center.x}
