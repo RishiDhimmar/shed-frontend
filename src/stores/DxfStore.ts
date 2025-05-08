@@ -24,6 +24,7 @@ class DxfStore {
   intersectingPolygons = [];
   rays = [];
   firstBasePlatePolygon = null; // Changed from [] to null
+  data = [];
 
   constructor() {
     makeAutoObservable(this);

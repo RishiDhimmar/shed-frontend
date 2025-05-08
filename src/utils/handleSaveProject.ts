@@ -7,6 +7,7 @@ import foundationStore from "../stores/FoundationStore";
 import wallStore from "../stores/WallStore";
 import mullionColumnStore from "../stores/MullianColumnStore";
 import uiStore from "../stores/UIStore";
+import dxfStore from "../stores/DxfStore";
 
 export const handleSaveProject = () => {
   const projectData = {
@@ -17,10 +18,9 @@ export const handleSaveProject = () => {
     foundation: toJS(foundationStore),
     mullionColumn: toJS(mullionColumnStore),
     groundBeam: toJS(basePlotStore),
-    circles: (uiStore.data.curves || []).filter((c) => c.type === "CIRCLE"),
-    lines: uiStore.data.lines || [],
-    polygons: uiStore.data.polygons || [],
-    texts: uiStore.data.texts || [],
+    dxfData: toJS(dxfStore),
+
+   
   };
 
   const jsonBlob = new Blob([JSON.stringify(projectData, null, 2)], {
