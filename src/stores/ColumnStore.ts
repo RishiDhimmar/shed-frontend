@@ -1063,6 +1063,7 @@ export class ColumnStore {
         group: group.name,
       }));
     });
+    this.columns = this.polygons.flat();
 
   }
 }

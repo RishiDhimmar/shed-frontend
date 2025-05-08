@@ -9,6 +9,7 @@ import mullionColumnStore from "../../stores/MullianColumnStore";
 import { BACKEND_URL } from "../../Constants";
 import uiStore from "../../stores/UIStore";
 import { observer } from "mobx-react-lite";
+import dxfStore from "../../stores/DxfStore";
 
 const ExportMenu = observer(() => {
   const [showOptions, setShowOptions] = useState(false);
@@ -71,13 +72,7 @@ const ExportMenu = observer(() => {
       if (uiStore.visibility.groundBeam) {
         payload.groundBeam = toJS(basePlotStore); // Assuming you meant a different store here?
       }
-      payload.circles = (uiStore.data.curves || []).filter(
-        (c) => c.type === "CIRCLE"
-      );
-      payload.lines = uiStore.data.lines || [];
-      payload.polygons = uiStore.data.polygons || [];
-      payload.texts = uiStore.data.texts || [];
-
+      payload.dxfData = toJS(dxfStore);
       const response = await fetch(BACKEND_URL + "api/dxf/generate-dxf", {
         method: "POST",
         headers: {

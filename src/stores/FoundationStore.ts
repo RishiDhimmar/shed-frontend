@@ -254,6 +254,8 @@ class FoundationStore {
         };
       });
     });
+
+    this.foundations = this.polygons.flat();
   }
 }
 

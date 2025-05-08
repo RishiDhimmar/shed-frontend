@@ -14,7 +14,7 @@ const LineDrawer = observer(({ lines }) => {
               key={`line-${i}`}
               points={[line.start.x, line.start.y, line.end.x, line.end.y]}
               stroke={"black"}
-              strokeWidth={5}
+              strokeWidth={0.5}
               listening={false}
             />
           </>
