@@ -205,25 +205,22 @@ const CanvasZoomPan: React.FC = observer(() => {
         draggable
         onWheel={handleWheel}
       >
+        <Layer>
+          {/* Your interactive overlays */}
+          <Walls />
+          <PolygonsDrawer polygons={polygons} />
+          <BasePlate />
+          <Column />
+          <Foundation />
+
+          <MullionColumn />
+        </Layer>
         <Layer listening={false}>
           {/* Static elements */}
           <CircleDrawer circles={circles} />
           <LineDrawer lines={lines} />
           <TextDrawer texts={texts} />
           <EllipseDrawer ellipses={ellipses} />
-        </Layer>
-        <Layer>
-          {/* Your interactive overlays */}
-          <PolygonsDrawer polygons={polygons} />
-          <Walls />
-          <BasePlate />
-          <Column />
-          <Foundation />
-         
-          <MullionColumn />
-        </Layer>
-        <Layer>
-          
         </Layer>
       </Stage>
     </div>
