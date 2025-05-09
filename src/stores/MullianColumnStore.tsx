@@ -3,7 +3,10 @@ import { getRectanglePoints } from "../utils/GeometryUtils";
 import wallStore from "./WallStore";
 import baseplateStore from "./BasePlateStore";
 import uiStore from "./UIStore";
-import { getRectanglePointsAroundCenter } from "../utils/PolygonUtils";
+import {
+  getRectanglePointsAroundCenter,
+  sortPolygon,
+} from "../utils/PolygonUtils";
 import { label } from "three/tsl";
 
 class MullionColumnStore {
@@ -276,6 +279,48 @@ class MullionColumnStore {
           })
         )
       );
+
+    console.log(this.getCenters());
+    console.log(sortPolygon(this.getCenters()));
+
+    //sort the polygons in the order of correct centers
+    this.polygons = sortPolygon(this.getCenters()).map((sortedCenter) => {
+      return this.polygons.find((polygon) => {
+        const center = this.getCenterOfPolygon(polygon);
+        return (
+          Math.abs(center.x - sortedCenter.x) < 0.001 &&
+          Math.abs(center.y - sortedCenter.y) < 0.001
+        );
+      });
+    });
+
+    console.log(this.polygons);
+  }
+
+  getCenters() {
+    return this.polygons.map((polygon) => ({
+      x:
+        (Math.min(...polygon.points.map((p) => p.x)) +
+          Math.max(...polygon.points.map((p) => p.x))) /
+        2,
+      y:
+        (Math.min(...polygon.points.map((p) => p.y)) +
+          Math.max(...polygon.points.map((p) => p.y))) /
+        2,
+    }));
+  }
+
+  getCenterOfPolygon(polygon) {
+    return {
+      x:
+        (Math.min(...polygon.points.map((p) => p.x)) +
+          Math.max(...polygon.points.map((p) => p.x))) /
+        2,
+      y:
+        (Math.min(...polygon.points.map((p) => p.y)) +
+          Math.max(...polygon.points.map((p) => p.y))) /
+        2,
+    };
   }
 }
 const mullionColumnStore = new MullionColumnStore();
