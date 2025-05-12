@@ -150,7 +150,7 @@ export const BaseplateInput = observer(() => {
         </div>
       </div>
 
-      {/* Template dropdown and distances */}
+      {/* Template dropdown and distances 
       <div className="flex gap-3 items-center justify-content-between relative mb-4 mt-6">
         <h1 className="text-xl font-bold">
           Baseplate Input {selectedBaseplate && ` - ${selectedBaseplate}`}
@@ -208,6 +208,7 @@ export const BaseplateInput = observer(() => {
           <BaseplateDimensions type={type as BaseplateType} />
         </div>
       ))}
+     */}
     </div>
   );
 });

@@ -17,7 +17,7 @@ interface InputNumberProps {
     | "thickness"
     | "horizontalDistance"
     | "verticalDistance";
-    disabled?: boolean
+  disabled?: boolean;
 }
 
 const InputNumber: React.FC<InputNumberProps> = observer(
@@ -28,14 +28,13 @@ const InputNumber: React.FC<InputNumberProps> = observer(
     infoText = "This is some helpful information.",
     standardType,
     dimensionField,
-    disabled
+    disabled,
   }) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const numericValue = value * 1000;
-
 
     // Get options from standards based on type and field
     const getStandardOptions = () => {
@@ -92,7 +91,6 @@ const InputNumber: React.FC<InputNumberProps> = observer(
       if (numericValue <= 1000) step = 100;
       if (numericValue <= 100) step = 50;
       if (numericValue <= 10) step = 10;
-
 
       const options = [];
       for (let i = -2; i <= 2; i++) {
@@ -199,9 +197,10 @@ const InputNumber: React.FC<InputNumberProps> = observer(
             ref={inputRef}
             type="number"
             value={value === 0 ? "" : (value * 1).toString().split(".")[0]}
-          step={50}
+            step={50}
             onChange={handleChange}
-            className="w-full p-3 py-1 border font-poppins border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1"
+            className={`w-full p-3 py-1 border font-poppins border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1 ${disabled ? "opacity-50 cursor-not-allowed" : ""
+              }`}
             min={0}
             disabled={disabled}
           />

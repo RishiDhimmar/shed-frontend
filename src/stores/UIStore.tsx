@@ -7,7 +7,12 @@ export type currentComponentType =
   | "column"
   | "foundation"
   | "mullionColumn"
-  | "groundBeam";
+  | "groundBeam"
+  | "circles"
+  | "lines"
+  | "polygons"
+  | "texts"
+  | "ellipses";
   
 
 export type TemplateType =
@@ -85,6 +90,7 @@ class UIStore {
     circles: true,
     lines: true,
     polygons: true,
+    annotation : true
   };
   isDimensionsVisible: boolean = false;
 

@@ -103,7 +103,7 @@ const Column = observer(() => {
         <Group key={columnKey}>
           <Line
             points={column.points.flatMap((p) => [p.x, p.y])}
-            stroke="#6363E1"
+            stroke={uiStore.currentComponent === "foundation" ? "black" : "#6363E1"}
             strokeWidth={5}
             fill={uiStore.currentComponent === "column" ? "blue" : ""}
             opacity={uiStore.currentComponent === "column" ? 0.5 : 1}

@@ -16,6 +16,7 @@ import baseplateStore from "./BasePlateStore";
 import columnStore from "./ColumnStore";
 import foundationStore from "./FoundationStore";
 import mullionColumnStore from "./MullianColumnStore";
+import uiStore from "./UIStore";
 
 class DxfStore {
   candidatePolygons = [];
@@ -113,6 +114,10 @@ class DxfStore {
         wallStore.externalWallPoints = this.externalWallPolygon;
         wallStore.internalWallPoints = this.internalWallPolygon;
         console.log("Calculated wall thickness:", wallStore.wallThickness);
+        uiStore.toggleVisibility("lines");
+        uiStore.toggleVisibility("circles");
+        uiStore.toggleVisibility("annotation");
+        uiStore.toggleVisibility("polygons");
 
         return flatArray;
       }

@@ -70,6 +70,7 @@ export const Column = observer(() => {
             </div>
           </>
         ))}
+        { /*
         <h1 className="text-md font-medium mb-4 ">Corner Column</h1>
 
         <div className="flex  gap-2">
@@ -136,6 +137,8 @@ export const Column = observer(() => {
           }}
           // disabled = {true}
         />
+      </form>
+      */}
       </form>
     </div>
   );

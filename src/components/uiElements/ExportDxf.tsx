@@ -72,7 +72,19 @@ const ExportMenu = observer(() => {
       if (uiStore.visibility.groundBeam) {
         payload.groundBeam = toJS(basePlotStore); // Assuming you meant a different store here?
       }
-      payload.dxfData = toJS(dxfStore);
+
+      // payload.dxfData = toJS(dxfStore);
+      payload.dxfData = {
+        data: {
+          curves: uiStore.visibility.circles ? toJS(dxfStore.data.curves) : [],
+          lines: uiStore.visibility.lines ? toJS(dxfStore.data.lines) : [],
+          polygons: uiStore.visibility.polygons
+            ? toJS(dxfStore.data.polygons)
+            : [],
+        },
+      };
+
+      console.log(payload);
       const response = await fetch(BACKEND_URL + "api/dxf/generate-dxf", {
         method: "POST",
         headers: {

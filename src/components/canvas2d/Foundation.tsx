@@ -114,7 +114,7 @@ const Foundation = observer(() => {
                 p.x,
                 p.y,
               ])}
-              stroke="#FF00FF"
+              stroke={uiStore.currentComponent === "foundation" ? "black" : "#FF00FF"}
               strokeWidth={5}
               fill={uiStore.currentComponent === "foundation" ? "white" : ""}
               opacity={uiStore.currentComponent === "foundation" ? 0.5 : 1}
@@ -125,7 +125,7 @@ const Foundation = observer(() => {
                 p.x,
                 p.y,
               ])}
-              stroke="#FF00FF"
+              stroke={uiStore.currentComponent === "foundation" ? "black" : "#FF00FF"}
               strokeWidth={5}
               fill={uiStore.currentComponent === "foundation" ? "#FF00FF" : ""}
               opacity={uiStore.currentComponent === "foundation" ? 0.5 : 1}
@@ -147,7 +147,7 @@ const Foundation = observer(() => {
                   foundation.outerFoundationPoints[j].x,
                   foundation.outerFoundationPoints[j].y,
                 ]}
-                stroke="black"
+                stroke={uiStore.currentComponent === "foundation" ? "black" : "#FF00FF"}
                 strokeWidth={5}
               />
             ))}
@@ -160,6 +160,8 @@ const Foundation = observer(() => {
                   fontSize={500}
                   fill="#FF00FF"
                   draggable
+                  stroke={"black"}
+                  strokeWidth={5}
                 />
 
                 {/* Outer Dimensions */}
