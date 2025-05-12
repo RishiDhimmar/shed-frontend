@@ -54,7 +54,7 @@ const MullionColumn = observer(() => {
             {/* Draw polygon */}
             <Line
               points={polygon.points.flatMap((p) => [p.x, p.y])}
-              stroke="red"
+              stroke={uiStore.currentComponent === "mullionColumn" ? "black" : "red"}
               strokeWidth={5}
               fill={uiStore.currentComponent === "mullionColumn" ? "red" : ""}
               opacity={uiStore.currentComponent === "mullionColumn" ? 0.5 : 1}

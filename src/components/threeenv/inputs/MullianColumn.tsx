@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import InputNumber from "../Helpers/InputNumber";
 import mullionColumnStore from "../../../stores/MullianColumnStore";
+import wallStore from "../../../stores/WallStore";
 
 export const MullionColumn = observer(() => {
   return (
@@ -12,17 +13,19 @@ export const MullionColumn = observer(() => {
         <div className="flex gap-2">
           <InputNumber
             label="Length:"
-            value={mullionColumnStore.mullionLength}
+            value={wallStore.wallThickness}
             onChange={() => {}}
+            disabled
           />
           <InputNumber
             label="width:"
-            value={mullionColumnStore.mullionWidth}
+            value={wallStore.wallThickness}
             onChange={() => {}}
+            disabled
           />
         </div>
 
-        <h1 className="text-md font-medium ">Main Ref</h1>
+        { /* <h1 className="text-md font-medium ">Main Ref</h1>
         <hr className=" text-gray-200"></hr>
         <h1 className="  ">First </h1>
         <div className="flex gap-2">
@@ -30,14 +33,14 @@ export const MullionColumn = observer(() => {
             label="#:"
             value={mullionColumnStore.main1}
             onChange={(newLength: number) => {
-              mullionColumnStore.setMain1(newLength);
+              () => {};
             }}
           />
           <InputNumber
             label="C/C:"
             value={mullionColumnStore.mainCc}
             onChange={(newHeight: number) =>
-              mullionColumnStore.setMainCc(newHeight)
+            () => {}
             }
           />
         </div>
@@ -57,7 +60,7 @@ export const MullionColumn = observer(() => {
               mullionColumnStore.setRingCc(newHeight)
             }
           />
-        </div>
+        </div> */}
       </form>
     </div>
   );

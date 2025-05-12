@@ -102,8 +102,10 @@ export const Layout = observer(() => {
           title="Circles"
           color="bg-[#00FFFF]"
           isHidden={!uiStore.visibility.circles}
-          isSelected={selectedTitle === "lines"}
-          onClick={() => {}}
+          isSelected={selectedTitle === "circles"}
+          onClick={() => {
+            handleSelect("circles");
+          }}
           onToggleVisibility={() => uiStore.toggleVisibility("circles")}
         />
         <LayoutItem
@@ -121,6 +123,14 @@ export const Layout = observer(() => {
           isSelected={selectedTitle === "polygons"}
           onClick={() => handleSelect("polygons")}
           onToggleVisibility={() => uiStore.toggleVisibility("polygons")}
+        />
+        <LayoutItem
+          title="Annotation"
+          color="bg-[#00FFFF]"
+          isHidden={!uiStore.visibility.annotation}
+          isSelected={selectedTitle === "annotation"}
+          onClick={() => handleSelect("annotation")}
+          onToggleVisibility={() => uiStore.toggleVisibility("annotation")}
         />
       </div>
       <div className=" flex flex-col  overflow-y-scroll overflow-x-hidden h- w-[300px] ml-1 bg-white rounded shadow-xl  z-1 top-0 ">

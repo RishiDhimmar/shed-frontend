@@ -30,7 +30,7 @@ const Foundation = observer(() => {
   return (
     <div className="p-6 z-0">
       <h1 className="text-lg font-bold mb-2">Foundation Parameters</h1>
-      <from className="space-y-4">
+      <form className="space-y-4">
         {Object.keys(foundationStore.foundationInputs).map((grp) => (
           <>
             <div className="text-sm">{grp}</div>
@@ -92,7 +92,8 @@ const Foundation = observer(() => {
             </div>
           </>
         ))}
-      </from>
+      </form>
+      {/*}
       <form className="space-y-2">
         {Object.entries(foundationStore.values).map(([type, params]) => (
           <div key={type}>
@@ -125,6 +126,7 @@ const Foundation = observer(() => {
           </div>
         ))}
       </form>
+      */}
     </div>
   );
 });

@@ -5,6 +5,7 @@ import { observer } from "mobx-react-lite";
 import uiStore from "../../stores/UIStore";
 import dxfStore from "../../stores/DxfStore";
 import mullionColumnStore from "../../stores/MullianColumnStore"; // Consider renaming to 'MullionColumnStore'
+import wallStore from "../../stores/WallStore";
 
 const Walls = observer(() => {
   const { visibility, currentComponent } = uiStore;
@@ -64,7 +65,7 @@ const Walls = observer(() => {
         )}
 
       {/* Mullion Column Labels */}
-      {mullionColumnStore.polygons.map((polygon, index) => {
+      {uiStore.currentComponent === "groundBeam" && mullionColumnStore.polygons.map((polygon, index) => {
         const current = polygon.points[0];
         const next =
           mullionColumnStore.polygons[
@@ -80,8 +81,12 @@ const Walls = observer(() => {
             x={(current.x + next.x) / 2}
             y={(current.y + next.y) / 2}
             text={`G${label}`}
-            fontSize={100}
-            fill="black"
+            fontSize={150}
+            fill="cyan"
+            stroke={"black"}
+            strokeWidth={5}
+            listening={false}
+
           />
         );
       })}
