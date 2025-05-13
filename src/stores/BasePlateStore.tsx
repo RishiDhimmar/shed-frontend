@@ -737,10 +737,15 @@ class BaseplateStore {
 
   modifyGroups(groups: any[]) {
     this.groups = groups;
+    columnStore.generateColumnsInputs(baseplateStore.groups);
+    columnStore.generateColumnPolygons(this.groups);
+
+    foundationStore.generateFoundationInputs();
   }
   addGroup(group: any) {
     this.groups.push(group);
-    columnStore.generateColumnsInputs();
+    columnStore.generateColumnsInputs(baseplateStore.groups);
+    columnStore.generateColumnPolygons(this.groups);
     foundationStore.generateFoundationInputs();
   }
   addBaseplateToGroup(groupName: string, baseplateName: string) {
@@ -750,6 +755,10 @@ class BaseplateStore {
         this.basePlates.find((b) => b.label === baseplateName)
       );
     }
+    columnStore.generateColumnsInputs(baseplateStore.groups);
+    columnStore.generateColumnPolygons(this.groups);
+
+    foundationStore.generateFoundationInputs();
   }
   removeBaseplateFromGroup(groupName: string, baseplateName: string) {
     const group = this.groups.find((g) => g.name === groupName);
@@ -758,9 +767,15 @@ class BaseplateStore {
         (b) => b.label !== baseplateName
       );
     }
+    columnStore.generateColumnsInputs(baseplateStore.groups);
+    foundationStore.generateFoundationInputs();
   }
   deleteGroup(groupName: string) {
     this.groups = this.groups.filter((g) => g.name !== groupName);
+    columnStore.generateColumnsInputs(baseplateStore.groups);
+    columnStore.generateColumnPolygons(this.groups);
+
+    foundationStore.generateFoundationInputs();
   }
 
   updateCenterLinePoints() {
@@ -990,14 +1005,13 @@ class BaseplateStore {
     ) {
       return [];
     }
-    
+
     this.groups = [
       { name: "Group 1", type: "corner", basePlates: this.cornerBasePlates },
       { name: "Group 2", type: "edge", basePlates: this.edgeBasePlates },
       { name: "Group 3", type: "middle", basePlates: this.middleBasePlates },
     ];
   }
-  
 }
 
 const baseplateStore = new BaseplateStore();

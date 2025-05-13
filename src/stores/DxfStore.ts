@@ -43,11 +43,11 @@ class DxfStore {
     this.recursiveRaycastingFromPolygon();
     baseplateStore.generateLabels();
     baseplateStore.processBasePlates();
-    columnStore.generateColumnPolygons();
+    columnStore.generateColumnPolygons(baseplateStore.groups);
     foundationStore.generateFoundations();
     mullionColumnStore.calculateMullionColumns();
   }
-
+  
   getCandidatePolygons() {
     return this.candidatePolygons;
   }
