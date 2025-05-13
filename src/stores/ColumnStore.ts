@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction, reaction } from "mobx";
+import { makeAutoObservable, runInAction, reaction, toJS } from "mobx";
 import { v4 as uuidv4 } from "uuid";
 import baseplateStore, { BaseplateType, WallType } from "./BasePlateStore";
 import wallStore from "./WallStore";
@@ -77,6 +77,64 @@ export class ColumnStore {
       ],
       () => this.generateColumns()
     );
+  }
+  modifyGroups(groups: any[]) {
+    this.polygons = groups;
+  }
+  addGroup(group: any) {
+    this.polygons.push(group);
+    columnStore.generateColumnsInputs(columnStore.polygons);
+    columnStore.updatePolygons(this.polygons);
+    foundationStore.generateFoundationInputs();
+    foundationStore.generateFoundations(this.polygons);
+  }
+  addColumnToGroup(groupName: string, columnName: string) {
+    const group = this.polygons.find((g) => g.name === groupName);
+    const column = this.columns.find((b) => b.label === columnName);
+
+    if (!group) {
+      console.warn(`Group "${groupName}" not found`);
+      return;
+    }
+
+    if (!column) {
+      console.warn(`Column "${columnName}" not found`);
+      return;
+    }
+    column.group = groupName;
+    group.columns.push(column);
+
+    console.log("After adding column:", toJS(this.polygons));
+
+    // Regenerate inputs and polygons after state change
+    columnStore.generateColumnsInputs(this.polygons);
+    columnStore.updatePolygons(this.polygons);
+
+    foundationStore.generateFoundationInputs();
+    foundationStore.generateFoundations(this.polygons);
+  }
+
+  removeColumnFromGroup(groupName: string, columnName: string) {
+  const group = this.polygons.find((g) => g.name === groupName);
+  if (group) {
+    group.columns = group.columns.filter((b) => b.label !== columnName);
+
+    // Also update the column's group property if it's tracked
+    const column = columnStore.columns.find((c) => c.label === columnName);
+    if (column) {
+      column.group = null;
+    }
+    foundationStore.generateFoundationInputs();
+    foundationStore.generateFoundations(this.polygons);
+  }
+}
+
+  deleteGroup(groupName: string) {
+    console.log(groupName);
+    this.polygons = this.polygons.filter((g) => g.name !== groupName);
+
+    foundationStore.generateFoundationInputs();
+    foundationStore.generateFoundations(this.polygons);
   }
 
   // Helper method to check if two polygons overlap
@@ -284,12 +342,13 @@ export class ColumnStore {
     });
   }
   setColumnInputs(newColumnInputs) {
+    console.log(toJS(newColumnInputs));
     runInAction(() => {
       this.columnInputs = newColumnInputs;
       uiStore.setModified(true);
+      this.updatePolygons(this.polygons);
     });
-    this.generateColumnPolygons();
-    foundationStore.generateFoundations();
+    // foundationStore.generateFoundations();
   }
 
   // Helper method to get plates by type
@@ -937,6 +996,7 @@ export class ColumnStore {
     type: string,
     epsilon: number = 10
   ) {
+    console.log(type);
     let clonedPoints = points.map((p) => ({ ...p }));
     let uniquePoints = this.removeDuplicatesWithEpsilon(clonedPoints, epsilon);
     uniquePoints = sortPolygonPointsClockwise(uniquePoints);
@@ -950,7 +1010,7 @@ export class ColumnStore {
         uniquePoints[2].x -= this.columnInputs[type]["-x"];
 
         if (hits.length === 1) {
-          uniquePoints[0].y -= this.columnInputs[type]["-y"];
+          uniquePoints[0].y -= this.columnInputs[type]["-y"] ;
           uniquePoints[3].y += this.columnInputs[type]["+y"];
           uniquePoints[1].y -= this.columnInputs[type]["-y"];
           uniquePoints[2].y += this.columnInputs[type]["+y"];
@@ -1039,8 +1099,8 @@ export class ColumnStore {
 
     return result;
   }
-  generateColumnsInputs() {
-    baseplateStore.groups.forEach((group) => {
+  generateColumnsInputs(groups: any) {
+    groups.forEach((group) => {
       this.columnInputs[group.name] = {
         "+x": 75,
         "-x": 75,
@@ -1050,21 +1110,54 @@ export class ColumnStore {
     });
   }
 
-  generateColumnPolygons() {
-    if (Object.keys(this.columnInputs).length === 0)
-      this.generateColumnsInputs();
+  updatePolygons(groups) {
+    const groupedPolygons = groups.map((group) => {
+      const temp = group.basePlates ? group.basePlates : group.columns;
+      const columns = temp.map((plate) => ({
+        points: this.getExtendedPoints(plate.ogPoints, plate.hits, group.name),
+        label: `C${plate.label.slice(1)}`,
+        center: plate.center,
+        hits: plate.hits,
+        group: group.name,
+        ogPoints: plate.ogPoints,
+      }));
 
-    this.polygons = baseplateStore.groups.map((group) => {
-      return group.basePlates.map((plate) => ({
+      return {
+        name: group.name,
+        columns,
+      };
+    });
+
+    this.polygons = groupedPolygons;
+  }
+
+  generateColumnPolygons(groups?: any = baseplateStore.groups) {
+    if (Object.keys(this.columnInputs).length === 0) {
+      this.generateColumnsInputs(baseplateStore.groups);
+    }
+    console.log(groups);
+
+    const groupedPolygons = groups.map((group) => {
+      const temp = group.basePlates ? group.basePlates : group.columns;
+      const columns = temp.map((plate) => ({
         points: this.getExtendedPoints(plate.points, plate.hits, group.name),
         label: `C${plate.label.slice(1)}`,
         center: plate.center,
         hits: plate.hits,
         group: group.name,
+        ogPoints: plate.points,
       }));
-    });
-    this.columns = this.polygons.flat();
 
+      return {
+        name: group.name,
+        columns,
+      };
+    });
+
+    this.polygons = groupedPolygons;
+    this.columns = groupedPolygons.flatMap((group) => group.columns);
+
+    return groupedPolygons;
   }
 }
 

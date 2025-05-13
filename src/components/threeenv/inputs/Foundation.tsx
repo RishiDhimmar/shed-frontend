@@ -3,6 +3,9 @@ import InputNumber from "../Helpers/InputNumber";
 import foundationStore, {
   FoundationType,
 } from "../../../stores/FoundationStore";
+import { useState } from "react";
+import columnStore from "../../../stores/ColumnStore";
+import { toJS } from "mobx";
 
 // Key-label mapping for UI readability
 const LABEL_MAP: { [key: string]: string } = {
@@ -27,9 +30,136 @@ const Foundation = observer(() => {
     { label: "Long Bar", keys: ["longBarCount", "longBarSpacing"] },
   ];
 
+  const [modifyMode, setModifyMode] = useState(false);
+  const [newGroupName, setNewGroupName] = useState("");
+  const [selectedFoundationsToAdd, setSelectedFoundationsToAdd] = useState<{
+    [groupName: string]: string;
+  }>({});
+  const handleFoundationChange = (groupName: string, columnId: string) => {
+    setSelectedFoundationsToAdd((prev) => ({
+      ...prev,
+      [groupName]: columnId,
+    }));
+  };
+
   return (
     <div className="p-6 z-0">
       <h1 className="text-lg font-bold mb-2">Foundation Parameters</h1>
+      {foundationStore.groups.map((group) => (
+        <div key={group.name} className="my-2 border rounded p-2">
+          <div className="flex justify-between items-center">
+            <div className="text-sm font-semibold">{group.name}</div>
+            {modifyMode && (
+              <button
+                className="text-red-600 text-xs hover:underline"
+                onClick={() => foundationStore.deleteGroup(group.name)}
+              >
+                Delete Group
+              </button>
+            )}
+          </div>
+
+          <div className="grid grid-cols-4 gap-2">
+            {group.foundations?.map((bs) => (
+              <div
+                key={bs.id}
+                className="inline-flex items-center justify-between text-sm text-gray-900 ring-1 ring-gray-300 rounded px-2 py-1"
+              >
+                {bs?.label ? bs.label : "No Label"}
+                {modifyMode && (
+                  <button
+                    className="ml-2 text-red-500 text-xs cursor-pointer"
+                    onClick={() =>
+                      foundationStore.removeFoundationFromGroup(
+                        group.name,
+                        bs.label
+                      )
+                    }
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {modifyMode && (
+            <div className="flex gap-2 mt-2">
+              <select
+                className="border rounded p-1 flex-1"
+                value={selectedFoundationsToAdd[group.name] || ""}
+                onChange={(e) =>
+                  handleFoundationChange(group.name, e.target.value)
+                }
+              >
+                <option value="">Select Foundation</option>
+                {foundationStore.foundations
+                  .filter((bs) => bs.group === null)
+                  .slice()
+                  .sort((a, b) => {
+                    const numA = parseInt(a.label.replace(/\D/g, ""), 10);
+                    const numB = parseInt(b.label.replace(/\D/g, ""), 10);
+                    return numA - numB;
+                  })
+                  .map((bs) => (
+                    <option key={bs.id} value={bs.id}>
+                      {bs.label}
+                    </option>
+                  ))}
+              </select>
+              <button
+                className="bg-blue-500 text-white px-2 py-1 rounded"
+                onClick={() => {
+                  const selectedId = selectedFoundationsToAdd[group.name];
+                  if (selectedId) {
+                    foundationStore.addFoundationToGroup(
+                      group.name,
+                      selectedId
+                    );
+                    handleFoundationChange(group.name, "");
+                  }
+                }}
+              >
+                Add
+              </button>
+            </div>
+          )}
+        </div>
+      ))}
+      {modifyMode && (
+        <div className="space-y-2 border-t pt-4">
+          <div className="text-sm font-semibold">Create New Group</div>
+          <input
+            type="text"
+            className="w-full p-2 border rounded"
+            placeholder="New Group Name"
+            value={newGroupName}
+            onChange={(e) => setNewGroupName(e.target.value)}
+          />
+          <button
+            className="bg-green-500 text-white px-4 py-1 rounded mt-1"
+            onClick={() => {
+              if (newGroupName.trim()) {
+                columnStore.addGroup({
+                  name: newGroupName,
+                  columns: [],
+                });
+                setNewGroupName("");
+              }
+            }}
+          >
+            Create Group
+          </button>
+        </div>
+      )}
+      <div className="pt-4">
+        <button
+          className="bg-gray-300 p-2 rounded-md shadow-md hover:bg-gray-400 cursor-pointer w-full"
+          onClick={() => setModifyMode(!modifyMode)}
+        >
+          {modifyMode ? "Done Modifying Groups" : "Modify Groups"}
+        </button>
+      </div>
       <form className="space-y-4">
         {Object.keys(foundationStore.foundationInputs).map((grp) => (
           <>
