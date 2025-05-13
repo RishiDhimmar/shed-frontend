@@ -20,7 +20,7 @@ import Walls from "../canvas2d/Walls";
 import TextDrawer from "../canvas2d/TextDrawer";
 import EllipseDrawer from "../canvas2d/EllipseDrawer";
 import { BsBorderCenter } from "react-icons/bs";
-import { Tooltip } from "react-tooltip"; // 👈 Import Tooltip
+import { Tooltip } from "react-tooltip"; 
 import dxfStore from "../../stores/DxfStore";
 
 interface Point {
