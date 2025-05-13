@@ -348,7 +348,8 @@ export class ColumnStore {
       uiStore.setModified(true);
       this.updatePolygons(this.polygons);
     });
-    // foundationStore.generateFoundations();
+    foundationStore.generateFoundationInputs();
+    foundationStore.generateFoundations();
   }
 
   // Helper method to get plates by type

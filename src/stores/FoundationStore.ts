@@ -90,8 +90,10 @@ class FoundationStore {
     this.groups = groups;
   }
   addGroup(group: any) {
+    // debugger
     this.groups.push(group);
-    foundationStore.generateFoundationInputs();
+    foundationStore.generateFoundationInputs(this.groups);
+    foundationStore.generateFoundations(this.groups);
   }
   addFoundationToGroup(groupName: string, foundationName: string) {
     const group = this.groups.find((g) => g.name === groupName);
@@ -158,10 +160,7 @@ class FoundationStore {
       });
     });
 
-    reaction(
-      () => [columnStore.columns.slice(), this.values],
-      () => this.generateFoundations()
-    );
+ 
   }
 
   setParameter(
@@ -257,9 +256,9 @@ class FoundationStore {
     };
   }
 
-  generateFoundationInputs() {
+  generateFoundationInputs(groups = columnStore.polygons) {
     console.log(columnStore.polygons);
-    columnStore.polygons.forEach((group) => {
+    groups.forEach((group) => {
       this.foundationInputs[group.name] = {
         "+x": 500,
         "-x": 500,

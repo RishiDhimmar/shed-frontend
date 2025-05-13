@@ -3,7 +3,7 @@ import { makeAutoObservable } from "mobx";
 import { traceAllPolygonsWithRays } from "../utils/PolygonUtils";
 import {
   calculateBoundingBoxArea,
-  isPointInPolygon
+  isPointInPolygon,
 } from "../utils/GeometryUtils";
 import {
   findClosestPointOnPolygon,
@@ -43,11 +43,13 @@ class DxfStore {
     this.recursiveRaycastingFromPolygon();
     baseplateStore.generateLabels();
     baseplateStore.processBasePlates();
+    columnStore.generateColumnsInputs(baseplateStore.groups);
     columnStore.generateColumnPolygons(baseplateStore.groups);
     foundationStore.generateFoundations();
+    foundationStore.generateFoundationInputs();
     mullionColumnStore.calculateMullionColumns();
   }
-  
+
   getCandidatePolygons() {
     return this.candidatePolygons;
   }

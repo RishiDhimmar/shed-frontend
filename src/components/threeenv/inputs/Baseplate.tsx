@@ -87,11 +87,19 @@ export const BaseplateInput = observer(() => {
                   }
                 >
                   <option value="">Select baseplate</option>
-                  {baseplateStore.basePlates.map((bs) => (
-                    <option key={bs.id} value={bs.id}>
-                      {bs.label}
-                    </option>
-                  ))}
+                  {baseplateStore.basePlates
+                    .filter((bs) => bs.group === null)
+                    .slice()
+                    .sort((a, b) => {
+                      const numA = parseInt(a.label.replace(/\D/g, ""), 10);
+                      const numB = parseInt(b.label.replace(/\D/g, ""), 10);
+                      return numA - numB;
+                    })
+                    .map((bs) => (
+                      <option key={bs.id} value={bs.id}>
+                        {bs.label}
+                      </option>
+                    ))}
                 </select>
                 <button
                   className="bg-blue-500 text-white px-2 py-1 rounded"
