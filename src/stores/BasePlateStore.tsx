@@ -747,13 +747,14 @@ class BaseplateStore {
     columnStore.generateColumnsInputs(baseplateStore.groups);
     columnStore.generateColumnPolygons(this.groups);
     foundationStore.generateFoundationInputs();
+    foundationStore.generateFoundations(this.groups);
   }
   addBaseplateToGroup(groupName: string, baseplateName: string) {
     const group = this.groups.find((g) => g.name === groupName);
     if (group) {
-      group.basePlates.push(
-        this.basePlates.find((b) => b.label === baseplateName)
-      );
+      const b = this.basePlates.find((b) => b.label === baseplateName);
+      b.group = groupName;
+      group.basePlates.push(b);
     }
     columnStore.generateColumnsInputs(baseplateStore.groups);
     columnStore.generateColumnPolygons(this.groups);
@@ -763,6 +764,8 @@ class BaseplateStore {
   removeBaseplateFromGroup(groupName: string, baseplateName: string) {
     const group = this.groups.find((g) => g.name === groupName);
     if (group) {
+      const b = group.basePlates.find((b) => b.label === baseplateName);
+      b.group = null;
       group.basePlates = group.basePlates.filter(
         (b) => b.label !== baseplateName
       );
@@ -972,7 +975,7 @@ class BaseplateStore {
 
     //rest numbering to middle plates
     this.middleBasePlates.forEach((plate, index) => {
-      plate.label = `B${index + temp.length}`;
+      plate.label = `B${index + temp.length + 1}`;
     });
     this.cornerBasePlates = sortedPolygons.filter((p) => p.type === "corner");
     this.edgeBasePlates = sortedPolygons.filter((p) => p.type === "edge");
@@ -1006,11 +1009,18 @@ class BaseplateStore {
       return [];
     }
 
-    this.groups = [
-      { name: "Group 1", type: "corner", basePlates: this.cornerBasePlates },
-      { name: "Group 2", type: "edge", basePlates: this.edgeBasePlates },
-      { name: "Group 3", type: "middle", basePlates: this.middleBasePlates },
-    ];
+    if (this.middleBasePlates.length > 0) {
+      this.groups = [
+        { name: "Group 1", type: "corner", basePlates: this.cornerBasePlates },
+        { name: "Group 2", type: "edge", basePlates: this.edgeBasePlates },
+        { name: "Group 3", type: "middle", basePlates: this.middleBasePlates },
+      ];
+    } else {
+      this.groups = [
+        { name: "Group 1", type: "corner", basePlates: this.cornerBasePlates },
+        { name: "Group 2", type: "edge", basePlates: this.edgeBasePlates },
+      ];
+    }
   }
 }
 

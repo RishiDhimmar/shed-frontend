@@ -192,7 +192,7 @@ const BasePlate = observer(() => {
               ]
             }
             color={"black"}
-            offset={-3000}
+            offset={3000}
             label={Math.sqrt(
               Math.pow(
                 baseplateStore.sortedCenterPoints[

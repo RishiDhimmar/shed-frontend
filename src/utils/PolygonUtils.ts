@@ -44,7 +44,7 @@ export function sortPolygon(polygon) {
     points.splice(nextPointIndex, 1);
   }
 
-  return result;
+  return result.reverse();
 }
 function computeCentroid(points) {
   let sumX = 0,
@@ -561,13 +561,22 @@ export const traceAllPolygonsWithRays = (startPoly, otherPolys) => {
     };
     if (count === 2) {
       baseplateData.type = "corner";
-      baseplateStore.cornerBasePlates.push(baseplateData);
+      baseplateStore.cornerBasePlates.push({
+        ...baseplateData,
+        group: "Group 1",
+      });
     } else if (count === 1) {
       baseplateData.type = "edge";
-      baseplateStore.edgeBasePlates.push(baseplateData);
+      baseplateStore.edgeBasePlates.push({
+        ...baseplateData,
+        group: "Group 2",
+      });
     } else if (count === 0) {
       baseplateData.type = "middle";
-      baseplateStore.middleBasePlates.push(baseplateData);
+      baseplateStore.middleBasePlates.push({
+        ...baseplateData,
+        group: "Group 3",
+      });
     }
   }
 

@@ -45,8 +45,8 @@ const Foundation = observer(() => {
 
   return (
     <>
-      {foundationStore.groups.map((group, i) =>
-        group.foundations.map((foundation, j) => {
+      {foundationStore.groups && foundationStore.groups.map((group, i) =>
+        group.foundations.length > 0 && group.foundations.map((foundation, j) => {
           const foundationKey = `foundation-${i}-${j}`;
           const dragPos = dragPositions[foundationKey];
 

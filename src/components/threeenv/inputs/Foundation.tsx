@@ -140,7 +140,7 @@ const Foundation = observer(() => {
             className="bg-green-500 text-white px-4 py-1 rounded mt-1"
             onClick={() => {
               if (newGroupName.trim()) {
-                columnStore.addGroup({
+                foundationStore.addGroup({
                   name: newGroupName,
                   columns: [],
                 });

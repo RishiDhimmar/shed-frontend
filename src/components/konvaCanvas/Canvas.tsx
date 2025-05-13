@@ -1,4 +1,4 @@
-import { Stage, Layer, Circle, Rect, Line, Text } from "react-konva";
+import { Stage, Layer } from "react-konva";
 import React, {
   useState,
   useRef,
@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import Konva from "konva";
 import uiStore from "../../stores/UIStore";
+import dxfStore from "../../stores/DXFStore";
 import { observer } from "mobx-react-lite";
 import BasePlate from "../canvas2d/BasePlate";
 import Column from "../canvas2d/Column";
@@ -19,6 +20,8 @@ import PolygonsDrawer from "../canvas2d/PolygonsDrawer";
 import Walls from "../canvas2d/Walls";
 import TextDrawer from "../canvas2d/TextDrawer";
 import EllipseDrawer from "../canvas2d/EllipseDrawer";
+import { BsBorderCenter } from "react-icons/bs";
+import { Tooltip } from "react-tooltip"; // 👈 Import Tooltip
 
 interface Point {
   x: number;
@@ -46,15 +49,6 @@ const debounce = (fn: () => void, delay: number) => {
   };
 };
 
-const getCenterPoint = (p1: Point, p2: Point): Point => ({
-  x: (p1.x + p2.x) / 2,
-  y: (p1.y + p2.y) / 2,
-});
-
-const getDistance = (p1: Point, p2: Point): number => {
-  return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
-};
-
 const CanvasZoomPan: React.FC = observer(() => {
   const stageRef = useRef<Konva.Stage>(null);
   const zoomTweenRef = useRef<Konva.Tween>(null);
@@ -68,7 +62,6 @@ const CanvasZoomPan: React.FC = observer(() => {
     height: window.innerHeight,
   });
 
-  // Resize handler with debounce
   useEffect(() => {
     const handleResize = () => {
       setDimensions({
@@ -82,7 +75,6 @@ const CanvasZoomPan: React.FC = observer(() => {
     return () => window.removeEventListener("resize", debouncedResize);
   }, []);
 
-  // Data memoization
   const { circles, lines, polygons, texts, ellipses } = useMemo(
     () => ({
       circles: (uiStore.data.curves || []).filter(
@@ -96,7 +88,6 @@ const CanvasZoomPan: React.FC = observer(() => {
     [uiStore.data]
   );
 
-  // Calculate bounds for auto-scaling
   const bounds = useMemo(() => {
     if (circles.length === 0) return null;
     return circles.reduce(
@@ -115,7 +106,6 @@ const CanvasZoomPan: React.FC = observer(() => {
     );
   }, [circles]);
 
-  // Auto-scaling and centering
   useEffect(() => {
     if (!bounds) return;
 
@@ -135,7 +125,6 @@ const CanvasZoomPan: React.FC = observer(() => {
     });
   }, [bounds, dimensions]);
 
-  // Smooth zoom animation
   const animateStage = useCallback((targetPos: Point, targetScale: number) => {
     if (zoomTweenRef.current) {
       zoomTweenRef.current.destroy();
@@ -143,7 +132,7 @@ const CanvasZoomPan: React.FC = observer(() => {
 
     zoomTweenRef.current = new Konva.Tween({
       node: stageRef.current,
-      duration: 0.1,
+      duration: 0.3,
       easing: Konva.Easings.EaseInOut,
       x: targetPos.x,
       y: targetPos.y,
@@ -159,7 +148,6 @@ const CanvasZoomPan: React.FC = observer(() => {
     }).play();
   }, []);
 
-  // Wheel zoom handler
   const handleWheel = useCallback(
     (e: Konva.KonvaEventObject<WheelEvent>) => {
       e.evt.preventDefault();
@@ -189,11 +177,65 @@ const CanvasZoomPan: React.FC = observer(() => {
     [animateStage]
   );
 
+  const handleCenterPolygon = useCallback(() => {
+    const polygon = dxfStore.convertToPointObjects(
+      dxfStore.externalWallPolygon
+    );
+    if (!polygon || polygon.length === 0) return;
+
+    const polygonBounds = polygon.reduce(
+      (acc, point) => ({
+        minX: Math.min(acc.minX, point.x),
+        maxX: Math.max(acc.maxX, point.x),
+        minY: Math.min(acc.minY, point.y),
+        maxY: Math.max(acc.maxY, point.y),
+      }),
+      {
+        minX: Infinity,
+        maxX: -Infinity,
+        minY: Infinity,
+        maxY: -Infinity,
+      }
+    );
+
+    const contentWidth = polygonBounds.maxX - polygonBounds.minX;
+    const contentHeight = polygonBounds.maxY - polygonBounds.minY;
+
+    const scale =
+      Math.min(
+        dimensions.width / contentWidth,
+        dimensions.height / contentHeight
+      ) * 0.5;
+
+    const centerX = (polygonBounds.minX + polygonBounds.maxX) / 2;
+    const centerY = (polygonBounds.minY + polygonBounds.maxY) / 2;
+
+    const targetPos = {
+      x: dimensions.width / 4 - centerX * scale + 50,
+      y: dimensions.height / 2 - centerY * scale,
+    };
+
+    animateStage(targetPos, scale);
+  }, [dimensions, animateStage]);
+
   return (
     <div
       className="canvas-container"
-      style={{ width: "100vw", height: "100vh" }}
+      style={{ width: "100vw", height: "100vh", position: "relative" }}
     >
+      <button
+        className="absolute top-2.5 left-2.5 px-4 py-2 bg-gray-300 text-black border-none rounded cursor-pointer z-100 hover:bg-gray-400"
+        onClick={handleCenterPolygon}
+        data-tooltip-id="center-polygon-tooltip"
+        data-tooltip-content="Center on Polygon"
+        data-tooltip-place="top"
+      >
+        <BsBorderCenter className="text-2xl font-bold" strokeWidth={0.4} />
+      </button>
+
+      {/* Tooltip element */}
+      <Tooltip id="center-polygon-tooltip" />
+
       <Stage
         ref={stageRef}
         width={dimensions.width}
@@ -206,17 +248,14 @@ const CanvasZoomPan: React.FC = observer(() => {
         onWheel={handleWheel}
       >
         <Layer>
-          {/* Your interactive overlays */}
           <Walls />
           <PolygonsDrawer polygons={polygons} />
           <BasePlate />
           <Column />
           <Foundation />
-
           <MullionColumn />
         </Layer>
         <Layer listening={false}>
-          {/* Static elements */}
           <CircleDrawer circles={circles} />
           <LineDrawer lines={lines} />
           <TextDrawer texts={texts} />
