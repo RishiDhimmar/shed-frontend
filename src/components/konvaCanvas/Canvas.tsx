@@ -8,7 +8,6 @@ import React, {
 } from "react";
 import Konva from "konva";
 import uiStore from "../../stores/UIStore";
-import dxfStore from "../../stores/DXFStore";
 import { observer } from "mobx-react-lite";
 import BasePlate from "../canvas2d/BasePlate";
 import Column from "../canvas2d/Column";
@@ -22,6 +21,7 @@ import TextDrawer from "../canvas2d/TextDrawer";
 import EllipseDrawer from "../canvas2d/EllipseDrawer";
 import { BsBorderCenter } from "react-icons/bs";
 import { Tooltip } from "react-tooltip"; // 👈 Import Tooltip
+import dxfStore from "../../stores/DxfStore";
 
 interface Point {
   x: number;
