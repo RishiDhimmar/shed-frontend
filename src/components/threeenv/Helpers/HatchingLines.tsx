@@ -44,7 +44,7 @@ const HatchingLines: React.FC<HatchingLinesProps> = ({
     const maxY = Math.max(...yValues);
 
     const diagonalLength = Math.sqrt(
-      Math.pow(maxX - minX, 2) + Math.pow(maxY - minY, 2)
+      Math.pow(maxX - minX, 2) + Math.pow(maxY - minY, 2),
     );
 
     const lines: [number, number, number][][] = [];
@@ -79,16 +79,16 @@ const HatchingLines: React.FC<HatchingLinesProps> = ({
 
         const lineSegment = new THREE.Line3(
           new THREE.Vector3(startX, startY, 0),
-          new THREE.Vector3(endX, endY, 0)
+          new THREE.Vector3(endX, endY, 0),
         );
 
         const outerIntersections = findIntersectionsWithPolygon(
           lineSegment,
-          outerPolygon
+          outerPolygon,
         );
         const innerIntersections = findIntersectionsWithPolygon(
           lineSegment,
-          innerPolygon
+          innerPolygon,
         );
 
         if (outerIntersections.length >= 2) {
@@ -103,7 +103,7 @@ const HatchingLines: React.FC<HatchingLinesProps> = ({
             for (let k = 0; k < uniqueIntersections.length; k++) {
               const dist = Math.hypot(
                 allIntersections[j][0] - uniqueIntersections[k][0],
-                allIntersections[j][1] - uniqueIntersections[k][1]
+                allIntersections[j][1] - uniqueIntersections[k][1],
               );
               if (dist < epsilon) {
                 isDuplicate = true;
@@ -142,7 +142,7 @@ const HatchingLines: React.FC<HatchingLinesProps> = ({
                 midX >= x - width / 2 &&
                 midX <= x + width / 2 &&
                 midY >= y - height / 2 &&
-                midY <= y + height / 2
+                midY <= y + height / 2,
             );
 
             if (isInWall && !isInExclusionArea) {
@@ -220,7 +220,7 @@ function pointInPolygon(point: [number, number], polygon: [number, number][]) {
 
 function findIntersectionsWithPolygon(
   line: THREE.Line3,
-  polygonPoints: [number, number][]
+  polygonPoints: [number, number][],
 ): [number, number][] {
   const intersections: [number, number][] = [];
   const epsilon = 1e-10;
@@ -231,7 +231,7 @@ function findIntersectionsWithPolygon(
 
     const polygonSegment = new THREE.Line3(
       new THREE.Vector3(p1[0], p1[1], 0),
-      new THREE.Vector3(p2[0], p2[1], 0)
+      new THREE.Vector3(p2[0], p2[1], 0),
     );
 
     const intersection = findLineIntersection(line, polygonSegment);
@@ -261,7 +261,7 @@ function findIntersectionsWithPolygon(
 
 function findLineIntersection(
   line1: THREE.Line3,
-  line2: THREE.Line3
+  line2: THREE.Line3,
 ): THREE.Vector2 | null {
   const p1 = line1.start;
   const p2 = line1.end;

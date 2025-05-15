@@ -46,7 +46,7 @@ const FoundationVisualizer = observer(() => {
                 startPoint={foundation.points[0] as [number, number, number]}
                 endPoint={foundation.points[1] as [number, number, number]}
                 length={Math.abs(
-                  foundation.points[1][0] - foundation.points[0][0]
+                  foundation.points[1][0] - foundation.points[0][0],
                 )}
                 lineColor="#ff00ff"
                 textColor="#ff00ff"
@@ -61,7 +61,7 @@ const FoundationVisualizer = observer(() => {
                 startPoint={foundation.points[1] as [number, number, number]}
                 endPoint={foundation.points[2] as [number, number, number]}
                 length={Math.abs(
-                  foundation.points[2][1] - foundation.points[1][1]
+                  foundation.points[2][1] - foundation.points[1][1],
                 )}
                 lineColor="#ff00ff"
                 textColor="#ff00ff"

@@ -1,6 +1,9 @@
 import { makeAutoObservable } from "mobx";
 
-import { traceAllPolygonsWithRays } from "../utils/PolygonUtils";
+import {
+  convertToPointObjects,
+  traceAllPolygonsWithRays,
+} from "../utils/PolygonUtils";
 import {
   calculateBoundingBoxArea,
   isPointInPolygon,
@@ -20,7 +23,8 @@ import uiStore from "./UIStore";
 
 class DxfStore {
   candidatePolygons = [];
-  externalWallPolygon = [];
+  externalWallPolygon = [-375, -500, 375, -500, 375, 500, -375, 500];
+  externalWallPoints = convertToPointObjects(this.externalWallPolygon);
   internalWallPolygon = null; // Changed from [] to null for proper initial state
   intersectingPolygons = [];
   rays = [];
@@ -59,16 +63,6 @@ class DxfStore {
   }
 
   // Convert array [x1, y1, x2, y2, ...] to [{x: x1, y: y1}, {x: x2, y: y2}, ...]
-  convertToPointObjects(flatArray) {
-    const points = [];
-    for (let i = 0; i < flatArray.length; i += 2) {
-      points.push({
-        x: flatArray[i],
-        y: flatArray[i + 1],
-      });
-    }
-    return points;
-  }
 
   filterCandidatePolygons() {
     if (!this.externalWallPolygon || this.externalWallPolygon.length < 6) {
@@ -76,9 +70,7 @@ class DxfStore {
       return;
     }
 
-    const externalPointsObj = this.convertToPointObjects(
-      this.externalWallPolygon
-    );
+    const externalPointsObj = convertToPointObjects(this.externalWallPolygon);
 
     this.candidatePolygons = this.candidatePolygons.filter((polygon) => {
       return isPolygonInsidePolygon(externalPointsObj, polygon);
@@ -91,9 +83,7 @@ class DxfStore {
       return null;
     }
 
-    const externalPointsObj = this.convertToPointObjects(
-      this.externalWallPolygon
-    );
+    const externalPointsObj = convertToPointObjects(this.externalWallPolygon);
 
     const computedInternalPolygons = this.candidatePolygons.filter((poly) => {
       return poly.every((pt) => isPointInPolygon(pt, externalPointsObj));
@@ -111,11 +101,10 @@ class DxfStore {
         this.internalWallPolygon = flatArray;
 
         wallStore.wallThickness = Math.abs(
-          this.externalWallPolygon[0] - this.internalWallPolygon[0]
+          this.externalWallPolygon[0] - this.internalWallPolygon[0],
         );
         wallStore.externalWallPoints = this.externalWallPolygon;
         wallStore.internalWallPoints = this.internalWallPolygon;
-        console.log("Calculated wall thickness:", wallStore.wallThickness);
         uiStore.toggleVisibility("lines");
         uiStore.toggleVisibility("circles");
         uiStore.toggleVisibility("annotation");
@@ -156,7 +145,7 @@ class DxfStore {
       referencePoint,
       this.candidatePolygons,
       internalWallPointObjects,
-      { distanceTolerance: 100, areaTolerance: 0 }
+      { distanceTolerance: 100, areaTolerance: 0 },
     );
 
     if (result && result.polygon) {
@@ -170,7 +159,7 @@ class DxfStore {
   recursiveRaycastingFromPolygon() {
     const { rays, allIntersectingPolygons } = traceAllPolygonsWithRays(
       this.firstBasePlatePolygon,
-      this.candidatePolygons
+      this.candidatePolygons,
     );
     this.rays = rays;
 
@@ -202,13 +191,13 @@ class DxfStore {
       return null;
     }
 
-    const externalPoints = this.convertToPointObjects(this.externalWallPolygon);
-    const internalPoints = this.convertToPointObjects(this.internalWallPolygon);
+    const externalPoints = convertToPointObjects(this.externalWallPolygon);
+    const internalPoints = convertToPointObjects(this.internalWallPolygon);
 
     const thicknesses = internalPoints.map((internalPt) => {
       const closestExternal = findClosestPointOnPolygon(
         internalPt,
-        externalPoints
+        externalPoints,
       );
       return this.distance(internalPt, closestExternal);
     });

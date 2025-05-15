@@ -6,7 +6,7 @@ interface TextWrapperProps {
   position: number[]; // You may want to type this as well
   rotation: number; // You may want to type this as well
   color: any; // You may want to type this as well
-  fontSize: number
+  fontSize: number;
 }
 
 const TextWrapper = ({
@@ -14,14 +14,17 @@ const TextWrapper = ({
   position,
   rotation,
   color,
-  fontSize
+  fontSize,
 }: TextWrapperProps): JSX.Element => {
-    // debugger
-    console.log(text, position, rotation, color)
+  // debugger
   return (
-    <Text position={position as [number, number, number]} rotation={[0,0,0]} color={"black"} fontSize={fontSize} >
+    <Text
+      position={position as [number, number, number]}
+      rotation={[0, 0, 0]}
+      color={"black"}
+      fontSize={fontSize}
+    >
       {" "}
-      {/* {console.log({text, position, rotation, color})} */}
       {text}{" "}
     </Text>
   );

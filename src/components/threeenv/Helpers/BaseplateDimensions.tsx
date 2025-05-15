@@ -110,7 +110,7 @@ const BaseplateDimensions = observer(({ type }: BaseplateDimensionsProps) => {
   const toggleDropdown = () => setShowDropdown((prev) => !prev);
 
   const handleSelect = async (
-    preset: (typeof baseplatePresets)[BaseplateType][number]
+    preset: (typeof baseplatePresets)[BaseplateType][number],
   ) => {
     const successLength = baseplateStore.setLength(type, preset.length);
     const successWidth = baseplateStore.setWidth(type, preset.width);

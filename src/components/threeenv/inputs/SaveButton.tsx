@@ -1,7 +1,6 @@
 import { handleSaveProject } from "../../../utils/handleSaveProject";
 
 function SaveButton() {
-  
   return (
     <>
       <button

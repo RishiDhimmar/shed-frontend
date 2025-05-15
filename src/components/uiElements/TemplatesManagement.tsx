@@ -94,7 +94,7 @@ const TemplatesManagement = observer(
         )}
       </div>
     );
-  }
+  },
 );
 
 export default TemplatesManagement;

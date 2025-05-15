@@ -84,7 +84,6 @@ const ExportMenu = observer(() => {
         },
       };
 
-      console.log(payload);
       const response = await fetch(BACKEND_URL + "api/dxf/generate-dxf", {
         method: "POST",
         headers: {

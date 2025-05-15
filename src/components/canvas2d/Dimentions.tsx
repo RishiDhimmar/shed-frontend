@@ -13,6 +13,8 @@ const Dimension = ({
   rotation,
   color,
   isDraggable,
+  fontSize = 100,
+  textStrokeWidth = 3,
 }) => {
   const angle = Math.atan2(p2.y - p1.y, p2.x - p1.x);
   const offsetX = isVertical
@@ -23,7 +25,10 @@ const Dimension = ({
     : -offset * Math.cos(angle);
 
   return (
-    <Group draggable={isDraggable ? isDraggable : true} onDragMove={onDragMove}>
+    <Group
+      draggable={isDraggable ? isDraggable : true}
+      onDragMove={isDraggable ? onDragMove : null}
+    >
       <Arrow
         points={[
           p1.x + offsetX,
@@ -65,8 +70,9 @@ const Dimension = ({
         x={(p1.x + p2.x) / 2 + offsetX + 50}
         y={(p1.y + p2.y) / 2 + offsetY + 50}
         text={`${label} mm`}
-        fontSize={100}
+        fontSize={fontSize}
         stroke={"black"}
+        strokeWidth={textStrokeWidth}
         fill={color}
         align="center"
         rotation={rotation}

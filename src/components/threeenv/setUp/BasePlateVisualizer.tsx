@@ -223,7 +223,7 @@ const BasePlateVisualizer = observer(() => {
                   ? (baseplate.centerLinePoints.horizontal as [
                       number,
                       number,
-                      number
+                      number,
                     ][])
                   : [
                       [0, 0, 0],
@@ -241,7 +241,7 @@ const BasePlateVisualizer = observer(() => {
                   ? (baseplate.centerLinePoints.vertical as [
                       number,
                       number,
-                      number
+                      number,
                     ][])
                   : [
                       [0, 0, 0],
@@ -258,7 +258,6 @@ const BasePlateVisualizer = observer(() => {
               <>
                 {baseplate.label ? (
                   <>
-                    {console.log(baseplate.label)}
                     <TextWrapper
                       text={baseplate.label}
                       position={baseplate.labelPosition}

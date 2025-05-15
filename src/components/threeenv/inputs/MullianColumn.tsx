@@ -25,7 +25,7 @@ export const MullionColumn = observer(() => {
           />
         </div>
 
-        { /* <h1 className="text-md font-medium ">Main Ref</h1>
+        {/* <h1 className="text-md font-medium ">Main Ref</h1>
         <hr className=" text-gray-200"></hr>
         <h1 className="  ">First </h1>
         <div className="flex gap-2">

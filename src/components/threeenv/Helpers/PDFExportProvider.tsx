@@ -2,7 +2,11 @@ import { useEffect } from "react";
 import { useThree } from "@react-three/fiber";
 import jsPDF from "jspdf";
 
-function PDFExportProvider({ setPDFExportFn }: { setPDFExportFn: (fn: () => void) => void }) {
+function PDFExportProvider({
+  setPDFExportFn,
+}: {
+  setPDFExportFn: (fn: () => void) => void;
+}) {
   const { scene } = useThree();
 
   useEffect(() => {
@@ -16,7 +20,7 @@ function PDFExportProvider({ setPDFExportFn }: { setPDFExportFn: (fn: () => void
           // Convert to PDF coordinates (arbitrary scaling and centering)
           const x = pos.x * 1 + 105; // 105 = center of 210mm wide A4
           const y = pos.y * 1 + 148; // 148 = center of 297mm high A4
-          doc.circle(x, y, 3, 'S'); // 'S' for stroke only
+          doc.circle(x, y, 3, "S"); // 'S' for stroke only
         }
       });
 

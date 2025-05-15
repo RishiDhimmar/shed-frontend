@@ -44,7 +44,6 @@
 //     : [];
 // };
 
-
 // export const generateCenterFromRectanglePoints = (points: number[][]): Point => {
 //   const centerX = (points[0][0] + points[2][0]) / 2;
 //   const centerY = (points[0][1] + points[2][1]) / 2;
@@ -58,12 +57,11 @@ export interface Point {
 export const getRectanglePoints = (
   length: number,
   width: number,
-  center: [number, number] = [0, 0]
+  center: [number, number] = [0, 0],
 ): number[][] => {
   const [cx, cy] = center;
   // debugger
   if (!length || !width) {
-    console.log("Invalid width and length values : ", length, width);
     return [];
   }
   return [
@@ -87,7 +85,7 @@ export const getClosedPoints = (points: number[][] = []): number[][] => {
 export const getInternalWallPoints = (
   length: number,
   width: number,
-  wallThickness: number
+  wallThickness: number,
 ): number[][] => {
   const internalLength = length - 2 * wallThickness;
   const internalWidth = width - 2 * wallThickness;
@@ -96,30 +94,35 @@ export const getInternalWallPoints = (
     : [];
 };
 
-
-export const generateCenterFromRectanglePoints = (points: number[][]): Point => {
+export const generateCenterFromRectanglePoints = (
+  points: number[][],
+): Point => {
   const centerX = (points[0][0] + points[2][0]) / 2;
   const centerY = (points[0][1] + points[2][1]) / 2;
   return { X: centerX, Y: centerY };
-}
-
+};
 
 export const EPSILON = 0.01;
 export const SCALE = 1 / 100;
 
 export const key = (p) => `${p.x.toFixed(4)}:${p.y.toFixed(4)}`;
-export const equal = (a, b) => Math.abs(a.x - b.x) < EPSILON && Math.abs(a.y - b.y) < EPSILON;
+export const equal = (a, b) =>
+  Math.abs(a.x - b.x) < EPSILON && Math.abs(a.y - b.y) < EPSILON;
 export const scalePoint = (pt) => ({ x: pt.x * SCALE, y: pt.y * SCALE });
 
 export function isPointInPolygon(point, polygon) {
   let inside = false;
-  let x = point.x, y = point.y;
+  let x = point.x,
+    y = point.y;
 
   for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-    const xi = polygon[i].x, yi = polygon[i].y;
-    const xj = polygon[j].x, yj = polygon[j].y;
+    const xi = polygon[i].x,
+      yi = polygon[i].y;
+    const xj = polygon[j].x,
+      yj = polygon[j].y;
 
-    const intersect = yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
+    const intersect =
+      yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi;
     if (intersect) inside = !inside;
   }
 
@@ -127,7 +130,10 @@ export function isPointInPolygon(point, polygon) {
 }
 
 export function calculateBoundingBoxArea(polygon) {
-  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  let minX = Infinity,
+    minY = Infinity,
+    maxX = -Infinity,
+    maxY = -Infinity;
 
   for (const point of polygon) {
     minX = Math.min(minX, point.x);
@@ -164,7 +170,7 @@ export function raySegmentIntersection(rayOrigin, rayDir, segA, segB) {
   if (t1 >= 0 && t2 >= 0 && t2 <= 1) {
     return {
       x: rayOrigin.x + rayDir.x * t1,
-      y: rayOrigin.y + rayDir.y * t1
+      y: rayOrigin.y + rayDir.y * t1,
     };
   }
 

@@ -56,7 +56,6 @@ class LayerStore {
       }
 
       const data = await res.json();
-      console.log(data);
       this.setEntities(data.entities || []);
     } catch (err: any) {
       this.setError(err.message);

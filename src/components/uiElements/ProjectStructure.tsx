@@ -17,7 +17,6 @@ function ProjectStructure() {
     <>
       {/* <Sidebar /> */}
       <Layout />
-      
 
       <div className=" flex-1 w-80">
         {/*<ShadeCanvas /> */}

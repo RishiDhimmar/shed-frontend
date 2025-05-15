@@ -202,7 +202,6 @@ const AddStandardModel = ({ onClose }: { onClose: () => void }) => {
               idealVerticalDistanceOptions: [parseFloat(verticalDistance)],
             },
     };
-    console.log(newStandard);
 
     uiStore.addStandard(newStandard);
     onClose();

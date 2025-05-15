@@ -30,7 +30,6 @@ export const Import = () => {
 
       const data = await response.json();
       wallStore.processWallData(data);
-      console.log("Parsed Shade DXF Data:", data);
     } catch (error) {
       console.error("Error uploading shade file:", error);
     }
@@ -53,7 +52,6 @@ export const Import = () => {
       baseplateStore.clearBaseplates();
       wallStore.clearWallData();
       processBaseplates(jsonData);
-      console.log("✅ Baseplate JSON imported via API:", jsonData);
     } catch (error) {
       console.error("❌ Error uploading baseplate JSON file:", error);
     }
@@ -81,7 +79,6 @@ export const Import = () => {
       }
 
       const jsonData = await response.json();
-      console.log(jsonData);
 
       // Clean up previous data
       baseplateStore.clearBaseplates();
@@ -106,7 +103,6 @@ export const Import = () => {
       wallStore.processWallData({entities : [ externalWallLines[0], internalWallLines[0] ]});
       processBaseplates(jsonData);
 
-      console.log("✅ Combined DXF imported via API:", jsonData);
     } catch (error) {
       console.error("❌ Error uploading combined DXF file:", error);
     } finally {
@@ -135,15 +131,11 @@ export const Import = () => {
       baseplateStore.clearBaseplates();
       wallStore.clearWallData();
 
-      console.log(jsonData);
       const polygons = extractPolygonsFromDXF(jsonData);
-      console.log(extractAllFromDXF(jsonData));
       uiStore.data = extractAllFromDXF(jsonData);
       uiStore.setPolygons(polygons);
       dxfStore.data = uiStore.data;
       dxfStore.setCandidatePolygons(uiStore.data.polygons);
-
-      console.log("✅ Baseplate DXF imported via API:", jsonData);
     } catch (error) {
       console.error("❌ Error uploading baseplate DXF file:", error);
     }

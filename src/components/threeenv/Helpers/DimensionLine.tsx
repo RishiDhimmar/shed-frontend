@@ -129,7 +129,7 @@ const DimensionLine = observer(
   }: DimensionLineProps) => {
     const getOffsetVector = (
       direction: "+x" | "-x" | "+y" | "-y" | undefined,
-      offset: number
+      offset: number,
     ) => {
       if (!direction) return [0, 0, 0];
       if (direction === "+x") return [offset, 0, 0];
@@ -165,8 +165,6 @@ const DimensionLine = observer(
       ? [0, 0, 0]
       : [0, 0, Math.PI / 2];
 
-    // console.log(lineColor)
-    // console.log(textColor)
     lineColor = "black";
     textColor = "black";
 
@@ -214,7 +212,7 @@ const DimensionLine = observer(
         )}
       </>
     );
-  }
+  },
 );
 
 export default DimensionLine;

@@ -13,7 +13,6 @@ export type currentComponentType =
   | "polygons"
   | "texts"
   | "ellipses";
-  
 
 export type TemplateType =
   | "baseplate"
@@ -90,16 +89,14 @@ class UIStore {
     circles: true,
     lines: true,
     polygons: true,
-    annotation : true
+    annotation: true,
   };
   isDimensionsVisible: boolean = false;
 
   isModified = false;
 
   screenshotFn: () => void = () => {};
-  pdfExportFn: () => void = () => {
-    console.log("first");
-  };
+  pdfExportFn: () => void = () => {};
 
   templates: Template[] = [];
   standards: Standard[] = [];
@@ -126,7 +123,6 @@ class UIStore {
         id: this.standards.length + 1,
         createdAt: new Date().toLocaleDateString(),
       });
-      console.log(this.standards);
     });
 
     this.setModified(true);

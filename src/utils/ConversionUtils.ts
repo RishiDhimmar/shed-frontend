@@ -12,5 +12,5 @@ export const arrayToPointArray = (array: number[][]): Point[] =>
 export const pointArrayToArray = (array: Point[]): number[][] =>
   array.map(({ X, Y }) => [X, Y]);
 
-export const pointArrayToArrayLowerCase = (array: PointSmall[] ): number[][] =>
-  array.map(({ x, y } ) => [x, y]);
+export const pointArrayToArrayLowerCase = (array: PointSmall[]): number[][] =>
+  array.map(({ x, y }) => [x, y]);

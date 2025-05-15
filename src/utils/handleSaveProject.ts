@@ -19,8 +19,6 @@ export const handleSaveProject = () => {
     mullionColumn: toJS(mullionColumnStore),
     groundBeam: toJS(basePlotStore),
     dxfData: toJS(dxfStore),
-
-   
   };
 
   const jsonBlob = new Blob([JSON.stringify(projectData, null, 2)], {

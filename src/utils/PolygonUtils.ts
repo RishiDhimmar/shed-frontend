@@ -915,3 +915,38 @@ export function getCenterOfPolygon(polygon) {
       2,
   };
 }
+
+export function convertToPointObjects(flatArray) {
+  const points = [];
+  for (let i = 0; i < flatArray.length; i += 2) {
+    points.push({
+      x: flatArray[i],
+      y: flatArray[i + 1],
+    });
+  }
+  return points;
+}
+
+export // Calculate the center of foundations to offset them to [0, 0, 0]
+function getFoundationCenter(foundations) {
+  const points = foundations.flatMap((f) => [
+    ...(f.outerFoundationPoints || []),
+    ...(f.innerFoundationPoints || []),
+  ]);
+
+  if (points.length === 0) return [0, 0, 0];
+
+  const sum = points.reduce(
+    (acc, p) => {
+      acc.x += p.x / 1000; // Convert mm to meters
+      acc.z += p.y / 1000; // Map plan y to Three.js z
+      return acc;
+    },
+    { x: 0, z: 0 }
+  );
+
+  const avgX = sum.x / points.length;
+  const avgZ = sum.z / points.length;
+
+  return [avgX, 0, avgZ]; // [centerX, height=0, centerZ]
+}

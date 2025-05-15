@@ -1,4 +1,3 @@
-
 import { observer } from "mobx-react-lite";
 import wallStore from "../../../stores/WallStore";
 import LineVisualizer from "../Helpers/LineVisualizerProps";

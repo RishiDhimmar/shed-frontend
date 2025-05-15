@@ -38,7 +38,7 @@ class MullionColumnStore {
       }),
       () => {
         this.calculateMullions();
-      }
+      },
     );
   }
   setPolygons(polygons) {
@@ -76,11 +76,11 @@ class MullionColumnStore {
           adjustedX,
           adjustedY,
         ]);
-      }
+      },
     );
 
     const horizontal = baseplateStore.basePlates.filter(
-      (plate) => plate.type === "horizontal"
+      (plate) => plate.type === "horizontal",
     );
     horizontal.map((plate) => {
       const { x, y } = plate;
@@ -92,7 +92,7 @@ class MullionColumnStore {
               (baseplateStore.config[plate.type].offsetX ?? 0) -
               wallThickness / 2,
             y,
-          ])
+          ]),
         );
       } else if (plate.wall === "right") {
         newMullions.push(
@@ -102,13 +102,13 @@ class MullionColumnStore {
               (baseplateStore.config[plate.type].offsetX ?? 0) +
               wallThickness / 2,
             y,
-          ])
+          ]),
         );
       }
     });
 
     const vertical = baseplateStore.basePlates.filter(
-      (plate) => plate.type === "vertical"
+      (plate) => plate.type === "vertical",
     );
     vertical.map((plate) => {
       const { x, y } = plate;
@@ -120,7 +120,7 @@ class MullionColumnStore {
               baseplateStore.config[plate.type].width / 2 +
               (baseplateStore.config[plate.type].offsetY ?? 0) +
               wallThickness / 2,
-          ])
+          ]),
         );
       } else if (plate.wall === "bottom") {
         newMullions.push(
@@ -130,7 +130,7 @@ class MullionColumnStore {
               baseplateStore.config[plate.type].width / 2 -
               (baseplateStore.config[plate.type].offsetY ?? 0) -
               wallThickness / 2,
-          ])
+          ]),
         );
       }
     });
@@ -231,7 +231,7 @@ class MullionColumnStore {
           points: getRectanglePointsAroundCenter(
             { ...center, z: 0 },
             wallStore.wallThickness,
-            wallStore.wallThickness
+            wallStore.wallThickness,
           ),
           label: `M${plate.label.slice(1)}`,
         };
@@ -266,22 +266,17 @@ class MullionColumnStore {
               };
             }
 
-            console.log(center);
-
             return {
               points: getRectanglePointsAroundCenter(
                 center,
                 wallStore.wallThickness,
-                wallStore.wallThickness
+                wallStore.wallThickness,
               ),
               label: `M${plate.label.slice(1)}`,
             };
-          })
-        )
+          }),
+        ),
       );
-
-    console.log(this.getCenters());
-    console.log(sortPolygon(this.getCenters()));
 
     //sort the polygons in the order of correct centers
     this.polygons = sortPolygon(this.getCenters()).map((sortedCenter) => {
@@ -293,8 +288,6 @@ class MullionColumnStore {
         );
       });
     });
-
-    console.log(this.polygons);
   }
 
   getCenters() {
