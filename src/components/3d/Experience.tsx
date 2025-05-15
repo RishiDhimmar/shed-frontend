@@ -59,7 +59,7 @@ const Experience = observer(() => {
 
   return (
     <>
-      {/* Toggle UI */}
+      {/* Toggle UI 
       <Html>
         <div
           style={{
@@ -83,6 +83,7 @@ const Experience = observer(() => {
           </button>
         </div>
       </Html>
+      */}
 
       {/* Cameras */}
       {useOrtho ? (
