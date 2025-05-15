@@ -91,6 +91,7 @@ const BoxRenderer = observer(({ instances }: BoxRendererProps) => {
           color={instances[0]?.color || "magenta"}
           transparent
           opacity={0.5}
+          depthWrite={false}
           side={THREE.DoubleSide}
         />
       </instancedMesh>
