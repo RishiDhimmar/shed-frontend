@@ -1,7 +1,11 @@
 import { pointArrayToArrayLowerCase, PointSmall } from "./ConversionUtils";
 import wallStore from "../stores/WallStore";
 import { toJS } from "mobx";
-import baseplateStore,{Baseplate, BaseplateType, WallType}  from "../stores/BasePlateStore";
+import baseplateStore, {
+  Baseplate,
+  BaseplateType,
+  WallType,
+} from "../stores/BasePlateStore";
 interface RawBaseplateData {
   x: number;
   y: number;
@@ -16,9 +20,6 @@ interface RawBaseplateData {
  */
 export const processBaseplates = (jsonData: string) => {
   if (!jsonData) return;
-
-
-  
 
   let data;
   try {
@@ -38,8 +39,8 @@ export const processBaseplates = (jsonData: string) => {
       Array.isArray(e.vertices) &&
       e.vertices.length >= 4 &&
       e.vertices.every(
-        (v: any) => typeof v.x === "number" && typeof v.y === "number"
-      )
+        (v: any) => typeof v.x === "number" && typeof v.y === "number",
+      ),
   );
 
   if (baseplateEntities.length === 0) return;
@@ -63,14 +64,10 @@ export const processBaseplates = (jsonData: string) => {
     });
   });
 
-  console.log(`Bounding box: (${minX}, ${minY}) to (${maxX}, ${maxY})`);
-
   // Calculate a more appropriate threshold based on the dimensions
   const width = maxX - minX;
   const height = maxY - minY;
   const threshold = Math.min(width, height) * 0.05; // 5% of smaller dimension
-
-  console.log(`Using threshold: ${threshold}`);
 
   // Helper function to determine if a point is on an edge
   const isOnEdge = (x: number, y: number) => {
@@ -120,7 +117,7 @@ export const processBaseplates = (jsonData: string) => {
       entity.vertices.forEach((vertex: any) => {
         const { isLeftEdge, isRightEdge, isTopEdge, isBottomEdge } = isOnEdge(
           vertex.x,
-          vertex.y
+          vertex.y,
         );
         if (isLeftEdge) leftCount++;
         if (isRightEdge) rightCount++;
@@ -129,7 +126,16 @@ export const processBaseplates = (jsonData: string) => {
       });
 
       // Determine wall type based on which edges the baseplate touches
-      type WallType = "top-left" | "top-right" | "bottom-left" | "bottom-right" | "left" | "right" | "top" | "bottom" | null;
+      type WallType =
+        | "top-left"
+        | "top-right"
+        | "bottom-left"
+        | "bottom-right"
+        | "left"
+        | "right"
+        | "top"
+        | "bottom"
+        | null;
       let wallType: WallType = null;
       type BaseplateType = "corner" | "horizontal" | "vertical" | null;
       let baseplateType: BaseplateType;
@@ -185,7 +191,7 @@ export const processBaseplates = (jsonData: string) => {
         // If unable to clearly determine, use center point as fallback
         const { isLeftEdge, isRightEdge, isTopEdge, isBottomEdge } = isOnEdge(
           centerX,
-          centerY
+          centerY,
         );
 
         if (isLeftEdge && isTopEdge) {
@@ -220,12 +226,12 @@ export const processBaseplates = (jsonData: string) => {
       }
 
       // No scaling applied here - will be done later
-      const scaledVertices = entity.vertices.map(({ x, y }: { x: number; y: number }) => ({
-        x: x,
-        y: y,
-      }));
-
-      console.log(`Classified baseplate as ${baseplateType} - ${wallType}`);
+      const scaledVertices = entity.vertices.map(
+        ({ x, y }: { x: number; y: number }) => ({
+          x: x,
+          y: y,
+        }),
+      );
 
       return {
         centerX,
@@ -237,7 +243,7 @@ export const processBaseplates = (jsonData: string) => {
         originalEntity: entity,
       };
     })
-    .filter((bp : Baseplate) => bp !== null);
+    .filter((bp: Baseplate) => bp !== null);
 
   // Calculate offsets for different types of baseplates
   calculateOffsets(processedBaseplates);
@@ -257,21 +263,21 @@ export const processBaseplates = (jsonData: string) => {
   // });
 
   (processedBaseplates as RawBaseplateData[]).forEach((bp) => {
-  if (bp.vertices !== null) {
-    newBaseplates.push(
-      baseplateStore.createBaseplate(
-        bp.x,
-        bp.y,
-        bp.baseplateType as BaseplateType,
-        bp.wallType,
-        pointArrayToArrayLowerCase(bp.vertices),
-        ""
-      )
-    );
-  } else {
-    console.error("Baseplate vertices are null");
-  }
-});
+    if (bp.vertices !== null) {
+      newBaseplates.push(
+        baseplateStore.createBaseplate(
+          bp.x,
+          bp.y,
+          bp.baseplateType as BaseplateType,
+          bp.wallType,
+          pointArrayToArrayLowerCase(bp.vertices),
+          "",
+        ),
+      );
+    } else {
+      console.error("Baseplate vertices are null");
+    }
+  });
 
   // Calculate dimensions and configure spacing
   calculateDimensions(newBaseplates);
@@ -325,21 +331,27 @@ export const processBaseplates = (jsonData: string) => {
   if (baseplateStore.config) {
     // Scale corner dimensions
     if (baseplateStore.config.corner) {
-      baseplateStore.config.corner.length = baseplateStore.config.corner.length / 1000;
-      baseplateStore.config.corner.width = baseplateStore.config.corner.width / 1000;
+      baseplateStore.config.corner.length =
+        baseplateStore.config.corner.length / 1000;
+      baseplateStore.config.corner.width =
+        baseplateStore.config.corner.width / 1000;
       // Offsets will be scaled in calculateOffsets
     }
-    
+
     // Scale horizontal dimensions
     if (baseplateStore.config.horizontal) {
-      baseplateStore.config.horizontal.length = baseplateStore.config.horizontal.length / 1000;
-      baseplateStore.config.horizontal.width = baseplateStore.config.horizontal.width / 1000;
+      baseplateStore.config.horizontal.length =
+        baseplateStore.config.horizontal.length / 1000;
+      baseplateStore.config.horizontal.width =
+        baseplateStore.config.horizontal.width / 1000;
     }
-    
+
     // Scale vertical dimensions
     if (baseplateStore.config.vertical) {
-      baseplateStore.config.vertical.length = baseplateStore.config.vertical.length / 1000;
-      baseplateStore.config.vertical.width = baseplateStore.config.vertical.width / 1000;
+      baseplateStore.config.vertical.length =
+        baseplateStore.config.vertical.length / 1000;
+      baseplateStore.config.vertical.width =
+        baseplateStore.config.vertical.width / 1000;
     }
   }
 
@@ -348,85 +360,97 @@ export const processBaseplates = (jsonData: string) => {
 
   // Scale the ideal distances if they were calculated
   if (baseplateStore.idealHorizontalDistance) {
-    baseplateStore.setIdealHorizontalDistance(baseplateStore.idealHorizontalDistance / 1000);
-  }
-  
-  if (baseplateStore.idealVerticalDistance) {
-    baseplateStore.setIdealVerticalDistance(baseplateStore.idealVerticalDistance / 1000);
+    baseplateStore.setIdealHorizontalDistance(
+      baseplateStore.idealHorizontalDistance / 1000,
+    );
   }
 
-  console.log("Baseplate processing complete:", toJS(baseplateStore));
+  if (baseplateStore.idealVerticalDistance) {
+    baseplateStore.setIdealVerticalDistance(
+      baseplateStore.idealVerticalDistance / 1000,
+    );
+  }
 };
 
 /**
  * Calculate offsets for different types of baseplates
  */
-const calculateOffsets = (baseplates : RawBaseplateData[]) => {
+const calculateOffsets = (baseplates: RawBaseplateData[]) => {
   // Find baseplate types
   const horizontalBaseplate = baseplates.find(
-    (bp) => bp.baseplateType === "horizontal" && bp.wallType === "left"
+    (bp) => bp.baseplateType === "horizontal" && bp.wallType === "left",
   );
   const verticalBaseplate = baseplates.find(
-    (bp) => bp.baseplateType === "vertical" && bp.wallType === "top"
+    (bp) => bp.baseplateType === "vertical" && bp.wallType === "top",
   );
   const cornerBaseplate = baseplates.find(
-    (bp) => bp.baseplateType === "corner" && bp.wallType === "top-left"
+    (bp) => bp.baseplateType === "corner" && bp.wallType === "top-left",
   );
-  
+
   // Get the top-left wall point (assumed to be the reference point)
-  const wallTopLeftPoint = wallStore.internalWallPoints.reduce((topLeft, point) : any=> {
-    // Looking for the point with smallest X (most negative) and largest Y (most positive)
-    if (!topLeft || (point[0] <= topLeft[0] && point[1] >= topLeft[1])) {
-      return point;
-    }
-    return topLeft;
-  }, null);
-  
-  console.log("Reference wall point (top-left):", wallTopLeftPoint);
-  
+  const wallTopLeftPoint = wallStore.internalWallPoints.reduce(
+    (topLeft, point): any => {
+      // Looking for the point with smallest X (most negative) and largest Y (most positive)
+      if (!topLeft || (point[0] <= topLeft[0] && point[1] >= topLeft[1])) {
+        return point;
+      }
+      return topLeft;
+    },
+    null,
+  );
+
   const config = baseplateStore.getConfig();
-  
+
   // Calculate horizontal offset
   if (horizontalBaseplate) {
-    const minX = Math.min(...horizontalBaseplate.vertices.map(point => point.x));
+    const minX = Math.min(
+      ...horizontalBaseplate.vertices.map((point) => point.x),
+    );
     // Adjust scale and calculate offset relative to wall point
     // const horizontalOffsetX = Math.abs(minX - wallTopLeftPoint?.[0] * 1000) / 1000;
-    const horizontalOffsetX = wallTopLeftPoint ? Math.abs(minX - wallTopLeftPoint[0] * 1000) / 1000 : 0;
-    
+    const horizontalOffsetX = wallTopLeftPoint
+      ? Math.abs(minX - wallTopLeftPoint[0] * 1000) / 1000
+      : 0;
+
     if (config && config.horizontal) {
       config.horizontal.offsetX = horizontalOffsetX;
-      console.log(`Set horizontal offset X: ${horizontalOffsetX}`);
     }
   }
-  
+
   // Calculate vertical offset
   if (verticalBaseplate) {
-    const maxY = Math.max(...verticalBaseplate.vertices.map(point => point.y));
+    const maxY = Math.max(
+      ...verticalBaseplate.vertices.map((point) => point.y),
+    );
     // Adjust scale and calculate offset relative to wall point
-    const verticalOffsetY = wallTopLeftPoint ? Math.abs(maxY - wallTopLeftPoint[1] * 1000) / 1000 : 0;
-    
+    const verticalOffsetY = wallTopLeftPoint
+      ? Math.abs(maxY - wallTopLeftPoint[1] * 1000) / 1000
+      : 0;
+
     if (config && config.vertical) {
       config.vertical.offsetY = verticalOffsetY;
-      console.log(`Set vertical offset Y: ${verticalOffsetY}`);
     }
   }
-  
+
   // Calculate corner offsets
   if (cornerBaseplate) {
-    const minX = Math.min(...cornerBaseplate.vertices.map(point => point.x));
-    const maxY = Math.max(...cornerBaseplate.vertices.map(point => point.y));
-    
+    const minX = Math.min(...cornerBaseplate.vertices.map((point) => point.x));
+    const maxY = Math.max(...cornerBaseplate.vertices.map((point) => point.y));
+
     // Calculate offsets relative to the wall point
-    const cornerOffsetX = wallTopLeftPoint ? Math.abs(minX - wallTopLeftPoint[0] * 1000) / 1000 : 0;
-    const cornerOffsetY = wallTopLeftPoint ? Math.abs(maxY - wallTopLeftPoint[1] * 1000) / 1000 : 0;
-    
+    const cornerOffsetX = wallTopLeftPoint
+      ? Math.abs(minX - wallTopLeftPoint[0] * 1000) / 1000
+      : 0;
+    const cornerOffsetY = wallTopLeftPoint
+      ? Math.abs(maxY - wallTopLeftPoint[1] * 1000) / 1000
+      : 0;
+
     if (config && config.corner) {
       config.corner.offsetX = cornerOffsetX;
       config.corner.offsetY = cornerOffsetY;
-      console.log(`Set corner offsets - X: ${cornerOffsetX}, Y: ${cornerOffsetY}`);
     }
   }
-  
+
   // Update the config
   baseplateStore.setConfig(config);
 };
@@ -446,7 +470,7 @@ const calculateDimensions = (newBaseplates: any) => {
   };
 
   const oneHorizontal = newBaseplates.find(
-    (bp: any) => bp.type === "horizontal"
+    (bp: any) => bp.type === "horizontal",
   );
   const oneVertical = newBaseplates.find((bp: any) => bp.type === "vertical");
   const oneCorner = newBaseplates.find((bp: any) => bp.type === "corner");
@@ -486,7 +510,7 @@ const calculateDimensions = (newBaseplates: any) => {
 /**
  * Calculate ideal distances between baseplates
  */
-const calculateIdealDistances = (newBaseplates : RawBaseplateData[]) => {
+const calculateIdealDistances = (newBaseplates: RawBaseplateData[]) => {
   const getCenterFromPoints = (points: number[][]) => {
     if (!points || points.length === 0) return [0, 0];
     const xs = points.map((p) => p[0]);
@@ -505,8 +529,6 @@ const calculateIdealDistances = (newBaseplates : RawBaseplateData[]) => {
       const [, yb] = getCenterFromPoints(b.points);
       return ya - yb;
     });
-    
-  console.log("Left wall plates:", leftWallPlates.length);
 
   if (leftWallPlates.length >= 2) {
     // Find the smallest distance between any two adjacent plates
@@ -520,24 +542,18 @@ const calculateIdealDistances = (newBaseplates : RawBaseplateData[]) => {
       }
     }
     baseplateStore.setIdealVerticalDistance(minDistance);
-    console.log(`Set ideal vertical distance: ${minDistance}`);
   } else {
     // Fallback to corner plates
-    const topLeft = newBaseplates.find(
-      (p: any) => p.wall === "top-left"
-    );
-    const bottomLeft = newBaseplates.find(
-      (p: any) => p.wall === "bottom-left"
-    );
+    const topLeft = newBaseplates.find((p: any) => p.wall === "top-left");
+    const bottomLeft = newBaseplates.find((p: any) => p.wall === "bottom-left");
 
     if (topLeft && bottomLeft) {
-      if(!topLeft.points || !bottomLeft.points) return;
+      if (!topLeft.points || !bottomLeft.points) return;
       const [, y1] = getCenterFromPoints(topLeft.points);
       const [, y2] = getCenterFromPoints(bottomLeft.points);
       const distance = Math.abs(y1 - y2);
       // Adjust factor based on expected number of plates
       baseplateStore.setIdealVerticalDistance(distance / 2);
-      console.log(`Set ideal vertical distance (fallback): ${distance / 2}`);
     }
   }
 
@@ -563,24 +579,20 @@ const calculateIdealDistances = (newBaseplates : RawBaseplateData[]) => {
       }
     }
     baseplateStore.setIdealHorizontalDistance(minDistance);
-    console.log(`Set ideal horizontal distance: ${minDistance}`);
   } else {
     // Fallback to corner plates
-    const bottomLeft = newBaseplates.find(
-      (p: any) => p.wall === "bottom-left"
-    );
+    const bottomLeft = newBaseplates.find((p: any) => p.wall === "bottom-left");
     const bottomRight = newBaseplates.find(
-      (p: any) => p.wall === "bottom-right"
+      (p: any) => p.wall === "bottom-right",
     );
 
     if (bottomLeft && bottomRight) {
-      if(!bottomLeft.points || !bottomRight.points) return;
+      if (!bottomLeft.points || !bottomRight.points) return;
       const [x1] = getCenterFromPoints(bottomLeft.points);
       const [x2] = getCenterFromPoints(bottomRight.points);
       const distance = Math.abs(x1 - x2);
       // Adjust factor based on expected number of plates
       baseplateStore.setIdealHorizontalDistance(distance / 2);
-      console.log(`Set ideal horizontal distance (fallback): ${distance / 2}`);
     }
   }
 };

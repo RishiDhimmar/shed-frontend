@@ -3,6 +3,7 @@ import { Line } from "react-konva";
 import dxfStore from "../../stores/DxfStore";
 import uiStore from "../../stores/UIStore";
 import { observer } from "mobx-react-lite";
+import { Shed2DConfig } from "../../Constants";
 
 const PolygonsDrawer = observer(({ polygons }) => {
   return (

@@ -16,7 +16,6 @@
 // //     });
 // // }
 
-
 // // src/utils/sortPolygonsClockwise.js
 
 // /**
@@ -28,13 +27,13 @@
 //     if (!polygons || !Array.isArray(polygons) || polygons.length === 0) {
 //       return [];
 //     }
-  
+
 //     // Step 1: Calculate centroids for each polygon
 //     const centroids = polygons.map((polygon, index) => {
 //       if (!polygon || polygon.length === 0) {
 //         return { x: 0, y: 0, index };
 //       }
-  
+
 //       let xSum = 0, ySum = 0, count = 0;
 //       polygon.forEach((point) => {
 //         // Handle both {x, y} and [x, y, z] formats
@@ -44,14 +43,14 @@
 //         ySum += y;
 //         count += 1;
 //       });
-  
+
 //       return {
 //         x: count > 0 ? xSum / count : 0,
 //         y: count > 0 ? ySum / count : 0,
 //         index,
 //       };
 //     });
-  
+
 //     // Step 2: Calculate the reference point (centroid of all centroids)
 //     let refX = 0, refY = 0, validCentroids = 0;
 //     centroids.forEach((centroid) => {
@@ -63,7 +62,7 @@
 //     });
 //     refX = validCentroids > 0 ? refX / validCentroids : 0;
 //     refY = validCentroids > 0 ? refY / validCentroids : 0;
-  
+
 //     // Step 3: Compute angles and sort polygons
 //     const sortedPolygons = centroids
 //       .map((centroid) => {
@@ -78,15 +77,13 @@
 //       })
 //       .sort((a, b) => b.angle - a.angle) // Sort in descending order for clockwise
 //       .map(({ index }) => polygons[index]);
-  
+
 //     return sortedPolygons;
 //   }
 
-
-
 // src/utils/sortPolygonsClockwise.js
-import { isNearExternalWall } from '../components/canvas2d/Geometry';
-import { getBounds } from '../components/canvas2d/Polygon';
+import { isNearExternalWall } from "../components/canvas2d/Geometry";
+import { getBounds } from "../components/canvas2d/Polygon";
 
 /**
  * Sorts an array of polygons in clockwise order, starting with the topmost-left polygon.
@@ -97,12 +94,13 @@ import { getBounds } from '../components/canvas2d/Polygon';
  */
 export function sortPolygonsClockwise(polygons, externalWall = []) {
   if (!polygons || !Array.isArray(polygons) || polygons.length === 0) {
-    console.log("sortPolygonsClockwise: Empty or invalid input, returning empty array");
     return [];
   }
 
   if (!externalWall || externalWall.length === 0) {
-    console.warn("sortPolygonsClockwise: No external wall provided, treating all polygons as internal");
+    console.warn(
+      "sortPolygonsClockwise: No external wall provided, treating all polygons as internal"
+    );
   }
 
   // Step 1: Calculate centroids and bounds for each polygon
@@ -112,7 +110,9 @@ export function sortPolygonsClockwise(polygons, externalWall = []) {
       return { centroid: { x: 0, y: 0 }, bounds: null, index };
     }
 
-    let xSum = 0, ySum = 0, count = 0;
+    let xSum = 0,
+      ySum = 0,
+      count = 0;
     polygon.forEach((point) => {
       const x = Array.isArray(point) ? point[0] : point.x;
       const y = Array.isArray(point) ? point[1] : point.y;
@@ -127,7 +127,7 @@ export function sortPolygonsClockwise(polygons, externalWall = []) {
     };
 
     // Calculate bounds for isNearExternalWall
-    const points = polygon.map(p => ({
+    const points = polygon.map((p) => ({
       x: Array.isArray(p) ? p[0] : p.x,
       y: Array.isArray(p) ? p[1] : p.y,
     }));
@@ -136,27 +136,17 @@ export function sortPolygonsClockwise(polygons, externalWall = []) {
     return { centroid, bounds, index };
   });
 
-  console.log("Centroids:", polygonData.map(d => ({
-    index: d.index,
-    x: d.centroid.x,
-    y: d.centroid.y,
-  })));
-
   // Step 2: Find the topmost-left polygon
   let topmostLeft = polygonData[0];
   polygonData.forEach((data) => {
     if (!data.centroid) return;
     if (
       data.centroid.y < topmostLeft.centroid.y ||
-      (data.centroid.y === topmostLeft.centroid.y && data.centroid.x < topmostLeft.centroid.x)
+      (data.centroid.y === topmostLeft.centroid.y &&
+        data.centroid.x < topmostLeft.centroid.x)
     ) {
       topmostLeft = data;
     }
-  });
-
-  console.log("Topmost-Left Polygon:", {
-    index: topmostLeft.index,
-    centroid: topmostLeft.centroid,
   });
 
   // Step 3: Classify polygons as external or internal
@@ -165,15 +155,15 @@ export function sortPolygonsClockwise(polygons, externalWall = []) {
 
   polygonData.forEach((data) => {
     if (!data.bounds) return;
-    const isExternal = externalWall.length > 0 && isNearExternalWall(data.bounds, externalWall);
+    const isExternal =
+      externalWall.length > 0 && isNearExternalWall(data.bounds, externalWall);
     (isExternal ? externalPolygons : internalPolygons).push(data);
   });
 
-  console.log("External Polygons (indices):", externalPolygons.map(d => d.index));
-  console.log("Internal Polygons (indices):", internalPolygons.map(d => d.index));
-
   // Step 4: Calculate the reference point (centroid of all centroids)
-  let refX = 0, refY = 0, validCentroids = 0;
+  let refX = 0,
+    refY = 0,
+    validCentroids = 0;
   polygonData.forEach((data) => {
     if (data.centroid && (data.centroid.x !== 0 || data.centroid.y !== 0)) {
       refX += data.centroid.x;
@@ -183,7 +173,6 @@ export function sortPolygonsClockwise(polygons, externalWall = []) {
   });
   refX = validCentroids > 0 ? refX / validCentroids : 0;
   refY = validCentroids > 0 ? refY / validCentroids : 0;
-  console.log(`Reference Point: (${refX}, ${refY})`);
 
   // Step 5: Sort polygons clockwise within each group
   const sortGroup = (group) => {
@@ -216,20 +205,17 @@ export function sortPolygonsClockwise(polygons, externalWall = []) {
   const sortedPolygons = sortedIndices.map((index) => polygons[index]);
 
   // Log angles for verification
-  console.log("Sorted Order (indices):", sortedIndices);
-  console.log("Angles (clockwise):", polygonData.map((data, i) => {
-    const dx = data.centroid.x - refX;
-    const dy = data.centroid.y - refY;
-    let angle = Math.atan2(dy, dx);
-    angle = angle >= 0 ? angle : angle + 2 * Math.PI;
-    const clockwiseAngle = 2 * Math.PI - angle;
-    return {
-      index: i,
-      angle: clockwiseAngle,
-      degrees: (clockwiseAngle * 180 / Math.PI).toFixed(2),
-      isTopmostLeft: i === topmostLeft.index,
-    };
-  }));
+  const dx = data.centroid.x - refX;
+  const dy = data.centroid.y - refY;
+  let angle = Math.atan2(dy, dx);
+  angle = angle >= 0 ? angle : angle + 2 * Math.PI;
+  const clockwiseAngle = 2 * Math.PI - angle;
+  return {
+    index: i,
+    angle: clockwiseAngle,
+    degrees: ((clockwiseAngle * 180) / Math.PI).toFixed(2),
+    isTopmostLeft: i === topmostLeft.index,
+  };
 
   return sortedPolygons;
 }

@@ -24,18 +24,17 @@ export default function Upload() {
 
       wallStore.setWallPoints(
         jsonData.wall.externalWallPoints,
-        jsonData.wall.internalWallPoints
+        jsonData.wall.internalWallPoints,
       );
 
       baseplateStore.setBasePlates(jsonData.baseplate.basePlates);
       baseplateStore.setBasePlateConfig(jsonData.baseplate.config);
       baseplateStore.setIdealHorizontalDistance(
-        jsonData.baseplate.idealHorizontalDistance
+        jsonData.baseplate.idealHorizontalDistance,
       );
       baseplateStore.setIdealVerticalDistance(
-        jsonData.baseplate.idealVerticalDistance
+        jsonData.baseplate.idealVerticalDistance,
       );
-      console.log(jsonData.column.columns)
       columnStore.setHorizontalLength(jsonData.column.horizontalLength);
       columnStore.setHorizontalWidth(jsonData.column.horizontalWidth);
       columnStore.setCornerLength(jsonData.column.cornerLength);
@@ -49,8 +48,6 @@ export default function Upload() {
 
       mullionColumnStore.mullionPositions =
         jsonData.mullionColumn.mullionPositions;
-
-      console.log("Parsed JSON Data:", jsonData); // Log data
     } catch (error) {
       console.error("Error reading JSON file:", error);
     }

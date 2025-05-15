@@ -9,7 +9,7 @@ import BaseplateDimensions from "../Helpers/BaseplateDimensions";
 export const BaseplateInput = observer(() => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedBaseplate, setSelectedBaseplate] = useState<string | null>(
-    null
+    null,
   );
   const [modifyMode, setModifyMode] = useState(false);
   const [newGroupName, setNewGroupName] = useState("");
@@ -66,7 +66,7 @@ export const BaseplateInput = observer(() => {
                       onClick={() =>
                         baseplateStore.removeBaseplateFromGroup(
                           group.name,
-                          bs.label
+                          bs.label,
                         )
                       }
                     >
@@ -108,7 +108,7 @@ export const BaseplateInput = observer(() => {
                     if (selectedId) {
                       baseplateStore.addBaseplateToGroup(
                         group.name,
-                        selectedId
+                        selectedId,
                       );
                       handleBaseplateChange(group.name, "");
                     }

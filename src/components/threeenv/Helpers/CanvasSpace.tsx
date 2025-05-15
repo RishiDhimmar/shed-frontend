@@ -42,7 +42,7 @@ const MIN_FONT_SIZE = 8; // Minimum font size in pixels for readability
 
 const dataMap = { data, data2, data3, data4, data5, data6 };
 
-const CanvasTest : React.FC = observer(() => {
+const CanvasTest: React.FC = observer(() => {
   const canvasRef = useRef(null);
   const count = useRef(0);
   const [internalPolygons, setInternalPolygons] = useState([]);
@@ -87,9 +87,9 @@ const CanvasTest : React.FC = observer(() => {
   const polygonKeys = useMemo(
     () =>
       polygons.map((polygon) =>
-        polygon.map((p) => `${p.x.toFixed(4)}:${p.y.toFixed(4)}`).join("-")
+        polygon.map((p) => `${p.x.toFixed(4)}:${p.y.toFixed(4)}`).join("-"),
       ),
-    [polygons]
+    [polygons],
   );
 
   const findBounds = useMemo(() => {
@@ -189,14 +189,14 @@ const CanvasTest : React.FC = observer(() => {
       setSecondSelectedPolygon(temp.map((p) => [p.x, p.y, 0]));
 
       const internalRectangularPolygons = filterInnerRectangularPolygons(
-        internalPolygons
+        internalPolygons,
       ).map((polygon) => sortPolygon(polygon));
 
       const polyForRays = selected.map((p) => ({ x: p.x, y: p.y }));
 
       const { rays, allIntersectingPolygons } = traceAllPolygonsWithRays(
         polyForRays,
-        internalRectangularPolygons
+        internalRectangularPolygons,
       );
 
       const filteredPolygons = allIntersectingPolygons.filter((poly, i) => {
@@ -204,7 +204,7 @@ const CanvasTest : React.FC = observer(() => {
           if (i === j) continue;
           const otherPoly = allIntersectingPolygons[j];
           const isContained = poly.every((pt) =>
-            isPointInPolygon(pt, otherPoly)
+            isPointInPolygon(pt, otherPoly),
           );
           if (isContained) {
             const polyArea = calculateBoundingBoxArea(poly);
@@ -220,10 +220,8 @@ const CanvasTest : React.FC = observer(() => {
       setDebugRays(rays);
       setIntersectingPolygons(filteredPolygons);
       const tempPoly = sortPolygonsClockwise(filteredPolygons);
-      
-      baseplateStore.polygons = tempPoly;
 
-      console.log(filteredPolygons, sortPolygonsClockwise(filteredPolygons));
+      baseplateStore.polygons = tempPoly;
 
       count.current = 2;
     }
@@ -259,8 +257,6 @@ const CanvasTest : React.FC = observer(() => {
         : worldToScreen(polygon[i]);
       ctx.lineTo(point.x, point.y);
     }
-
-    
 
     ctx.closePath();
     ctx.strokeStyle = color;
@@ -396,7 +392,7 @@ const CanvasTest : React.FC = observer(() => {
       const filteredIntersectingPolys = filterPolygonsByDimension(
         intersectingPolys,
         startPoly,
-        DIMENSION_TOLERANCE
+        DIMENSION_TOLERANCE,
       );
 
       let newPolygonsDiscovered = false;
@@ -547,7 +543,7 @@ const CanvasTest : React.FC = observer(() => {
     end,
     text,
     offsetX = 0,
-    offsetY = 0
+    offsetY = 0,
   ) => {
     // Apply offset to start and end points in world space
     const offsetStart = {
@@ -609,7 +605,7 @@ const CanvasTest : React.FC = observer(() => {
       balloonCenterScreen.y,
       balloonRadiusScreen,
       0,
-      2 * Math.PI
+      2 * Math.PI,
     );
     ctx.fillStyle = "white";
     ctx.fill();
@@ -627,7 +623,7 @@ const CanvasTest : React.FC = observer(() => {
   };
 
   const structures = useMemo(() => {
-    console.log("Recomputing ... ");
+    ("Recomputing ... ");
     if (
       !wallStore.externalWallPoints.length ||
       !wallStore.internalWallPoints.length ||
@@ -730,10 +726,6 @@ const CanvasTest : React.FC = observer(() => {
           if (intersectionPoint) {
             hasIntersection = true;
             intersections.push({ edge: edge.name, point: intersectionPoint });
-            console.log(
-              `Intersection found on ${edge.name}:`,
-              intersectionPoint
-            );
             if (edge.name === "bottom") {
               newBounds.minY = Math.min(newBounds.minY, intersectionPoint.y);
             } else if (edge.name === "right") {
@@ -753,15 +745,6 @@ const CanvasTest : React.FC = observer(() => {
           newBounds.maxX !== maxX ||
           newBounds.minY !== minY ||
           newBounds.maxY !== maxY);
-
-      console.log(
-        "isExtended:",
-        isExtended,
-        "newBounds:",
-        newBounds,
-        "originalBounds:",
-        originalBounds
-      );
 
       const isNearEdge = isNearExternalWall(originalBounds, outerWall);
 
@@ -851,7 +834,7 @@ const CanvasTest : React.FC = observer(() => {
 
           const closestInner = findClosestPointOnPolygon(
             closestCorner,
-            innerWall
+            innerWall,
           );
 
           mullionCenter = {
@@ -862,7 +845,7 @@ const CanvasTest : React.FC = observer(() => {
           const intersectionPoint = column.intersections[0].point;
           const closestInner = findClosestPointOnPolygon(
             intersectionPoint,
-            innerWall
+            innerWall,
           );
           mullionCenter = {
             x:
@@ -993,7 +976,7 @@ const CanvasTest : React.FC = observer(() => {
               { x: bounds.maxX, y: bounds.minY },
               `${width} mm`,
               0,
-              -10 // Offset upward
+              -10, // Offset upward
             );
             // Height dimension (offset left)
             drawDimensionLine(
@@ -1002,7 +985,7 @@ const CanvasTest : React.FC = observer(() => {
               { x: bounds.minX, y: bounds.maxY },
               `${height} mm`,
               -1,
-              0 // Offset left
+              0, // Offset left
             );
           });
         }
@@ -1018,7 +1001,7 @@ const CanvasTest : React.FC = observer(() => {
               { x: bounds.maxX, y: bounds.minY },
               `${width} mm`,
               0,
-              -10 // Offset upward
+              -10, // Offset upward
             );
             // Height dimension (offset left)
             drawDimensionLine(
@@ -1027,7 +1010,7 @@ const CanvasTest : React.FC = observer(() => {
               { x: bounds.minX, y: bounds.maxY },
               `${height} mm`,
               -1,
-              0 // Offset left
+              0, // Offset left
             );
           });
         }
@@ -1046,7 +1029,7 @@ const CanvasTest : React.FC = observer(() => {
               { x: bounds.maxX, y: bounds.minY },
               `${width} mm`,
               0,
-              -1 // Offset upward
+              -1, // Offset upward
             );
             // Height dimension (offset left)
             drawDimensionLine(
@@ -1055,7 +1038,7 @@ const CanvasTest : React.FC = observer(() => {
               { x: bounds.minX, y: bounds.maxY },
               `${height} mm`,
               -1,
-              0 // Offset left
+              0, // Offset left
             );
           });
         }
@@ -1084,11 +1067,11 @@ const CanvasTest : React.FC = observer(() => {
                     p2,
                     `${distance} mm`,
                     perpX,
-                    perpY
+                    perpY,
                   );
                 }
               }
-            }
+            },
           );
         }
       }
@@ -1159,11 +1142,11 @@ const CanvasTest : React.FC = observer(() => {
                     p2,
                     `${distance} mm`,
                     perpX,
-                    perpY
+                    perpY,
                   );
                 }
               }
-            }
+            },
           );
         }
       }

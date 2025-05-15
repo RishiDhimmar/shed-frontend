@@ -5,6 +5,7 @@ import { Line, Text, Group } from "react-konva";
 import { observer } from "mobx-react-lite";
 import Dimension from "./Dimentions";
 import { getCenterPoints } from "../../utils/PolygonUtils";
+import { Shed2DConfig } from "../../Constants";
 
 const BasePlate = observer(() => {
   const [dragPositions, setDragPositions] = useState({});
@@ -59,13 +60,13 @@ const BasePlate = observer(() => {
         if (hits.left && hits.right) {
           length = Math.sqrt(
             (hits.right.hitPoint.x - hits.left.hitPoint.x) ** 2 +
-              (hits.right.hitPoint.y - hits.left.hitPoint.y) ** 2
+              (hits.right.hitPoint.y - hits.left.hitPoint.y) ** 2,
           ).toFixed(0);
           lengthPoints = [hits.left.hitPoint, hits.right.hitPoint];
         } else if (hits.top && hits.right) {
           length = Math.sqrt(
             (hits.right.hitPoint.x - hits.top.hitPoint.x) ** 2 +
-              (hits.right.hitPoint.y - hits.top.hitPoint.y) ** 2
+              (hits.right.hitPoint.y - hits.top.hitPoint.y) ** 2,
           ).toFixed(0);
           lengthPoints = [hits.top.hitPoint, hits.right.hitPoint];
         }
@@ -74,13 +75,13 @@ const BasePlate = observer(() => {
         if (hits.top && hits.bottom) {
           height = Math.sqrt(
             (hits.bottom.hitPoint.x - hits.top.hitPoint.x) ** 2 +
-              (hits.bottom.hitPoint.y - hits.top.hitPoint.y) ** 2
+              (hits.bottom.hitPoint.y - hits.top.hitPoint.y) ** 2,
           ).toFixed(0);
           heightPoints = [hits.top.hitPoint, hits.bottom.hitPoint];
         } else if (hits.left && hits.bottom) {
           height = Math.sqrt(
             (hits.bottom.hitPoint.x - hits.left.hitPoint.x) ** 2 +
-              (hits.bottom.hitPoint.y - hits.left.hitPoint.y) ** 2
+              (hits.bottom.hitPoint.y - hits.left.hitPoint.y) ** 2,
           ).toFixed(0);
           heightPoints = [hits.left.hitPoint, hits.bottom.hitPoint];
         }
@@ -111,12 +112,12 @@ const BasePlate = observer(() => {
 
       // Offsets based on hit direction
       const lengthOffset = baseplate.hits?.find(
-        (hit) => hit.hitDirection === "top"
+        (hit) => hit.hitDirection === "top",
       )
         ? -1500
         : 1500;
       const heightOffset = baseplate.hits?.find(
-        (hit) => hit.hitDirection === "left"
+        (hit) => hit.hitDirection === "left",
       )
         ? -1500
         : 1500;
@@ -128,7 +129,7 @@ const BasePlate = observer(() => {
             stroke={
               uiStore.currentComponent === "baseplate" ? "#black" : "#00FF00"
             }
-            strokeWidth={5}
+            strokeWidth={Shed2DConfig.strokeWidth.BASE_PLATES}
             fill={uiStore.currentComponent === "baseplate" ? "#00FF00" : ""}
             opacity={uiStore.currentComponent === "baseplate" ? 0.5 : 1}
             closed
@@ -175,10 +176,8 @@ const BasePlate = observer(() => {
 
   return (
     <>
-      
-
       {baseplateStore.groups.map((group) =>
-        renderBaseplates(group.basePlates, group.label)
+        renderBaseplates(group.basePlates, group.label),
       )}
 
       {baseplateStore.sortedCenterPoints &&
@@ -198,14 +197,14 @@ const BasePlate = observer(() => {
                 baseplateStore.sortedCenterPoints[
                   (index + 1) % baseplateStore.sortedCenterPoints.length
                 ].x - baseplateStore.sortedCenterPoints[index].x,
-                2
+                2,
               ) +
                 Math.pow(
                   baseplateStore.sortedCenterPoints[
                     (index + 1) % baseplateStore.sortedCenterPoints.length
                   ].y - baseplateStore.sortedCenterPoints[index].y,
-                  2
-                )
+                  2,
+                ),
             ).toFixed(0)}
             isDraggable={false}
           />
@@ -239,27 +238,26 @@ const BasePlate = observer(() => {
                   getCenterPoints(baseplate.points).y,
                 ]
               : baseplate.hits[0].direction === "+x"
-              ? [
-                  getCenterPoints(baseplate.points).x,
-                  getCenterPoints(baseplate.points).y,
-                  getCenterPoints(baseplate.points).x - 20000,
-                  getCenterPoints(baseplate.points).y,
-                ]
-              : baseplate.hits[0].direction === "-y"
-              ? [
-                  getCenterPoints(baseplate.points).x,
-                  getCenterPoints(baseplate.points).y,
-                  getCenterPoints(baseplate.points).x,
-                  getCenterPoints(baseplate.points).y + 20000,
-                ]
-              : [
-                  getCenterPoints(baseplate.points).x,
-                  getCenterPoints(baseplate.points).y,
-                  getCenterPoints(baseplate.points).x,
-                  getCenterPoints(baseplate.points).y - 20000,
-                ];
+                ? [
+                    getCenterPoints(baseplate.points).x,
+                    getCenterPoints(baseplate.points).y,
+                    getCenterPoints(baseplate.points).x - 20000,
+                    getCenterPoints(baseplate.points).y,
+                  ]
+                : baseplate.hits[0].direction === "-y"
+                  ? [
+                      getCenterPoints(baseplate.points).x,
+                      getCenterPoints(baseplate.points).y,
+                      getCenterPoints(baseplate.points).x,
+                      getCenterPoints(baseplate.points).y + 20000,
+                    ]
+                  : [
+                      getCenterPoints(baseplate.points).x,
+                      getCenterPoints(baseplate.points).y,
+                      getCenterPoints(baseplate.points).x,
+                      getCenterPoints(baseplate.points).y - 20000,
+                    ];
 
-          console.log(baseplate.hits[0].direction);
           return (
             <Line
               key={`edge-${index}`}

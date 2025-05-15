@@ -10,13 +10,12 @@ const CircleDrawer = observer(({ circles }) => {
       {uiStore.visibility.circles &&
         circles.map((circle, i) => (
           <>
-            {console.log(getColorByNumber(circle.color))}
             <Circle
               key={`circle-${i}`}
               x={circle.center.x}
               y={circle.center.y}
               radius={circle.radius}
-              stroke={ "black"}
+              stroke={"black"}
               strokeWidth={5}
               listening={false}
             />

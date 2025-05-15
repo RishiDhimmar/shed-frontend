@@ -111,8 +111,6 @@ class FoundationStore {
     foundation.group = groupName;
     group.foundations.push(foundation);
 
-    console.log("After adding column:", toJS(this.groups));
-
     // Regenerate inputs and polygons after state change
     this.generateFoundations(this.groups);
   }
@@ -121,10 +119,10 @@ class FoundationStore {
     const group = this.groups.find((g) => g.name === groupName);
     if (group) {
       group.foundations = group.foundations.filter(
-        (b) => b.label !== foundationName
+        (b) => b.label !== foundationName,
       );
       const foundation = this.foundations.find(
-        (c) => c.label === foundationName
+        (c) => c.label === foundationName,
       );
       if (foundation) {
         foundation.group = null;
@@ -134,7 +132,6 @@ class FoundationStore {
   }
 
   deleteGroup(groupName: string) {
-    console.log(groupName);
     this.groups = this.groups.filter((g) => g.name !== groupName);
   }
 
@@ -159,14 +156,12 @@ class FoundationStore {
           ];
       });
     });
-
- 
   }
 
   setParameter(
     type: FoundationType,
     key: keyof (typeof this.values)["corner"],
-    value: number
+    value: number,
   ) {
     // Store the previous value before making changes
     this.previousValues[type][key] = this.values[type][key];
@@ -257,7 +252,6 @@ class FoundationStore {
   }
 
   generateFoundationInputs(groups = columnStore.polygons) {
-    console.log(columnStore.polygons);
     groups.forEach((group) => {
       this.foundationInputs[group.name] = {
         "+x": 500,
@@ -277,7 +271,7 @@ class FoundationStore {
           75,
           75,
           75,
-          75
+          75,
         );
 
         const outerFoundationPoints = getBiggerRectangleAtOffset(
@@ -285,7 +279,7 @@ class FoundationStore {
           this.foundationInputs[column.group]["+x"],
           this.foundationInputs[column.group]["-x"],
           this.foundationInputs[column.group]["+y"],
-          this.foundationInputs[column.group]["-y"]
+          this.foundationInputs[column.group]["-y"],
         );
 
         const ppcPoints = getBiggerRectangleAtOffset(
@@ -293,7 +287,7 @@ class FoundationStore {
           this.foundationInputs[column.group]["+x"] + 150,
           this.foundationInputs[column.group]["-x"] + 150,
           this.foundationInputs[column.group]["+y"] + 150,
-          this.foundationInputs[column.group]["-y"] + 150
+          this.foundationInputs[column.group]["-y"] + 150,
         );
 
         return {
@@ -328,7 +322,7 @@ class FoundationStore {
           75,
           75,
           75,
-          75
+          75,
         );
 
         const outerFoundationPoints = getBiggerRectangleAtOffset(
@@ -336,7 +330,7 @@ class FoundationStore {
           this.foundationInputs[column.group]["+x"],
           this.foundationInputs[column.group]["-x"],
           this.foundationInputs[column.group]["+y"],
-          this.foundationInputs[column.group]["-y"]
+          this.foundationInputs[column.group]["-y"],
         );
 
         const ppcPoints = getBiggerRectangleAtOffset(
@@ -344,7 +338,7 @@ class FoundationStore {
           this.foundationInputs[column.group]["+x"] + 150,
           this.foundationInputs[column.group]["-x"] + 150,
           this.foundationInputs[column.group]["+y"] + 150,
-          this.foundationInputs[column.group]["-y"] + 150
+          this.foundationInputs[column.group]["-y"] + 150,
         );
 
         return {

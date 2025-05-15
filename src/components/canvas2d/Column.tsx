@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { Line, Text, Group } from "react-konva";
@@ -65,7 +64,7 @@ const Column = observer(() => {
           if (hits.left && hits.right) {
             length = Math.sqrt(
               Math.pow(hits.right.hitPoint.x - hits.left.hitPoint.x, 2) +
-              Math.pow(hits.right.hitPoint.y - hits.left.hitPoint.y, 2)
+                Math.pow(hits.right.hitPoint.y - hits.left.hitPoint.y, 2),
             ).toFixed(0);
             lengthPoints = [hits.left.hitPoint, hits.right.hitPoint];
           }
@@ -73,7 +72,7 @@ const Column = observer(() => {
           if (hits.top && hits.bottom) {
             height = Math.sqrt(
               Math.pow(hits.bottom.hitPoint.x - hits.top.hitPoint.x, 2) +
-              Math.pow(hits.bottom.hitPoint.y - hits.top.hitPoint.y, 2)
+                Math.pow(hits.bottom.hitPoint.y - hits.top.hitPoint.y, 2),
             ).toFixed(0);
             heightPoints = [hits.top.hitPoint, hits.bottom.hitPoint];
           }
@@ -99,14 +98,24 @@ const Column = observer(() => {
           }));
         };
 
-        const lengthOffset = column.hits?.find((hit) => hit.hitDirection === "top") ? -1500 : 1500;
-        const heightOffset = column.hits?.find((hit) => hit.hitDirection === "left") ? -1500 : 1500;
+        const lengthOffset = column.hits?.find(
+          (hit) => hit.hitDirection === "top",
+        )
+          ? -1500
+          : 1500;
+        const heightOffset = column.hits?.find(
+          (hit) => hit.hitDirection === "left",
+        )
+          ? -1500
+          : 1500;
 
         return (
           <Group key={columnKey}>
             <Line
               points={column.points.flatMap((p) => [p.x, p.y])}
-              stroke={uiStore.currentComponent === "foundation" ? "black" : "#6363E1"}
+              stroke={
+                uiStore.currentComponent === "foundation" ? "black" : "#6363E1"
+              }
               strokeWidth={5}
               fill={uiStore.currentComponent === "column" ? "blue" : ""}
               opacity={uiStore.currentComponent === "column" ? 0.5 : 1}
@@ -149,7 +158,7 @@ const Column = observer(() => {
             )}
           </Group>
         );
-      })
+      }),
     );
   };
 

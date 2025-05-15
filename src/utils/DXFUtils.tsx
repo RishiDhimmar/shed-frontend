@@ -143,7 +143,7 @@ export const extractPolygonsFromDXF = (dxfData) => {
     if (points.length < 3) return points;
     const center = points.reduce(
       (acc, p) => ({ x: acc.x + p.x, y: acc.y + p.y }),
-      { x: 0, y: 0 }
+      { x: 0, y: 0 },
     );
     center.x /= points.length;
     center.y /= points.length;
@@ -890,7 +890,7 @@ export const extractAllFromDXF = (dxfData) => {
 
     if (xScale === 0 || yScale === 0 || zScale === 0) {
       console.warn(
-        "Zero scale detected in transformation, using default scale"
+        "Zero scale detected in transformation, using default scale",
       );
       transform.xScale = 1;
       transform.yScale = 1;
@@ -900,7 +900,7 @@ export const extractAllFromDXF = (dxfData) => {
     const T_b = createTranslationMatrix(
       -basePoint.x,
       -basePoint.y,
-      -basePoint.z
+      -basePoint.z,
     );
     const S = createScalingMatrix(xScale, yScale, zScale);
     const R = createRotationMatrix(extrusion, (rotation * Math.PI) / 180);
@@ -959,10 +959,10 @@ export const extractAllFromDXF = (dxfData) => {
                 x: v.x || 0,
                 y: v.y || 0,
                 z: v.z || 0,
-              })
+              }),
             );
             segments.push(
-              ...extractSegmentsFromVertices(transformedVertices, isClosed)
+              ...extractSegmentsFromVertices(transformedVertices, isClosed),
             );
             break;
 
@@ -1083,7 +1083,7 @@ export const extractAllFromDXF = (dxfData) => {
                 x: p.x || 0,
                 y: p.y || 0,
                 z: p.z || 0,
-              })
+              }),
             );
             curves.push({
               type: "SPLINE",
@@ -1107,7 +1107,7 @@ export const extractAllFromDXF = (dxfData) => {
                       x: v.x || 0,
                       y: v.y || 0,
                       z: v.z || 0,
-                    })
+                    }),
                   ),
                   center: edge.center
                     ? transformPoint(accumulatedMatrix, {
@@ -1158,7 +1158,7 @@ export const extractAllFromDXF = (dxfData) => {
                   x: v.x || 0,
                   y: v.y || 0,
                   z: v.z || 0,
-                })
+                }),
               ),
               layer: entity.layer,
               color: entity.color,
@@ -1174,7 +1174,7 @@ export const extractAllFromDXF = (dxfData) => {
                 x: v.x || 0,
                 y: v.y || 0,
                 z: v.z || 0,
-              })
+              }),
             );
             segments.push(...extractSegmentsFromVertices(solidVertices, true));
             break;
@@ -1185,7 +1185,7 @@ export const extractAllFromDXF = (dxfData) => {
                 x: v.x || 0,
                 y: v.y || 0,
                 z: v.z || 0,
-              })
+              }),
             );
             segments.push(...extractSegmentsFromVertices(faceVertices, true));
             break;
@@ -1256,7 +1256,7 @@ export const extractAllFromDXF = (dxfData) => {
               const localMatrix = getTransformMatrix(localTransform);
               const totalMatrix = multiplyMatrices(
                 accumulatedMatrix,
-                localMatrix
+                localMatrix,
               );
               extractEntities(block.entities || [], totalMatrix, space);
             } else {
@@ -1382,7 +1382,7 @@ export const extractAllFromDXF = (dxfData) => {
     if (points.length < 3) return points;
     const center = points.reduce(
       (acc, p) => ({ x: acc.x + p.x, y: acc.y + p.y }),
-      { x: 0, y: 0 }
+      { x: 0, y: 0 },
     );
     center.x /= points.length;
     center.y /= points.length;

@@ -69,7 +69,6 @@
 
 // export default LayerEntitiesVisualizer;
 
-
 import { observer } from "mobx-react-lite";
 import layerStore from "../../../stores/LayerStore";
 import LineVisualizer from "../Helpers/LineVisualizerProps";
@@ -89,20 +88,24 @@ const LayerEntitiesVisualizer = observer(() => {
       {layerStore.entities.map((entity, index) => {
         // LINE
         if (entity.type === "LINE" && entity.vertices?.length === 2) {
-          const points = pointArrayToArrayLowerCase(entity.vertices).map(scalePoint);
+          const points = pointArrayToArrayLowerCase(entity.vertices).map(
+            scalePoint,
+          );
           return (
             <LineVisualizer
               key={`line-${index}`}
               points={points}
               color="blue"
-            //   dashed={false}
+              //   dashed={false}
             />
           );
         }
 
         // LWPOLYLINE
         if (entity.type === "LWPOLYLINE" && entity.vertices?.length > 1) {
-          const points = pointArrayToArrayLowerCase(entity.vertices).map(scalePoint);
+          const points = pointArrayToArrayLowerCase(entity.vertices).map(
+            scalePoint,
+          );
           const segments = [];
 
           for (let i = 0; i < points.length - 1; i++) {
@@ -112,7 +115,7 @@ const LayerEntitiesVisualizer = observer(() => {
                 points={[points[i], points[i + 1]]}
                 color="green"
                 // dashed={false}
-              />
+              />,
             );
           }
 
@@ -123,7 +126,7 @@ const LayerEntitiesVisualizer = observer(() => {
                 points={[points[points.length - 1], points[0]]}
                 color="green"
                 // dashed={false}
-              />
+              />,
             );
           }
 
@@ -140,7 +143,11 @@ const LayerEntitiesVisualizer = observer(() => {
 
           for (let i = 0; i <= steps; i++) {
             const angle = (i / steps) * Math.PI * 2;
-            points.push([cx + r * Math.cos(angle), cy + r * Math.sin(angle), 0]);
+            points.push([
+              cx + r * Math.cos(angle),
+              cy + r * Math.sin(angle),
+              0,
+            ]);
           }
 
           const segments = [];
@@ -151,7 +158,7 @@ const LayerEntitiesVisualizer = observer(() => {
                 points={[points[i], points[i + 1]]}
                 color="orange"
                 // dashed={false}
-              />
+              />,
             );
           }
 
@@ -170,7 +177,11 @@ const LayerEntitiesVisualizer = observer(() => {
 
           for (let i = 0; i <= steps; i++) {
             const angle = start + (i / steps) * (end - start);
-            points.push([cx + r * Math.cos(angle), cy + r * Math.sin(angle), 0]);
+            points.push([
+              cx + r * Math.cos(angle),
+              cy + r * Math.sin(angle),
+              0,
+            ]);
           }
 
           const segments = [];
@@ -181,7 +192,7 @@ const LayerEntitiesVisualizer = observer(() => {
                 points={[points[i], points[i + 1]]}
                 color="purple"
                 // dashed={false}
-              />
+              />,
             );
           }
 
@@ -201,7 +212,7 @@ const LayerEntitiesVisualizer = observer(() => {
                 [x + size, y + size, 0],
               ]}
               color="red"
-            //   dashed={false}
+              //   dashed={false}
             />
           );
         }

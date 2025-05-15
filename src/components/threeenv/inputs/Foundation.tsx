@@ -72,7 +72,7 @@ const Foundation = observer(() => {
                     onClick={() =>
                       foundationStore.removeFoundationFromGroup(
                         group.name,
-                        bs.label
+                        bs.label,
                       )
                     }
                   >
@@ -114,7 +114,7 @@ const Foundation = observer(() => {
                   if (selectedId) {
                     foundationStore.addFoundationToGroup(
                       group.name,
-                      selectedId
+                      selectedId,
                     );
                     handleFoundationChange(group.name, "");
                   }

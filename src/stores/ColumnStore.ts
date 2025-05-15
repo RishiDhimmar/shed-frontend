@@ -75,7 +75,7 @@ export class ColumnStore {
         baseplateStore.basePlates.slice(),
         wallStore.externalWallPoints.slice(),
       ],
-      () => this.generateColumns()
+      () => this.generateColumns(),
     );
   }
   modifyGroups(groups: any[]) {
@@ -104,8 +104,6 @@ export class ColumnStore {
     column.group = groupName;
     group.columns.push(column);
 
-    console.log("After adding column:", toJS(this.polygons));
-
     // Regenerate inputs and polygons after state change
     columnStore.generateColumnsInputs(this.polygons);
     columnStore.updatePolygons(this.polygons);
@@ -115,22 +113,21 @@ export class ColumnStore {
   }
 
   removeColumnFromGroup(groupName: string, columnName: string) {
-  const group = this.polygons.find((g) => g.name === groupName);
-  if (group) {
-    group.columns = group.columns.filter((b) => b.label !== columnName);
+    const group = this.polygons.find((g) => g.name === groupName);
+    if (group) {
+      group.columns = group.columns.filter((b) => b.label !== columnName);
 
-    // Also update the column's group property if it's tracked
-    const column = columnStore.columns.find((c) => c.label === columnName);
-    if (column) {
-      column.group = null;
+      // Also update the column's group property if it's tracked
+      const column = columnStore.columns.find((c) => c.label === columnName);
+      if (column) {
+        column.group = null;
+      }
+      foundationStore.generateFoundationInputs();
+      foundationStore.generateFoundations(this.polygons);
     }
-    foundationStore.generateFoundationInputs();
-    foundationStore.generateFoundations(this.polygons);
   }
-}
 
   deleteGroup(groupName: string) {
-    console.log(groupName);
     this.polygons = this.polygons.filter((g) => g.name !== groupName);
 
     foundationStore.generateFoundationInputs();
@@ -342,7 +339,6 @@ export class ColumnStore {
     });
   }
   setColumnInputs(newColumnInputs) {
-    console.log(toJS(newColumnInputs));
     runInAction(() => {
       this.columnInputs = newColumnInputs;
       uiStore.setModified(true);
@@ -366,7 +362,7 @@ export class ColumnStore {
   private checkPrerequisites() {
     const platesByType = this.getPlatesByType();
     const hasRequiredPlates = Object.values(platesByType).some(
-      (plates) => plates.length > 0
+      (plates) => plates.length > 0,
     );
     const hasWallPoints = wallStore.externalWallPoints.length >= 4;
 
@@ -378,7 +374,7 @@ export class ColumnStore {
     cornerIndex: number,
     wallPoints: number[][],
     dimensions: { width: number; length: number },
-    wall: WallType | null
+    wall: WallType | null,
   ): Column {
     const { width, length } = dimensions;
 
@@ -451,7 +447,7 @@ export class ColumnStore {
   private createHorizontalColumn(
     plate: any,
     plateConfig: any,
-    wallThickness: number
+    wallThickness: number,
   ): Column {
     const { x, y, wall } = plate;
 
@@ -553,7 +549,7 @@ export class ColumnStore {
   private createVerticalColumn(
     plate: any,
     plateConfig: any,
-    wallThickness: number
+    wallThickness: number,
   ): Column {
     const { x, y, wall } = plate;
 
@@ -644,7 +640,7 @@ export class ColumnStore {
   // Generate corner columns
   private generateCornerColumns(
     cornerPlates: any[],
-    wallPoints: number[][]
+    wallPoints: number[][],
   ): Column[] {
     if (cornerPlates.length === 0) return [];
     const tempWalls: WallType[] = [
@@ -679,8 +675,8 @@ export class ColumnStore {
           width: columnWidth,
           length: columnLength,
         },
-        tempWalls[index]
-      )
+        tempWalls[index],
+      ),
     );
   }
 
@@ -705,7 +701,7 @@ export class ColumnStore {
     if (platesByType.corner.length > 0) {
       const cornerColumns = this.generateCornerColumns(
         platesByType.corner,
-        wallPoints
+        wallPoints,
       );
 
       // Check for overlap among corner columns
@@ -736,7 +732,7 @@ export class ColumnStore {
         const column = this.createHorizontalColumn(
           plate,
           plateConfig,
-          wallThickness
+          wallThickness,
         );
         horizontalColumns.push(column);
       });
@@ -784,7 +780,7 @@ export class ColumnStore {
         const column = this.createVerticalColumn(
           plate,
           plateConfig,
-          wallThickness
+          wallThickness,
         );
         verticalColumns.push(column);
       });
@@ -909,36 +905,36 @@ export class ColumnStore {
 
     // Corner columns
     const topLeftColumn = this.columns.find(
-      (column) => column.wall === "top-left"
+      (column) => column.wall === "top-left",
     );
     const topRightColumn = this.columns.find(
-      (column) => column.wall === "top-right"
+      (column) => column.wall === "top-right",
     );
     const bottomLeftColumn = this.columns.find(
-      (column) => column.wall === "bottom-left"
+      (column) => column.wall === "bottom-left",
     );
     const bottomRightColumn = this.columns.find(
-      (column) => column.wall === "bottom-right"
+      (column) => column.wall === "bottom-right",
     );
 
     // Wall columns
     const leftWallColumns = this.columns.filter(
-      (column) => column.wall === "left"
+      (column) => column.wall === "left",
     );
     const rightWallColumns = this.columns.filter(
-      (column) => column.wall === "right"
+      (column) => column.wall === "right",
     );
     const topWallColumns = this.columns.filter(
-      (column) => column.wall === "top"
+      (column) => column.wall === "top",
     );
     const bottomWallColumns = this.columns.filter(
-      (column) => column.wall === "bottom"
+      (column) => column.wall === "bottom",
     );
 
     // Use Math.floor to get predictable indices
     const leftUpperColumns = leftWallColumns.slice(
       0,
-      leftWallColumns.length / 2 + 1
+      leftWallColumns.length / 2 + 1,
     );
     const leftLowerColumns = leftWallColumns
       .slice(leftWallColumns.length / 2 + 1)
@@ -948,7 +944,7 @@ export class ColumnStore {
       .slice(0, rightWallColumns.length / 2 + 1)
       .reverse();
     const rightLowerColumns = rightWallColumns.slice(
-      rightWallColumns.length / 2 + 1
+      rightWallColumns.length / 2 + 1,
     );
 
     const topLeftColumns = topWallColumns
@@ -958,7 +954,7 @@ export class ColumnStore {
 
     const bottomLeftColumns = bottomWallColumns.slice(
       0,
-      bottomWallColumns.length / 2 + 1
+      bottomWallColumns.length / 2 + 1,
     );
     const bottomRightColumns = bottomWallColumns
       .slice(bottomWallColumns.length / 2 + 1)
@@ -995,9 +991,8 @@ export class ColumnStore {
     points: Point[],
     hits: any,
     type: string,
-    epsilon: number = 10
+    epsilon: number = 10,
   ) {
-    console.log(type);
     let clonedPoints = points.map((p) => ({ ...p }));
     let uniquePoints = this.removeDuplicatesWithEpsilon(clonedPoints, epsilon);
     uniquePoints = sortPolygonPointsClockwise(uniquePoints);
@@ -1011,7 +1006,7 @@ export class ColumnStore {
         uniquePoints[2].x -= this.columnInputs[type]["-x"];
 
         if (hits.length === 1) {
-          uniquePoints[0].y -= this.columnInputs[type]["-y"] ;
+          uniquePoints[0].y -= this.columnInputs[type]["-y"];
           uniquePoints[3].y += this.columnInputs[type]["+y"];
           uniquePoints[1].y -= this.columnInputs[type]["-y"];
           uniquePoints[2].y += this.columnInputs[type]["+y"];
@@ -1130,13 +1125,13 @@ export class ColumnStore {
     });
 
     this.polygons = groupedPolygons;
+    this.colums = groupedPolygons.flatMap((group) => group.columns);
   }
 
   generateColumnPolygons(groups?: any = baseplateStore.groups) {
     if (Object.keys(this.columnInputs).length === 0) {
       this.generateColumnsInputs(baseplateStore.groups);
     }
-    console.log(groups);
 
     const groupedPolygons = groups.map((group) => {
       const temp = group.basePlates ? group.basePlates : group.columns;

@@ -96,10 +96,10 @@ const ColumnVisualizer = observer(() => {
 
         // Dynamically calculate lengths from points
         const horizontalLength = Math.sqrt(
-          Math.pow(p1[0] - p0[0], 2) + Math.pow(p1[1] - p0[1], 2)
+          Math.pow(p1[0] - p0[0], 2) + Math.pow(p1[1] - p0[1], 2),
         );
         const verticalLength = Math.sqrt(
-          Math.pow(p2[0] - p1[0], 2) + Math.pow(p2[1] - p1[1], 2)
+          Math.pow(p2[0] - p1[0], 2) + Math.pow(p2[1] - p1[1], 2),
         );
 
         let horizontalLineDirection: "+x" | "-x" | "+y" | "-y" = "+y";
@@ -185,18 +185,20 @@ const ColumnVisualizer = observer(() => {
         return (
           <>
             <LineVisualizer points={column.points} color="#6363E1" />
-  
+
             {uiStore.currentComponent === "column" && (
               <>
-              { column.label ? (
-                <TextWrapper
-                  text={column.label}
-                  position={column.labelPosition as [number, number, number]}
-                  color="#6363E1"
-                  rotation={0}
-                  fontSize={0.5}
+                {column.label ? (
+                  <TextWrapper
+                    text={column.label}
+                    position={column.labelPosition as [number, number, number]}
+                    color="#6363E1"
+                    rotation={0}
+                    fontSize={0.5}
                   />
-              ): <></>}
+                ) : (
+                  <></>
+                )}
                 <DimensionLine
                   startPoint={p0 as [number, number, number]}
                   endPoint={p1 as [number, number, number]}

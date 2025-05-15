@@ -18,23 +18,22 @@ export const UploadJson = () => {
       const text = await file.text(); // Read file content as text
       const jsonData = JSON.parse(text); // Parse text to JSON
 
-
       basePlotStore.setLength(jsonData.basePlot.length);
       basePlotStore.setWidth(jsonData.basePlot.width);
       basePlotStore.setPoints(jsonData.basePlot.points);
 
       wallStore.setWallPoints(
         jsonData.wall.externalWallPoints,
-        jsonData.wall.internalWallPoints
+        jsonData.wall.internalWallPoints,
       );
 
       baseplateStore.setBasePlates(jsonData.baseplate.basePlates);
       baseplateStore.setBasePlateConfig(jsonData.baseplate.config);
       baseplateStore.setIdealHorizontalDistance(
-        jsonData.baseplate.idealHorizontalDistance
+        jsonData.baseplate.idealHorizontalDistance,
       );
       baseplateStore.setIdealVerticalDistance(
-        jsonData.baseplat.e.idealVerticalDistance
+        jsonData.baseplat.e.idealVerticalDistance,
       );
 
       columnStore.setColumns(jsonData.column.columns);
@@ -49,8 +48,6 @@ export const UploadJson = () => {
 
       mullionColumnStore.mullionPositions =
         jsonData.mullionColumn.mullionPositions;
-
-      console.log("Parsed JSON Data:", jsonData); // Log data
     } catch (error) {
       console.error("Error reading JSON file:", error);
     }

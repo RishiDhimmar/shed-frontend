@@ -51,17 +51,16 @@ const LineVisualizer = observer(
   }: LineVisualizerProps) => {
     if (!points || points.length === 0) return null;
     const linePoints = closed ? [...points, points[0]] : points;
-      
+
     return (
       <Line
         points={linePoints as [number, number, number][]}
         color={color}
         lineWidth={lineWidth}
         dashed={isDashed}
-        
       />
     );
-  }
+  },
 );
 
 export default LineVisualizer;

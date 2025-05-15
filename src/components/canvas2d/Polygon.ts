@@ -79,7 +79,6 @@ export function traceAllPolygonsWithRays(startPoly, otherPolys) {
   const DIMENSION_TOLERANCE = 40;
 
   const getPolygonKey = (poly) => {
-    console.log(poly);
     return;
     poly.map((p) => `${p.x.toFixed(4)}:${p.y.toFixed(4)}`).join("-");
   };
@@ -101,7 +100,7 @@ export function traceAllPolygonsWithRays(startPoly, otherPolys) {
     const filteredIntersectingPolys = filterPolygonsByDimension(
       intersectingPolys,
       startPoly,
-      DIMENSION_TOLERANCE
+      DIMENSION_TOLERANCE,
     );
 
     let newPolygonsDiscovered = false;
@@ -171,7 +170,7 @@ export function getBounds(polygon) {
 export function filterPolygonsByDimension(
   polygons,
   referencePolygon,
-  tolerance
+  tolerance,
 ) {
   if (polygons.length === 0 || !referencePolygon) return [];
 
@@ -354,7 +353,7 @@ function isLeft(p1, p2, point) {
 /**
  * Finds the closest polygon to a point that is smaller than a reference polygon.
  * If multiple polygons are at similar distances, selects the largest among them.
- * 
+ *
  * @param {Object} point - Point {x, y} to find closest polygon to
  * @param {Array} polygons - Array of polygons, each an array of points {x, y}
  * @param {Array} referencePolygon - The polygon to compare sizes against
@@ -363,61 +362,67 @@ function isLeft(p1, p2, point) {
  * @param {number} options.areaTolerance - Tolerance for area comparison to consider polygons as same size (default: 0)
  * @returns {Object} Result containing closest smaller polygon and distance
  */
-export function findClosestSmallerPolygon(point, polygons, referencePolygon, options = {}) {
+export function findClosestSmallerPolygon(
+  point,
+  polygons,
+  referencePolygon,
+  options = {},
+) {
   if (!polygons || polygons.length === 0 || !referencePolygon) {
     return { polygon: null, distance: Infinity };
   }
 
-  const { distanceTolerance = 10000000000, areaTolerance = 10000000000 } = options;
+  const { distanceTolerance = 10000000000, areaTolerance = 10000000000 } =
+    options;
   const referenceArea = calculatePolygonArea(referencePolygon);
-  
+
   // Filter polygons smaller than the reference polygon
-  const smallerPolygons = polygons.filter(polygon => {
+  const smallerPolygons = polygons.filter((polygon) => {
     const area = calculatePolygonArea(polygon);
     return area < referenceArea - areaTolerance;
   });
-  
+
   if (smallerPolygons.length === 0) {
     return { polygon: null, distance: Infinity };
   }
-  
+
   // Calculate distance and area for each smaller polygon
-  const polygonData = smallerPolygons.map(polygon => {
+  const polygonData = smallerPolygons.map((polygon) => {
     const closestPoint = findClosestPointOnPolygon(point, polygon);
     const area = calculatePolygonArea(polygon);
-    
+
     return {
       polygon,
       distance: closestPoint.distance,
-      area
+      area,
     };
   });
-  
+
   // Sort by distance (ascending)
   polygonData.sort((a, b) => a.distance - b.distance);
-  
+
   // Get the closest distance
   const minDistance = polygonData[0].distance;
-  
+
   // Filter polygons that are within tolerance of the closest distance
-  const closePolygons = polygonData.filter(data => 
-    data.distance <= minDistance + distanceTolerance
+  const closePolygons = polygonData.filter(
+    (data) => data.distance <= minDistance + distanceTolerance,
   );
-  
+
   // If only one polygon is close, return it
   if (closePolygons.length === 1) {
     return {
       polygon: closePolygons[0].polygon,
-      distance: closePolygons[0].distance
+      distance: closePolygons[0].distance,
     };
   }
-  
+
   // If multiple polygons are close, find the largest one
   closePolygons.sort((a, b) => b.area - a.area); // Sort by area (descending)
-  
+
   return {
     polygon: closePolygons[0].polygon,
-    distance: closePolygons[0].distance
+    distance: closePolygons[0].distance,
   };
 }
 
@@ -460,20 +465,20 @@ export function findClosestPointOnPolygon(point, polygon) {
  */
 export function projectPointToSegment(p, v, w) {
   const l2 = distanceBetPoints(v, w) ** 2;
-  
+
   // If segment is a point, return it
   if (l2 === 0) return v;
-  
+
   // Calculate projection parameter
   const t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
-  
+
   // Clamp to segment
   const clampedT = Math.max(0, Math.min(1, t));
-  
+
   // Calculate projection point
   return {
     x: v.x + clampedT * (w.x - v.x),
-    y: v.y + clampedT * (w.y - v.y)
+    y: v.y + clampedT * (w.y - v.y),
   };
 }
 
@@ -494,15 +499,15 @@ export function distanceBetPoints(p1, p2) {
  */
 export function calculatePolygonArea(polygon) {
   if (!polygon || polygon.length < 3) return 0;
-  
+
   let area = 0;
-  
+
   for (let i = 0; i < polygon.length; i++) {
     const j = (i + 1) % polygon.length;
     area += polygon[i].x * polygon[j].y;
     area -= polygon[j].x * polygon[i].y;
   }
-  
+
   return Math.abs(area / 2);
 }
 
@@ -513,14 +518,18 @@ export function calculatePolygonArea(polygon) {
  * @param {number} areaTolerance - Tolerance for area comparison (default: 0)
  * @returns {Array} Array of polygons smaller than the reference polygon
  */
-export function findSmallerPolygons(polygons, referencePolygon, areaTolerance = 0) {
+export function findSmallerPolygons(
+  polygons,
+  referencePolygon,
+  areaTolerance = 0,
+) {
   if (!polygons || polygons.length === 0 || !referencePolygon) {
     return [];
   }
-  
+
   const referenceArea = calculatePolygonArea(referencePolygon);
-  
-  return polygons.filter(polygon => {
+
+  return polygons.filter((polygon) => {
     const area = calculatePolygonArea(polygon);
     return area < referenceArea - areaTolerance;
   });
@@ -534,21 +543,31 @@ export function findSmallerPolygons(polygons, referencePolygon, areaTolerance = 
  * @param {Object} options - Optional parameters
  * @returns {Object} Detailed result with polygon, distance, areas, and size ratio
  */
-export function findClosestSmallerPolygonDetailed(point, polygons, referencePolygon, options = {}) {
-  const result = findClosestSmallerPolygon(point, polygons, referencePolygon, options);
-  
+export function findClosestSmallerPolygonDetailed(
+  point,
+  polygons,
+  referencePolygon,
+  options = {},
+) {
+  const result = findClosestSmallerPolygon(
+    point,
+    polygons,
+    referencePolygon,
+    options,
+  );
+
   if (result.polygon) {
     const polygonArea = calculatePolygonArea(result.polygon);
     const referenceArea = calculatePolygonArea(referencePolygon);
     const sizeRatio = polygonArea / referenceArea;
-    
+
     return {
       ...result,
       polygonArea,
       referenceArea,
-      sizeRatio
+      sizeRatio,
     };
   }
-  
+
   return result;
 }

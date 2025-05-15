@@ -199,8 +199,9 @@ const InputNumber: React.FC<InputNumberProps> = observer(
             value={value === 0 ? "" : (value * 1).toString().split(".")[0]}
             step={50}
             onChange={handleChange}
-            className={`w-full p-3 py-1 border font-poppins border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1 ${disabled ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+            className={`w-full p-3 py-1 border font-poppins border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1 ${
+              disabled ? "opacity-50 cursor-not-allowed" : ""
+            }`}
             min={0}
             disabled={disabled}
           />
@@ -221,7 +222,7 @@ const InputNumber: React.FC<InputNumberProps> = observer(
         )}
       </div>
     );
-  }
+  },
 );
 
 export default InputNumber;

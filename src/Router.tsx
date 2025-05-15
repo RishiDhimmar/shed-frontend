@@ -84,11 +84,7 @@ const Router = createBrowserRouter([
       { path: "standards", element: <StandardManagement onClose={() => {}} /> },
       {
         path: "templates",
-        element: (
-          <TemplatesManagement
-            onClose={() => console.log("Templates management closed")}
-          />
-        ),
+        element: <TemplatesManagement onClose={() => {}} />,
       },
     ],
   },
