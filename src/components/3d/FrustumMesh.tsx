@@ -106,6 +106,7 @@ const FrustumMesh = ({
           color="magenta"
           transparent
           opacity={0.5}
+          depthWrite={false}
         />
       </mesh>
       {/* Bottom face outline */}

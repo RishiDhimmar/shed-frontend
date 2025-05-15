@@ -1,6 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { PerspectiveCamera, CameraControls, Grid } from "@react-three/drei";
+import {
+  PerspectiveCamera,
+  OrthographicCamera,
+  CameraControls,
+  Grid,
+  Html,
+} from "@react-three/drei";
 import * as THREE from "three";
 
 import foundationStore from "../../stores/FoundationStore";
@@ -11,12 +17,13 @@ import { getFoundationCenter } from "../../utils/PolygonUtils";
 import FrustumMesh from "./FrustumMesh";
 import FoundationsRenderer from "./FoundationsRenderer";
 import ColumnRenderer from "./ColumnRenderer";
-import { useGridControls } from "./grid/GridControls";
 import GroundBeamRenderer from "./GroundBeamRenderer";
+import { useGridControls } from "./grid/GridControls";
 
 const Experience = observer(() => {
   const controlsRef = useRef(null);
   const cameraRef = useRef(null);
+  const [useOrtho, setUseOrtho] = useState(false); // 👈 Camera toggle state
 
   const {
     gridSize,
@@ -31,9 +38,9 @@ const Experience = observer(() => {
     followCamera,
     infiniteGrid,
     opacity,
-  } = useGridControls(); // 👈 use it
+  } = useGridControls();
 
-  // Center camera when foundations change
+  // Recenter camera when foundations change
   useEffect(() => {
     const foundations = toJS(foundationStore.foundations);
     const centerOffset = getFoundationCenter(foundations);
@@ -52,14 +59,53 @@ const Experience = observer(() => {
 
   return (
     <>
-      <PerspectiveCamera
-        ref={cameraRef}
-        makeDefault
-        position={[5, 5, 5]}
-        near={0.01}
-        far={1000}
-        fov={25}
-      />
+      {/* Toggle UI */}
+      <Html>
+        <div
+          style={{
+            position: "absolute",
+            top: 20,
+            left: 20,
+            zIndex: 10,
+          }}
+        >
+          <button
+            style={{
+              padding: "8px 12px",
+              background: "#fff",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            onClick={() => setUseOrtho((prev) => !prev)}
+          >
+            Toggle Camera ({useOrtho ? "Ortho" : "Perspective"})
+          </button>
+        </div>
+      </Html>
+
+      {/* Cameras */}
+      {useOrtho ? (
+        <OrthographicCamera
+          ref={cameraRef}
+          makeDefault
+          position={[5, 5, 5]}
+          zoom={100}
+          near={0.00001}
+          far={1000000}
+        />
+      ) : (
+        <PerspectiveCamera
+          ref={cameraRef}
+          makeDefault
+          position={[5, 5, 5]}
+          fov={25}
+          near={0.00001}
+          far={1000}
+        />
+      )}
+
+      {/* Controls */}
       <CameraControls
         ref={controlsRef}
         maxPolarAngle={Math.PI / 1.5}
@@ -69,10 +115,13 @@ const Experience = observer(() => {
         smoothTime={0.8}
         dampingFactor={0.05}
       />
+
+      {/* Lights */}
       <ambientLight intensity={0.8} />
       <directionalLight position={[0, 20, 0]} intensity={1} />
 
-      {/* Grid */}
+      {/* Optional Grid */}
+      {/*
       <Grid
         args={[gridSize[0], 128]}
         cellSize={cellSize}
@@ -89,14 +138,18 @@ const Experience = observer(() => {
         opacity={opacity}
         position={[0, -0.01, 0]}
       />
+      */}
 
+      {/* Scene Renderers */}
       {uiStore.visibility.foundation && (
         <FoundationsRenderer centerOffset={centerOffset} scale={0.1} />
       )}
       {uiStore.visibility.column && (
         <ColumnRenderer centerOffset={centerOffset} scale={0.1} />
       )}
-      
+      {uiStore.visibility.groundBeam && (
+        <GroundBeamRenderer centerOffset={centerOffset} scale={0.1} />
+      )}
     </>
   );
 });
