@@ -5,6 +5,7 @@ import { toJS } from "mobx";
 import dxfStore from "../../stores/DxfStore";
 import { convertToPointObjects } from "../../utils/PolygonUtils";
 import { Shed3DConfig } from "../../Constants";
+import configStore from "../../stores/ConfigStore";
 
 const PlinthRenderer = observer(({ centerOffset = [0, 0], scale = 1 }) => {
   const externalWallPoints = useMemo(() => {
@@ -36,7 +37,7 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0], scale = 1 }) => {
   return (
     <mesh
       rotation={[-Math.PI / 2, 0, 0]} // Make it flat on the ground
-      position={[0, Shed3DConfig.heights.PLINTH - 0.075, 0]} // Adjust Y based on config
+      position={[0, configStore.shed3D.heights.COLUMNS, 0]} // Adjust Y based on config
     >
       <shapeGeometry args={[shape]} />
       <meshBasicMaterial

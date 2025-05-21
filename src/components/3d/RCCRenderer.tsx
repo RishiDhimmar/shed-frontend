@@ -3,6 +3,7 @@ import foundationStore from "../../stores/FoundationStore";
 import BoxRenderer from "./Box";
 import { color } from "three/tsl";
 import { Shed3DConfig } from "../../Constants";
+import configStore from "../../stores/ConfigStore";
 
 const scale = 1;
 
@@ -30,13 +31,13 @@ function RCCRenderer({ bottomPoints }) {
         return {
           width,
           length,
-          height: Shed3DConfig.heights.RCC,
-          position: [centerX, Shed3DConfig.heights.RCC / 2, centerZ],
+          height: configStore.shed3D.heights.RCC,
+          position: [centerX, configStore.shed3D.heights.RCC / 2, centerZ],
           color: "magenta",
         };
       })
       .filter(Boolean);
-  }, [foundationStore.foundations, bottomPoints]);
+  }, [foundationStore.foundations, bottomPoints,]);
 
   return <BoxRenderer instances={instances} opacity={0.02}/>;
 }

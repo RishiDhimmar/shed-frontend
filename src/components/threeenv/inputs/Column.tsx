@@ -5,6 +5,7 @@ import basePlotStore from "../../../stores/BasePlotStore";
 import baseplateStore from "../../../stores/BasePlateStore";
 import { useState } from "react";
 import { toJS } from "mobx";
+import configStore from "../../../stores/ConfigStore";
 
 export const Column = observer(() => {
   const [modifyMode, setModifyMode] = useState(false);
@@ -18,6 +19,9 @@ export const Column = observer(() => {
       [groupName]: columnId,
     }));
   };
+  const [columnHeight, setColumnHeight] = useState(
+    configStore.shed3D.heights.COLUMNS
+  );
   return (
     <div className=" p-6">
       <h1 className="text-lg font-bold mb-4 "> Column Inputs</h1>
@@ -55,23 +59,23 @@ export const Column = observer(() => {
                   )}
                 </div>
               ))}
-              </div>
-              <input
-                type="number"
-                className="border rounded p-1 flex-1 my-2 w-full"
-                value={group.hEdgeWires}
-                onChange={(e) =>
-                  columnStore.sethEdgeWires(group.name, e.target.value)
-                }
-              />
-              <input
-                type="number"
-                className="border rounded p-1 flex-1 w-full"
-                value={group.vEdgeWires}
-                onChange={(e) =>
-                  columnStore.setvEdgeWires(group.name, e.target.value)
-                }
-              />
+            </div>
+            <input
+              type="number"
+              className="border rounded p-1 flex-1 my-2 w-full"
+              value={group.hEdgeWires}
+              onChange={(e) =>
+                columnStore.sethEdgeWires(group.name, e.target.value)
+              }
+            />
+            <input
+              type="number"
+              className="border rounded p-1 flex-1 w-full"
+              value={group.vEdgeWires}
+              onChange={(e) =>
+                columnStore.setvEdgeWires(group.name, e.target.value)
+              }
+            />
 
             {modifyMode && (
               <div className="flex gap-2 mt-2">
@@ -281,6 +285,14 @@ export const Column = observer(() => {
         />
       </form>
       */}
+        <InputNumber
+          label="Column Height:"
+          value={columnHeight * 1000}
+          onChange={(newHeight: number) => {
+            configStore.update3DHeights({ COLUMNS: newHeight / 1000 });
+            setColumnHeight(newHeight / 1000);
+          }}
+        />
       </form>
     </div>
   );

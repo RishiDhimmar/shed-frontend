@@ -89,7 +89,7 @@ const Experience = observer(() => {
           ref={cameraRef}
           makeDefault
           position={[5, 5, 5]}
-          fov={70}
+          fov={80}
           near={0.00001}
           far={100000}
         />
@@ -144,8 +144,9 @@ const Experience = observer(() => {
       {uiStore.visibility.baseplate && (
         <BaseplateRenderer centerOffset={centerOffset} scale={1} />
       )}
-
-      <PlinthRenderer centerOffset={centerOffset} scale={1} />
+      {uiStore.visibility.plinth && (
+        <PlinthRenderer centerOffset={centerOffset} scale={1} />
+      )}
       <MullionColumnRenderer centerOffset={centerOffset} scale={1} />
       <ShedWallRenderer centerOffset={centerOffset} scale={1} />
     </>

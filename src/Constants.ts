@@ -17,7 +17,7 @@ export const Shed3DConfig = {
     COLUMNS: 1.9 + 0.6,
     FOUNDATIONS: 0.1,
     MULLION_COLUMNS: 1.9 + 0.6,
-    FRUSTUM: 0.1,
+    FRUSTUM: 0.370,
     RCC: 0.23,
     GROUND_BEAM: 10,
     PLINTH: 1.9 + 0.6,
