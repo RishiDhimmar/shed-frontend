@@ -5,9 +5,9 @@ import baseplateStore from "../../stores/BasePlateStore";
 import BoxRenderer from "./Box"; // Use the same BoxRenderer for consistency
 import { removeDuplicatePoints } from "../../utils/PolygonUtils";
 import { MeshBasicMaterial } from "three";
-import { Shed3DConfig } from "../../Constants";
+import configStore from "../../stores/ConfigStore";
 
-const BASEPLATE_HEIGHT =0.0075; // small extrusion height for baseplates
+const BASEPLATE_HEIGHT = 0.0075; // small extrusion height for baseplates
 
 const BaseplateRenderer = observer(({ centerOffset = [0, 0], scale = 1 }) => {
   const instances = useMemo(() => {
@@ -44,12 +44,16 @@ const BaseplateRenderer = observer(({ centerOffset = [0, 0], scale = 1 }) => {
           width,
           length,
           height: BASEPLATE_HEIGHT,
-          position: [centerX, Shed3DConfig.heights.BASE_PLATES + BASEPLATE_HEIGHT / 2 , centerZ],
+          position: [
+            centerX,
+            configStore.shed3D.heights.COLUMNS + BASEPLATE_HEIGHT / 2,
+            centerZ,
+          ],
           color: "green",
         };
       })
       .filter(Boolean);
-  }, [baseplateStore.basePlates , centerOffset]);
+  }, [baseplateStore.basePlates, centerOffset, configStore.shed3D.heights.COLUMNS]);
 
   console.log(instances);
 

@@ -90,6 +90,7 @@ class UIStore {
     lines: true,
     polygons: true,
     annotation: true,
+    plinth: true,
   };
   isDimensionsVisible: boolean = false;
 

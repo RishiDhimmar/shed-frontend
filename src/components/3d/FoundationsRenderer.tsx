@@ -6,9 +6,11 @@ import RCCRenderer from "./RCCRenderer";
 import { Shed3DConfig } from "../../Constants";
 import * as THREE from "three";
 import React from "react";
+import configStore from "../../stores/ConfigStore";
+import { observer } from "mobx-react-lite";
 const scale = 1
 
-function FoundationsRenderer({ centerOffset, }) {
+const FoundationsRenderer = observer(({ centerOffset, }) =>{
   const [offsetX, , offsetZ] = centerOffset;
   const foundations = toJS(foundationStore.foundations);
 
@@ -27,8 +29,9 @@ function FoundationsRenderer({ centerOffset, }) {
         <FrustumMesh
           bottomPoints={outerPoints}
           topPoints={innerPoints}
-          floorY={Shed3DConfig.heights.RCC}
+          floorY={configStore.shed3D.heights.RCC}
           opacity={0.5}
+          yDepth={configStore.shed3D.heights.FRUSTUM}
         />
         <RCCRenderer bottomPoints={outerPoints} />
 
@@ -102,6 +105,6 @@ function FoundationsRenderer({ centerOffset, }) {
       </React.Fragment>
     );
   });
-}
+})
 
 export default FoundationsRenderer;

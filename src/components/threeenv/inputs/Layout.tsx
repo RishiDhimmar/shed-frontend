@@ -132,6 +132,14 @@ export const Layout = observer(() => {
           onClick={() => handleSelect("annotation")}
           onToggleVisibility={() => uiStore.toggleVisibility("annotation")}
         />
+        <LayoutItem
+          title="Plinth"
+          color="bg-[gray]"
+          isHidden={!uiStore.visibility.plinth}
+          isSelected={selectedTitle === "plinth"}
+          onClick={() => handleSelect("plinth")}
+          onToggleVisibility={() => uiStore.toggleVisibility("plinth")}
+        />
       </div>
       <div className=" flex flex-col  overflow-y-scroll overflow-x-hidden h- w-[300px] ml-1 bg-white rounded shadow-xl  z-1 top-0 ">
         {uiStore.currentComponent === "plot" && <PlotInput />}

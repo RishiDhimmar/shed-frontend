@@ -6,6 +6,8 @@ import foundationStore, {
 import { useState } from "react";
 import columnStore from "../../../stores/ColumnStore";
 import { toJS } from "mobx";
+import { Shed3DConfig } from "../../../Constants";
+import configStore from "../../../stores/ConfigStore";
 
 // Key-label mapping for UI readability
 const LABEL_MAP: { [key: string]: string } = {
@@ -35,6 +37,10 @@ const Foundation = observer(() => {
   const [selectedFoundationsToAdd, setSelectedFoundationsToAdd] = useState<{
     [groupName: string]: string;
   }>({});
+  const [frustumHeight, setFrustumHeight] = useState(
+    Shed3DConfig.heights.FRUSTUM * 1000
+  );
+  const [rccHeight, setRccHeight] = useState(Shed3DConfig.heights.RCC * 1000);
   const handleFoundationChange = (groupName: string, columnId: string) => {
     setSelectedFoundationsToAdd((prev) => ({
       ...prev,
@@ -72,7 +78,7 @@ const Foundation = observer(() => {
                     onClick={() =>
                       foundationStore.removeFoundationFromGroup(
                         group.name,
-                        bs.label,
+                        bs.label
                       )
                     }
                   >
@@ -114,7 +120,7 @@ const Foundation = observer(() => {
                   if (selectedId) {
                     foundationStore.addFoundationToGroup(
                       group.name,
-                      selectedId,
+                      selectedId
                     );
                     handleFoundationChange(group.name, "");
                   }
@@ -222,6 +228,33 @@ const Foundation = observer(() => {
             </div>
           </>
         ))}
+        {/*<input
+          type="number"
+          className="w-full p-2 border rounded"
+          placeholder="Frustum Height"
+          value={frustumHeight}
+          onChange={(e) => {
+            const val = Number(e.target.value);
+            setFrustumHeight(val);
+            configStore.update3DHeights({ FRUSTUM: val / 1000 });
+          }}
+        />*/}
+        <InputNumber
+          label="Frustum Height :"
+          value={frustumHeight}
+          onChange={(newHeight: number) => {
+            setFrustumHeight(newHeight);
+            configStore.update3DHeights({ FRUSTUM: newHeight / 1000 });
+          }}
+        />
+        <InputNumber
+          label="RCC Height : "
+          value={rccHeight}
+          onChange={(newHeight: number) => {
+            setRccHeight(newHeight);
+            configStore.update3DHeights({ RCC: newHeight / 1000 });
+          }}
+        />
       </form>
       {/*}
       <form className="space-y-2">

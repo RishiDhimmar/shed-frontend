@@ -10,12 +10,17 @@ import {
   sortPolygonPointsClockwise,
 } from "../../utils/PolygonUtils";
 import dxfStore from "../../stores/DxfStore";
+import configStore from "../../stores/ConfigStore";
 
 const scale = 1; // Scaling factor
-const defaultBeamHeight = 0.6; // Default height, e.g., 100mm
+// const defaultBeamHeight = 0.6; // Default height, e.g., 100mm
 
 const GroundBeamRenderer = observer(
-  ({ centerOffset = [0, 0, 0], floorY = 0.4, height = defaultBeamHeight }) => {
+  ({
+    centerOffset = [0, 0, 0],
+    floorY = 0.4,
+    height = configStore.shed3D.heights.GB_Z_HEIGHT,
+  }) => {
     const externalWallPoints =
       convertToPointObjects(toJS(dxfStore.externalWallPolygon)) || [];
     const internalWall = dxfStore.internalWallPolygon?.filter(
@@ -88,20 +93,42 @@ const GroundBeamRenderer = observer(
         const centerZ = (minZ + maxZ) / 2;
 
         // Only include valid beams
+        // if (width > 0 && length > 0) {
+        //   beams.push({
+        //     width,
+        //     height: height * scale, // Use input height, scaled consistently
+        //     length,
+        //     position: [centerX, (2100 - 125)/1000, centerZ], // Center position
+        //     rotation: [0, (angle * 360) / Math.PI, 0], // Align with the primary direction
+        //     color: "gray", // Default color for ground beams
+        //   });
+        // }
         if (width > 0 && length > 0) {
           beams.push({
             width,
             height: height * scale, // Use input height, scaled consistently
             length,
-            position: [centerX, (2100 - 125)/1000, centerZ], // Center position
+            position: [
+              centerX,
+              configStore.shed3D.heights.GROUND_BEAM +
+                configStore.shed3D.heights.GB_Z_HEIGHT / 2,
+              centerZ,
+            ], // Center position
             rotation: [0, (angle * 360) / Math.PI, 0], // Align with the primary direction
-            color: "gray", // Default color for ground beams
+            color: "cyan", // Default color for ground beams
           });
         }
       }
 
       return beams.filter(Boolean);
-    }, [externalWallPoints, internalWallPoints, centerOffset, height, floorY]);
+    }, [
+      externalWallPoints,
+      internalWallPoints,
+      centerOffset,
+      height,
+      floorY,
+      configStore.shed3D.heights.GB_Z_HEIGHT,
+    ]);
 
     return <BoxRenderer instances={instances} />;
   }

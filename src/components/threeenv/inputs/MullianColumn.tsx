@@ -2,8 +2,13 @@ import { observer } from "mobx-react-lite";
 import InputNumber from "../Helpers/InputNumber";
 import mullionColumnStore from "../../../stores/MullianColumnStore";
 import wallStore from "../../../stores/WallStore";
+import configStore from "../../../stores/ConfigStore";
+import { useState } from "react";
 
 export const MullionColumn = observer(() => {
+  const [mullionHeight, setMullionHeight] = useState(
+    configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT
+  );
   return (
     <div className=" p-6">
       <h1 className="text-lg font-bold mb-4">Mullion Column</h1>
@@ -62,6 +67,16 @@ export const MullionColumn = observer(() => {
           />
         </div> */}
       </form>
+      <InputNumber
+        label="Height:"
+        value={mullionHeight * 1000}
+        onChange={(newHeight: number) => {
+          configStore.update3DHeights({
+            MULLION_COLUMNS_Z_HEIGHT: newHeight / 1000,
+          });
+          setMullionHeight(newHeight/1000);
+        }}
+      />
     </div>
   );
 });

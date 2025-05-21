@@ -3,10 +3,10 @@ import mullionColumnStore from "../../stores/MullianColumnStore";
 import { toJS } from "mobx";
 import wallStore from "../../stores/WallStore";
 import BoxRenderer from "./Box";
-import { Shed3DConfig } from "../../Constants";
+import configStore from "../../stores/ConfigStore";
+import { observer } from "mobx-react-lite";
 
-const MUL_HEIGHT = 4;
-function MullionColumnRenderer({ centerOffset, scale }) {
+const MullionColumnRenderer = observer (({ centerOffset, scale }) =>  {
   const instances = useMemo(() => {
     return mullionColumnStore.polygons
       .map((mc) => {
@@ -40,25 +40,25 @@ function MullionColumnRenderer({ centerOffset, scale }) {
         return {
           width,
           length,
-          height: MUL_HEIGHT,
+          height: configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT,
           position: [
             centerX,
-            Shed3DConfig.heights.MULLION_COLUMNS + MUL_HEIGHT / 2,
+            configStore.shed3D.heights.COLUMNS + configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT / 2,
             centerZ,
           ],
           color: "red",
         };
       })
       .filter(Boolean);
-  }, [mullionColumnStore.polygons, centerOffset]);
+  }, [mullionColumnStore.polygons, centerOffset, configStore.shed3D.heights.COLUMNS, configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT]);
 
   console.log(instances);
 
   return (
     <>
-      <BoxRenderer instances={instances} opacity={1} />
+      <BoxRenderer instances={instances} opacity={0.5} />
     </>
   );
-}
+})
 
 export default MullionColumnRenderer;
