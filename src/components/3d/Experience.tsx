@@ -147,8 +147,12 @@ const Experience = observer(() => {
       {uiStore.visibility.plinth && (
         <PlinthRenderer centerOffset={centerOffset} scale={1} />
       )}
-      <MullionColumnRenderer centerOffset={centerOffset} scale={1} />
-      <ShedWallRenderer centerOffset={centerOffset} scale={1} />
+      {uiStore.visibility.mullionColumn && (
+        <MullionColumnRenderer centerOffset={centerOffset} scale={1} />
+      )}
+      {uiStore.visibility.shade && (
+        <ShedWallRenderer centerOffset={centerOffset} scale={1} />
+      )}
     </>
   );
 });
