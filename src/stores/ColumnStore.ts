@@ -75,11 +75,24 @@ export class ColumnStore {
         baseplateStore.basePlates.slice(),
         wallStore.externalWallPoints.slice(),
       ],
-      () => this.generateColumns(),
+      () => this.generateColumns()
     );
   }
   modifyGroups(groups: any[]) {
     this.polygons = groups;
+  }
+  sethEdgeWires(groupName, hEdgeWires) {
+    const group = this.polygons.find((g) => g.name === groupName);
+    if (group) {
+      group.hEdgeWires = hEdgeWires;
+    }
+  }
+  setvEdgeWires(groupName, vEdgeWires) {
+    console.log(groupName, vEdgeWires);
+    const group = this.polygons.find((g) => g.name === groupName);
+    if (group) {
+      group.vEdgeWires = vEdgeWires;
+    }
   }
   addGroup(group: any) {
     this.polygons.push(group);
@@ -124,6 +137,13 @@ export class ColumnStore {
       }
       foundationStore.generateFoundationInputs();
       foundationStore.generateFoundations(this.polygons);
+    }
+  }
+
+  setWireData(groupName,column, wireData) {
+    const group = this.polygons.find((g) => g.name === groupName);
+    if (group) {
+      group.columns.find((b) => b.label === column.label).wireData = wireData
     }
   }
 
@@ -362,7 +382,7 @@ export class ColumnStore {
   private checkPrerequisites() {
     const platesByType = this.getPlatesByType();
     const hasRequiredPlates = Object.values(platesByType).some(
-      (plates) => plates.length > 0,
+      (plates) => plates.length > 0
     );
     const hasWallPoints = wallStore.externalWallPoints.length >= 4;
 
@@ -374,7 +394,7 @@ export class ColumnStore {
     cornerIndex: number,
     wallPoints: number[][],
     dimensions: { width: number; length: number },
-    wall: WallType | null,
+    wall: WallType | null
   ): Column {
     const { width, length } = dimensions;
 
@@ -447,7 +467,7 @@ export class ColumnStore {
   private createHorizontalColumn(
     plate: any,
     plateConfig: any,
-    wallThickness: number,
+    wallThickness: number
   ): Column {
     const { x, y, wall } = plate;
 
@@ -549,7 +569,7 @@ export class ColumnStore {
   private createVerticalColumn(
     plate: any,
     plateConfig: any,
-    wallThickness: number,
+    wallThickness: number
   ): Column {
     const { x, y, wall } = plate;
 
@@ -640,7 +660,7 @@ export class ColumnStore {
   // Generate corner columns
   private generateCornerColumns(
     cornerPlates: any[],
-    wallPoints: number[][],
+    wallPoints: number[][]
   ): Column[] {
     if (cornerPlates.length === 0) return [];
     const tempWalls: WallType[] = [
@@ -675,8 +695,8 @@ export class ColumnStore {
           width: columnWidth,
           length: columnLength,
         },
-        tempWalls[index],
-      ),
+        tempWalls[index]
+      )
     );
   }
 
@@ -701,7 +721,7 @@ export class ColumnStore {
     if (platesByType.corner.length > 0) {
       const cornerColumns = this.generateCornerColumns(
         platesByType.corner,
-        wallPoints,
+        wallPoints
       );
 
       // Check for overlap among corner columns
@@ -732,7 +752,7 @@ export class ColumnStore {
         const column = this.createHorizontalColumn(
           plate,
           plateConfig,
-          wallThickness,
+          wallThickness
         );
         horizontalColumns.push(column);
       });
@@ -780,7 +800,7 @@ export class ColumnStore {
         const column = this.createVerticalColumn(
           plate,
           plateConfig,
-          wallThickness,
+          wallThickness
         );
         verticalColumns.push(column);
       });
@@ -905,36 +925,36 @@ export class ColumnStore {
 
     // Corner columns
     const topLeftColumn = this.columns.find(
-      (column) => column.wall === "top-left",
+      (column) => column.wall === "top-left"
     );
     const topRightColumn = this.columns.find(
-      (column) => column.wall === "top-right",
+      (column) => column.wall === "top-right"
     );
     const bottomLeftColumn = this.columns.find(
-      (column) => column.wall === "bottom-left",
+      (column) => column.wall === "bottom-left"
     );
     const bottomRightColumn = this.columns.find(
-      (column) => column.wall === "bottom-right",
+      (column) => column.wall === "bottom-right"
     );
 
     // Wall columns
     const leftWallColumns = this.columns.filter(
-      (column) => column.wall === "left",
+      (column) => column.wall === "left"
     );
     const rightWallColumns = this.columns.filter(
-      (column) => column.wall === "right",
+      (column) => column.wall === "right"
     );
     const topWallColumns = this.columns.filter(
-      (column) => column.wall === "top",
+      (column) => column.wall === "top"
     );
     const bottomWallColumns = this.columns.filter(
-      (column) => column.wall === "bottom",
+      (column) => column.wall === "bottom"
     );
 
     // Use Math.floor to get predictable indices
     const leftUpperColumns = leftWallColumns.slice(
       0,
-      leftWallColumns.length / 2 + 1,
+      leftWallColumns.length / 2 + 1
     );
     const leftLowerColumns = leftWallColumns
       .slice(leftWallColumns.length / 2 + 1)
@@ -944,7 +964,7 @@ export class ColumnStore {
       .slice(0, rightWallColumns.length / 2 + 1)
       .reverse();
     const rightLowerColumns = rightWallColumns.slice(
-      rightWallColumns.length / 2 + 1,
+      rightWallColumns.length / 2 + 1
     );
 
     const topLeftColumns = topWallColumns
@@ -954,7 +974,7 @@ export class ColumnStore {
 
     const bottomLeftColumns = bottomWallColumns.slice(
       0,
-      bottomWallColumns.length / 2 + 1,
+      bottomWallColumns.length / 2 + 1
     );
     const bottomRightColumns = bottomWallColumns
       .slice(bottomWallColumns.length / 2 + 1)
@@ -991,7 +1011,7 @@ export class ColumnStore {
     points: Point[],
     hits: any,
     type: string,
-    epsilon: number = 10,
+    epsilon: number = 10
   ) {
     let clonedPoints = points.map((p) => ({ ...p }));
     let uniquePoints = this.removeDuplicatesWithEpsilon(clonedPoints, epsilon);
@@ -1142,11 +1162,14 @@ export class ColumnStore {
         hits: plate.hits,
         group: group.name,
         ogPoints: plate.points,
+
       }));
 
       return {
         name: group.name,
         columns,
+        hEdgeWires: 10,
+        vEdgeWires: 10,
       };
     });
 

@@ -297,7 +297,13 @@
 // export default CanvasZoomPan;
 
 import { Stage, Layer, FastLayer } from "react-konva";
-import React, { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import Konva from "konva";
 import uiStore from "../../stores/UIStore";
 import { observer } from "mobx-react-lite";
@@ -399,7 +405,8 @@ const CanvasZoomPan: React.FC = observer(() => {
 
   const { circles, lines, polygons, texts, ellipses } = useMemo(() => {
     const stage = stageRef.current;
-    if (!stage) return { circles: [], lines: [], polygons: [], texts: [], ellipses: [] };
+    if (!stage)
+      return { circles: [], lines: [], polygons: [], texts: [], ellipses: [] };
 
     return {
       circles: getVisibleShapes(
@@ -417,7 +424,8 @@ const CanvasZoomPan: React.FC = observer(() => {
   }, [uiStore.data, stageTransform]);
 
   const bounds = useMemo(() => {
-    const circles = uiStore.data.curves?.filter((c) => c.type === "CIRCLE") || [];
+    const circles =
+      uiStore.data.curves?.filter((c) => c.type === "CIRCLE") || [];
     if (circles.length === 0) return null;
 
     return circles.reduce(
@@ -608,7 +616,7 @@ const CanvasZoomPan: React.FC = observer(() => {
         <div style={{ width: "100%", height: "100vh", display: "flex" }}>
           <Canvas
             style={{ width: "60%", height: "100%" }}
-            camera={{ position: [0, 0, 1000], fov: 20, near: 1, far: 10000 }}
+            camera={{ position: [0, 0, 1000], fov: 50, near: 1, far: 10000 }}
           >
             <Experience />
           </Canvas>
@@ -624,23 +632,23 @@ const CanvasZoomPan: React.FC = observer(() => {
           y={stageTransform.y}
           scaleX={stageTransform.scale}
           scaleY={stageTransform.scale}
-          draggable
           onWheel={handleWheel}
+          draggable
         >
           <Layer>
             <Walls />
             <PolygonsDrawer polygons={polygons} />
+          </Layer>
+          <Layer listening={false}>
+            <CircleDrawer circles={circles} />
+            <LineDrawer lines={lines} />
+            <TextDrawer texts={texts} />
+            <EllipseDrawer ellipses={ellipses} />
             <BasePlate />
             <Column />
             <Foundation />
             <MullionColumn />
           </Layer>
-          <FastLayer listening={false}>
-            <CircleDrawer circles={circles} />
-            <LineDrawer lines={lines} />
-            <TextDrawer texts={texts} />
-            <EllipseDrawer ellipses={ellipses} />
-          </FastLayer>
         </Stage>
       )}
     </div>

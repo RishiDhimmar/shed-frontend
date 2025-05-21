@@ -38,7 +38,7 @@ function RCCRenderer({ bottomPoints }) {
       .filter(Boolean);
   }, [foundationStore.foundations, bottomPoints]);
 
-  return <BoxRenderer instances={instances} />;
+  return <BoxRenderer instances={instances} opacity={0.02}/>;
 }
 
 export default RCCRenderer;

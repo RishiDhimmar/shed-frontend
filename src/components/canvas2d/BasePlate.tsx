@@ -114,13 +114,13 @@ const BasePlate = observer(() => {
       const lengthOffset = baseplate.hits?.find(
         (hit) => hit.hitDirection === "top",
       )
-        ? -1500
-        : 1500;
+        ? -150
+        : 150;
       const heightOffset = baseplate.hits?.find(
         (hit) => hit.hitDirection === "left",
       )
-        ? -1500
-        : 1500;
+        ? 150
+        : -150;
 
       return (
         <Group key={baseplateKey}>
@@ -137,12 +137,11 @@ const BasePlate = observer(() => {
           {uiStore.currentComponent === "baseplate" && (
             <>
               <Text
-                x={bbox.minX - 600}
-                y={bbox.minY - 600}
+                x={bbox.maxX }
+                y={bbox.minY }
                 text={baseplate.label}
                 rotation={baseplate.labelRotation}
                 fontSize={100}
-                draggable
                 fill="#00FF00"
                 stroke={"black"}
               />

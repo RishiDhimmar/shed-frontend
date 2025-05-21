@@ -17,8 +17,9 @@ interface FrustumMeshProps {
 const FrustumMesh = ({
   bottomPoints,
   topPoints,
-  yDepth = 0.075,
+  yDepth = 0.370,
   floorY = 0,
+  opacity = 1,
 }: FrustumMeshProps) => {
   /**
    * `bottomPoints`: 4 points like { x, y } (Three.js x, z at y=0)
@@ -102,10 +103,10 @@ const FrustumMesh = ({
     <group>
       {/* Frustum mesh */}
       <mesh geometry={geometry}>
-        <meshStandardMaterial
+        <meshBasicMaterial
           color="magenta"
           transparent
-          opacity={0.5}
+          opacity={opacity}
           depthWrite={false}
         />
       </mesh>
