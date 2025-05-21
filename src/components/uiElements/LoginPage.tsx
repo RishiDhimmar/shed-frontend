@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const navigate = useNavigate();
   return (
-    <div className="flex h-screen">
+    <div className="flex h-[calc(100vh)]">
       <div className="w-3/4 h-full bg-gray-200">
         <img
           src="assets/login-page.png"

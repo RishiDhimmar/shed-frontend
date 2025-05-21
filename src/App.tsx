@@ -18,7 +18,7 @@ function App() {
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-[calc(100vh-40px)]">
       <Navbar />
 
       <div className="flex  overflow-hidden">
