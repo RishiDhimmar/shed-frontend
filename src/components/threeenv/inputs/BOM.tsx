@@ -87,7 +87,7 @@ function BOM() {
         radius: radius / 1000, // Convert to millimeters
         volume:
           radius && length
-            ? Math.PI * (radius / 1000) * (radius / 1000) * length
+            ? Math.PI * (radius / 1000) * (radius / 1000) * (length/1000)
             : 0,
         orientation: rod.isHorizontal ? "Horizontal" : "Vertical",
       };
