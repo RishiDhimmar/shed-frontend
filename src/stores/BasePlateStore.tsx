@@ -408,7 +408,7 @@ class BaseplateStore {
     type: BaseplateType,
     wall: WallType | null,
     points: number[][] | null,
-    label: string | "",
+    label: string | ""
   ): Baseplate {
     const cfg = this.config[type];
     return {
@@ -438,7 +438,7 @@ class BaseplateStore {
         "corner",
         "top-left",
         null,
-        `B${this.uniqueLabelCount}`,
+        `B${this.uniqueLabelCount}`
       ),
       // Top right corner
       this.createBaseplate(
@@ -447,7 +447,7 @@ class BaseplateStore {
         "corner",
         "top-right",
         null,
-        `B${this.uniqueLabelCount}`,
+        `B${this.uniqueLabelCount}`
       ),
       // Bottom right corner
       this.createBaseplate(
@@ -456,7 +456,7 @@ class BaseplateStore {
         "corner",
         "bottom-right",
         null,
-        `B${this.uniqueLabelCount}`,
+        `B${this.uniqueLabelCount}`
       ),
       // Bottom left corner
       this.createBaseplate(
@@ -465,7 +465,7 @@ class BaseplateStore {
         "corner",
         "bottom-left",
         null,
-        `B${this.uniqueLabelCount}`,
+        `B${this.uniqueLabelCount}`
       ),
     ];
   }
@@ -492,8 +492,8 @@ class BaseplateStore {
         "horizontal",
         "left",
         null,
-        `B${this.uniqueLabelCount}`,
-      ),
+        `B${this.uniqueLabelCount}`
+      )
     );
 
     // Add plates above center on left wall
@@ -511,8 +511,8 @@ class BaseplateStore {
           "horizontal",
           "left",
           null,
-          `B${this.uniqueLabelCount}`,
-        ),
+          `B${this.uniqueLabelCount}`
+        )
       );
       d += this.idealVerticalDistance;
     }
@@ -532,8 +532,8 @@ class BaseplateStore {
           "horizontal",
           "left",
           null,
-          `B${this.uniqueLabelCount}`,
-        ),
+          `B${this.uniqueLabelCount}`
+        )
       );
       d += this.idealVerticalDistance;
     }
@@ -551,8 +551,8 @@ class BaseplateStore {
         "horizontal",
         "right",
         null,
-        `B${this.uniqueLabelCount}`,
-      ),
+        `B${this.uniqueLabelCount}`
+      )
     );
 
     // Add plates above center on right wall
@@ -570,8 +570,8 @@ class BaseplateStore {
           "horizontal",
           "right",
           null,
-          `B${this.uniqueLabelCount}`,
-        ),
+          `B${this.uniqueLabelCount}`
+        )
       );
       d += this.idealVerticalDistance;
     }
@@ -591,8 +591,8 @@ class BaseplateStore {
           "horizontal",
           "right",
           null,
-          `B${this.uniqueLabelCount}`,
-        ),
+          `B${this.uniqueLabelCount}`
+        )
       );
       d += this.idealVerticalDistance;
     }
@@ -626,8 +626,8 @@ class BaseplateStore {
         "vertical",
         "top",
         null,
-        `B${this.uniqueLabelCount}`,
-      ),
+        `B${this.uniqueLabelCount}`
+      )
     );
 
     // Add plates to left of center on top wall
@@ -645,8 +645,8 @@ class BaseplateStore {
           "vertical",
           "top",
           null,
-          `B${this.uniqueLabelCount}`,
-        ),
+          `B${this.uniqueLabelCount}`
+        )
       );
       d += this.idealHorizontalDistance;
     }
@@ -666,8 +666,8 @@ class BaseplateStore {
           "vertical",
           "top",
           null,
-          `B${this.uniqueLabelCount}`,
-        ),
+          `B${this.uniqueLabelCount}`
+        )
       );
       d += this.idealHorizontalDistance;
     }
@@ -682,8 +682,8 @@ class BaseplateStore {
         "vertical",
         "bottom",
         null,
-        `B${this.uniqueLabelCount}`,
-      ),
+        `B${this.uniqueLabelCount}`
+      )
     );
 
     // Add plates to left of center on bottom wall
@@ -701,8 +701,8 @@ class BaseplateStore {
           "vertical",
           "bottom",
           null,
-          `B${this.uniqueLabelCount}`,
-        ),
+          `B${this.uniqueLabelCount}`
+        )
       );
       d += this.idealHorizontalDistance;
     }
@@ -722,8 +722,8 @@ class BaseplateStore {
           "vertical",
           "bottom",
           null,
-          `B${this.uniqueLabelCount}`,
-        ),
+          `B${this.uniqueLabelCount}`
+        )
       );
       d += this.idealHorizontalDistance;
     }
@@ -767,7 +767,7 @@ class BaseplateStore {
       const b = group.basePlates.find((b) => b.label === baseplateName);
       b.group = null;
       group.basePlates = group.basePlates.filter(
-        (b) => b.label !== baseplateName,
+        (b) => b.label !== baseplateName
       );
     }
     columnStore.generateColumnsInputs(baseplateStore.groups);
@@ -783,16 +783,16 @@ class BaseplateStore {
 
   updateCenterLinePoints() {
     const bottomLeft = baseplateStore.basePlates.find(
-      (baseplate) => baseplate.wall === "bottom-left",
+      (baseplate) => baseplate.wall === "bottom-left"
     );
     const bottomRight = baseplateStore.basePlates.find(
-      (baseplate) => baseplate.wall === "bottom-right",
+      (baseplate) => baseplate.wall === "bottom-right"
     );
     const topLeft = baseplateStore.basePlates.find(
-      (baseplate) => baseplate.wall === "top-left",
+      (baseplate) => baseplate.wall === "top-left"
     );
     const topRight = baseplateStore.basePlates.find(
-      (baseplate) => baseplate.wall === "top-right",
+      (baseplate) => baseplate.wall === "top-right"
     );
 
     this.basePlates.forEach((baseplate) => {
@@ -812,11 +812,11 @@ class BaseplateStore {
                 wallStore.innerWidth +
                 baseplateStore.config.horizontal.length / 2,
               y,
-            ],
+            ]
           );
           points.vertical.push(
             [x, y - Math.abs(bottomLeft!.y - y)],
-            [x, y + Math.abs(topLeft!.y - y)],
+            [x, y + Math.abs(topLeft!.y - y)]
           );
           break;
 
@@ -828,18 +828,18 @@ class BaseplateStore {
                 wallStore.innerWidth -
                 baseplateStore.config.horizontal.length / 2,
               y,
-            ],
+            ]
           );
           points.vertical.push(
             [x, y - Math.abs(bottomRight!.y - y)],
-            [x, y + Math.abs(topRight!.y - y)],
+            [x, y + Math.abs(topRight!.y - y)]
           );
           break;
 
         case "top":
           points.horizontal.push(
             [x - Math.abs(bottomLeft!.x - x), y],
-            [x + Math.abs(topRight!.x - x), y],
+            [x + Math.abs(topRight!.x - x), y]
           );
           points.vertical.push(
             [x, y + baseplateStore.config.vertical.length / 2],
@@ -848,14 +848,14 @@ class BaseplateStore {
               y -
                 wallStore.innerHeight -
                 baseplateStore.config.vertical.length / 2,
-            ],
+            ]
           );
           break;
 
         case "bottom":
           points.horizontal.push(
             [x - Math.abs(bottomLeft!.x - x), y],
-            [x + Math.abs(bottomRight!.x - x), y],
+            [x + Math.abs(bottomRight!.x - x), y]
           );
           points.vertical.push(
             [x, y - baseplateStore.config.vertical.length / 2],
@@ -864,7 +864,7 @@ class BaseplateStore {
               y +
                 wallStore.innerHeight +
                 baseplateStore.config.vertical.length / 2,
-            ],
+            ]
           );
           break;
 
@@ -874,14 +874,14 @@ class BaseplateStore {
             [
               topRight!.x + baseplateStore.config.corner.length || topLeft!.x,
               topLeft!.y,
-            ],
+            ]
           );
           points.vertical.push(
             [topLeft!.x, topLeft!.y + baseplateStore.config.corner.width],
             [
               bottomLeft!.x || topLeft!.x,
               bottomLeft!.y - baseplateStore.config.corner.width || topLeft!.y,
-            ],
+            ]
           );
           break;
 
@@ -891,7 +891,7 @@ class BaseplateStore {
               topLeft!.x - baseplateStore.config.corner.length || topRight!.x,
               topRight!.y,
             ],
-            [topRight!.x + baseplateStore.config.corner.length, topRight!.y],
+            [topRight!.x + baseplateStore.config.corner.length, topRight!.y]
           );
           points.vertical.push(
             [topRight!.x, topRight!.y + baseplateStore.config.corner.width],
@@ -899,7 +899,7 @@ class BaseplateStore {
               bottomRight!.x || topRight!.x,
               bottomRight!.y - baseplateStore.config.corner.width ||
                 topRight!.y,
-            ],
+            ]
           );
           break;
 
@@ -913,7 +913,7 @@ class BaseplateStore {
               bottomLeft!.x - baseplateStore.config.corner.width ||
                 bottomRight!.x,
               bottomRight!.y,
-            ],
+            ]
           );
           points.vertical.push(
             [
@@ -924,7 +924,7 @@ class BaseplateStore {
               topRight!.x || bottomRight!.x,
               topRight!.y + baseplateStore.config.corner.width ||
                 bottomRight!.y,
-            ],
+            ]
           );
           break;
 
@@ -935,14 +935,14 @@ class BaseplateStore {
                 bottomLeft!.x,
               bottomLeft!.y,
             ],
-            [bottomLeft!.x - baseplateStore.config.corner.width, bottomLeft!.y],
+            [bottomLeft!.x - baseplateStore.config.corner.width, bottomLeft!.y]
           );
           points.vertical.push(
             [bottomLeft!.x, bottomLeft!.y - baseplateStore.config.corner.width],
             [
               topLeft!.x || bottomLeft!.x,
               topLeft!.y + baseplateStore.config.corner.width || bottomLeft!.y,
-            ],
+            ]
           );
           break;
 
@@ -963,11 +963,11 @@ class BaseplateStore {
       y: plate.center.y,
     }));
     const sortedPoints = sortPolygon(
-      centerPoints.map((p) => ({ x: p.x, y: p.y })),
+      centerPoints.map((p) => ({ x: p.x, y: p.y }))
     );
     this.sortedCenterPoints = sortedPoints;
     const sortedPolygons = sortedPoints.map(
-      (p, i) => temp.find((p2) => p2.center.x === p.x && p2.center.y === p.y)!,
+      (p, i) => temp.find((p2) => p2.center.x === p.x && p2.center.y === p.y)!
     );
     sortedPolygons.forEach((plate, index) => {
       plate.label = `B${index + 1}`;
@@ -1009,18 +1009,39 @@ class BaseplateStore {
       return [];
     }
 
+    // Split edgeBasePlates into x-direction and y-direction groups
+    const xDirectionEdges = this.edgeBasePlates.filter(
+      (plate) =>
+        plate.hits[0].direction === "-x" || plate.hits[0].direction === "+x"
+    );
+    const yDirectionEdges = this.edgeBasePlates.filter(
+      (plate) =>
+        plate.hits[0].direction === "-y" || plate.hits[0].direction === "+y"
+    );
+
+    // Log the direction for debugging (optional, retained from original)
+    this.edgeBasePlates.forEach((plate) => {
+      console.log(plate.hits[0].direction);
+    });
+
+    // Create groups based on whether middleBasePlates exist
     if (this.middleBasePlates.length > 0) {
       this.groups = [
-        { name: "Group 1", type: "corner", basePlates: this.cornerBasePlates },
-        { name: "Group 2", type: "edge", basePlates: this.edgeBasePlates },
-        { name: "Group 3", type: "middle", basePlates: this.middleBasePlates },
+        { name: "Group 1", type: "edge-x", basePlates: xDirectionEdges },
+        { name: "Group 2", type: "corner", basePlates: this.cornerBasePlates },
+        { name: "Group 3", type: "edge-y", basePlates: yDirectionEdges },
+        { name: "Group 4", type: "middle", basePlates: this.middleBasePlates },
       ];
     } else {
       this.groups = [
-        { name: "Group 1", type: "corner", basePlates: this.cornerBasePlates },
-        { name: "Group 2", type: "edge", basePlates: this.edgeBasePlates },
+        { name: "Group 1", type: "edge-x", basePlates: xDirectionEdges },
+        { name: "Group 2", type: "corner", basePlates: this.cornerBasePlates },
+        { name: "Group 3", type: "edge-y", basePlates: yDirectionEdges },
       ];
     }
+
+    // Return an empty array as per the original function signature
+    return [];
   }
 }
 

@@ -25,10 +25,7 @@ const Dimension = ({
     : -offset * Math.cos(angle);
 
   return (
-    <Group
-      draggable={isDraggable ? isDraggable : true}
-      onDragMove={isDraggable ? onDragMove : null}
-    >
+    <Group>
       <Arrow
         points={[
           p1.x + offsetX,

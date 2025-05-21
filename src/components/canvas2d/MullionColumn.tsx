@@ -71,7 +71,6 @@ const MullionColumn = observer(() => {
                 text={polygon.label}
                 fontSize={300}
                 fill="red"
-                draggable
               />
             )}
 

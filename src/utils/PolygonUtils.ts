@@ -1,3 +1,4 @@
+
 import { all, getDirection } from "three/tsl";
 import baseplateStore from "../stores/BasePlateStore";
 import dxfStore from "../stores/DxfStore";
@@ -559,17 +560,18 @@ export const traceAllPolygonsWithRays = (startPoly, otherPolys) => {
       hits: hits,
       center: getPolygonCenter(poly),
     };
+    console.log(baseplateData.hits);
     if (count === 2) {
       baseplateData.type = "corner";
       baseplateStore.cornerBasePlates.push({
         ...baseplateData,
-        group: "Group 1",
+        group: "Group 2",
       });
     } else if (count === 1) {
       baseplateData.type = "edge";
       baseplateStore.edgeBasePlates.push({
         ...baseplateData,
-        group: "Group 2",
+        group: "Group 1",
       });
     } else if (count === 0) {
       baseplateData.type = "middle";
@@ -949,4 +951,14 @@ function getFoundationCenter(foundations) {
   const avgZ = sum.z / points.length;
 
   return [avgX, 0, avgZ]; // [centerX, height=0, centerZ]
+}
+
+export function removeDuplicatePoints(points, precision = 1e-6) {
+  const seen = new Set();
+  return points.filter((p) => {
+    const key = `${p.x.toFixed(6)}|${p.y.toFixed(6)}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }

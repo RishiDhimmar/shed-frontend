@@ -12,10 +12,10 @@ import {
 import dxfStore from "../../stores/DxfStore";
 
 const scale = 1; // Scaling factor
-const defaultBeamHeight = 0.6; // Default height, e.g., 100mm
+const WALL_HEIGHT = 4;
 
-const GroundBeamRenderer = observer(
-  ({ centerOffset = [0, 0, 0], floorY = 0.4, height = defaultBeamHeight }) => {
+const ShedWallRenderer = observer(
+  ({ centerOffset = [0, 0, 0], floorY = 0.4, height = WALL_HEIGHT }) => {
     const externalWallPoints =
       convertToPointObjects(toJS(dxfStore.externalWallPolygon)) || [];
     const internalWall = dxfStore.internalWallPolygon?.filter(
@@ -93,9 +93,9 @@ const GroundBeamRenderer = observer(
             width,
             height: height * scale, // Use input height, scaled consistently
             length,
-            position: [centerX, (2100 - 125)/1000, centerZ], // Center position
+            position: [centerX, Shed3DConfig.heights.COLUMNS + WALL_HEIGHT / 2, centerZ], // Center position
             rotation: [0, (angle * 360) / Math.PI, 0], // Align with the primary direction
-            color: "gray", // Default color for ground beams
+            color: "orange", // Default color for ground beams
           });
         }
       }
@@ -107,4 +107,4 @@ const GroundBeamRenderer = observer(
   }
 );
 
-export default GroundBeamRenderer;
+export default ShedWallRenderer;

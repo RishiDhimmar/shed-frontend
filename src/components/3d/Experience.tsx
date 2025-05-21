@@ -19,26 +19,15 @@ import FoundationsRenderer from "./FoundationsRenderer";
 import ColumnRenderer from "./ColumnRenderer";
 import GroundBeamRenderer from "./GroundBeamRenderer";
 import { useGridControls } from "./grid/GridControls";
+import PlinthRenderer from "./PlinthRenderer";
+import BaseplateRenderer from "./BaseplateRenderer";
+import MullionColumnRenderer from "./MullionColumnRenderer";
+import ShedWallRenderer from "./ShedWallRenderer";
 
 const Experience = observer(() => {
   const controlsRef = useRef(null);
   const cameraRef = useRef(null);
   const [useOrtho, setUseOrtho] = useState(false); // 👈 Camera toggle state
-
-  const {
-    gridSize,
-    cellSize,
-    cellThickness,
-    cellColor,
-    sectionSize,
-    sectionThickness,
-    sectionColor,
-    fadeDistance,
-    fadeStrength,
-    followCamera,
-    infiniteGrid,
-    opacity,
-  } = useGridControls();
 
   // Recenter camera when foundations change
   useEffect(() => {
@@ -91,8 +80,8 @@ const Experience = observer(() => {
           ref={cameraRef}
           makeDefault
           position={[5, 5, 5]}
-          zoom={100}
-          near={0.00001}
+          zoom={10}
+          near={0.00000001}
           far={1000000}
         />
       ) : (
@@ -100,9 +89,9 @@ const Experience = observer(() => {
           ref={cameraRef}
           makeDefault
           position={[5, 5, 5]}
-          fov={25}
+          fov={70}
           near={0.00001}
-          far={1000}
+          far={100000}
         />
       )}
 
@@ -151,8 +140,17 @@ const Experience = observer(() => {
       {uiStore.visibility.groundBeam && (
         <GroundBeamRenderer centerOffset={centerOffset} scale={0.1} />
       )}
+
+      {uiStore.visibility.baseplate && (
+        <BaseplateRenderer centerOffset={centerOffset} scale={1} />
+      )}
+
+      <PlinthRenderer centerOffset={centerOffset} scale={1} />
+      <MullionColumnRenderer centerOffset={centerOffset} scale={1} />
+      <ShedWallRenderer centerOffset={centerOffset} scale={1} />
     </>
   );
 });
 
 export default Experience;
+//  <PlinthRenderer centerOffset={centerOffset} scale={0.1} />
