@@ -586,10 +586,7 @@ const CanvasZoomPan: React.FC = observer(() => {
   }, [dimensions]);
 
   return (
-    <div
-      className="canvas-container"
-      style={{ width: "100vw", height: "100vh", position: "relative" }}
-    >
+    <div className="canvas-container h-[calc(100vh-40px)] overflow-hidden relative w-100vw" >
       <button
         className="absolute top-2.5 left-2.5 px-4 py-2 bg-gray-300 text-black border-none rounded cursor-pointer z-50 hover:bg-gray-400"
         onClick={handleCenterPolygon}
@@ -613,9 +610,9 @@ const CanvasZoomPan: React.FC = observer(() => {
       <Tooltip id="center-polygon-tooltip" />
 
       {is3D && (
-        <div style={{ width: "100%", height: "100vh", display: "flex" }}>
+        <div className="h-[calc(100vh-40px)] w-100vw">
           <Canvas
-            style={{ width: "60%", height: "100%" }}
+            style={{ width: "100%", height: "100%" }}
             camera={{ position: [0, 0, 1000], fov: 50, near: 1, far: 10000 }}
           >
             <Experience />

@@ -28,7 +28,7 @@ const Sidebar = observer(() => {
   };
   return (
     <div
-      className={`bg-gray-700 flex flex-col z-20 py-4 px-2 h-calc(100vh-64px) transition-[width] duration-500  ease-in-out  absolute h-screen ${
+      className={`bg-gray-700 flex flex-col z-20 py-4 px-2 h-[calc(100vh-40px)] transition-[width] duration-500  ease-in-out  absolute ${
         uiStore.isSidebarOpen ? "w-[200px]" : "w-[50px]"
       }`}
     >

@@ -58,7 +58,7 @@ import StandardManagement from "./components/uiElements/StandardManagement";
 
 // Layout component that includes the Navbar
 const MainLayout = () => (
-  <div className="flex flex-col h-screen">
+  <div className="flex flex-col h-[calc(100vh-40px)]">
     <Navbar />
     <div className="flex w-full h-full  relative">
       <Sidebar />

@@ -20,7 +20,7 @@ function ListView() {
       logo: "abc",
     }));
   return (
-    <div className=" min-h-screen w-full">
+    <div className=" min-h-[calc(100vh-40px] w-full">
       <div className="p-6 h-full">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold">Projects</h1>

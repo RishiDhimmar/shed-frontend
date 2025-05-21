@@ -8,7 +8,7 @@ function ShadeCanvas() {
   // State to hold the screenshot function from inside the Canvas
 
   return (
-    <div className="relative h-[calc(100vh-64px)]">
+    <div className="relative h-[calc(100vh-40px)]">
       <Canvas
         style={{ background: "white" }}
         gl={{ preserveDrawingBuffer: true }}

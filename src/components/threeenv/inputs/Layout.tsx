@@ -22,7 +22,7 @@ export const Layout = observer(() => {
 
   return (
     <div className="flex h-full z-10   ">
-      <div className="w-[250px] bg-gray-800  text-white flex flex-col items-start px-2 py-4">
+      <div className="w-[250px] h-[calc(100vh-40px)] bg-gray-800  text-white flex flex-col items-start px-2 py-4">
         <LayoutItem
           title="Dimensions"
           color="bg-black"
@@ -150,7 +150,7 @@ export const Layout = observer(() => {
           onToggleVisibility={() => uiStore.toggleVisibility("bom")}
         />
       </div>
-      <div className={` flex flex-col  overflow-y-scroll  ${uiStore.currentComponent === "bom" ? "w-[1300px]" : "w-[300px]"} ml-1 bg-white rounded shadow-xl  z-1 top-0 `}>
+      <div className={` flex flex-col  overflow-y-auto  ${uiStore.currentComponent === "bom" ? "w-[1300px]" : "w-[300px]"} h-[calc(100vh-40px)]  ml-1 bg-white rounded shadow-xl  z-1 top-0 `}>
         {uiStore.currentComponent === "plot" && <PlotInput />}
         {uiStore.currentComponent === "shade" && <Shade />}
         {uiStore.currentComponent === "baseplate" && <BaseplateInput />}
