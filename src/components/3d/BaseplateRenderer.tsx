@@ -46,7 +46,7 @@ const BaseplateRenderer = observer(({ centerOffset = [0, 0], scale = 1 }) => {
           height: BASEPLATE_HEIGHT,
           position: [
             centerX,
-            configStore.shed3D.heights.COLUMNS + BASEPLATE_HEIGHT / 2,
+            configStore.shed3D.heights.COLUMNS + BASEPLATE_HEIGHT + 0.075 ,
             centerZ,
           ],
           color: "green",

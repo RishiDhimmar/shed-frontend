@@ -10,6 +10,7 @@ import LayoutItem from "./LayoutItem";
 import { GroundBeam } from "./GroundBeam";
 import Foundation from "./Foundation";
 import Update from "../../../utils/Update";
+import BOM from "./BOM";
 
 export const Layout = observer(() => {
   const [selectedTitle, setSelectedTitle] = useState<string | null>(null);
@@ -140,8 +141,16 @@ export const Layout = observer(() => {
           onClick={() => handleSelect("plinth")}
           onToggleVisibility={() => uiStore.toggleVisibility("plinth")}
         />
+        <LayoutItem
+          title="BOM"
+          color="bg-[gray]"
+          isHidden={!uiStore.visibility.bom}
+          isSelected={selectedTitle === "bom"}
+          onClick={() => handleSelect("bom")}
+          onToggleVisibility={() => uiStore.toggleVisibility("bom")}
+        />
       </div>
-      <div className=" flex flex-col  overflow-y-scroll overflow-x-hidden h- w-[300px] ml-1 bg-white rounded shadow-xl  z-1 top-0 ">
+      <div className={` flex flex-col  overflow-y-scroll  ${uiStore.currentComponent === "bom" ? "w-[1300px]" : "w-[300px]"} ml-1 bg-white rounded shadow-xl  z-1 top-0 `}>
         {uiStore.currentComponent === "plot" && <PlotInput />}
         {uiStore.currentComponent === "shade" && <Shade />}
         {uiStore.currentComponent === "baseplate" && <BaseplateInput />}
@@ -149,7 +158,7 @@ export const Layout = observer(() => {
         {uiStore.currentComponent === "foundation" && <Foundation />}
         {uiStore.currentComponent === "mullionColumn" && <MullionColumn />}
         {uiStore.currentComponent === "groundBeam" && <GroundBeam />}
-        <Update />
+        {uiStore.currentComponent === "bom" && <BOM />}
       </div>
     </div>
   );

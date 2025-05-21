@@ -8,7 +8,7 @@ import configStore from "../../stores/ConfigStore";
 
 const scale = 1;
 
-const ColumnRenderer = observer(({ centerOffset = [0, 0, 0], floorY = 0.01 }) => {
+const ColumnRenderer = observer(({ centerOffset = [0, 0, 0], floorY = 0.075 }) => {
   const columns = useMemo(() => {
     const allColumns = [];
     columnStore.polygons.forEach((group) => {

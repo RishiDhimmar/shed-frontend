@@ -60,7 +60,7 @@ import StandardManagement from "./components/uiElements/StandardManagement";
 const MainLayout = () => (
   <div className="flex flex-col h-screen">
     <Navbar />
-    <div className="flex w-full h-full overflow-hidden relative">
+    <div className="flex w-full h-full  relative">
       <Sidebar />
       <div className="ml-12 flex w-full">
         <Outlet />
