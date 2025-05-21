@@ -1,6 +1,6 @@
-// export const BACKEND_URL =
-//   "http://ec2-13-201-98-117.ap-south-1.compute.amazonaws.com:8081/";
-export const BACKEND_URL = "http://localhost:3000/";
+export const BACKEND_URL =
+  "http://ec2-13-201-98-117.ap-south-1.compute.amazonaws.com:8081/";
+// export const BACKEND_URL = "http://localhost:3000/";
 
 export const Shed2DConfig = {
   strokeWidth: {
@@ -17,7 +17,7 @@ export const Shed3DConfig = {
     COLUMNS: 1.9 + 0.6,
     FOUNDATIONS: 0.1,
     MULLION_COLUMNS: 1.9 + 0.6,
-    FRUSTUM: 0.370,
+    FRUSTUM: 0.37,
     RCC: 0.23,
     GROUND_BEAM: 10,
     PLINTH: 1.9 + 0.6,

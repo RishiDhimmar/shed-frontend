@@ -12,7 +12,8 @@ export type currentComponentType =
   | "lines"
   | "polygons"
   | "texts"
-  | "ellipses";
+  | "ellipses"
+  | "bom";
 
 export type TemplateType =
   | "baseplate"
@@ -91,6 +92,7 @@ class UIStore {
     polygons: true,
     annotation: true,
     plinth: true,
+    bom: true,
   };
   isDimensionsVisible: boolean = false;
 
