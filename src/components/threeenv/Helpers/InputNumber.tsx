@@ -29,6 +29,7 @@ const InputNumber: React.FC<InputNumberProps> = observer(
     standardType,
     dimensionField,
     disabled,
+    step = 50,
   }) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
@@ -197,7 +198,7 @@ const InputNumber: React.FC<InputNumberProps> = observer(
             ref={inputRef}
             type="number"
             value={value === 0 ? "" : (value * 1).toString().split(".")[0]}
-            step={50}
+            step={step}
             onChange={handleChange}
             className={`w-full p-3 py-1 border font-poppins border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-1 ${
               disabled ? "opacity-50 cursor-not-allowed" : ""

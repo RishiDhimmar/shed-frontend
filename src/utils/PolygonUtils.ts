@@ -1,4 +1,3 @@
-
 import { all, getDirection } from "three/tsl";
 import baseplateStore from "../stores/BasePlateStore";
 import dxfStore from "../stores/DxfStore";
@@ -560,7 +559,6 @@ export const traceAllPolygonsWithRays = (startPoly, otherPolys) => {
       hits: hits,
       center: getPolygonCenter(poly),
     };
-    console.log(baseplateData.hits);
     if (count === 2) {
       baseplateData.type = "corner";
       baseplateStore.cornerBasePlates.push({
@@ -961,4 +959,31 @@ export function removeDuplicatePoints(points, precision = 1e-6) {
     seen.add(key);
     return true;
   });
+}
+
+export function extendLine(ip1, ip2, iNewLength) {
+  const dx = ip2.x - ip1.x;
+  const dy = ip2.y - ip1.y;
+  const length = Math.hypot(dx, dy);
+
+  if (length === 0) {
+    // Prevent division by zero
+    return [ip1, ip2];
+  }
+
+  const center = {
+    x: (ip1.x + ip2.x) / 2,
+    y: (ip1.y + ip2.y) / 2,
+  };
+
+  const newP1 = {
+    x: center.x - iNewLength / 2,
+    y: center.y + iNewLength / 2,
+  };
+  const newP2 = {
+    x: center.x + iNewLength / 2,
+    y: center.y - iNewLength / 2,
+  };
+
+  return [newP1, newP2];
 }

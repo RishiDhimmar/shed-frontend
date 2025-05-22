@@ -15,7 +15,11 @@ const scale = 1; // Scaling factor
 // const WALL_HEIGHT = configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT;
 
 const ShedWallRenderer = observer(
-  ({ centerOffset = [0, 0, 0], floorY = 0.4, height = configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT }) => {
+  ({
+    centerOffset = [0, 0, 0],
+    floorY = 0.4,
+    height = configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT,
+  }) => {
     const externalWallPoints =
       convertToPointObjects(toJS(dxfStore.externalWallPolygon)) || [];
     const internalWall = dxfStore.internalWallPolygon?.filter(
@@ -93,7 +97,12 @@ const ShedWallRenderer = observer(
             width,
             height: height * scale, // Use input height, scaled consistently
             length,
-            position: [centerX, configStore.shed3D.heights.COLUMNS + configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT / 2, centerZ], // Center position
+            position: [
+              centerX,
+              configStore.shed3D.heights.COLUMNS +
+                configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT / 2,
+              centerZ,
+            ], // Center position
             rotation: [0, (angle * 360) / Math.PI, 0], // Align with the primary direction
             color: "orange", // Default color for ground beams
           });
@@ -101,9 +110,21 @@ const ShedWallRenderer = observer(
       }
 
       return beams.filter(Boolean);
-    }, [externalWallPoints, internalWallPoints, centerOffset, height, floorY, configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT]);
+    }, [
+      externalWallPoints,
+      internalWallPoints,
+      centerOffset,
+      height,
+      floorY,
+      configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT,
+    ]);
 
-    return <BoxRenderer instances={instances} />;
+    return (
+      <BoxRenderer
+        instances={instances}
+        
+      />
+    );
   }
 );
 

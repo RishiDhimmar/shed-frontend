@@ -35,7 +35,6 @@ const MullionColumnRenderer = observer (({ centerOffset, scale }) =>  {
         const length = maxZ - minZ;
         const centerX = (minX + maxX) / 2;
         const centerZ = (minZ + maxZ) / 2;
-        console.log(centerX, centerZ, width, length);
 
         return {
           width,
@@ -52,7 +51,6 @@ const MullionColumnRenderer = observer (({ centerOffset, scale }) =>  {
       .filter(Boolean);
   }, [mullionColumnStore.polygons, centerOffset, configStore.shed3D.heights.COLUMNS, configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT]);
 
-  console.log(instances);
 
   return (
     <>

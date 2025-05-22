@@ -586,7 +586,7 @@ const CanvasZoomPan: React.FC = observer(() => {
   }, [dimensions]);
 
   return (
-    <div className="canvas-container h-[calc(100vh-40px)] overflow-hidden relative w-100vw" >
+    <div className="canvas-container h-[calc(100vh-40px)] overflow-hidden relative w-100vw">
       <button
         className="absolute top-2.5 left-2.5 px-4 py-2 bg-gray-300 text-black border-none rounded cursor-pointer z-50 hover:bg-gray-400"
         onClick={handleCenterPolygon}
@@ -635,6 +635,8 @@ const CanvasZoomPan: React.FC = observer(() => {
           <Layer>
             <Walls />
             <PolygonsDrawer polygons={polygons} />
+            <Column />
+            <Foundation />
           </Layer>
           <Layer listening={false}>
             <CircleDrawer circles={circles} />
@@ -642,8 +644,6 @@ const CanvasZoomPan: React.FC = observer(() => {
             <TextDrawer texts={texts} />
             <EllipseDrawer ellipses={ellipses} />
             <BasePlate />
-            <Column />
-            <Foundation />
             <MullionColumn />
           </Layer>
         </Stage>

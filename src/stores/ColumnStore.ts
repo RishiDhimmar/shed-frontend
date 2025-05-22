@@ -5,6 +5,7 @@ import wallStore from "./WallStore";
 import uiStore from "./UIStore";
 import { generateCenterFromRectanglePoints } from "../utils/GeometryUtils";
 import {
+  extendLine,
   generateBiggerPolygonAtSomeOffset,
   sortPolygon,
   sortPolygonPointsClockwise,
@@ -140,10 +141,10 @@ export class ColumnStore {
     }
   }
 
-  setWireData(groupName,column, wireData) {
+  setWireData(groupName, column, wireData) {
     const group = this.polygons.find((g) => g.name === groupName);
     if (group) {
-      group.columns.find((b) => b.label === column.label).wireData = wireData
+      group.columns.find((b) => b.label === column.label).wireData = wireData;
     }
   }
 
@@ -153,6 +154,35 @@ export class ColumnStore {
     foundationStore.generateFoundationInputs();
     foundationStore.generateFoundations(this.polygons);
   }
+  setDimensionOfColumn(
+    groupName: string,
+    columnName: string,
+    length: number,
+    width: number,
+    value: number
+  ) {
+    const group = this.polygons.find((g) => g.name === groupName);
+    if (group) {
+      // compute points from width and height around the center
+      const column = group.columns.find((b) => b.label === columnName);
+      const points = [
+        { x: column.center.x - width / 2, y: column.center.y - length / 2 },
+        { x: column.center.x + width / 2, y: column.center.y - length / 2 },
+        { x: column.center.x + width / 2, y: column.center.y + length / 2 },
+        { x: column.center.x - width / 2, y: column.center.y + length / 2 },
+      ];
+      column.points = points;
+      this.updatePolygons(this.polygons);
+    }
+  }
+
+  setColumnPoints(
+    groupName: string,
+    columnName: string,
+    ip1,
+    ip2,
+    iNewLength: number
+  ) {}
 
   // Helper method to check if two polygons overlap
   checkOverlap(rect1: number[][], rect2: number[][]): boolean {
@@ -1162,7 +1192,6 @@ export class ColumnStore {
         hits: plate.hits,
         group: group.name,
         ogPoints: plate.points,
-
       }));
 
       return {
