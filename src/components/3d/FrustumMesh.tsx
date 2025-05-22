@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { useMemo } from "react";
 import { Line } from "@react-three/drei";
+import foundationStore from "../../stores/FoundationStore";
 
 interface Point {
   x: number;
@@ -17,7 +18,7 @@ interface FrustumMeshProps {
 const FrustumMesh = ({
   bottomPoints,
   topPoints,
-  yDepth = 0.370,
+  yDepth = 0.37,
   floorY = 0,
   opacity = 1,
 }: FrustumMeshProps) => {
@@ -95,7 +96,7 @@ const FrustumMesh = ({
     geom.setIndex(indices);
     geom.computeVertexNormals();
     return geom;
-  }, [bottomPoints, topPoints, yDepth, floorY]);
+  }, [bottomPoints, topPoints, yDepth, floorY, foundationStore.foundationInputs]);
 
   if (!geometry) return null;
 
@@ -107,6 +108,9 @@ const FrustumMesh = ({
           color="magenta"
           transparent
           opacity={opacity}
+          polygonOffset
+          polygonOffsetFactor={-1}
+          polygonOffsetUnits={-4}
           depthWrite={false}
         />
       </mesh>

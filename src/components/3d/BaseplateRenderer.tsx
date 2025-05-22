@@ -38,7 +38,6 @@ const BaseplateRenderer = observer(({ centerOffset = [0, 0], scale = 1 }) => {
         const length = maxZ - minZ;
         const centerX = (minX + maxX) / 2;
         const centerZ = (minZ + maxZ) / 2;
-        console.log(centerX, centerZ, width, length);
 
         return {
           width,
@@ -55,7 +54,6 @@ const BaseplateRenderer = observer(({ centerOffset = [0, 0], scale = 1 }) => {
       .filter(Boolean);
   }, [baseplateStore.basePlates, centerOffset, configStore.shed3D.heights.COLUMNS]);
 
-  console.log(instances);
 
   return (
     <>

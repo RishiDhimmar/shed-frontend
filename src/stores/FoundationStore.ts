@@ -111,8 +111,10 @@ class FoundationStore {
     foundation.group = groupName;
     group.foundations.push(foundation);
 
+    this.generateFoundationInputs(this.groups);
+
     // Regenerate inputs and polygons after state change
-    this.generateFoundations(this.groups);
+    this.updateFoundations(this.groups);
   }
 
   removeFoundationFromGroup(groupName: string, foundationName: string) {
@@ -140,7 +142,7 @@ class FoundationStore {
       this.foundationInputs = foundationInputs;
       uiStore.setModified(true);
     });
-    this.generateFoundations(this.groups);
+    this.updateFoundations(this.groups);
   }
 
   constructor() {

@@ -1019,11 +1019,6 @@ class BaseplateStore {
         plate.hits[0].direction === "-y" || plate.hits[0].direction === "+y"
     );
 
-    // Log the direction for debugging (optional, retained from original)
-    this.edgeBasePlates.forEach((plate) => {
-      console.log(plate.hits[0].direction);
-    });
-
     // Create groups based on whether middleBasePlates exist
     if (this.middleBasePlates.length > 0) {
       this.groups = [

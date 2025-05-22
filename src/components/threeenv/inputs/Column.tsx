@@ -6,6 +6,7 @@ import baseplateStore from "../../../stores/BasePlateStore";
 import { useState } from "react";
 import { toJS } from "mobx";
 import configStore from "../../../stores/ConfigStore";
+import { Input } from "antd";
 
 export const Column = observer(() => {
   const [modifyMode, setModifyMode] = useState(false);
@@ -46,6 +47,7 @@ export const Column = observer(() => {
                   key={bs.id}
                   className="inline-flex items-center justify-between text-sm text-gray-900 ring-1 ring-gray-300 rounded px-2 py-1"
                 >
+                  {console.log(toJS(bs))}
                   {bs?.label ? bs.label : "No Label"}
                   {modifyMode && (
                     <button
@@ -60,7 +62,7 @@ export const Column = observer(() => {
                 </div>
               ))}
             </div>
-            <input
+            {/*<input
               type="number"
               className="border rounded p-1 flex-1 my-2 w-full"
               value={group.hEdgeWires}
@@ -75,8 +77,19 @@ export const Column = observer(() => {
               onChange={(e) =>
                 columnStore.setvEdgeWires(group.name, e.target.value)
               }
+            />*/}
+            <InputNumber
+              label="hEdgeWires:"
+              value={group.hEdgeWires}
+              onChange={(value) => columnStore.sethEdgeWires(group.name, value)}
+              step={1}
             />
-
+            <InputNumber
+              label="vEdgeWires:"
+              value={group.vEdgeWires}
+              onChange={(value) => columnStore.setvEdgeWires(group.name, value)}
+              step={1}
+            />
             {modifyMode && (
               <div className="flex gap-2 mt-2">
                 <select
@@ -172,6 +185,11 @@ export const Column = observer(() => {
                     });
                   }}
                 />
+                {console.log(
+                  columnStore.polygons.find((g) => g.name === bs).columns[0]
+                    .points[0].x
+                )}
+
                 <InputNumber
                   label="-y Offset:"
                   value={columnStore.columnInputs[bs]["+y"]}

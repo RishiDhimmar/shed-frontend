@@ -37,9 +37,9 @@ function RCCRenderer({ bottomPoints }) {
         };
       })
       .filter(Boolean);
-  }, [foundationStore.foundations, bottomPoints,]);
+  }, [foundationStore.foundations, bottomPoints]);
 
-  return <BoxRenderer instances={instances} opacity={0.02}/>;
+  return <BoxRenderer instances={instances} opacity={0.02} />;
 }
 
 export default RCCRenderer;

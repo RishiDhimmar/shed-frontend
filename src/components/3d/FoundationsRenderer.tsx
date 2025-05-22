@@ -1,18 +1,17 @@
-
 import { toJS } from "mobx";
 import foundationStore from "../../stores/FoundationStore";
 import FrustumMesh from "./FrustumMesh";
 import RCCRenderer from "./RCCRenderer";
 import { Shed3DConfig } from "../../Constants";
 import * as THREE from "three";
-import React from "react";
+import React, { useMemo } from "react";
 import configStore from "../../stores/ConfigStore";
 import { observer } from "mobx-react-lite";
-const scale = 1
+const scale = 1;
 
-const FoundationsRenderer = observer(({ centerOffset, }) =>{
+const FoundationsRenderer = observer(({ centerOffset }) => {
   const [offsetX, , offsetZ] = centerOffset;
-  const foundations = toJS(foundationStore.foundations);
+  const foundations = useMemo(() => toJS(foundationStore.foundations), []); //foundationStore.foundations;
 
   return foundations.map((f, i) => {
     const transformPoints = (points) =>
@@ -68,7 +67,7 @@ const FoundationsRenderer = observer(({ centerOffset, }) =>{
             <mesh
               key={key}
               geometry={verticalGeometry}
-              position={[x + 0, verticalHeight/2, z + 0.001]}
+              position={[x + 0, verticalHeight / 2, z + 0.001]}
               rotation={[0, 0, 0]}
               castShadow
               receiveShadow
@@ -95,8 +94,8 @@ const FoundationsRenderer = observer(({ centerOffset, }) =>{
                 `${rodIndex}-v1`
               )}
               {createVerticalRod(
-                -((line2[2]) / 1000 - offsetX) * scale,
-                -((line2[3]) / 1000 - offsetZ) * scale,
+                -(line2[2] / 1000 - offsetX) * scale,
+                -(line2[3] / 1000 - offsetZ) * scale,
                 `${rodIndex}-v2`
               )}
             </React.Fragment>
@@ -105,6 +104,6 @@ const FoundationsRenderer = observer(({ centerOffset, }) =>{
       </React.Fragment>
     );
   });
-})
+});
 
 export default FoundationsRenderer;
