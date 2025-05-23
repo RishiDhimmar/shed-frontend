@@ -78,6 +78,7 @@ class UIStore {
   currentComponent: currentComponentType = "plot";
   isSidebarOpen = false;
   useStandardInputs = false;
+  stageTransform = { x: 0, y: 0, scale: 1 };
   // Set initial visibility: true means visible.
   visibility = {
     plot: true,
@@ -108,6 +109,10 @@ class UIStore {
 
   constructor() {
     makeAutoObservable(this);
+  }
+
+  setStageTransform(transform: { x: number; y: number; scale: number }) {
+    this.stageTransform = transform;
   }
 
   addTemplate(template: Omit<Template, "id" | "createdAt">) {

@@ -621,13 +621,7 @@ export function generateBiggerPolygonAtSomeOffset(
   }
 
   // Clamp offset to a reasonable range
-  const maxOffset = 100; // Maximum absolute offset
-  if (Math.abs(offset) > maxOffset) {
-    console.warn(`Offset too large (${offset}); clamping to ${maxOffset}`, {
-      offset,
-    });
-    offset = Math.sign(offset) * maxOffset;
-  }
+  const maxOffset = offset;
 
   // Validate points: must be {x, y, z} with finite numbers
   for (const point of points) {
@@ -986,4 +980,111 @@ export function extendLine(ip1, ip2, iNewLength) {
   };
 
   return [newP1, newP2];
+}
+
+export function divideLineIntoEqualParts(start, end, segments) {
+  const points = [];
+
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
+
+    const x = (1 - t) * start.x + t * end.x;
+    const y = (1 - t) * start.y + t * end.y;
+
+    points.push({ x, y });
+  }
+
+  return points;
+}
+
+export function generateSymmetricPoints(
+  start: number,
+  end: number,
+  idealDistance: number
+): number[] {
+  const center = (start + end) / 2;
+  const points = new Set<number>([center]);
+
+  // Positive direction
+  let pos = center + idealDistance;
+  while (pos < end) {
+    points.add(pos);
+    pos += idealDistance;
+  }
+  points.add(end); // always include end
+
+  // Negative direction
+  let neg = center - idealDistance;
+  while (neg > start) {
+    points.add(neg);
+    neg -= idealDistance;
+  }
+  points.add(start); // always include start
+
+  return Array.from(points).sort((a, b) => a - b);
+}
+
+export function partitionGroupsByDimension(groups, type) {
+  const result = [];
+  console.log(groups);
+
+  for (const group of groups) {
+    const dimensionMap = {};
+    const temp = group.basePlates;
+
+    for (const column of temp) {
+      console.log(column);
+      const xs = column.points.map((p) => p.x);
+      const ys = column.points.map((p) => p.y);
+      const width = Math.max(...xs) - Math.min(...xs);
+      const height = Math.max(...ys) - Math.min(...ys);
+
+      // Create dimension key (order-agnostic)
+      const [dim1, dim2] = [width.toFixed(0), height.toFixed(0)].sort(
+        (a, b) => a - b
+      );
+      const dimensionKey = `${dim1}_${dim2}`;
+
+      if (!dimensionMap[dimensionKey]) {
+        dimensionMap[dimensionKey] = [];
+      }
+      dimensionMap[dimensionKey].push(column);
+    }
+
+    const subgroups = Object.values(dimensionMap);
+
+    // Push each subgroup as its own new group with same name (or modified)
+    if (subgroups.length === 1) {
+      if (type === "Baseplate") {
+        result.push({
+          name: group.name,
+          basePlates: subgroups[0],
+        });
+      } else {
+        result.push({
+          name: group.name,
+          columns: subgroups[0],
+        });
+      }
+    } else {
+      let i = 1;
+      for (const subgroup of subgroups) {
+        if (type === "Foundation") {
+          result.push({
+            name: `${group.name} - ${i}`,
+            foundations: subgroup,
+          });
+          i++;
+          continue;
+        }
+        result.push({
+          name: `${group.name} - ${i}`,
+          basePlates: subgroup,
+        });
+        i++;
+      }
+    }
+  }
+
+  return result;
 }

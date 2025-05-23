@@ -1207,6 +1207,11 @@ export class ColumnStore {
 
     return groupedPolygons;
   }
+
+  reset() {
+    this.polygons = [];
+    this.columns = [];
+  }
 }
 
 // Create and export the singleton instance

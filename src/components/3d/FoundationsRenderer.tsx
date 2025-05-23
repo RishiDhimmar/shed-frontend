@@ -93,9 +93,10 @@ const FoundationsRenderer = observer(({ centerOffset }) => {
                 -((line1[1] + line2[1]) / 2 / 1000 - offsetZ) * scale,
                 `${rodIndex}-v1`
               )}
+
               {createVerticalRod(
-                -(line2[2] / 1000 - offsetX) * scale,
-                -(line2[3] / 1000 - offsetZ) * scale,
+                -((line1[2] + line2[2]) / 2 / 1000 - offsetX) * scale,
+                -((line1[3] + line2[3]) / 2 / 1000 - offsetZ) * scale,
                 `${rodIndex}-v2`
               )}
             </React.Fragment>

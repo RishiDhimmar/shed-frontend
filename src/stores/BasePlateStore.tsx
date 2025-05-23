@@ -4,8 +4,9 @@ import { getRectanglePoints } from "../utils/GeometryUtils";
 import { v4 as uuidv4 } from "uuid";
 import uiStore from "./UIStore";
 import foundationStore from "./FoundationStore";
-import { sortPolygon } from "../utils/PolygonUtils";
+import { partitionGroupsByDimension, sortPolygon } from "../utils/PolygonUtils";
 import columnStore from "./ColumnStore";
+import mullionColumnStore from "./MullianColumnStore";
 
 export type BaseplateType = "corner" | "horizontal" | "vertical";
 
@@ -85,6 +86,15 @@ class BaseplateStore {
 
   getConfig() {
     return this.config;
+  }
+
+  setGroups(groups: any[]) {
+    this.groups = groups;
+    columnStore.generateColumnsInputs(baseplateStore.groups);
+    columnStore.generateColumnPolygons(this.groups);
+
+    foundationStore.generateFoundationInputs(this.groups);
+    foundationStore.generateFoundations(this.groups);
   }
 
   // Helper method to check if two polygons overlap
@@ -765,10 +775,12 @@ class BaseplateStore {
     const group = this.groups.find((g) => g.name === groupName);
     if (group) {
       const b = group.basePlates.find((b) => b.label === baseplateName);
-      b.group = null;
-      group.basePlates = group.basePlates.filter(
-        (b) => b.label !== baseplateName
-      );
+      if (b) {
+        b.group = null;
+        group.basePlates = group.basePlates.filter(
+          (b) => b.label !== baseplateName
+        );
+      }
     }
     columnStore.generateColumnsInputs(baseplateStore.groups);
     foundationStore.generateFoundationInputs();
@@ -1035,8 +1047,32 @@ class BaseplateStore {
       ];
     }
 
+    this.groups = partitionGroupsByDimension(this.groups, "Baseplate");
+
     // Return an empty array as per the original function signature
     return [];
+  }
+
+  reset() {
+    this.cornerBasePlates = [];
+    this.edgeBasePlates = [];
+    this.middleBasePlates = [];
+  }
+
+  deleteBasePlate(baseplateName: string) {
+    const group = this.groups.find((g) =>
+      g.basePlates.some((b) => b.label === baseplateName)
+    ).name;
+    console.log(group);
+    if (group) {
+      baseplateStore.removeBaseplateFromGroup(group, baseplateName);
+      baseplateStore.basePlates = baseplateStore.basePlates.filter(
+        (b) => b.label !== baseplateName
+      );
+      console.log(group, "C" + baseplateName.slice(1));
+      columnStore.removeColumnFromGroup(group, "C" + baseplateName.slice(1));
+      mullionColumnStore.calculateMullionColumns();
+    }
   }
 }
 

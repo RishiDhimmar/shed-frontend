@@ -47,7 +47,6 @@ export const Column = observer(() => {
                   key={bs.id}
                   className="inline-flex items-center justify-between text-sm text-gray-900 ring-1 ring-gray-300 rounded px-2 py-1"
                 >
-                  {console.log(toJS(bs))}
                   {bs?.label ? bs.label : "No Label"}
                   {modifyMode && (
                     <button

@@ -418,10 +418,10 @@ const Foundation = observer(() => {
     rodsAlongWidth
   ) => {
     const rodLines = [];
-    const tubeWidth = 10;
+    const tubeWidth = 16;
 
-    const lengthSpacing = (bbox.maxY - bbox.minY) / (rodsAlongLength + 1);
-    for (let i = 1; i <= rodsAlongLength; i++) {
+    const lengthSpacing = (bbox.maxY - bbox.minY) / (rodsAlongWidth + 1);
+    for (let i = 1; i <= rodsAlongWidth; i++) {
       const y = bbox.minY + i * lengthSpacing;
       rodLines.push({
         line1: [
@@ -442,8 +442,8 @@ const Foundation = observer(() => {
       });
     }
 
-    const widthSpacing = (bbox.maxX - bbox.minX) / (rodsAlongWidth + 1);
-    for (let i = 1; i <= rodsAlongWidth; i++) {
+    const widthSpacing = (bbox.maxX - bbox.minX) / (rodsAlongLength + 1);
+    for (let i = 1; i <= rodsAlongLength; i++) {
       const x = bbox.minX + i * widthSpacing;
       rodLines.push({
         line1: [
@@ -752,11 +752,7 @@ const Foundation = observer(() => {
                         stroke="black"
                         strokeWidth={5}
                       />
-                      {console.log(
-                        foundationStore.groups.find(
-                          (g) => g.name === group.name
-                        )
-                      )}
+
                       <Dimension
                         p1={outerLengthPoints[0]}
                         p2={outerLengthPoints[1]}

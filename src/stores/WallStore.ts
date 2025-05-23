@@ -7,7 +7,7 @@ import baseplateStore from "./BasePlateStore";
 export class WallStore {
   width = 0;
   height = 0;
-  wallThickness = 0;
+  wallThickness = 100;
   externalWallPoints: number[][] = [];
   internalWallPoints: number[][] = [];
   private _isGeneratingWalls = false;
