@@ -65,10 +65,10 @@ export const getRectanglePoints = (
     return [];
   }
   return [
-    [cx - length / 2, cy - width / 2],
-    [cx + length / 2, cy - width / 2],
     [cx + length / 2, cy + width / 2],
     [cx - length / 2, cy + width / 2],
+    [cx - length / 2, cy - width / 2],
+    [cx + length / 2, cy - width / 2],
   ];
 };
 

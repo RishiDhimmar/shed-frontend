@@ -1,14 +1,20 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, toJS } from "mobx";
 
 import {
   convertToPointObjects,
+  divideLineIntoEqualParts,
+  generateBiggerPolygonAtSomeOffset,
+  generateSymmetricPoints,
+  getBounds,
   traceAllPolygonsWithRays,
 } from "../utils/PolygonUtils";
 import {
   calculateBoundingBoxArea,
+  getRectanglePoints,
   isPointInPolygon,
 } from "../utils/GeometryUtils";
 import {
+  distanceBetPoints,
   findClosestPointOnPolygon,
   findClosestPolygon,
   findClosestSmallerPolygon,
@@ -23,7 +29,26 @@ import uiStore from "./UIStore";
 
 class DxfStore {
   candidatePolygons = [];
-  externalWallPolygon = [-375, -500, 375, -500, 375, 500, -375, 500];
+  // externalWallPolygon = [-375, -500, 375, -500, 375, 500, -375, 500];
+  externalWallPolygon = getRectanglePoints(12000, 24000).flatMap((p) => [
+    p[0],
+    p[1],
+  ]);
+  // externalWallPolygon = [
+  //   -37500,
+  //   -50000, // 1. bottom-left
+  //   50000,
+  //   -50000, // 2. bottom-right
+  //   50000,
+  //   0, // 3. cut up to bottom of notch
+  //   0,
+  //   0, // 4. left of notch
+  //   0,
+  //   50000, // 5. top of vertical leg
+  //   -37500,
+  //   50000, // 6. top-left
+  // ];
+
   externalWallPoints = convertToPointObjects(this.externalWallPolygon);
   internalWallPolygon = null; // Changed from [] to null for proper initial state
   intersectingPolygons = [];
@@ -33,6 +58,7 @@ class DxfStore {
 
   constructor() {
     makeAutoObservable(this);
+    console.log("External wall polygon", toJS(this.externalWallPolygon));
   }
 
   setCandidatePolygons(polygons) {
@@ -101,14 +127,14 @@ class DxfStore {
         this.internalWallPolygon = flatArray;
 
         wallStore.wallThickness = Math.abs(
-          this.externalWallPolygon[0] - this.internalWallPolygon[0],
+          this.externalWallPolygon[0] - this.internalWallPolygon[0]
         );
         wallStore.externalWallPoints = this.externalWallPolygon;
         wallStore.internalWallPoints = this.internalWallPolygon;
         uiStore.toggleVisibility("lines");
         uiStore.toggleVisibility("circles");
         uiStore.toggleVisibility("annotation");
-        uiStore.toggleVisibility("polygons");
+        // uiStore.toggleVisibility("polygons");
 
         return flatArray;
       }
@@ -145,7 +171,7 @@ class DxfStore {
       referencePoint,
       this.candidatePolygons,
       internalWallPointObjects,
-      { distanceTolerance: 100, areaTolerance: 0 },
+      { distanceTolerance: 100, areaTolerance: 0 }
     );
 
     if (result && result.polygon) {
@@ -159,7 +185,7 @@ class DxfStore {
   recursiveRaycastingFromPolygon() {
     const { rays, allIntersectingPolygons } = traceAllPolygonsWithRays(
       this.firstBasePlatePolygon,
-      this.candidatePolygons,
+      this.candidatePolygons
     );
     this.rays = rays;
 
@@ -197,7 +223,7 @@ class DxfStore {
     const thicknesses = internalPoints.map((internalPt) => {
       const closestExternal = findClosestPointOnPolygon(
         internalPt,
-        externalPoints,
+        externalPoints
       );
       return this.distance(internalPt, closestExternal);
     });
@@ -207,6 +233,87 @@ class DxfStore {
     const averageThickness =
       thicknesses.reduce((sum, val) => sum + val, 0) / thicknesses.length;
     return averageThickness;
+  }
+
+  placeBaseplates(
+    idealHorizontalDistance = baseplateStore.idealHorizontalDistance * 1000 ||
+      6000,
+    idealVerticalDistance = baseplateStore.idealVerticalDistance * 1000 || 7000
+  ) {
+    const bounds = getBounds(convertToPointObjects(this.externalWallPolygon));
+    console.log(bounds);
+    this.candidatePolygons = [];
+    this.internalWallPolygon = [];
+    baseplateStore.reset();
+    columnStore.reset();
+    foundationStore.reset();
+
+    const baseplateWidth = 550;
+    const baseplateHeight = 330;
+
+    const offsetX = 75 + 550 / 2 + 250;
+    const offsetY = 75 + 330 / 2 + 250;
+
+    const colStartX = bounds.minX + offsetX;
+    const colEndX = bounds.maxX - offsetX;
+    const rowStartY = bounds.minY + offsetY;
+    const rowEndY = bounds.maxY - offsetY;
+
+    const xPositions = generateSymmetricPoints(
+      colStartX,
+      colEndX,
+      idealHorizontalDistance
+    );
+    const yPositions = generateSymmetricPoints(
+      rowStartY,
+      rowEndY,
+      idealVerticalDistance
+    );
+
+    const bspPoints = [];
+
+    for (const x of xPositions) {
+      for (const y of yPositions) {
+        bspPoints.push({ x, y });
+      }
+    }
+
+    console.log("Baseplate centers:", bspPoints);
+
+    this.candidatePolygons = bspPoints.map((pt) =>
+      getRectanglePoints(baseplateWidth, baseplateHeight, [pt.x, pt.y]).map(
+        (p) => ({
+          x: p[0],
+          y: p[1],
+          z: 0,
+        })
+      )
+    );
+
+    this.candidatePolygons.push(
+      generateBiggerPolygonAtSomeOffset(
+        convertToPointObjects(this.externalWallPolygon).map((p) => ({
+          x: p.x,
+          y: p.y,
+          z: 0,
+        })),
+        -250
+      )
+    );
+
+    this.filterCandidatePolygons();
+    this.calculateInnerPolygons();
+    this.calculateFirstBasePlatePolygon();
+    this.recursiveRaycastingFromPolygon();
+    baseplateStore.generateLabels();
+    baseplateStore.processBasePlates();
+    console.log(toJS(baseplateStore.groups));
+    columnStore.generateColumnsInputs(baseplateStore.groups);
+    console.log(toJS(columnStore.columnInputs));
+    columnStore.generateColumnPolygons(baseplateStore.groups);
+    foundationStore.generateFoundationInputs();
+    foundationStore.generateFoundations();
+    mullionColumnStore.calculateMullionColumns();
   }
 }
 

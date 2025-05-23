@@ -318,6 +318,7 @@ const Dimension: React.FC<DimensionProps> = ({
         align="center"
         rotation={rotation}
         onDblClick={onInputClick}
+        
         listening
       />
       {isInputActive && (

@@ -313,8 +313,9 @@ const Walls: React.FC = observer(() => {
   const { visibility, currentComponent } = uiStore;
   const externalWall = dxfStore.externalWallPolygon;
   const internalWall = dxfStore.internalWallPolygon?.filter(
-    (_, index) => index % 3 !== 2,
+    (_, index) => index % 3 !== 2
   );
+  console.log("internalWall", internalWall);
   const isGroundBeam = currentComponent === "groundBeam";
   const [editingIndex, setEditingIndex] = useState(null);
   const [newLength, setNewLength] = useState("");
@@ -323,7 +324,7 @@ const Walls: React.FC = observer(() => {
     points: number[],
     stroke: string,
     fill?: string,
-    opacity = 1,
+    opacity = 1
   ) => (
     <Line
       points={points}
@@ -394,7 +395,7 @@ const Walls: React.FC = observer(() => {
           externalWall,
           "cyan",
           isGroundBeam ? "cyan" : undefined,
-          isGroundBeam ? 1 : 0,
+          isGroundBeam ? 1 : 0
         )}
 
       {/* Ground Beam - Internal Wall */}
@@ -404,7 +405,7 @@ const Walls: React.FC = observer(() => {
           internalWall,
           "#FF7F00",
           isGroundBeam ? "white" : undefined,
-          isGroundBeam ? 1 : 0,
+          isGroundBeam ? 1 : 0
         )}
 
       {/* Mullion Column Labels */}
@@ -503,6 +504,7 @@ const Walls: React.FC = observer(() => {
                   color="#FF7F00"
                   fontSize={10}
                   textStrokeWidth={0.2}
+                  rotation={startRotation}
                 />
                 <Group x={midX} y={midY}>
                   <Html>

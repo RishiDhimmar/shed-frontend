@@ -334,6 +334,8 @@ class FoundationStore {
           75
         );
 
+        console.log(toJS(this.foundationInputs), column.group);
+
         const outerFoundationPoints = getBiggerRectangleAtOffset(
           column,
           this.foundationInputs[column.group]["+x"],
@@ -372,6 +374,10 @@ class FoundationStore {
     this.foundations = groupedFoundations.flatMap((group) => group.foundations);
 
     return groupedFoundations;
+  }
+  reset() {
+    this.foundations = [];
+    this.groups = [];
   }
 }
 
