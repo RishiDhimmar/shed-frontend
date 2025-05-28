@@ -7,6 +7,11 @@ import ImportModel from "../components/uiElements/ImportModel";
 import { extractAllFromDXF, extractPolygonsFromDXF } from "./DXFUtils";
 import uiStore from "../stores/UIStore";
 import dxfStore from "../stores/DxfStore";
+import DxfParser from "dxf-parser";
+import { IoSaveSharp } from "react-icons/io5";
+import columnStore from "../stores/ColumnStore";
+import foundationStore from "../stores/FoundationStore";
+import mullionColumnStore from "../stores/MullianColumnStore";
 
 export const Import = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -87,7 +92,6 @@ export const Import = () => {
       const externalWallLines = jsonData.entities.filter((line: any) => line.layer === "ExternalWall");
       const internalWallLines = jsonData.entities.filter((line: any) => line.layer === "InternalWall");
 
-
       externalWallLines[0].vertices.forEach((vertex: any) => {
         vertex.x = vertex.x / 1000;
         vertex.y = vertex.y / 1000;
@@ -114,20 +118,33 @@ export const Import = () => {
   }
 
   // const handleShedBaseplateDxfChange = async (file: File) => {
-  const handleShedBaseplateDxfChange = async (file: File) => {
-    const formData = new FormData();
-    formData.append("dxfFile", file);
-
+  const handleShedBaseplateDxfChange = async (
+    file: File,
+    layerName?: string
+  ) => {
     try {
-      const response = await fetch(BACKEND_URL + "api/dxf/upload-dxf", {
-        method: "POST",
-        body: formData,
-      });
+      // Read the file as text
+      const fileText = await file.text();
 
-      if (!response.ok)
-        throw new Error(`HTTP error! Status: ${response.status}`);
+      // Initialize the DXF parser
+      const parser = new DxfParser();
 
-      const jsonData = await response.json();
+      // Parse the DXF file
+      const dxfResult = parser.parseSync(fileText);
+
+      console.log(dxfResult);
+
+      if (!dxfResult || !dxfResult.entities) {
+        throw new Error("No entities found in uploaded DXF file");
+      }
+
+      // Prepare the JSON data similar to the backend response
+      const jsonData = {
+        entities: dxfResult.entities || [],
+        blocks: dxfResult.blocks || {},
+      };
+
+      // Process the parsed data as before
       baseplateStore.clearBaseplates();
       wallStore.clearWallData();
 
@@ -137,9 +154,66 @@ export const Import = () => {
       dxfStore.data = uiStore.data;
       dxfStore.setCandidatePolygons(uiStore.data.polygons);
     } catch (error) {
-      console.error("❌ Error uploading baseplate DXF file:", error);
+      console.error("❌ Error parsing DXF file:", error);
     }
   };
+ const handleSaveProject = async () => {
+  const jsonData = {
+    projectName: uiStore.projectName,
+    location: uiStore.location,
+    customerName: uiStore.customerName,
+    logo: uiStore.logoUrl,
+    wall: {
+      wallThickness: wallStore.wallThickness,
+      externalWallPoints: dxfStore.externalWallPolygon,
+      internalWallPoints: dxfStore.internalWallPolygon,
+    },
+    baseplate: {
+      groups: baseplateStore.groups,
+      basePlates: baseplateStore.basePlates,
+    },
+    column: {
+      columnInputs: columnStore.columnInputs,
+      polygons: columnStore.polygons,
+    },
+    foundation: {
+      foundationInputs: foundationStore.foundationInputs,
+      groups: foundationStore.groups,
+    },
+    mullionColumn: {
+      polygons: mullionColumnStore.polygons,
+    },
+    groundBeam: {
+      polygons: [],
+    },
+    assignedUsers: [
+      // Add valid Cognito user sub(s) here
+      "e09c993c-f0a1-7012-7689-f363acf1a7ae"
+    ],
+    createdBy: "e09c993c-f0a1-7012-7689-f363acf1a7ae",
+  };
+
+  try {
+    const response = await fetch("http://localhost:3000/proje++cts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(jsonData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}, Message: ${data?.message}`);
+    }
+
+    console.log("✅ Project saved:", data);
+  } catch (error) {
+    console.error("❌ Error saving project:", error);
+  }
+};
+
 
   return (
     <div className="w-full">
@@ -149,6 +223,12 @@ export const Import = () => {
           onClick={() => setIsModalOpen(true)}
         >
           Import Files
+        </button>
+        <button
+          className="bg-gray-800 text-white m-1 p-2 rounded shadow-md hover:bg-gray-600 cursor-pointer"
+          onClick={handleSaveProject}
+        >
+          <IoSaveSharp />
         </button>
 
         <ImportModel

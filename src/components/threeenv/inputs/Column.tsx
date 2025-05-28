@@ -184,10 +184,6 @@ export const Column = observer(() => {
                     });
                   }}
                 />
-                {console.log(
-                  columnStore.polygons.find((g) => g.name === bs).columns[0]
-                    .points[0].x
-                )}
 
                 <InputNumber
                   label="-y Offset:"

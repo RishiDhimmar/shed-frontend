@@ -334,7 +334,6 @@ class FoundationStore {
           75
         );
 
-        console.log(toJS(this.foundationInputs), column.group);
 
         const outerFoundationPoints = getBiggerRectangleAtOffset(
           column,

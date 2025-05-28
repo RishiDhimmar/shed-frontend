@@ -1258,7 +1258,7 @@ export const extractAllFromDXF = (dxfData) => {
                 accumulatedMatrix,
                 localMatrix,
               );
-              extractEntities(block.entities || [], totalMatrix, space);
+              extractEntities(block.entities || [], totalMatrix, space); // recursive call
             } else {
               console.warn(`Block not found: ${entity.name}`);
               unknownEntities.push({ type: "INSERT", raw: entity, space });

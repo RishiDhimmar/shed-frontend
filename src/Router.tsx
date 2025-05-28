@@ -80,7 +80,16 @@ const Router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       { path: "listView", element: <ListView /> },
-      { path: "project", element: <ProjectStructure /> },
+      {
+        path: "project",
+        element: <ProjectStructure />,
+        children: [
+          {
+            path: ":id",
+            element: <MainLayout />,
+          },
+        ],
+      },
       { path: "standards", element: <StandardManagement onClose={() => {}} /> },
       {
         path: "templates",

@@ -281,6 +281,7 @@ class BaseplateStore {
     return true;
   }
 
+
   setBasePlates(newBasePlates: Baseplate[]) {
     runInAction(() => {
       this.basePlates = newBasePlates;
