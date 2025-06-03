@@ -12,6 +12,12 @@ import { IoSaveSharp } from "react-icons/io5";
 import columnStore from "../stores/ColumnStore";
 import foundationStore from "../stores/FoundationStore";
 import mullionColumnStore from "../stores/MullianColumnStore";
+import { Helper } from "dxf";
+import { button } from "leva";
+import { BsFiletypeXlsx } from "react-icons/bs";
+// import * as XLSX from "xlsx";
+// import XLSX from "xlsx-style";
+import ExcelJS from "exceljs";
 
 export const Import = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -139,7 +145,7 @@ export const Import = () => {
       }
 
       // Prepare the JSON data similar to the backend response
-      const jsonData = {
+      let jsonData = {
         entities: dxfResult.entities || [],
         blocks: dxfResult.blocks || {},
       };
@@ -147,6 +153,9 @@ export const Import = () => {
       // Process the parsed data as before
       baseplateStore.clearBaseplates();
       wallStore.clearWallData();
+
+      // console.log(new Helper(fileText).parsed);
+      // jsonData = new Helper(fileText).parsed;
 
       const polygons = extractPolygonsFromDXF(jsonData);
       uiStore.data = extractAllFromDXF(jsonData);
@@ -157,63 +166,110 @@ export const Import = () => {
       console.error("❌ Error parsing DXF file:", error);
     }
   };
- const handleSaveProject = async () => {
-  const jsonData = {
-    projectName: uiStore.projectName,
-    location: uiStore.location,
-    customerName: uiStore.customerName,
-    logo: uiStore.logoUrl,
-    wall: {
-      wallThickness: wallStore.wallThickness,
-      externalWallPoints: dxfStore.externalWallPolygon,
-      internalWallPoints: dxfStore.internalWallPolygon,
-    },
-    baseplate: {
-      groups: baseplateStore.groups,
-      basePlates: baseplateStore.basePlates,
-    },
-    column: {
-      columnInputs: columnStore.columnInputs,
-      polygons: columnStore.polygons,
-    },
-    foundation: {
-      foundationInputs: foundationStore.foundationInputs,
-      groups: foundationStore.groups,
-    },
-    mullionColumn: {
-      polygons: mullionColumnStore.polygons,
-    },
-    groundBeam: {
-      polygons: [],
-    },
-    assignedUsers: [
-      // Add valid Cognito user sub(s) here
-      "e09c993c-f0a1-7012-7689-f363acf1a7ae"
-    ],
-    createdBy: "e09c993c-f0a1-7012-7689-f363acf1a7ae",
+  const handleSaveProject = async () => {
+    const jsonData = {
+      projectName: uiStore.projectName,
+      location: uiStore.location,
+      customerName: uiStore.customerName,
+      logo: uiStore.logoUrl,
+      wall: {
+        wallThickness: wallStore.wallThickness,
+        externalWallPoints: dxfStore.externalWallPolygon,
+        internalWallPoints: dxfStore.internalWallPolygon,
+      },
+      baseplate: {
+        groups: baseplateStore.groups,
+        basePlates: baseplateStore.basePlates,
+      },
+      column: {
+        columnInputs: columnStore.columnInputs,
+        polygons: columnStore.polygons,
+      },
+      foundation: {
+        foundationInputs: foundationStore.foundationInputs,
+        groups: foundationStore.groups,
+      },
+      mullionColumn: {
+        polygons: mullionColumnStore.polygons,
+      },
+      groundBeam: {
+        polygons: [],
+      },
+      assignedUsers: [
+        // Add valid Cognito user sub(s) here
+        "e09c993c-f0a1-7012-7689-f363acf1a7ae",
+      ],
+      createdBy: "e09c993c-f0a1-7012-7689-f363acf1a7ae",
+    };
+
+    try {
+      const response = await fetch("http://localhost:3000/proje++cts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jsonData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          `HTTP error! Status: ${response.status}, Message: ${data?.message}`
+        );
+      }
+
+      console.log("✅ Project saved:", data);
+    } catch (error) {
+      console.error("❌ Error saving project:", error);
+    }
   };
 
-  try {
-    const response = await fetch("http://localhost:3000/proje++cts", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(jsonData),
+  const exportXLSX = async () => {
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet("Sheet1");
+
+    // Merge A1 and B1
+    sheet.mergeCells("A1:B1");
+
+    const firstColumn = sheet.getColumn(1);
+    firstColumn.width = 50;
+
+    // Add header row with styling
+    const headerCell = sheet.getCell("A1");
+    headerCell.value = "Name & Age";
+    headerCell.font = { bold: true, size: 40 };
+    headerCell.alignment = { horizontal: "left", vertical: "middle" };
+
+    const cityHeader = sheet.getCell("C1");
+    cityHeader.value = "City";
+    cityHeader.font = { bold: true };
+    cityHeader.alignment = { horizontal: "center" };
+
+    // Add data
+    const data = [
+      ["Alice", 30, "New York"],
+      ["Bob", 25, "Los Angeles"],
+      ["Charlie", 28, "Chicago"],
+    ];
+
+    data.forEach((row, idx) => {
+      sheet.addRow(row);
     });
 
-    const data = await response.json();
+    // Export to blob (browser)
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const url = window.URL.createObjectURL(blob);
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}, Message: ${data?.message}`);
-    }
-
-    console.log("✅ Project saved:", data);
-  } catch (error) {
-    console.error("❌ Error saving project:", error);
-  }
-};
-
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "styled.xlsx";
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
 
   return (
     <div className="w-full">
@@ -229,6 +285,12 @@ export const Import = () => {
           onClick={handleSaveProject}
         >
           <IoSaveSharp />
+        </button>
+        <button
+          className="bg-gray-800 text-white m-1 p-2 rounded shadow-md hover:bg-gray-600 cursor-pointer"
+          onClick={exportXLSX}
+        >
+          <BsFiletypeXlsx />
         </button>
 
         <ImportModel

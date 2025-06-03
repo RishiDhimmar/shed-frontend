@@ -14,10 +14,13 @@ import { useCanvasZoomPan } from "../hooks/useCanvasZoomPan";
 import { useVisibleShapes } from "../hooks/useVisibleShapes";
 import uiStore from "../../stores/UIStore";
 import { observer } from "mobx-react-lite";
+import { toJS } from "mobx";
 
 const Canvas2D: React.FC = observer(() => {
-  const { stageRef,  handleWheel, handleDragMove } = useCanvasZoomPan();
-  const { circles, lines, polygons, texts, ellipses } = useVisibleShapes(stageRef);
+  const { stageRef, handleWheel, handleDragMove } = useCanvasZoomPan();
+  const { circles, lines, polygons, texts, ellipses } =
+    useVisibleShapes(stageRef);
+  // console.log(toJS(uiStore.data.curves.find((c) => c.type === "HATCH")));
 
   return (
     <Stage

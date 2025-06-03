@@ -1,14 +1,21 @@
-import { makeAutoObservable, reaction, runInAction, toJS } from "mobx";
+import { get, makeAutoObservable, reaction, runInAction, toJS } from "mobx";
 import { v4 as uuidv4 } from "uuid";
 import columnStore from "./ColumnStore";
 import uiStore from "./UIStore";
-import { generateCenterFromRectanglePoints } from "../utils/GeometryUtils";
 import {
+  generateCenterFromRectanglePoints,
+  getRectanglePoints,
+} from "../utils/GeometryUtils";
+import {
+  convertToPointObjects,
   generateBiggerPolygonAtSomeOffset,
   getBiggerRectangleAtOffset,
+  sortPolygon,
+  sortPolygonPointsClockwise,
 } from "../utils/PolygonUtils";
 import { baseplateAssumptions } from "../components/assumptions/assumptionsInfo";
 import baseplateStore from "./BasePlateStore";
+import { getPilePoints } from "../components/canvas2d/PileFoundationPoints";
 
 export type FoundationType = "corner" | "horizontal" | "vertical";
 
@@ -115,6 +122,53 @@ class FoundationStore {
 
     // Regenerate inputs and polygons after state change
     this.updateFoundations(this.groups);
+    return groupName;
+  }
+
+  changeFoundationType(
+    groupName: string,
+    foundationName: string,
+    type: string,
+    numOfPile: number
+  ) {
+    const group = this.groups.find((g) => g.name === groupName);
+    const foundation = this.foundations.find((f) => f.label === foundationName);
+    if (!group || !foundation) return;
+
+    const { x: cx, y: cy } = foundation.center;
+    if (type === "Flat Foundation") {
+      const outerPoints = getRectanglePoints(2000, 1500, [cx, cy]).map(
+        ([x, y]) => ({ x, y })
+      );
+      const sortedOuter = sortPolygonPointsClockwise(outerPoints);
+      const ppcPoints = getRectanglePoints(2300, 1800, [cx, cy]).map(
+        ([x, y]) => ({ x, y })
+      );
+
+      foundation.outerFoundationPoints = outerPoints;
+
+      group.foundations.forEach((f) => {
+        if (f.label === foundationName) {
+          f.outerFoundationPoints = sortedOuter;
+          f.innerFoundationPoints = outerPoints;
+          f.ppcPoints = ppcPoints;
+        }
+      });
+    } else if (type === "Pile Foundation") {
+      console.log(numOfPile);
+      const points = getPilePoints(numOfPile, cx, cy);
+      foundation.outerFoundationPoints = points;
+
+      group.foundations.forEach((f) => {
+        if (f.label === foundationName) {
+          f.outerFoundationPoints = points;
+          f.innerFoundationPoints = points;
+          f.ppcPoints = points;
+        }
+      });
+    } else {
+      this.updateFoundations(this.groups);
+    }
   }
 
   removeFoundationFromGroup(groupName: string, foundationName: string) {
@@ -333,7 +387,6 @@ class FoundationStore {
           75,
           75
         );
-
 
         const outerFoundationPoints = getBiggerRectangleAtOffset(
           column,

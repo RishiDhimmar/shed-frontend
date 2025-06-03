@@ -1028,14 +1028,14 @@ export function generateSymmetricPoints(
 
 export function partitionGroupsByDimension(groups, type) {
   const result = [];
-  console.log(groups);
+  // console.log(groups);
 
   for (const group of groups) {
     const dimensionMap = {};
     const temp = group.basePlates;
 
     for (const column of temp) {
-      console.log(column);
+      // console.log(column);
       const xs = column.points.map((p) => p.x);
       const ys = column.points.map((p) => p.y);
       const width = Math.max(...xs) - Math.min(...xs);
@@ -1089,4 +1089,42 @@ export function partitionGroupsByDimension(groups, type) {
   }
 
   return result;
+}
+
+export function getTrapezoidPoints(
+  centerX: number,
+  centerY: number
+): { x: number; y: number }[] {
+  // Dimensions in inches (based on image proportions and earlier conversation)
+  const bottomWidth = 2500; // 6.00 ft
+  const topWidth = 1000; // 1.5 ft
+  const height = 1800; // 5.60 ft
+
+  // Calculate centroid offset for trapezoid: h/3 * (a + 2b)/(a + b)
+  const a = bottomWidth;
+  const b = topWidth;
+  const h = height;
+  const centroidOffset = (h / 3) * (a + 2 * b) / (a + b); // Approx 28.8 inches from bottom
+
+  // Calculate vertical positions relative to center
+  const bottomY = centerY - centroidOffset;
+  const topY = centerY + (height - centroidOffset);
+  const shoulderY = (bottomY + topY) / 2; // Shoulder points halfway up the height
+
+  // Calculate x-coordinates for shoulder points using linear interpolation
+  const t = (shoulderY - bottomY) / (topY - bottomY); // Proportion along height
+  const leftShoulderX =
+    centerX - bottomWidth / 2 + t * (-topWidth / 2 - (-bottomWidth / 2));
+  const rightShoulderX =
+    centerX + bottomWidth / 2 + t * (topWidth / 2 - bottomWidth / 2);
+
+  // Generate 6 points clockwise, starting from bottom left
+  return [
+    { x: centerX - bottomWidth / 2, y: bottomY }, // Bottom left
+    { x: centerX + bottomWidth / 2, y: bottomY }, // Bottom right
+    { x: rightShoulderX, y: shoulderY }, // Right shoulder
+    { x: centerX + topWidth / 2, y: topY }, // Top right
+    { x: centerX - topWidth / 2, y: topY }, // Top left
+    { x: leftShoulderX, y: shoulderY }, // Left shoulder
+  ];
 }

@@ -19,6 +19,7 @@
     "clipper-lib": "^6.4.2",
     "dxf": "^5.2.0",
     "dxf-parser": "^1.1.2",
+    "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
     "jspdf": "^3.0.1",
     "konva": "^9.3.20",
@@ -36,7 +37,9 @@
     "react-tooltip": "^5.28.0",
     "tailwindcss": "^4.0.16",
     "three": "^0.174.0",
-    "uuid": "^11.1.0"
+    "uuid": "^11.1.0",
+    "xlsx": "^0.18.5",
+    "xlsx-style": "^0.8.13"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

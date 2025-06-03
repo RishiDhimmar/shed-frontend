@@ -19,7 +19,7 @@ const TextDrawer = observer(({ texts, scale = 1 }) => {
           <>
             <Text
               key={text.handle || `${text.position.x}-${text.position.y}`} // Unique key
-              text={text.text.replace("}", "\n").split(";")[1]} // Remove DXF alignment codes
+              // text={text.text.replace("}", "\n").split(";")[1] || ""} // Remove DXF alignment codes
               x={
                 text.height
                   ? text.position.x - text.height / 2
