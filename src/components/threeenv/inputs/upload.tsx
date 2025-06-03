@@ -18,36 +18,7 @@ export const UploadJson = () => {
       const text = await file.text(); // Read file content as text
       const jsonData = JSON.parse(text); // Parse text to JSON
 
-      basePlotStore.setLength(jsonData.basePlot.length);
-      basePlotStore.setWidth(jsonData.basePlot.width);
-      basePlotStore.setPoints(jsonData.basePlot.points);
-
-      wallStore.setWallPoints(
-        jsonData.wall.externalWallPoints,
-        jsonData.wall.internalWallPoints,
-      );
-
-      baseplateStore.setBasePlates(jsonData.baseplate.basePlates);
-      baseplateStore.setBasePlateConfig(jsonData.baseplate.config);
-      baseplateStore.setIdealHorizontalDistance(
-        jsonData.baseplate.idealHorizontalDistance,
-      );
-      baseplateStore.setIdealVerticalDistance(
-        jsonData.baseplat.e.idealVerticalDistance,
-      );
-
-      columnStore.setColumns(jsonData.column.columns);
-      columnStore.setHorizontalLength(jsonData.column.horizontalLength);
-      columnStore.setHorizontalWidth(jsonData.column.horizontalWidth);
-      columnStore.setCornerLength(jsonData.column.cornerLength);
-      columnStore.setCornerWidth(jsonData.column.cornerWidth);
-      columnStore.setVerticalLength(jsonData.column.verticalLength);
-
-      foundationStore.foundations = jsonData.foundation.foundations;
-      foundationStore.values = jsonData.foundation.values;
-
-      mullionColumnStore.mullionPositions =
-        jsonData.mullionColumn.mullionPositions;
+      console.log(jsonData);
     } catch (error) {
       console.error("Error reading JSON file:", error);
     }

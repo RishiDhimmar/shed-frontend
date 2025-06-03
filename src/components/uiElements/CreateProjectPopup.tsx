@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import uiStore from "../../stores/UIStore";
 interface CreateProjectPopupProps {
   isOpen: boolean;
   onClose: () => void;
@@ -24,13 +25,14 @@ const CreateProjectPopup = ({ isOpen, onClose }: CreateProjectPopupProps) => {
         <form className="p-6">
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Project Name*
+              Project Name <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               placeholder="Premier PEB Engineering System"
               className="w-full p-2 border border-gray-300 rounded"
               required
+              onChange={(e) => uiStore.setProjectName(e.target.value)}
             />
           </div>
 
@@ -43,6 +45,7 @@ const CreateProjectPopup = ({ isOpen, onClose }: CreateProjectPopupProps) => {
                 type="text"
                 placeholder="Sejpur, Ahmedabad"
                 className="w-full p-2 border border-gray-300 rounded"
+                onChange={(e) => uiStore.setLocation(e.target.value)}
               />
             </div>
           </div>
@@ -55,6 +58,7 @@ const CreateProjectPopup = ({ isOpen, onClose }: CreateProjectPopupProps) => {
               type="text"
               placeholder="Vinayak Shah"
               className="w-full p-2 border border-gray-300 rounded"
+              onChange={(e) => uiStore.setCustomerName(e.target.value)}
             />
           </div>
 
@@ -74,6 +78,7 @@ const CreateProjectPopup = ({ isOpen, onClose }: CreateProjectPopupProps) => {
                 value="Logo.png"
                 readOnly
                 className="flex-grow p-2 border border-gray-300 border-l-0"
+                onChange={(e) => uiStore.setLogoUrl(e.target.value)}
               />
             </div>
           </div>
@@ -89,7 +94,10 @@ const CreateProjectPopup = ({ isOpen, onClose }: CreateProjectPopupProps) => {
             <button
               type="submit"
               className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-blue-900"
-              onClick={() => navigate("/app/project")}
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/app/project");
+              }}
             >
               Create
             </button>

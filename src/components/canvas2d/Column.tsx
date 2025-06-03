@@ -5,7 +5,16 @@ import { toJS } from "mobx";
 import uiStore from "../../stores/UIStore";
 import columnStore from "../../stores/ColumnStore";
 import Dimension from "./Dimentions";
-
+const calculateBoundingBox = (points) => {
+  const xs = points.map((p) => p.x);
+  const ys = points.map((p) => p.y);
+  return {
+    minX: Math.min(...xs),
+    maxX: Math.max(...xs),
+    minY: Math.min(...ys),
+    maxY: Math.max(...ys),
+  };
+};
 const Column = observer(() => {
   const [dragPositions, setDragPositions] = useState({});
   const [activeInputs, setActiveInputs] = useState({});
@@ -49,17 +58,6 @@ const Column = observer(() => {
   }, [columnStore.polygons]);
 
   if (!uiStore.visibility.column) return null;
-
-  const calculateBoundingBox = (points) => {
-    const xs = points.map((p) => p.x);
-    const ys = points.map((p) => p.y);
-    return {
-      minX: Math.min(...xs),
-      maxX: Math.max(...xs),
-      minY: Math.min(...ys),
-      maxY: Math.max(...ys),
-    };
-  };
 
   const generateCirclesAlongEdge = (
     p1,
@@ -116,6 +114,13 @@ const Column = observer(() => {
 
       wireData.push({
         type: "edge",
+        edge: edgeType,
+        x,
+        y,
+        radius,
+      });
+      wireData.push({
+        type: "extension",
         edge: edgeType,
         x,
         y,
@@ -178,7 +183,7 @@ const Column = observer(() => {
 
     const wireData = corners.map((corner) => ({
       type: "corner",
-      position: corner.position,
+      edge: corner.position,
       x: corner.x + corner.xOffset,
       y: corner.y + corner.yOffset,
       radius,

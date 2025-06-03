@@ -11,8 +11,66 @@ import GetLayerDxf from "./GetLayerDxf";
 import CanvasSpace from "../threeenv/Helpers/CanvasSpace";
 import CanvasTest from "../canvas2d/CanvasTest";
 import Canvas from "../konvaCanvas/Canvas";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import wallStore from "../../stores/WallStore";
+import dxfStore from "../../stores/DxfStore";
+import { convertToPointObjects } from "../../utils/PolygonUtils";
+import baseplateStore from "../../stores/BasePlateStore";
+import columnStore from "../../stores/ColumnStore";
+import foundationStore from "../../stores/FoundationStore";
+import mullionColumnStore from "../../stores/MullianColumnStore";
+import uiStore from "../../stores/UIStore";
 
 function ProjectStructure() {
+  const { id } = useParams();
+  const [data, setData] = useState(null);
+  useEffect(() => {
+    const getDataForProject = () => {
+      if (!id) return;
+      console.log(id);
+      fetch(`http://localhost:3000/projects/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          const jsonData = data.data;
+
+          wallStore.wallThickness = jsonData.wall.wallThickness;
+          dxfStore.externalWallPolygon = jsonData.wall.externalWallPoints;
+          dxfStore.externalWallPoints = convertToPointObjects(
+            jsonData.wall.externalWallPoints
+          );
+          dxfStore.internalWallPolygon = jsonData.wall.internalWallPoints;
+
+          baseplateStore.groups = jsonData.baseplate.groups;
+          // baseplateStore.basePlates = jsonData.baseplate.basePlates;
+          baseplateStore.basePlates = jsonData.baseplate.groups.flatMap(
+            (group) => group.basePlates
+          );
+
+          columnStore.columnInputs = jsonData.column.columnInputs;
+          columnStore.polygons = jsonData.column.polygons;
+          // columnStore.columns = jsonData.column.columns;
+          columnStore.columns = jsonData.column.polygons.flatMap(
+            (group) => group.columns
+          );
+
+          foundationStore.foundationInputs =
+            jsonData.foundation.foundationInputs;
+          // foundationStore.foundations = jsonData.foundation.foundations;
+          foundationStore.foundations = jsonData.foundation.groups.flatMap(
+            (group) => group.foundations
+          );
+          foundationStore.groups = jsonData.foundation.groups;
+          foundationStore.generateFoundations();
+
+          mullionColumnStore.polygons = jsonData.mullionColumn.polygons;
+
+          uiStore.setProjectName(jsonData.projectName);
+          console.log(jsonData);
+        });
+    };
+    getDataForProject();
+  }, []);
   return (
     <>
       {/* <Sidebar /> */}

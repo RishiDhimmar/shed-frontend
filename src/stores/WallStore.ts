@@ -13,6 +13,8 @@ export class WallStore {
   private _isGeneratingWalls = false;
   modifyMode = true;
 
+  beamRodData = [];
+
   constructor(width = 0, height = 0, wallThickness = 0) {
     this.width = width;
     this.height = height;
@@ -28,6 +30,11 @@ export class WallStore {
     //     }
     //   }
     // );
+  }
+
+  setBeamRodData(newBeamRodData) {
+    this.beamRodData = newBeamRodData;
+    uiStore.setModified(true);
   }
 
   setWidth(newWidth: number) {
@@ -142,7 +149,7 @@ export class WallStore {
     // Internal wall inset uniformly by wallThickness from all sides.
     const internal = getRectanglePoints(
       this.width - 2 * this.wallThickness,
-      this.height - 2 * this.wallThickness,
+      this.height - 2 * this.wallThickness
     );
 
     this.setWallPoints(external, internal);
@@ -224,13 +231,13 @@ export class WallStore {
             p &&
             p.type === "corner" &&
             Array.isArray(p.points) &&
-            p.points.length > 0,
+            p.points.length > 0
         )
         .slice(0, 10); // Safety limit to prevent excessive processing
 
       if (cornerBaseplates.length < 3) {
         console.warn(
-          `Insufficient corner baseplates: ${cornerBaseplates.length}. Need at least 3.`,
+          `Insufficient corner baseplates: ${cornerBaseplates.length}. Need at least 3.`
         );
         return;
       }

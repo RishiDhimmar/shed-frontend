@@ -30,10 +30,12 @@ import uiStore from "./UIStore";
 class DxfStore {
   candidatePolygons = [];
   // externalWallPolygon = [-375, -500, 375, -500, 375, 500, -375, 500];
+
   externalWallPolygon = getRectanglePoints(12000, 24000).flatMap((p) => [
     p[0],
     p[1],
   ]);
+
   // externalWallPolygon = [
   //   -37500,
   //   -50000, // 1. bottom-left
@@ -48,6 +50,7 @@ class DxfStore {
   //   -37500,
   //   50000, // 6. top-left
   // ];
+  
 
   externalWallPoints = convertToPointObjects(this.externalWallPolygon);
   internalWallPolygon = null; // Changed from [] to null for proper initial state

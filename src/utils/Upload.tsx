@@ -5,6 +5,9 @@ import baseplateStore from "../stores/BasePlateStore";
 import columnStore from "../stores/ColumnStore";
 import foundationStore from "../stores/FoundationStore";
 import mullionColumnStore from "../stores/MullianColumnStore";
+import dxfStore from "../stores/DxfStore";
+import { convertToPointObjects } from "./PolygonUtils";
+import uiStore from "../stores/UIStore";
 
 export default function Upload() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -17,37 +20,38 @@ export default function Upload() {
     try {
       const text = await file.text(); // Read file content as text
       const jsonData = JSON.parse(text); // Parse text to JSON
+      console.log("JSON data:", jsonData);
 
-      basePlotStore.setLength(jsonData.basePlot.length);
-      basePlotStore.setWidth(jsonData.basePlot.width);
-      basePlotStore.setPoints(jsonData.basePlot.points);
+      wallStore.wallThickness = jsonData.wall.wallThickness;
+      dxfStore.externalWallPolygon = jsonData.wall.externalWallPoints;
+      dxfStore.externalWallPoints = convertToPointObjects(
+        jsonData.wall.externalWallPoints
+      );
+      dxfStore.internalWallPolygon = jsonData.wall.internalWallPoints;
 
-      wallStore.setWallPoints(
-        jsonData.wall.externalWallPoints,
-        jsonData.wall.internalWallPoints,
+      baseplateStore.groups = jsonData.baseplate.groups;
+      // baseplateStore.basePlates = jsonData.baseplate.basePlates;
+      baseplateStore.basePlates = jsonData.baseplate.groups.flatMap(
+        (group) => group.basePlates
       );
 
-      baseplateStore.setBasePlates(jsonData.baseplate.basePlates);
-      baseplateStore.setBasePlateConfig(jsonData.baseplate.config);
-      baseplateStore.setIdealHorizontalDistance(
-        jsonData.baseplate.idealHorizontalDistance,
+      columnStore.columnInputs = jsonData.column.columnInputs;
+      columnStore.polygons = jsonData.column.polygons;
+      // columnStore.columns = jsonData.column.columns;
+      columnStore.columns = jsonData.column.polygons.flatMap(
+        (group) => group.columns
       );
-      baseplateStore.setIdealVerticalDistance(
-        jsonData.baseplate.idealVerticalDistance,
+
+      foundationStore.foundationInputs = jsonData.foundation.foundationInputs;
+      // foundationStore.foundations = jsonData.foundation.foundations;
+      foundationStore.foundations = jsonData.foundation.groups.flatMap(
+        (group) => group.foundations
       );
-      columnStore.setHorizontalLength(jsonData.column.horizontalLength);
-      columnStore.setHorizontalWidth(jsonData.column.horizontalWidth);
-      columnStore.setCornerLength(jsonData.column.cornerLength);
-      columnStore.setCornerWidth(jsonData.column.cornerWidth);
-      columnStore.setVerticalLength(jsonData.column.verticalLength);
-      columnStore.setVerticalWidth(jsonData.column.verticalWidth);
-      columnStore.setColumns(jsonData.column.columns);
+      foundationStore.groups = jsonData.foundation.groups;
+      foundationStore.generateFoundations();
 
-      foundationStore.foundations = jsonData.foundation.foundations;
-      foundationStore.values = jsonData.foundation.values;
+      mullionColumnStore.polygons = jsonData.mullionColumn.polygons;
 
-      mullionColumnStore.mullionPositions =
-        jsonData.mullionColumn.mullionPositions;
     } catch (error) {
       console.error("Error reading JSON file:", error);
     }

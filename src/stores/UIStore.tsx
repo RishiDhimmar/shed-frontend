@@ -99,6 +99,11 @@ class UIStore {
 
   isModified = false;
 
+  projectName: string = "";
+  location: string = "Sejpur, Ahmedabad";
+  customerName: string = "Vinayak Shah";
+  logoUrl: string = "";
+
   screenshotFn: () => void = () => {};
   pdfExportFn: () => void = () => {};
 
@@ -113,6 +118,22 @@ class UIStore {
 
   setStageTransform(transform: { x: number; y: number; scale: number }) {
     this.stageTransform = transform;
+  }
+
+  setProjectName(name: string) {
+    this.projectName = name;
+  }
+
+  setLocation(location: string) {
+    this.location = location;
+  }
+
+  setCustomerName(customerName: string) {
+    this.customerName = customerName;
+  }
+
+  setLogoUrl(logoUrl: string) {
+    this.logoUrl = logoUrl;
   }
 
   addTemplate(template: Omit<Template, "id" | "createdAt">) {

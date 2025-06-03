@@ -1,17 +1,24 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import UserName from "./UserName";
+import uiStore from "../../stores/UIStore";
+import { observer } from "mobx-react-lite";
 
-function Navbar() {
+const Navbar = observer(() => {
   const navigate = useNavigate();
   const location = useLocation();
   return (
     <div className="w-full bg-gray-200 h-16 flex items-center justify-between px-4">
-      <div>
+      <div className="flex items-center gap-2 ">
         <img
           src="/assets/resolute-logo.png"
           alt="Logo"
           className="w-30 h-10 object-contain"
         />
+        {uiStore.projectName ? (
+          <div className="text-sm ml-3">{uiStore.projectName}</div>
+        ) : (
+          <>{console.log(uiStore.projectName)}</>
+        )}
       </div>
       <div className="flex gap-5">
         <UserName />
@@ -26,6 +33,6 @@ function Navbar() {
       </div>
     </div>
   );
-}
+});
 
 export default Navbar;
