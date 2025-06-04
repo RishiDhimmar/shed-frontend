@@ -15,7 +15,7 @@ import {
 } from "../utils/PolygonUtils";
 import { baseplateAssumptions } from "../components/assumptions/assumptionsInfo";
 import baseplateStore from "./BasePlateStore";
-import { getPilePoints } from "../components/canvas2d/PileFoundationPoints";
+import { getPileCircles, getPilePoints } from "../components/canvas2d/PileFoundationPoints";
 
 export type FoundationType = "corner" | "horizontal" | "vertical";
 
@@ -146,24 +146,30 @@ class FoundationStore {
       );
 
       foundation.outerFoundationPoints = outerPoints;
+      foundation.type = type;
 
       group.foundations.forEach((f) => {
         if (f.label === foundationName) {
           f.outerFoundationPoints = sortedOuter;
           f.innerFoundationPoints = outerPoints;
           f.ppcPoints = ppcPoints;
+          f.type = type;
         }
       });
     } else if (type === "Pile Foundation") {
       console.log(numOfPile);
       const points = getPilePoints(numOfPile, cx, cy);
       foundation.outerFoundationPoints = points;
+      foundation.type = type;
+      foundation.pileDetails = getPileCircles(numOfPile, cx, cy);
 
       group.foundations.forEach((f) => {
         if (f.label === foundationName) {
           f.outerFoundationPoints = points;
           f.innerFoundationPoints = points;
           f.ppcPoints = points;
+          f.type = type;
+          f.pileDetails = getPileCircles(numOfPile, cx, cy);
         }
       });
     } else {
@@ -412,6 +418,7 @@ class FoundationStore {
           center: column.center,
           group: column.group,
           points: column.points,
+          // type: "Flat Foundation",
         };
       });
 

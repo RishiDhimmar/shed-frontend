@@ -7,6 +7,8 @@ import * as THREE from "three";
 import React, { useMemo } from "react";
 import configStore from "../../stores/ConfigStore";
 import { observer } from "mobx-react-lite";
+import { Cylinder } from "@react-three/drei";
+import AnyShapeRenderer from "./AnyShapeExtrudeRenderer";
 const scale = 1;
 
 const FoundationsRenderer = observer(({ centerOffset }) => {
@@ -25,14 +27,65 @@ const FoundationsRenderer = observer(({ centerOffset }) => {
 
     return (
       <React.Fragment key={i}>
-        <FrustumMesh
-          bottomPoints={outerPoints}
-          topPoints={innerPoints}
-          floorY={configStore.shed3D.heights.RCC}
-          opacity={0.5}
-          yDepth={configStore.shed3D.heights.FRUSTUM}
-        />
-        <RCCRenderer bottomPoints={outerPoints} />
+        {f.type === "Flat Foundation" && (
+          <>
+            <RCCRenderer
+              bottomPoints={outerPoints}
+              height={
+                configStore.shed3D.heights.RCC +
+                configStore.shed3D.heights.FRUSTUM
+              }
+            />
+          </>
+        )}
+        {f.type === "Pile Foundation" && (
+          <>
+            <AnyShapeRenderer
+              bottomPoints={outerPoints}
+              height={
+                configStore.shed3D.heights.FRUSTUM 
+              }
+            />
+            {f.pileDetails.map((p, i) => (
+              <mesh
+                position={[-p.x / 1000, -1.2, -p.y / 1000]}
+                key={i}
+                renderOrder={1}
+              >
+                <cylinderGeometry
+                  args={[
+                    p.radius / 1000,
+                    p.radius / 1000,
+                    2, // 2000 / 1000 → simplified
+                    p.segments || 32,
+                    p.heightSegments || 1,
+                    p.closed || false,
+                  ]}
+                />
+                <meshBasicMaterial
+                  color="magenta"
+                  opacity={0.5}
+                  transparent={true}
+                  depthWrite={false}
+                  depthTest={false}
+                />
+              </mesh>
+            ))}
+          </>
+        )}
+
+        {!f.type && (
+          <>
+            <FrustumMesh
+              bottomPoints={outerPoints}
+              topPoints={innerPoints}
+              floorY={configStore.shed3D.heights.RCC}
+              opacity={0.5}
+              yDepth={configStore.shed3D.heights.FRUSTUM}
+            />
+            <RCCRenderer bottomPoints={outerPoints} />
+          </>
+        )}
 
         {(f.rodData || []).map((rod, rodIndex) => {
           const { line1, line2, isHorizontal } = rod;
