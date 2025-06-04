@@ -87,8 +87,7 @@ const FoundationTypeModal = ({
               top: `${360 + index * 250}px`,
               width: "1750px",
               height: "190px",
-              backgroundColor:
-                selectedType === type ? "#d0d0d0" : "#f0f0f0", // Highlight selected
+              backgroundColor: selectedType === type ? "#d0d0d0" : "#f0f0f0", // Highlight selected
               border: "1px solid black",
               display: "flex",
               alignItems: "center",
@@ -127,7 +126,7 @@ const FoundationTypeModal = ({
                 marginRight: "20px",
               }}
             >
-              Pile Depth:
+              No of Columns:
             </label>
             <input
               type="number"
@@ -141,8 +140,9 @@ const FoundationTypeModal = ({
                 border: "1px solid black",
                 padding: "10px",
               }}
-              placeholder="Enter depth"
+              placeholder=""
               min="0"
+              max="3"
             />
           </div>
         )}

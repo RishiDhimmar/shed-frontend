@@ -7,7 +7,7 @@ import configStore from "../../stores/ConfigStore";
 
 const scale = 1;
 
-function RCCRenderer({ bottomPoints }) {
+function RCCRenderer({ bottomPoints, height = configStore.shed3D.heights.RCC }) {
   const instances = useMemo(() => {
     const foundations = foundationStore.foundations;
 
@@ -31,7 +31,7 @@ function RCCRenderer({ bottomPoints }) {
         return {
           width,
           length,
-          height: configStore.shed3D.heights.RCC,
+          height: height,
           position: [centerX, configStore.shed3D.heights.RCC / 2, centerZ],
           color: "magenta",
         };

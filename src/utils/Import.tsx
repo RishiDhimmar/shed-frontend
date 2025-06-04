@@ -230,33 +230,110 @@ export const Import = () => {
     const sheet = workbook.addWorksheet("Sheet1");
 
     // Merge A1 and B1
-    sheet.mergeCells("A1:B1");
+    sheet.mergeCells("A1:F1");
+    sheet.mergeCells("A2:F2");
 
     const firstColumn = sheet.getColumn(1);
-    firstColumn.width = 50;
+    firstColumn.width = 40;
 
     // Add header row with styling
     const headerCell = sheet.getCell("A1");
-    headerCell.value = "Name & Age";
-    headerCell.font = { bold: true, size: 40 };
-    headerCell.alignment = { horizontal: "left", vertical: "middle" };
+    headerCell.value = "CPWA-1";
+    headerCell.font = { bold: true, size: 10 };
+    headerCell.alignment = { horizontal: "center" };
 
-    const cityHeader = sheet.getCell("C1");
-    cityHeader.value = "City";
+    const cityHeader = sheet.getCell("A2");
+    cityHeader.value = "Page No :- 02";
     cityHeader.font = { bold: true };
-    cityHeader.alignment = { horizontal: "center" };
+    cityHeader.alignment = { horizontal: "right" };
+
+    const dateHeader = sheet.getCell("A3");
+    dateHeader.value = new Date().toLocaleDateString();
+    dateHeader.font = { bold: true };
+    dateHeader.alignment = { horizontal: "left" };
+
+    sheet.mergeCells("A4:A5");
+
+    const particularsCell = sheet.getCell("A4");
+    particularsCell.value = "Particulars";
+    particularsCell.font = { bold: true };
+    particularsCell.alignment = { horizontal: "center", vertical: "middle" };
+
+    sheet.mergeCells("B4:E4");
+    const detailHeader = sheet.getCell("B4");
+    detailHeader.value = "Details of Actual Measurement";
+    detailHeader.font = { bold: true };
+    detailHeader.alignment = { horizontal: "center", vertical: "middle" };
+
+    const noCell = sheet.getCell("B5");
+    noCell.value = "No.";
+    noCell.font = { bold: true };
+    noCell.alignment = { horizontal: "center", vertical: "middle" };
+
+    const lengthCell = sheet.getCell("C5");
+    lengthCell.value = "Length";
+    lengthCell.font = { bold: true };
+    lengthCell.alignment = { horizontal: "center", vertical: "middle" };
+
+    const breathCell = sheet.getCell("D5");
+    breathCell.value = "Breath";
+    breathCell.font = { bold: true };
+    breathCell.alignment = { horizontal: "center", vertical: "middle" };
+
+    const depthCell = sheet.getCell("E5");
+    depthCell.value = "Depth";
+    depthCell.font = { bold: true };
+    depthCell.alignment = { horizontal: "center", vertical: "middle" };
+
+    sheet.mergeCells("F4:F5");
+    const areaCell = sheet.getCell("F4");
+    areaCell.value = "Content/Area";
+    areaCell.font = { bold: true };
+    areaCell.alignment = { horizontal: "center", vertical: "middle" };
+
+    sheet.mergeCells("G4:G5");
+    const unitCell = sheet.getCell("G4");
+    unitCell.value = "Unit";
+    unitCell.font = { bold: true };
+    unitCell.alignment = { horizontal: "center", vertical: "middle" };
+
+    sheet.mergeCells("A6:F6");
+    const itemCell = sheet.getCell("A6");
+    itemCell.value = "Item No :- 1";
+    itemCell.font = { bold: true };
+    itemCell.alignment = { horizontal: "left", vertical: "middle" };
 
     // Add data
     const data = [
-      ["Alice", 30, "New York"],
-      ["Bob", 25, "Los Angeles"],
-      ["Charlie", 28, "Chicago"],
+      ["EXCAVATION upto 8' depth from N.G.L ", , , , , ,],
+      [, , , , , , ,],
+      [, , , , , , ,],
+      [, , , , , , ,],
+      [, , , , , , ,],
+      [, , , , , , ,],
+      [, , , , , , ,],
+      [, , , , , , ,],
     ];
 
     data.forEach((row, idx) => {
       sheet.addRow(row);
     });
 
+    sheet.mergeCells("D13:E13");
+    const totalCell = sheet.getCell("D13");
+    totalCell.value = "Total";
+    totalCell.font = { bold: true };
+    totalCell.alignment = { horizontal: "center", vertical: "middle" };
+
+    const zeroCell = sheet.getCell("F13");
+    zeroCell.value = 0.0;
+    zeroCell.font = { bold: true };
+    zeroCell.alignment = { horizontal: "right", vertical: "middle" };
+
+    const cmtCell = sheet.getCell("G13");
+    cmtCell.value = "cmt";
+    cmtCell.font = { bold: true };
+    cmtCell.alignment = { horizontal: "center", vertical: "middle" };
     // Export to blob (browser)
     const buffer = await workbook.xlsx.writeBuffer();
     const blob = new Blob([buffer], {
