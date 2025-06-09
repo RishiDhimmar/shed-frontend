@@ -15,11 +15,19 @@ import { useVisibleShapes } from "../hooks/useVisibleShapes";
 import uiStore from "../../stores/UIStore";
 import { observer } from "mobx-react-lite";
 import { toJS } from "mobx";
+import { items } from "../../utils/sheetItems";
+import { handleExcelQuantityCalculation } from "../../utils/handleExcelQuantityCalculation";
+import { handleRubbleSoilingCalculation } from "../../utils/handleRubbleSoilingCalculation";
+import { handlePileRunningCalculation } from "../../utils/handlePileRunningCalculation";
+import { handlePccCalculation } from "../../utils/handlePccCalculation";
+import { handleFillingGoodSoilFromOutSide } from "../../utils/handleFillingGoodSoilFromOutSide";
 
 const Canvas2D: React.FC = observer(() => {
   const { stageRef, handleWheel, handleDragMove } = useCanvasZoomPan();
   const { circles, lines, polygons, texts, ellipses } =
     useVisibleShapes(stageRef);
+  // console.log(items.excavation_upto_8ft_depth);
+  handleFillingGoodSoilFromOutSide();
   // console.log(toJS(uiStore.data.curves.find((c) => c.type === "HATCH")));
 
   return (

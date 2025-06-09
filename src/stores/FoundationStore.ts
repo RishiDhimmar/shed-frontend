@@ -15,7 +15,10 @@ import {
 } from "../utils/PolygonUtils";
 import { baseplateAssumptions } from "../components/assumptions/assumptionsInfo";
 import baseplateStore from "./BasePlateStore";
-import { getPileCircles, getPilePoints } from "../components/canvas2d/PileFoundationPoints";
+import {
+  getPileCircles,
+  getPilePoints,
+} from "../components/canvas2d/PileFoundationPoints";
 
 export type FoundationType = "corner" | "horizontal" | "vertical";
 
@@ -352,6 +355,14 @@ class FoundationStore {
           this.foundationInputs[column.group]["-y"] + 150
         );
 
+        const excavationBottomPoints = getBiggerRectangleAtOffset(
+          column,
+          this.foundationInputs[column.group]["+x"] + 300,
+          this.foundationInputs[column.group]["-x"] + 300,
+          this.foundationInputs[column.group]["+y"] + 300,
+          this.foundationInputs[column.group]["-y"] + 300
+        );
+
         return {
           innerFoundationPoints,
           outerFoundationPoints,
@@ -360,6 +371,7 @@ class FoundationStore {
           center: column.center,
           group: column.group,
           points: column.points,
+          excavationBottomPoints,
         };
       });
 
@@ -410,6 +422,14 @@ class FoundationStore {
           this.foundationInputs[column.group]["-y"] + 150
         );
 
+        const excavationBottomPoints = getBiggerRectangleAtOffset(
+          column,
+          this.foundationInputs[column.group]["+x"] + 300,
+          this.foundationInputs[column.group]["-x"] + 300,
+          this.foundationInputs[column.group]["+y"] + 300,
+          this.foundationInputs[column.group]["-y"] + 300
+        );
+
         return {
           innerFoundationPoints,
           outerFoundationPoints,
@@ -419,6 +439,7 @@ class FoundationStore {
           group: column.group,
           points: column.points,
           // type: "Flat Foundation",
+          excavationBottomPoints,
         };
       });
 

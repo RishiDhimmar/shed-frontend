@@ -9,6 +9,7 @@ import configStore from "../../stores/ConfigStore";
 import { observer } from "mobx-react-lite";
 import { Cylinder } from "@react-three/drei";
 import AnyShapeRenderer from "./AnyShapeExtrudeRenderer";
+import uiStore from "../../stores/UIStore";
 const scale = 1;
 
 const FoundationsRenderer = observer(({ centerOffset }) => {
@@ -23,10 +24,19 @@ const FoundationsRenderer = observer(({ centerOffset }) => {
       }));
 
     const outerPoints = transformPoints(f.outerFoundationPoints);
+    const excavationBottomPoints = transformPoints(f.excavationBottomPoints);
     const innerPoints = transformPoints(f.innerFoundationPoints);
 
     return (
       <React.Fragment key={i}>
+        {uiStore.visibility.excavation && (
+          <AnyShapeRenderer
+            bottomPoints={excavationBottomPoints}
+            height={2.1}
+            y={-2.1 / 2}
+            color="brown"
+          />
+        )}
         {f.type === "Flat Foundation" && (
           <>
             <RCCRenderer
@@ -42,10 +52,9 @@ const FoundationsRenderer = observer(({ centerOffset }) => {
           <>
             <AnyShapeRenderer
               bottomPoints={outerPoints}
-              height={
-                configStore.shed3D.heights.FRUSTUM 
-              }
+              height={configStore.shed3D.heights.FRUSTUM}
             />
+
             {f.pileDetails.map((p, i) => (
               <mesh
                 position={[-p.x / 1000, -1.2, -p.y / 1000]}
