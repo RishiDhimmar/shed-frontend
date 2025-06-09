@@ -14,12 +14,16 @@ interface AnyShapeRendererProps {
   bottomPoints: Point[];
   height?: number;
   centerOffset?: [number, number, number]; // Add centerOffset prop
+  y?: number;
+  color?: string;
 }
 
 const AnyShapeRenderer: React.FC<AnyShapeRendererProps> = ({
   bottomPoints,
   height = configStore.shed3D.heights.RCC,
   centerOffset = [0, 0, 0],
+  y = 0,
+  color = "magenta",
 }) => {
   const geometry = useMemo(() => {
     if (!bottomPoints || bottomPoints.length < 3) {
@@ -28,8 +32,8 @@ const AnyShapeRenderer: React.FC<AnyShapeRendererProps> = ({
 
     const shape = new THREE.Shape();
     bottomPoints.forEach((point, index) => {
-      const x = (point.x  - centerOffset[0]) * scale; // Apply offset
-      const y = -(point.y  - centerOffset[2]) * scale;
+      const x = (point.x - centerOffset[0]) * scale; // Apply offset
+      const y = -(point.y - centerOffset[2]) * scale;
       if (index === 0) {
         shape.moveTo(x, y);
       } else {
@@ -46,7 +50,7 @@ const AnyShapeRenderer: React.FC<AnyShapeRendererProps> = ({
     const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
     geometry.computeVertexNormals();
     return geometry;
-  }, [bottomPoints, -height/2, centerOffset]);
+  }, [bottomPoints, -height / 2, centerOffset]);
 
   const meshPosition = useMemo(() => {
     if (!bottomPoints || bottomPoints.length < 3) return [0, 0, 0];
@@ -61,15 +65,15 @@ const AnyShapeRenderer: React.FC<AnyShapeRendererProps> = ({
 
     return [
       -(centroid.x / 1000 - centerOffset[0]) * scale,
-      -height / 2,
+      !y && -height / 2,
       -(centroid.y / 1000 - centerOffset[2]) * scale,
     ];
-  }, [bottomPoints, -height/2, centerOffset]);
+  }, [bottomPoints, -height / 2, centerOffset]);
 
   const material = useMemo(
     () =>
       new THREE.MeshStandardMaterial({
-        color: "magenta",
+        color: color || "magenta",
         opacity: 0.5,
         transparent: true,
         depthWrite: false,

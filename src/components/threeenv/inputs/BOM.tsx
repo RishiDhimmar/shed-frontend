@@ -5,6 +5,8 @@ import foundationStore from "../../../stores/FoundationStore";
 import { toJS } from "mobx";
 
 function BOM() {
+  console.log(toJS(foundationStore.foundations));
+
   // Get column height from configStore
   const columnHeight = configStore.shed3D.heights.COLUMNS;
 
@@ -87,12 +89,12 @@ function BOM() {
         radius: radius / 1000, // Convert to millimeters
         volume:
           radius && length
-            ? Math.PI * (radius / 1000) * (radius / 1000) * (length/1000)
+            ? Math.PI * (radius / 1000) * (radius / 1000) * (length / 1000)
             : 0,
         orientation: rod.isHorizontal ? "Horizontal" : "Vertical",
       };
     });
-    const totalLength = rods.reduce((sum, rod) => sum + rod.length, 0) ;
+    const totalLength = rods.reduce((sum, rod) => sum + rod.length, 0);
     const totalVolume = rods.reduce((sum, rod) => sum + rod.volume, 0);
     return {
       foundationId:
@@ -347,7 +349,7 @@ function BOM() {
                                 Volume (cubic meters)
                               </th>
                               <th className="py-2 px-3 text-left text-sm font-semibold border-b border-gray-200">
-                              Orientation
+                                Orientation
                               </th>
                             </tr>
                           </thead>

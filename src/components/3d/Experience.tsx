@@ -75,25 +75,25 @@ const Experience = observer(() => {
       */}
 
       {/* Cameras */}
-      {useOrtho ? (
-        <OrthographicCamera
-          ref={cameraRef}
-          makeDefault
-          position={[5, 5, 5]}
-          zoom={10}
-          near={0.00000001}
-          far={1000000}
-        />
-      ) : (
-        <PerspectiveCamera
-          ref={cameraRef}
-          makeDefault
-          position={[5, 5, 5]}
-          fov={50}
-          near={0.00001}
-          far={100000}
-        />
-      )}
+
+      {/*  <OrthographicCamera
+        ref={cameraRef}
+        makeDefault
+        position={[5, 5, 5]}
+        zoom={100}
+        near={0.000000000001}
+        far={10000000000}
+      />
+         */}
+
+      <PerspectiveCamera
+        ref={cameraRef}
+        makeDefault
+        position={[5, 5, 5]}
+        fov={50}
+        near={0.00001}
+        far={100000}
+      />
 
       {/* Controls */}
       <CameraControls

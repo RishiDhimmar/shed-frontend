@@ -94,6 +94,7 @@ class UIStore {
     annotation: true,
     plinth: true,
     bom: true,
+    excavation: false,
   };
   isDimensionsVisible: boolean = false;
 

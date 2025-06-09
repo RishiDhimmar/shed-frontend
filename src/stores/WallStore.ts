@@ -12,6 +12,9 @@ export class WallStore {
   internalWallPoints: number[][] = [];
   private _isGeneratingWalls = false;
   modifyMode = true;
+  length = 0;
+  breadth = 0;
+  area = 0;
 
   beamRodData = [];
 
