@@ -22,7 +22,7 @@ class ConfigStore {
       MULLION_COLUMNS_Z_HEIGHT: 4,
       FRUSTUM: 0.370,
       RCC: 0.23,
-      GROUND_BEAM: 2.1 - 0.3,
+      GROUND_BEAM: 2.1 - 0.3 - 0.3,
       GB_Z_HEIGHT : 0.6,
       PLINTH: 1.9 + 0.6 + 0.075,
     },

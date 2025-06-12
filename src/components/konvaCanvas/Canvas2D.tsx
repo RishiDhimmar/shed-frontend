@@ -20,13 +20,6 @@ const Canvas2D: React.FC = observer(() => {
   const { stageRef, handleWheel, handleDragMove } = useCanvasZoomPan();
   const { circles, lines, polygons, texts, ellipses } =
     useVisibleShapes(stageRef);
-  let total = 0;
-  Object.values(uiStore.data).map((shape) => {
-    // console.log(shape.length * 4 );
-    total += Number(shape.length * 5) || 0;
-    console.log(toJS(shape));
-  });
-
 
   //download a file containing uiStore.data
   const handleDownload = () => {

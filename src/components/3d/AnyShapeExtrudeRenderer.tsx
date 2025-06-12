@@ -65,7 +65,7 @@ const AnyShapeRenderer: React.FC<AnyShapeRendererProps> = ({
 
     return [
       -(centroid.x / 1000 - centerOffset[0]) * scale,
-      !y && -height / 2,
+      !y ? -height / 2 : y,
       -(centroid.y / 1000 - centerOffset[2]) * scale,
     ];
   }, [bottomPoints, -height / 2, centerOffset]);
