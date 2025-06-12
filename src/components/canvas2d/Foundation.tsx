@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import uiStore from "../../stores/UIStore";
 import foundationStore from "../../stores/FoundationStore";
@@ -252,7 +251,12 @@ const Foundation = observer(() => {
   };
 
   const handleChangeOfType = (value, groupName, foundationLabel, numOfPile) => {
-    foundationStore.changeFoundationType(groupName, foundationLabel, value, numOfPile);
+    foundationStore.changeFoundationType(
+      groupName,
+      foundationLabel,
+      value,
+      numOfPile
+    );
   };
 
   const openModal = (groupName, foundationLabel, outerBbox) => {
@@ -386,15 +390,20 @@ const Foundation = observer(() => {
                     closed
                   />
 
-                  <Line 
-                    points={foundation.excavationBottomPoints.flatMap((p) => [p.x, p.y])}
-                    stroke="Brown"
-                    strokeWidth={5}
-                    opacity={
-                      uiStore.currentComponent === "foundation" ? 0.5 : 1
-                    }
-                    closed
-                  />
+                  {uiStore.visibility.excavation && (
+                    <Line
+                      points={foundation.excavationBottomPoints.flatMap((p) => [
+                        p.x,
+                        p.y,
+                      ])}
+                      stroke="Brown"
+                      strokeWidth={5}
+                      opacity={
+                        uiStore.currentComponent === "foundation" ? 0.5 : 1
+                      }
+                      closed
+                    />
+                  )}
                   {[0, 1, 2, 3].map((k) => (
                     <Line
                       key={`foundation-line-${i}-${j}-${k}`}

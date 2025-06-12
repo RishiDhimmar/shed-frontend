@@ -1,53 +1,38 @@
 import { observer } from "mobx-react-lite";
 import React, { useMemo } from "react";
-import * as THREE from "three";
 import { toJS } from "mobx";
 import dxfStore from "../../stores/DxfStore";
 import { convertToPointObjects } from "../../utils/PolygonUtils";
+import AnyShapeRenderer from "./AnyShapeExtrudeRenderer";
 import { Shed3DConfig } from "../../Constants";
 import configStore from "../../stores/ConfigStore";
 
-const PlinthRenderer = observer(({ centerOffset = [0, 0], scale = 1 }) => {
+const PlinthRenderer = observer(({ centerOffset = [0, 0, 0], scale = 1 }) => {
   const externalWallPoints = useMemo(() => {
     return convertToPointObjects(toJS(dxfStore.externalWallPolygon)) || [];
   }, [dxfStore.externalWallPolygon]);
 
-  const shape = useMemo(() => {
-    if (externalWallPoints.length < 3) return null;
+  // Transform points to match the original coordinate system
+  const transformedPoints = useMemo(() => {
+    if (!externalWallPoints || externalWallPoints.length < 3) return [];
 
-    const shape = new THREE.Shape();
-
-    externalWallPoints.forEach((pt, index) => {
-      const x = -(pt.x / 1000 - centerOffset[0]) * scale;
-      const y = (pt.y / 1000 - centerOffset[2]) * scale;
-
-      if (index === 0) {
-        shape.moveTo(x, y);
-      } else {
-        shape.lineTo(x, y);
-      }
-    });
-
-    shape.closePath();
-    return shape;
+    return externalWallPoints.map((pt) => ({
+      x: -(pt.x / 1000 - centerOffset[0]) * scale, // Convert mm to meters, apply offset and scale
+      y: -(pt.y / 1000 - centerOffset[2]) * scale, // Adjust y (z in 3D) with offset and scale
+    }));
   }, [externalWallPoints, centerOffset, scale]);
 
-  if (!shape) return null;
+  if (!transformedPoints || transformedPoints.length < 3) return null;
 
+  // Use AnyShapeRenderer with a fixed depth of 150 mm (0.15 in meters)
   return (
-    <mesh
-      rotation={[-Math.PI / 2, 0, 0]} // Make it flat on the ground
-      position={[0, configStore.shed3D.heights.COLUMNS, 0]} // Adjust Y based on config
-    >
-      <shapeGeometry args={[shape]} />
-      <meshBasicMaterial
-        color="gray"
-        transparent
-        opacity={1}
-        depthWrite={false}
-        side={THREE.DoubleSide}
-      />
-    </mesh>
+    <AnyShapeRenderer
+      bottomPoints={transformedPoints}
+      height={0.15} // 150 mm depth
+      centerOffset={[0, 0, 0]} // No additional offset needed since points are already transformed
+      y={configStore.shed3D.heights.PLINTH - 0.15} // Position at ground level or adjust as needed
+      color="gray" // Match the original color
+    />
   );
 });
 

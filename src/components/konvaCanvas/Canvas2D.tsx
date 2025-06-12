@@ -15,49 +15,56 @@ import { useVisibleShapes } from "../hooks/useVisibleShapes";
 import uiStore from "../../stores/UIStore";
 import { observer } from "mobx-react-lite";
 import { toJS } from "mobx";
-import { items } from "../../utils/sheetItems";
-import { handleExcelQuantityCalculation } from "../../utils/handleExcelQuantityCalculation";
-import { handleRubbleSoilingCalculation } from "../../utils/handleRubbleSoilingCalculation";
-import { handlePileRunningCalculation } from "../../utils/handlePileRunningCalculation";
-import { handlePccCalculation } from "../../utils/handlePccCalculation";
-import { handleFillingGoodSoilFromOutSide } from "../../utils/handleFillingGoodSoilFromOutSide";
 
 const Canvas2D: React.FC = observer(() => {
   const { stageRef, handleWheel, handleDragMove } = useCanvasZoomPan();
   const { circles, lines, polygons, texts, ellipses } =
     useVisibleShapes(stageRef);
-  // console.log(items.excavation_upto_8ft_depth);
-  handleFillingGoodSoilFromOutSide();
-  // console.log(toJS(uiStore.data.curves.find((c) => c.type === "HATCH")));
+
+  //download a file containing uiStore.data
+  const handleDownload = () => {
+    const data = JSON.stringify(uiStore.data);
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "data.json";
+    link.click();
+    URL.revokeObjectURL(url);
+  };
 
   return (
-    <Stage
-      ref={stageRef}
-      width={window.innerWidth}
-      height={window.innerHeight}
-      x={uiStore.stageTransform.x}
-      y={uiStore.stageTransform.y}
-      scaleX={uiStore.stageTransform.scale}
-      scaleY={uiStore.stageTransform.scale}
-      onWheel={handleWheel}
-      draggable
-      onDragMove={handleDragMove}
-    >
-      <Layer>
-        <Walls />
-        <PolygonsDrawer polygons={polygons} />
-        <Column />
-        <Foundation />
-      </Layer>
-      <Layer listening={false}>
-        <CircleDrawer circles={circles} />
-        <LineDrawer lines={lines} />
-        <TextDrawer texts={texts} />
-        <EllipseDrawer ellipses={ellipses} />
-        <BasePlate />
-        <MullionColumn />
-      </Layer>
-    </Stage>
+    <>
+      <button onClick={handleDownload}>Download</button>
+      <Stage
+        ref={stageRef}
+        width={window.innerWidth}
+        height={window.innerHeight}
+        x={uiStore.stageTransform.x}
+        y={uiStore.stageTransform.y}
+        scaleX={uiStore.stageTransform.scale}
+        scaleY={uiStore.stageTransform.scale}
+        onWheel={handleWheel}
+        draggable
+        onDragMove={handleDragMove}
+      >
+        <Layer>
+          <Walls />
+          <PolygonsDrawer polygons={polygons} />
+          <Column />
+          <Foundation />
+        </Layer>
+        <Layer listening={false}>
+          <CircleDrawer circles={circles} />
+          <LineDrawer lines={lines} />
+          <TextDrawer texts={texts} />
+          <EllipseDrawer ellipses={ellipses} />
+          <BasePlate />
+          <MullionColumn />
+          <TextDrawer texts={texts} />
+        </Layer>
+      </Stage>
+    </>
   );
 });
 

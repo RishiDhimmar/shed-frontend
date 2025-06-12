@@ -1,7 +1,8 @@
+
+
 import React, { useMemo } from "react";
 import { toJS } from "mobx";
 import columnStore from "../../stores/ColumnStore";
-import BoxRenderer from "./Box";
 import * as THREE from "three";
 import { observer } from "mobx-react-lite";
 import configStore from "../../stores/ConfigStore";
@@ -34,7 +35,7 @@ const ColumnRenderer = observer(
       return allColumns;
     }, [columnStore.polygons]);
 
-    const instances = useMemo(() => {
+    const rectangles = useMemo(() => {
       const height = configStore.shed3D.heights.COLUMNS;
 
       return columns
@@ -57,17 +58,48 @@ const ColumnRenderer = observer(
           const minZ = Math.min(...zs);
           const maxZ = Math.max(...zs);
 
-          const width = maxX - minX;
-          const length = maxZ - minZ;
-          const centerX = (minX + maxX) / 2;
-          const centerZ = (minZ + maxZ) / 2;
+          // Define the four corners of the rectangle
+          const corners = [
+            { x: minX + 0.04, z: minZ + 0.04 }, // Bottom-left
+            { x: maxX - 0.04, z: minZ + 0.04 }, // Bottom-right
+            { x: maxX - 0.04, z: maxZ - 0.04 }, // Top-right
+            { x: minX + 0.04, z: maxZ - 0.04 }, // Top-left
+          ];
+
+          // Calculate y-levels at 150 unit intervals
+          const yInterval = 150 / 1000; // Convert 150mm to units
+          const yLevels = [];
+          for (let y = floorY; y <= height + floorY; y += yInterval) {
+            yLevels.push(y);
+          }
+
+          // Create lines for each y-level
+          const lines = yLevels.map((y) => [
+            // Line 1: Bottom-left to Bottom-right
+            {
+              start: [corners[0].x, y, corners[0].z],
+              end: [corners[1].x, y, corners[1].z],
+            },
+            // Line 2: Bottom-right to Top-right
+            {
+              start: [corners[1].x, y, corners[1].z],
+              end: [corners[2].x, y, corners[2].z],
+            },
+            // Line 3: Top-right to Top-left
+            {
+              start: [corners[2].x, y, corners[2].z],
+              end: [corners[3].x, y, corners[3].z],
+            },
+            // Line 4: Top-left to Bottom-left
+            {
+              start: [corners[3].x, y, corners[3].z],
+              end: [corners[0].x, y, corners[0].z],
+            },
+          ]);
 
           return {
-            width,
-            length,
-            height,
-            position: [centerX, height / 2 + floorY, centerZ],
-            color: "blue",
+            lines: lines.flat(),
+            color: "red",
           };
         })
         .filter(Boolean);
@@ -75,21 +107,34 @@ const ColumnRenderer = observer(
 
     return (
       <>
-        <BoxRenderer instances={instances} opacity={0.2} />
+        {/* Render the lines forming rectangles */}
+        {rectangles.map((rect, index) =>
+          rect.lines.map((line, lineIndex) => {
+            const points = [
+              new THREE.Vector3(...line.start),
+              new THREE.Vector3(...line.end),
+            ];
+            const geometry = new THREE.BufferGeometry().setFromPoints(points);
+            return (
+              <line key={`rect-line-${index}-${lineIndex}`} geometry={geometry}>
+                <lineBasicMaterial
+                  color={rect.color}
+                  linewidth={20}
+                  polygonOffset
+                  polygonOffsetFactor={-1}
+                  polygonOffsetUnits={-4}
+                />
+              </line>
+            );
+          })
+        )}
 
+        {/* Render the wires as before */}
         {columns.map((col, colIndex) =>
           (col.wireData || []).map((wire, wireIndex) => {
-            // if (!wire.x || !wire.y || !wire.radius) {
-            //   console.warn(
-            //     `Invalid wire data for column ${colIndex}, wire ${wireIndex}:`,
-            //     toJS(wire)
-            //   );
-            //   return null;
-            // }
-
             const wireLength = configStore.shed3D.heights.COLUMNS;
             const radius = (wire.radius / 1000) * scale;
-            const extensionLength = 450 / 1000; // Extension length in units
+            const extensionLength = 450 / 1000;
 
             const geometry = new THREE.CylinderGeometry(
               radius,
@@ -134,27 +179,27 @@ const ColumnRenderer = observer(
                       ? [
                           -(wire.x / 1000 - centerOffset[0]) * scale +
                             450 / 2000,
-                          floorY, // Position at top of main wire
+                          floorY,
                           -(wire.y / 1000 - centerOffset[2]) * scale,
                         ]
                       : wire.edge === "right"
                       ? [
                           -(wire.x / 1000 - centerOffset[0]) * scale -
                             450 / 2000,
-                          floorY, // Position at top of main wire
+                          floorY,
                           -(wire.y / 1000 - centerOffset[2]) * scale,
                         ]
                       : wire.edge === "top"
                       ? [
                           -(wire.x / 1000 - centerOffset[0]) * scale,
-                          floorY, // Position at top of main wire
+                          floorY,
                           -(wire.y / 1000 - centerOffset[2]) * scale +
                             450 / 2000,
                         ]
                       : wire.edge === "bottom"
                       ? [
                           -(wire.x / 1000 - centerOffset[0]) * scale,
-                          floorY, // Position at top of main wire
+                          floorY,
                           -(wire.y / 1000 - centerOffset[2]) * scale -
                             450 / 2000,
                         ]
@@ -162,7 +207,7 @@ const ColumnRenderer = observer(
                       ? [
                           -(wire.x / 1000 - centerOffset[0]) * scale +
                             450 / 2800,
-                          floorY, // Position at top of main wire
+                          floorY,
                           -(wire.y / 1000 - centerOffset[2]) * scale +
                             450 / 2800,
                         ]
@@ -170,7 +215,7 @@ const ColumnRenderer = observer(
                       ? [
                           -(wire.x / 1000 - centerOffset[0]) * scale -
                             450 / 2800,
-                          floorY, // Position at top of main wire
+                          floorY,
                           -(wire.y / 1000 - centerOffset[2]) * scale +
                             450 / 2800,
                         ]
@@ -178,7 +223,7 @@ const ColumnRenderer = observer(
                       ? [
                           -(wire.x / 1000 - centerOffset[0]) * scale +
                             450 / 2800,
-                          floorY, // Position at top of main wire
+                          floorY,
                           -(wire.y / 1000 - centerOffset[2]) * scale -
                             450 / 2800,
                         ]
@@ -186,13 +231,13 @@ const ColumnRenderer = observer(
                       ? [
                           -(wire.x / 1000 - centerOffset[0]) * scale -
                             450 / 2800,
-                          floorY, // Position at top of main wire
+                          floorY,
                           -(wire.y / 1000 - centerOffset[2]) * scale -
                             450 / 2800,
                         ]
                       : [
                           -(wire.x / 1000 - centerOffset[0]) * scale,
-                          floorY, // Position at top of main wire
+                          floorY,
                           -(wire.y / 1000 - centerOffset[2]) * scale,
                         ]
                   }
@@ -209,10 +254,8 @@ const ColumnRenderer = observer(
                       ? Math.PI / 2
                       : wire.edge === "bottom-right"
                       ? -Math.PI / 2
-                      : 0, // X rotation
-
-                    0, // Y rotation (adjust this as needed)
-
+                      : 0,
+                    0,
                     wire.edge === "left"
                       ? Math.PI / 2
                       : wire.edge === "right"
@@ -225,9 +268,8 @@ const ColumnRenderer = observer(
                       ? Math.PI / 4
                       : wire.edge === "bottom-right"
                       ? Math.PI / 4
-                      : 0, // Z rotation
+                      : 0,
                   ]}
-                  // Remove rotation to keep vertical
                 >
                   <meshBasicMaterial
                     color={color}
@@ -247,3 +289,5 @@ const ColumnRenderer = observer(
 );
 
 export default ColumnRenderer;
+
+

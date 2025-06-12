@@ -259,7 +259,7 @@ export const extractAllFromDXF = (dxfData) => {
 
     if (xScale === 0 || yScale === 0 || zScale === 0) {
       console.warn(
-        "Zero scale detected in transformation, using default scale",
+        "Zero scale detected in transformation, using default scale"
       );
       transform.xScale = 1;
       transform.yScale = 1;
@@ -269,7 +269,7 @@ export const extractAllFromDXF = (dxfData) => {
     const T_b = createTranslationMatrix(
       -basePoint.x,
       -basePoint.y,
-      -basePoint.z,
+      -basePoint.z
     );
     const S = createScalingMatrix(xScale, yScale, zScale);
     const R = createRotationMatrix(extrusion, (rotation * Math.PI) / 180);
@@ -328,10 +328,10 @@ export const extractAllFromDXF = (dxfData) => {
                 x: v.x || 0,
                 y: v.y || 0,
                 z: v.z || 0,
-              }),
+              })
             );
             segments.push(
-              ...extractSegmentsFromVertices(transformedVertices, isClosed),
+              ...extractSegmentsFromVertices(transformedVertices, isClosed)
             );
             break;
 
@@ -370,15 +370,16 @@ export const extractAllFromDXF = (dxfData) => {
 
           case "TEXT":
           case "MTEXT":
-            const position = transformPoint(accumulatedMatrix, {
-              x: entity.position?.x || entity.x || 0,
-              y: entity.position?.y || entity.y || 0,
-              z: entity.position?.z || entity.z || 0,
+            let position = transformPoint(accumulatedMatrix, {
+              x: entity.position?.x || entity.startPoint?.x || entity.x || 0,
+              y: entity.position?.y || entity.startPoint?.y || entity.y || 0,
+              z: entity.position?.z || entity.startPoint?.z || entity.z || 0,
             });
+            
             texts.push({
               type: entity.type,
               text: entity.text || entity.value || "",
-              position,
+              position: position,
               height: entity.height || 1,
               rotation:
                 entity.directionVector?.y === -1 ? 90 : entity.rotation || 0,
@@ -389,6 +390,7 @@ export const extractAllFromDXF = (dxfData) => {
               width: entity.width,
               xdata: entity.xdata,
             });
+
             break;
 
           case "ARC":
@@ -452,7 +454,7 @@ export const extractAllFromDXF = (dxfData) => {
                 x: p.x || 0,
                 y: p.y || 0,
                 z: p.z || 0,
-              }),
+              })
             );
             curves.push({
               type: "SPLINE",
@@ -477,7 +479,7 @@ export const extractAllFromDXF = (dxfData) => {
                       x: v.x || 0,
                       y: v.y || 0,
                       z: v.z || 0,
-                    }),
+                    })
                   ),
                   center: edge.center
                     ? transformPoint(accumulatedMatrix, {
@@ -528,7 +530,7 @@ export const extractAllFromDXF = (dxfData) => {
                   x: v.x || 0,
                   y: v.y || 0,
                   z: v.z || 0,
-                }),
+                })
               ),
               layer: entity.layer,
               color: entity.color,
@@ -544,7 +546,7 @@ export const extractAllFromDXF = (dxfData) => {
                 x: v.x || 0,
                 y: v.y || 0,
                 z: v.z || 0,
-              }),
+              })
             );
             segments.push(...extractSegmentsFromVertices(solidVertices, true));
             break;
@@ -555,7 +557,7 @@ export const extractAllFromDXF = (dxfData) => {
                 x: v.x || 0,
                 y: v.y || 0,
                 z: v.z || 0,
-              }),
+              })
             );
             segments.push(...extractSegmentsFromVertices(faceVertices, true));
             break;
@@ -626,7 +628,7 @@ export const extractAllFromDXF = (dxfData) => {
               const localMatrix = getTransformMatrix(localTransform);
               const totalMatrix = multiplyMatrices(
                 accumulatedMatrix,
-                localMatrix,
+                localMatrix
               );
               extractEntities(block.entities || [], totalMatrix, space); // recursive call
             } else {
@@ -752,7 +754,7 @@ export const extractAllFromDXF = (dxfData) => {
     if (points.length < 3) return points;
     const center = points.reduce(
       (acc, p) => ({ x: acc.x + p.x, y: acc.y + p.y }),
-      { x: 0, y: 0 },
+      { x: 0, y: 0 }
     );
     center.x /= points.length;
     center.y /= points.length;

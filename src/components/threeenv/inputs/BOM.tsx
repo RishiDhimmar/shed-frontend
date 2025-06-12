@@ -51,7 +51,7 @@ function BOM() {
         const radius = Number(wire.radius.toFixed(5)) || 0;
         return {
           wireId: wireIndex + 1,
-          length: columnHeight,
+          length: columnHeight + (450 / 1000),
           radius: radius / 1000, // Convert to millimeters
           volume: radius
             ? Math.PI * (radius / 1000) * (radius / 1000) * columnHeight
@@ -85,7 +85,7 @@ function BOM() {
       const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
       return {
         rodId: rodIndex + 1,
-        length: length / 1000 || 0, // Fallback to 0 if calculation fails
+        length: length / 1000 + 75 / 1000 || 0, // Fallback to 0 if calculation fails
         radius: radius / 1000, // Convert to millimeters
         volume:
           radius && length

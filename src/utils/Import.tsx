@@ -162,6 +162,8 @@ export const Import = () => {
 
       const polygons = extractPolygonsFromDXF(jsonData);
       uiStore.data = extractAllFromDXF(jsonData);
+      //download uiStore data
+      
       uiStore.setPolygons(polygons);
       dxfStore.data = uiStore.data;
       dxfStore.setCandidatePolygons(uiStore.data.polygons);
