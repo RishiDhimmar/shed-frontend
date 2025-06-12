@@ -18,7 +18,7 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0], scale = 1 }) => {
     const shape = new THREE.Shape();
 
     externalWallPoints.forEach((pt, index) => {
-      const x = -(pt.x / 1000 - centerOffset[0]) * scale;
+      const x = (pt.x / 1000 - centerOffset[0]) * scale;
       const y = (pt.y / 1000 - centerOffset[2]) * scale;
 
       if (index === 0) {
@@ -37,7 +37,7 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0], scale = 1 }) => {
   return (
     <mesh
       rotation={[-Math.PI / 2, 0, 0]} // Make it flat on the ground
-      position={[0, configStore.shed3D.heights.COLUMNS, 0]} // Adjust Y based on config
+      position={[0, configStore.shed3D.heights.PLINTH, 0]} // Adjust Y based on config
     >
       <shapeGeometry args={[shape]} />
       <meshBasicMaterial

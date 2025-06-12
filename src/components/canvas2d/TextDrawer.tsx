@@ -22,17 +22,21 @@ const TextDrawer = observer(({ texts, scale = 1 }) => {
               // text={text.text.replace("}", "\n").split(";")[1] || ""} // Remove DXF alignment codes
               x={
                 text.height
-                  ? text.position.x - text.height / 2
-                  : text.position.x
+                  ? (text.position.x - text.height / 2) / 1000
+                  : text.position.x / 1000
               } // Scale x position
               y={
-                text.width ? text.position.y - text.height / 2 : text.position.y
+                text.width
+                  ? (text.position.y - text.height / 2) / 1000
+                  : text.position.y / 1000
               } // Scale y position
               fontSize={text.height} // Scale height to fontSize
               rotation={text.rotation || 0} // Default rotation to 0
               fill={"black"} // Convert DXF color to hex
             />
+         
           </>
+          
         ))}
     </>
   );
