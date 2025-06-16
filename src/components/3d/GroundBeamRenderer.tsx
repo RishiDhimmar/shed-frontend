@@ -936,7 +936,7 @@ import configStore from "../../stores/ConfigStore";
 import BoxRenderer from "./Box";
 import { convertToPointObjects } from "../../utils/PolygonUtils";
 import wallStore from "../../stores/WallStore";
-import RingRenderer from "./ringRenderer";
+import RingRenderer from "./RingRenderer";
 import columnStore from "../../stores/ColumnStore";
 import baseplateStore from "../../stores/BasePlateStore";
 
