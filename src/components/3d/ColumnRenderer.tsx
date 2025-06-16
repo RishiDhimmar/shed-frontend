@@ -294,7 +294,7 @@ import columnStore from "../../stores/ColumnStore";
 import * as THREE from "three";
 import { observer } from "mobx-react-lite";
 import configStore from "../../stores/ConfigStore";
-import RingRenderer from "./ringRenderer";
+import RingRenderer from "./RingRenderer";
 import BoxRenderer from "./Box";
 
 const scale = 1;

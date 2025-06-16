@@ -67,7 +67,7 @@ import configStore from "../../stores/ConfigStore";
 import { observer } from "mobx-react-lite";
 import { CylinderGeometry, MeshBasicMaterial, Mesh } from "three";
 import BoxRenderer from "./Box";
-import RingRenderer from "./ringRenderer";
+import RingRenderer from "./RingRenderer";
 
 const MullionColumnRenderer = observer(({ centerOffset, scale }) => {
   const { columnInstances, cylinderInstances } = useMemo(() => {
