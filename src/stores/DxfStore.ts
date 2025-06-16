@@ -138,6 +138,8 @@ class DxfStore {
         uiStore.toggleVisibility("circles");
         uiStore.toggleVisibility("annotation");
         // uiStore.toggleVisibility("polygons");
+        
+        
 
         return flatArray;
       }

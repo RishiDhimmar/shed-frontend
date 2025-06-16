@@ -35,6 +35,7 @@ export class ColumnStore {
   uniqueColumnNumber = 0;
   internalOffset: number = 0.75;
   polygons: number[][][] = [];
+  ogGroups: number[][][] = [];
 
   columns: Column[] = [];
 
@@ -89,7 +90,6 @@ export class ColumnStore {
     }
   }
   setvEdgeWires(groupName, vEdgeWires) {
-    console.log(groupName, vEdgeWires);
     const group = this.polygons.find((g) => g.name === groupName);
     if (group) {
       group.vEdgeWires = vEdgeWires;
@@ -1203,6 +1203,7 @@ export class ColumnStore {
     });
 
     this.polygons = groupedPolygons;
+    this.ogGroups = groupedPolygons;
     this.columns = groupedPolygons.flatMap((group) => group.columns);
 
     return groupedPolygons;

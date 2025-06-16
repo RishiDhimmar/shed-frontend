@@ -44,6 +44,26 @@ class MullionColumnStore {
   setPolygons(polygons) {
     this.polygons = polygons;
   }
+  sethEdgeWires(groupName, hEdgeWires) {
+    const group = this.polygons.find((g) => g.name === groupName);
+    if (group) {
+      group.hEdgeWires = hEdgeWires;
+    }
+  }
+
+  setvEdgeWires(groupName, vEdgeWires) {
+    const group = this.polygons.find((g) => g.name === groupName);
+    if (group) {
+      group.vEdgeWires = vEdgeWires;
+    }
+  }
+
+  setWireData(groupName, column, wireData) {
+    const group = this.polygons.find((g) => g.name === groupName);
+    if (group) {
+      group.columns.find((b) => b.label === column.label).wireData = wireData;
+    }
+  }
 
   calculateMullions() {
     const { wallThickness, externalWallPoints } = wallStore;
