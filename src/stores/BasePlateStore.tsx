@@ -55,7 +55,7 @@ class BaseplateStore {
     vertical: { width: 0.25, length: 0.3, offsetY: 0.01 },
   };
 
-  idealHorizontalDistance = 7;
+  idealHorizontalDistance = 5.51;
   idealVerticalDistance = 6;
   basePlates: Baseplate[] = observable([]);
   previousBasePlates: Baseplate[] = [];
@@ -280,7 +280,6 @@ class BaseplateStore {
 
     return true;
   }
-
 
   setBasePlates(newBasePlates: Baseplate[]) {
     runInAction(() => {

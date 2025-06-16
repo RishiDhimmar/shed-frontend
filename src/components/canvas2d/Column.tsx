@@ -69,7 +69,7 @@ const Column = observer(() => {
   ) => {
     const circles = [];
     const wireData = [];
-    const radius = 16;
+    const radius = 8;
     let xOffset, yOffset;
 
     switch (edgeType) {
@@ -454,7 +454,7 @@ const Column = observer(() => {
             columnIndex
           );
         const { circles: cornerCircles, wireData: cornerWireData } =
-          generateCornerCircles(bbox, offset, 16, groupIndex, columnIndex);
+          generateCornerCircles(bbox, offset, 8, groupIndex, columnIndex);
 
         wireData.push(
           ...topWireData,

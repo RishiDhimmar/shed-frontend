@@ -33,7 +33,7 @@ const FoundationsRenderer = observer(({ centerOffset }) => {
           <AnyShapeRenderer
             bottomPoints={excavationBottomPoints}
             height={2.1}
-            y={-2.1 / 2}
+            y={-configStore.shed3D.heights.GROUND_BEAM /4}
             color="brown"
           />
         )}

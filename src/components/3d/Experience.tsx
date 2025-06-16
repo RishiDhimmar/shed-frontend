@@ -94,6 +94,7 @@ const Experience = observer(() => {
         near={0.00001}
         far={100000}
       />
+      <axesHelper args={[5]} />
 
       {/* Controls */}
       <CameraControls
