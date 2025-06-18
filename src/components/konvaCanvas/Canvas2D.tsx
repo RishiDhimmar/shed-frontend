@@ -34,7 +34,6 @@ const Canvas2D: React.FC = observer(() => {
 
   return (
     <>
-      <button onClick={handleDownload}>Download</button>
       <Stage
         ref={stageRef}
         width={window.innerWidth}
