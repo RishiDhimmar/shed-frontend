@@ -613,14 +613,14 @@ import {
 } from "../../utils/PolygonUtils";
 import dxfStore from "../../stores/DxfStore";
 import configStore from "../../stores/ConfigStore";
-import { Plane, mesh } from "@react-three/drei";
+import { Plane, mesh, useTexture } from "@react-three/drei";
 import uiStore from "../../stores/UIStore";
 
 // Extracted constants
 const SCALE = 1; // Scaling factor
 const PLASTER_THICKNESS = configStore.shed3D.heights.PLASTER_THICKNESS * SCALE; // 10mm = 0.01m, scaled
 const COPING_BEAM_HEIGHT = configStore.shed3D.heights.COPING_BEAM_HEIGHT; // Coping beam height
-const CYLINDER_RADIUS = 0.01; // Smaller radius for wire-like appearance
+const CYLINDER_RADIUS = 0.008; // Smaller radius for wire-like appearance
 const CYLINDER_OFFSET = 0.1; // Offset for cylinders along beam length
 const LINE_SPACING = 0.15; // 150mm in scaled units, matching GroundBeamRenderer
 const WIRE_OFFSET = 0.05; // 50mm offset for frame positioning, matching GroundBeamRenderer
@@ -1117,11 +1117,7 @@ const ShedWallRenderer = observer(
               <cylinderGeometry
                 args={[cylinder.radius, cylinder.radius, cylinder.height, 32]}
               />
-              <meshBasicMaterial
-                color={cylinder.color}
-                depthWrite={false}
-                opacity={1}
-              />
+              <meshBasicMaterial color={cylinder.color} depthWrite={false} />
             </mesh>
           ))}
         </group>
