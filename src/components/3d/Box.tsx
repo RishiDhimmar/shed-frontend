@@ -26,7 +26,7 @@ const BoxRenderer = observer(
       const positions: number[] = [];
 
       instances.forEach((inst) => {
-        const { position, width, height, length } = inst;
+        const { position, width, height, length, } = inst;
         const [px, py, pz] = position;
 
         const hw = width / 2;
@@ -106,7 +106,7 @@ const BoxRenderer = observer(
 
     return (
       <group>
-        <instancedMesh ref={meshRef} args={[null, null, instances.length]}>
+        <instancedMesh ref={meshRef} args={[null, null, instances.length]} >
           <boxGeometry args={[1, 1, 1]} />
           <meshBasicMaterial
             color={instances[0]?.color || "magenta"}

@@ -95,6 +95,7 @@ class UIStore {
     plinth: true,
     bom: true,
     excavation: false,
+    plaster: false,
   };
   isDimensionsVisible: boolean = false;
 

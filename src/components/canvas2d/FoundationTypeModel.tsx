@@ -142,7 +142,7 @@ const FoundationTypeModal = ({
               }}
               placeholder=""
               min="0"
-              max="3"
+              max="4"
             />
           </div>
         )}

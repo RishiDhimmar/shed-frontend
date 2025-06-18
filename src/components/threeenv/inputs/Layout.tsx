@@ -157,8 +157,20 @@ export const Layout = observer(() => {
           onClick={() => handleSelect("excavation")}
           onToggleVisibility={() => uiStore.toggleVisibility("excavation")}
         />
+        <LayoutItem
+          title="Plaster"
+          color="bg-[gray]"
+          isHidden={!uiStore.visibility.plaster}
+          isSelected={selectedTitle === "plaster"}
+          onClick={() => handleSelect("plaster")}
+          onToggleVisibility={() => uiStore.toggleVisibility("plaster")}
+        />
       </div>
-      <div className={` flex flex-col  overflow-y-auto  ${uiStore.currentComponent === "bom" ? "w-[1300px]" : "w-[300px]"} h-[calc(100vh-40px)]  ml-1 bg-white rounded shadow-xl  z-1 top-0 `}>
+      <div
+        className={` flex flex-col  overflow-y-auto  ${
+          uiStore.currentComponent === "bom" ? "w-[1300px]" : "w-[300px]"
+        } h-[calc(100vh-40px)]  ml-1 bg-white rounded shadow-xl  z-1 top-0 `}
+      >
         {uiStore.currentComponent === "plot" && <PlotInput />}
         {uiStore.currentComponent === "shade" && <Shade />}
         {uiStore.currentComponent === "baseplate" && <BaseplateInput />}

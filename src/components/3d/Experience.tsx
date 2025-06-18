@@ -76,15 +76,14 @@ const Experience = observer(() => {
 
       {/* Cameras */}
 
-      {/*  <OrthographicCamera
+      {/* <OrthographicCamera
         ref={cameraRef}
         makeDefault
         position={[5, 5, 5]}
         zoom={100}
         near={0.000000000001}
         far={10000000000}
-      />
-         */}
+      /> */}
 
       <PerspectiveCamera
         ref={cameraRef}
@@ -94,14 +93,14 @@ const Experience = observer(() => {
         near={0.00001}
         far={100000}
       />
-      <axesHelper args={[5]} />
+      {/* <axesHelper args={[5]} /> */}
 
       {/* Controls */}
       <CameraControls
         ref={controlsRef}
         maxPolarAngle={Math.PI / 1.5}
         minPolarAngle={0}
-        dollySpeed={0.5}
+        dollySpeed={1}
         truckSpeed={0.5}
         smoothTime={0.8}
         dampingFactor={0.05}
@@ -132,12 +131,8 @@ const Experience = observer(() => {
       */}
 
       {/* Scene Renderers */}
-      {uiStore.visibility.foundation && (
-        <FoundationsRenderer centerOffset={centerOffset} scale={0.1} />
-      )}
-      {uiStore.visibility.column && (
-        <ColumnRenderer centerOffset={centerOffset} scale={0.1} />
-      )}
+      <FoundationsRenderer centerOffset={centerOffset} scale={0.1} />
+      <ColumnRenderer centerOffset={centerOffset} scale={0.1} />
       {uiStore.visibility.groundBeam && (
         <GroundBeamRenderer centerOffset={centerOffset} scale={0.1} />
       )}
@@ -151,9 +146,7 @@ const Experience = observer(() => {
       {uiStore.visibility.mullionColumn && (
         <MullionColumnRenderer centerOffset={centerOffset} scale={1} />
       )}
-      {uiStore.visibility.shade && (
-        <ShedWallRenderer centerOffset={centerOffset} scale={1} />
-      )}
+      <ShedWallRenderer centerOffset={centerOffset} scale={1} />
     </>
   );
 });

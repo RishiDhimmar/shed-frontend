@@ -19,7 +19,7 @@ class ConfigStore {
       BASE_PLATES: 1.9 + 0.6,
       COLUMNS: 1.9 + 0.6,
       FOUNDATIONS: 0.1,
-      MULLION_COLUMNS_Z_HEIGHT: 4,
+      MULLION_COLUMNS_Z_HEIGHT: 3,
       FRUSTUM: 0.370,
       RCC: 0.23,
       GROUND_BEAM: 2.1 - 0.3 - 0.3,
