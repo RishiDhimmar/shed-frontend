@@ -296,6 +296,7 @@ import { observer } from "mobx-react-lite";
 import configStore from "../../stores/ConfigStore";
 import RingRenderer from "./RingRenderer";
 import BoxRenderer from "./Box";
+import uiStore from "../../stores/UIStore";
 
 const scale = 1;
 
@@ -334,6 +335,7 @@ const ColumnRenderer = observer(
             x: -(p.x / 1000 - centerOffset[0]) * scale,
             z: -(p.y / 1000 - centerOffset[2]) * scale,
           }));
+          console.log(points);
 
           if (points.length !== 4) {
             console.warn(`Invalid points for column:`, toJS(c));
@@ -366,167 +368,169 @@ const ColumnRenderer = observer(
 
     return (
       <>
-        <RingRenderer
-          columns={columns}
-          centerOffset={centerOffset}
-          floorY={floorY}
-        />
-        <BoxRenderer instances={instances} opacity={0.2} />
+        <group visible={uiStore.visibility.column}>
+          <RingRenderer
+            columns={columns}
+            centerOffset={centerOffset}
+            floorY={floorY}
+          />
+          <BoxRenderer instances={instances} opacity={0.2} />
 
-        {columns.map((col, colIndex) =>
-          (col.wireData || []).map((wire, wireIndex) => {
-            const wireLength = configStore.shed3D.heights.COLUMNS;
-            const radius = (wire.radius / 1000) * scale;
-            const extensionLength = 450 / 1000;
+          {columns.map((col, colIndex) =>
+            (col.wireData || []).map((wire, wireIndex) => {
+              const wireLength = configStore.shed3D.heights.COLUMNS;
+              const radius = (wire.radius / 1000) * scale;
+              const extensionLength = 450 / 1000;
 
-            const geometry = new THREE.CylinderGeometry(
-              radius,
-              radius,
-              wireLength,
-              8
-            );
-            const extensionGeometry = new THREE.CylinderGeometry(
-              radius,
-              radius,
-              extensionLength,
-              8
-            );
-            const color = "blue";
+              const geometry = new THREE.CylinderGeometry(
+                radius,
+                radius,
+                wireLength,
+                8
+              );
+              const extensionGeometry = new THREE.CylinderGeometry(
+                radius,
+                radius,
+                extensionLength,
+                8
+              );
+              const color = "blue";
 
-            return (
-              <group key={`wire-${colIndex}-${wireIndex}-group`}>
-                <mesh
-                  key={`wire-${colIndex}-${wireIndex}`}
-                  geometry={geometry}
-                  position={[
-                    -(wire.x / 1000 - centerOffset[0]) * scale,
-                    wireLength / 2 + floorY,
-                    -(wire.y / 1000 - centerOffset[2]) * scale,
-                  ]}
-                  castShadow
-                  receiveShadow
-                >
-                  <meshBasicMaterial
-                    color={color}
-                    polygonOffset
-                    polygonOffsetFactor={-1}
-                    polygonOffsetUnits={-4}
-                    depthWrite={false}
-                    opacity={0.5}
-                  />
-                </mesh>
-                <mesh
-                  key={`wire-extension-${colIndex}-${wireIndex}`}
-                  geometry={extensionGeometry}
-                  position={
-                    wire.edge === "left"
-                      ? [
-                          -(wire.x / 1000 - centerOffset[0]) * scale +
-                            450 / 2000,
-                          floorY,
-                          -(wire.y / 1000 - centerOffset[2]) * scale,
-                        ]
-                      : wire.edge === "right"
-                      ? [
-                          -(wire.x / 1000 - centerOffset[0]) * scale -
-                            450 / 2000,
-                          floorY,
-                          -(wire.y / 1000 - centerOffset[2]) * scale,
-                        ]
-                      : wire.edge === "top"
-                      ? [
-                          -(wire.x / 1000 - centerOffset[0]) * scale,
-                          floorY,
-                          -(wire.y / 1000 - centerOffset[2]) * scale +
-                            450 / 2000,
-                        ]
-                      : wire.edge === "bottom"
-                      ? [
-                          -(wire.x / 1000 - centerOffset[0]) * scale,
-                          floorY,
-                          -(wire.y / 1000 - centerOffset[2]) * scale -
-                            450 / 2000,
-                        ]
-                      : wire.edge === "top-left"
-                      ? [
-                          -(wire.x / 1000 - centerOffset[0]) * scale +
-                            450 / 2800,
-                          floorY,
-                          -(wire.y / 1000 - centerOffset[2]) * scale +
-                            450 / 2800,
-                        ]
-                      : wire.edge === "top-right"
-                      ? [
-                          -(wire.x / 1000 - centerOffset[0]) * scale -
-                            450 / 2800,
-                          floorY,
-                          -(wire.y / 1000 - centerOffset[2]) * scale +
-                            450 / 2800,
-                        ]
-                      : wire.edge === "bottom-left"
-                      ? [
-                          -(wire.x / 1000 - centerOffset[0]) * scale +
-                            450 / 2800,
-                          floorY,
-                          -(wire.y / 1000 - centerOffset[2]) * scale -
-                            450 / 2800,
-                        ]
-                      : wire.edge === "bottom-right"
-                      ? [
-                          -(wire.x / 1000 - centerOffset[0]) * scale -
-                            450 / 2800,
-                          floorY,
-                          -(wire.y / 1000 - centerOffset[2]) * scale -
-                            450 / 2800,
-                        ]
-                      : [
-                          -(wire.x / 1000 - centerOffset[0]) * scale,
-                          floorY,
-                          -(wire.y / 1000 - centerOffset[2]) * scale,
-                        ]
-                  }
-                  rotation={[
-                    wire.edge === "top"
-                      ? Math.PI / 2
-                      : wire.edge === "bottom"
-                      ? -Math.PI / 2
-                      : wire.edge === "top-left"
-                      ? Math.PI / 2
-                      : wire.edge === "top-right"
-                      ? -Math.PI / 2
-                      : wire.edge === "bottom-left"
-                      ? Math.PI / 2
-                      : wire.edge === "bottom-right"
-                      ? -Math.PI / 2
-                      : 0,
-                    0,
-                    wire.edge === "left"
-                      ? Math.PI / 2
-                      : wire.edge === "right"
-                      ? -Math.PI / 2
-                      : wire.edge === "top-left"
-                      ? -Math.PI / 4
-                      : wire.edge === "top-right"
-                      ? -Math.PI / 4
-                      : wire.edge === "bottom-left"
-                      ? Math.PI / 4
-                      : wire.edge === "bottom-right"
-                      ? Math.PI / 4
-                      : 0,
-                  ]}
-                >
-                  <meshBasicMaterial
-                    color={color}
-                    polygonOffset
-                    polygonOffsetFactor={-1}
-                    polygonOffsetUnits={-4}
-                    depthWrite={false}
-                  />
-                </mesh>
-              </group>
-            );
-          })
-        )}
+              return (
+                <group key={`wire-${colIndex}-${wireIndex}-group`}>
+                  <mesh
+                    key={`wire-${colIndex}-${wireIndex}`}
+                    geometry={geometry}
+                    position={[
+                      -(wire.x / 1000 - centerOffset[0]) * scale,
+                      wireLength / 2 + floorY,
+                      -(wire.y / 1000 - centerOffset[2]) * scale,
+                    ]}
+                    castShadow
+                    receiveShadow
+                  >
+                    <meshBasicMaterial
+                      color={color}
+                      polygonOffset
+                      polygonOffsetFactor={-1}
+                      polygonOffsetUnits={-4}
+                      depthWrite={false}
+                      opacity={0.5}
+                    />
+                  </mesh>
+                  <mesh
+                    key={`wire-extension-${colIndex}-${wireIndex}`}
+                    geometry={extensionGeometry}
+                    position={
+                      wire.edge === "left"
+                        ? [
+                            -(wire.x / 1000 - centerOffset[0]) * scale +
+                              450 / 2000,
+                            floorY,
+                            -(wire.y / 1000 - centerOffset[2]) * scale,
+                          ]
+                        : wire.edge === "right"
+                        ? [
+                            -(wire.x / 1000 - centerOffset[0]) * scale -
+                              450 / 2000,
+                            floorY,
+                            -(wire.y / 1000 - centerOffset[2]) * scale,
+                          ]
+                        : wire.edge === "top"
+                        ? [
+                            -(wire.x / 1000 - centerOffset[0]) * scale,
+                            floorY,
+                            -(wire.y / 1000 - centerOffset[2]) * scale +
+                              450 / 2000,
+                          ]
+                        : wire.edge === "bottom"
+                        ? [
+                            -(wire.x / 1000 - centerOffset[0]) * scale,
+                            floorY,
+                            -(wire.y / 1000 - centerOffset[2]) * scale -
+                              450 / 2000,
+                          ]
+                        : wire.edge === "top-left"
+                        ? [
+                            -(wire.x / 1000 - centerOffset[0]) * scale +
+                              450 / 2800,
+                            floorY,
+                            -(wire.y / 1000 - centerOffset[2]) * scale +
+                              450 / 2800,
+                          ]
+                        : wire.edge === "top-right"
+                        ? [
+                            -(wire.x / 1000 - centerOffset[0]) * scale -
+                              450 / 2800,
+                            floorY,
+                            -(wire.y / 1000 - centerOffset[2]) * scale +
+                              450 / 2800,
+                          ]
+                        : wire.edge === "bottom-left"
+                        ? [
+                            -(wire.x / 1000 - centerOffset[0]) * scale +
+                              450 / 2800,
+                            floorY,
+                            -(wire.y / 1000 - centerOffset[2]) * scale -
+                              450 / 2800,
+                          ]
+                        : wire.edge === "bottom-right"
+                        ? [
+                            -(wire.x / 1000 - centerOffset[0]) * scale -
+                              450 / 2800,
+                            floorY,
+                            -(wire.y / 1000 - centerOffset[2]) * scale -
+                              450 / 2800,
+                          ]
+                        : [
+                            -(wire.x / 1000 - centerOffset[0]) * scale,
+                            floorY,
+                            -(wire.y / 1000 - centerOffset[2]) * scale,
+                          ]
+                    }
+                    rotation={[
+                      wire.edge === "top"
+                        ? Math.PI / 2
+                        : wire.edge === "bottom"
+                        ? -Math.PI / 2
+                        : wire.edge === "top-left"
+                        ? Math.PI / 2
+                        : wire.edge === "top-right"
+                        ? -Math.PI / 2
+                        : wire.edge === "bottom-left"
+                        ? Math.PI / 2
+                        : wire.edge === "bottom-right"
+                        ? -Math.PI / 2
+                        : 0,
+                      0,
+                      wire.edge === "left"
+                        ? Math.PI / 2
+                        : wire.edge === "right"
+                        ? -Math.PI / 2
+                        : wire.edge === "top-left"
+                        ? -Math.PI / 4
+                        : wire.edge === "top-right"
+                        ? -Math.PI / 4
+                        : wire.edge === "bottom-left"
+                        ? Math.PI / 4
+                        : wire.edge === "bottom-right"
+                        ? Math.PI / 4
+                        : 0,
+                    ]}
+                  >
+                    <meshBasicMaterial
+                      color={color}
+                      polygonOffset
+                      polygonOffsetFactor={-1}
+                      polygonOffsetUnits={-4}
+                      depthWrite={false}
+                    />
+                  </mesh>
+                </group>
+              );
+            })
+          )}
+        </group>
       </>
     );
   }

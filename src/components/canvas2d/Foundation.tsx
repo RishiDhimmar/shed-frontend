@@ -7,6 +7,7 @@ import Dimension from "./Dimentions";
 import { toJS } from "mobx";
 import { Html } from "react-konva-utils";
 import FoundationTypeModal from "./FoundationTypeModel";
+import { getCirclePerimeterPoints } from "../../utils/PolygonUtils";
 
 const Foundation = observer(() => {
   const [dragPositions, setDragPositions] = useState({});
@@ -45,6 +46,24 @@ const Foundation = observer(() => {
           outerLength: outerBbox.maxX - outerBbox.minX,
           outerHeight: outerBbox.maxY - outerBbox.minY,
         };
+
+        // Calculate rod data and pile lines
+        const { rodLength, rodWidth, rodsAlongLength, rodsAlongWidth } =
+          calculateRods(
+            outerBbox.maxX - outerBbox.minX,
+            outerBbox.maxY - outerBbox.minY
+          );
+        const rodLines = generateRodLines(
+          outerBbox,
+          rodLength,
+          rodWidth,
+          rodsAlongLength,
+          rodsAlongWidth,
+          foundation.pileDetails
+        );
+
+        // Only update rod data if it has changed
+        foundationStore.setRodData(group.name, foundation.label, rodLines);
       });
     });
 
@@ -52,7 +71,7 @@ const Foundation = observer(() => {
       setDragPositions((prev) => ({ ...prev, ...newPositions }));
     }
     lastValuesRef.current = initialValues;
-  }, [foundationStore.groups]);
+  }, [foundationStore.groups]); // Dependency on groups
 
   const calculateBoundingBox = (points) => {
     if (!points || points.length === 0) {
@@ -88,7 +107,8 @@ const Foundation = observer(() => {
     rodLength,
     rodWidth,
     rodsAlongLength,
-    rodsAlongWidth
+    rodsAlongWidth,
+    pileDetails
   ) => {
     const rodLines = [];
     const tubeWidth = 16;
@@ -280,6 +300,29 @@ const Foundation = observer(() => {
     });
   };
 
+  const generatePileColumnRods = (pileColumns) => {
+    const pileData = [];
+    pileColumns.map((pileColumn) => {
+      // debugger;
+
+      const circlePoints = getCirclePerimeterPoints(
+        pileColumn.x,
+        pileColumn.y,
+        pileColumn.radius - 50,
+        100
+      );
+      circlePoints.map((point) => {
+        pileData.push({
+          x: point.x,
+          y: point.y,
+          radius: 8,
+        });
+      });
+    });
+
+    return pileData;
+  };
+
   if (!uiStore.visibility.foundation) return null;
 
   return (
@@ -309,8 +352,21 @@ const Foundation = observer(() => {
                 rodLength,
                 rodWidth,
                 rodsAlongLength,
-                rodsAlongWidth
+                rodsAlongWidth,
+                foundation.pileDetails
               );
+
+              let pileLines: any = [];
+
+              if (foundation.pileDetails?.length > 0) {
+                pileLines = generatePileColumnRods(foundation.pileDetails);
+
+                foundationStore.setPileLines(
+                  group.name,
+                  foundation.label,
+                  pileLines
+                );
+              }
 
               foundationStore.setRodData(
                 group.name,
@@ -349,7 +405,7 @@ const Foundation = observer(() => {
                     ])}
                     stroke={
                       uiStore.currentComponent === "foundation"
-                        ? "black"
+                        ? "magenta"
                         : "#FF00FF"
                     }
                     strokeWidth={5}
@@ -368,7 +424,7 @@ const Foundation = observer(() => {
                     ])}
                     stroke={
                       uiStore.currentComponent === "foundation"
-                        ? "black"
+                        ? "magenta"
                         : "#FF00FF"
                     }
                     strokeWidth={5}
@@ -415,7 +471,7 @@ const Foundation = observer(() => {
                       ]}
                       stroke={
                         uiStore.currentComponent === "foundation"
-                          ? "black"
+                          ? "magenta"
                           : "#FF00FF"
                       }
                       strokeWidth={5}
@@ -464,7 +520,7 @@ const Foundation = observer(() => {
                         text={foundation.label}
                         fontSize={150}
                         fill="#FF00FF"
-                        stroke="black"
+                        stroke="magenta"
                         strokeWidth={5}
                       />
 
@@ -541,6 +597,30 @@ const Foundation = observer(() => {
                       />
                     </>
                   )}
+
+                  {foundation.pileDetails?.map((pile, index) => (
+                    <Circle
+                      key={`pile-${i}-${j}-${index}`}
+                      x={pile.x}
+                      y={pile.y}
+                      radius={pile.radius}
+                      stroke="magenta"
+                      strokeWidth={5}
+                    />
+                  ))}
+
+                  {pileLines?.map((pile, index) => (
+                    <>
+                      <Circle
+                        key={`pile-line-${i}-${j}-${index}`}
+                        x={pile.x}
+                        y={pile.y}
+                        radius={pile.radius}
+                        stroke="magenta"
+                        strokeWidth={5}
+                      />
+                    </>
+                  ))}
                 </Group>
               );
             })

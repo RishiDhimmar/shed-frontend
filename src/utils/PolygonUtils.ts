@@ -1,4 +1,4 @@
-import { all, getDirection } from "three/tsl";
+import { all, getDirection, max } from "three/tsl";
 import baseplateStore from "../stores/BasePlateStore";
 import dxfStore from "../stores/DxfStore";
 import { equal, key } from "./GeometryUtils";
@@ -587,8 +587,6 @@ export const traceAllPolygonsWithRays = (startPoly, otherPolys) => {
   };
 };
 
-
-
 export const distanceBetPoints = (p1, p2) => {
   return Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
 };
@@ -1095,36 +1093,58 @@ export function getTrapezoidPoints(
   centerX: number,
   centerY: number
 ): { x: number; y: number }[] {
-  // Dimensions in inches (based on image proportions and earlier conversation)
-  const bottomWidth = 2500; // 6.00 ft
-  const topWidth = 1000; // 1.5 ft
-  const height = 1800; // 5.60 ft
+  const D = 600;
+  const shoulderLength = D; // 600
+  const inBetweenLength = 4.5 * D; // 2700
 
-  // Calculate centroid offset for trapezoid: h/3 * (a + 2b)/(a + b)
-  const a = bottomWidth;
-  const b = topWidth;
-  const h = height;
-  const centroidOffset = (h / 3) * (a + 2 * b) / (a + b); // Approx 28.8 inches from bottom
+  // Calculate half lengths for symmetry
+  const halfShoulder = shoulderLength / 2; // 300
+  const halfInBetween = inBetweenLength / 2; // 1350
 
-  // Calculate vertical positions relative to center
-  const bottomY = centerY - centroidOffset;
-  const topY = centerY + (height - centroidOffset);
-  const shoulderY = (bottomY + topY) / 2; // Shoulder points halfway up the height
+  // Height from top base to bottom base's left/right points
+  const height = inBetweenLength - 600; // 2700
 
-  // Calculate x-coordinates for shoulder points using linear interpolation
-  const t = (shoulderY - bottomY) / (topY - bottomY); // Proportion along height
-  const leftShoulderX =
-    centerX - bottomWidth / 2 + t * (-topWidth / 2 - (-bottomWidth / 2));
-  const rightShoulderX =
-    centerX + bottomWidth / 2 + t * (topWidth / 2 - bottomWidth / 2);
-
-  // Generate 6 points clockwise, starting from bottom left
-  return [
-    { x: centerX - bottomWidth / 2, y: bottomY }, // Bottom left
-    { x: centerX + bottomWidth / 2, y: bottomY }, // Bottom right
-    { x: rightShoulderX, y: shoulderY }, // Right shoulder
-    { x: centerX + topWidth / 2, y: topY }, // Top right
-    { x: centerX - topWidth / 2, y: topY }, // Top left
-    { x: leftShoulderX, y: shoulderY }, // Left shoulder
+  // Define points starting from top-left, clockwise, centered around (centerX, centerY)
+  const points = [
+    { x: centerX - halfShoulder, y: centerY - height / 2 - shoulderLength }, // Top-left (0)
+    { x: centerX + halfShoulder, y: centerY - height / 2 - shoulderLength }, // Top-right (1)
+    { x: centerX + halfInBetween, y: centerY + height / 2 - shoulderLength }, // Bottom-right (2)
+    {
+      x: centerX + halfInBetween,
+      y: centerY + height / 2 + shoulderLength - shoulderLength,
+    }, // Bottom-right shoulder start (3)
+    {
+      x: centerX - halfInBetween,
+      y: centerY + height / 2 + shoulderLength - shoulderLength,
+    }, // Bottom-left shoulder end (4)
+    { x: centerX - halfInBetween, y: centerY + height / 2 - shoulderLength }, // Bottom-left (5)
+    { x: centerX - halfShoulder, y: centerY - height / 2 - shoulderLength }, // Middle bend point (6)
   ];
+
+  return points;
+}
+
+export function getDifferenceInCoor(
+  polygon: { x: number; y: number; z: number }[],
+  axis: "x" | "y" | "z"
+) {
+  const min = Math.min(...polygon.map((p) => p[axis]));
+  const max = Math.max(...polygon.map((p) => p[axis]));
+  return max - min;
+}
+
+export function getCirclePerimeterPoints(x: number, y: number, radius: number, arcLength: number) {
+  const circumference = 2 * Math.PI * radius;
+  const numPoints = Math.max(3, Math.ceil(circumference / arcLength)); // Ensure at least 3 points for a circle
+  const theta = (2 * Math.PI) / numPoints; // Angular step in radians for even spacing
+  const points: { x: number; y: number }[] = [];
+
+  for (let i = 0; i < numPoints; i++) {
+    const angle = i * theta; // Radians
+    const px = x + radius * Math.cos(angle);
+    const py = y + radius * Math.sin(angle);
+    points.push({ x: px, y: py });
+  }
+
+  return points;
 }

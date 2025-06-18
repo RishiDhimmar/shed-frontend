@@ -88,6 +88,7 @@ class FoundationStore {
   polygons: number[][][] = [];
   foundationInputs: Record<string, number[]> = {};
   groups: any[] = [];
+  pileLines: any[] = [];
 
   // Store previous valid parameter values to revert in case of overlap
   previousValues: Record<FoundationType, Record<string, number>> = {
@@ -388,6 +389,27 @@ class FoundationStore {
     if (foundation) {
       foundation.rodData = data;
     }
+  }
+
+  setPileLines(groupName: string, foundationName: string, pileLines: any) {
+    const foundation = this.foundations.find((b) => b.label === foundationName);
+    if (foundation) {
+      foundation.pileLines = pileLines;
+    }
+  }
+
+  concatPileLines(newPileLines) {
+    // Clear pileLines to avoid duplication, or implement logic to check for duplicates
+    this.pileLines = [
+      ...this.pileLines,
+      ...newPileLines.filter((newPile) => {
+        // Example: Only add if the coordinates are unique
+        return !this.pileLines.some(
+          (existingPile) =>
+            existingPile.x === newPile.x && existingPile.y === newPile.y
+        );
+      }),
+    ];
   }
 
   generateFoundations(groups: any[] = columnStore.polygons) {
