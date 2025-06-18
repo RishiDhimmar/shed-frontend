@@ -25,6 +25,9 @@ class ConfigStore {
       GROUND_BEAM: 2.1 - 0.3 - 0.3,
       GB_Z_HEIGHT : 0.6,
       PLINTH: 1.9 + 0.6 + 0.075,
+      PLINTH_Z_HEIGHT: 0.15,
+      PLASTER_THICKNESS : 0.1,
+      COPING_BEAM_HEIGHT : 0.15
     },
   };
 

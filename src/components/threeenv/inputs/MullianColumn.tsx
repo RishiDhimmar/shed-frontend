@@ -74,7 +74,7 @@ export const MullionColumn = observer(() => {
           configStore.update3DHeights({
             MULLION_COLUMNS_Z_HEIGHT: newHeight / 1000,
           });
-          setMullionHeight(newHeight/1000);
+          setMullionHeight(newHeight / 1000);
         }}
       />
     </div>

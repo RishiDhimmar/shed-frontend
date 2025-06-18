@@ -252,9 +252,12 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0, 0], scale = 1 }) => {
     <>
       <AnyShapeRenderer
         bottomPoints={transformedPoints}
-        height={0.15}
+        height={configStore.shed3D.heights.PLINTH_Z_HEIGHT}
         centerOffset={[0, 0, 0]}
-        y={configStore.shed3D.heights.PLINTH - 0.15}
+        y={
+          configStore.shed3D.heights.PLINTH -
+          configStore.shed3D.heights.PLINTH_Z_HEIGHT
+        }
         color="gray"
       />
       {horizontalRods.length && (
