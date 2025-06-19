@@ -167,8 +167,8 @@ const MullionColumnRenderer = observer(({ centerOffset, scale }) => {
         columns={mullionColumnStore.polygons}
         centerOffset={centerOffset}
         cornerOffset={0.03}
-        rodDiameter={0.008}
-        yInterval={0.15}
+        rodDiameter={configStore.RINGS.MULLION_COLUMNS.diameter}
+        yInterval={configStore.RINGS.MULLION_COLUMNS.gap}
         color="red"
         floorY={configStore.shed3D.heights.COLUMNS}
         height={configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT}

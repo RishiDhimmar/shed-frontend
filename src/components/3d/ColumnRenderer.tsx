@@ -373,6 +373,9 @@ const ColumnRenderer = observer(
             columns={columns}
             centerOffset={centerOffset}
             floorY={floorY}
+            yInterval={configStore.RINGS.COLUMNS.gap}
+            rodDiameter={configStore.RINGS.COLUMNS.diameter}
+            cornerOffset = {configStore.RINGS.COLUMNS.offset}
           />
           <BoxRenderer instances={instances} opacity={0.2} />
 

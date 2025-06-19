@@ -5,6 +5,8 @@ import { toJS } from "mobx";
 import uiStore from "../../stores/UIStore";
 import columnStore from "../../stores/ColumnStore";
 import Dimension from "./Dimentions";
+import { distanceBetPoints } from "./Polygon";
+import configStore from "../../stores/ConfigStore";
 const calculateBoundingBox = (points) => {
   const xs = points.map((p) => p.x);
   const ys = points.map((p) => p.y);
@@ -33,7 +35,7 @@ const Column = observer(() => {
       // Initialize hEdgeWires and vEdgeWires if unset or set to default 10
       columnGroup.columns.forEach((column) => {
         const bbox = calculateBoundingBox(column.points);
-        const offset = 40;
+        const offset = configStore.RINGS.COLUMNS.offset * 1000;
         const innerLength = bbox.maxX - bbox.minX - 2 * offset;
         const innerHeight = bbox.maxY - bbox.minY - 2 * offset;
         const numCirclesLength = Math.ceil(innerLength / 100);
@@ -55,7 +57,7 @@ const Column = observer(() => {
     });
     setDragPositions(initialPositions);
     lastValuesRef.current = initialValues;
-  }, [columnStore.polygons]);
+  }, [columnStore.polygons, configStore.RINGS.COLUMNS.offset]);
 
   if (!uiStore.visibility.column) return null;
 
@@ -378,7 +380,7 @@ const Column = observer(() => {
           ? 150
           : -150;
 
-        const offset = 40;
+        const offset = configStore.RINGS.COLUMNS.offset * 1000;
         const innerRectPoints = [
           bbox.minX + offset,
           bbox.minY + offset,
@@ -466,6 +468,17 @@ const Column = observer(() => {
 
         columnStore.setWireData(columnGroup.name, column, wireData);
 
+        columnStore.appendToGroupData(columnGroup.name, {
+          length: distanceBetPoints(topEdge[0], topEdge[1]),
+          width: distanceBetPoints(rightEdge[0], rightEdge[1]),
+        });
+
+        columnStore.setRingDataToGroup(columnGroup.name, {
+          on: "length",
+          from: 0,
+          to: 3,
+        });
+
         return (
           <Group key={columnKey}>
             <Line
@@ -545,3 +558,5 @@ const Column = observer(() => {
 });
 
 export default Column;
+
+

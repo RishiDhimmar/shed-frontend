@@ -684,7 +684,7 @@ import baseplateStore from "../../stores/BasePlateStore";
 
 const scale = 1; // Scaling factor
 const WIRE_OFFSET = 0.05; // 100mm in scaled units
-const LINE_SPACING = 0.15; // 150mm in scaled units
+// const configStore.RINGS.GROUND_BEAM.gap = 0.15; // 150mm in scaled units
 const ROD_RADIUS = 0.01; // 10mm radius for rods
 
 const GroundBeamRenderer = observer(
@@ -829,10 +829,13 @@ const GroundBeamRenderer = observer(
           const perpSin = Math.sin(angle + Math.PI / 2);
 
           if (wireLength > 0) {
-            const numLines = Math.floor(wireLength / LINE_SPACING) + 1;
-            const startOffset = -((numLines - 1) * LINE_SPACING) / 2;
+            const numLines =
+              Math.floor(wireLength / configStore.RINGS.GROUND_BEAM.gap) + 1;
+            const startOffset =
+              -((numLines - 1) * configStore.RINGS.GROUND_BEAM.gap) / 2;
             for (let k = 0; k < numLines; k++) {
-              const offset = startOffset + k * LINE_SPACING;
+              const offset =
+                startOffset + k * configStore.RINGS.GROUND_BEAM.gap;
               let lineX, lineZ;
 
               if (isLengthPrimary) {
@@ -1115,10 +1118,12 @@ const GroundBeamRenderer = observer(
         const perpSin = Math.sin(centerAngle + Math.PI / 2);
 
         if (wireLength > 0) {
-          const numLines = Math.floor(wireLength / LINE_SPACING) + 1;
-          const startOffset = -((numLines - 1) * LINE_SPACING) / 2;
+          const numLines =
+            Math.floor(wireLength / configStore.RINGS.GROUND_BEAM.gap) + 1;
+          const startOffset =
+            -((numLines - 1) * configStore.RINGS.GROUND_BEAM.gap) / 2;
           for (let k = 0; k < numLines; k++) {
-            const offset = startOffset + k * LINE_SPACING;
+            const offset = startOffset + k * configStore.RINGS.GROUND_BEAM.gap;
             const lineX = centroid.x + offset * cosAngle;
             const lineZ = centroid.z + offset * sinAngle;
 
@@ -1527,7 +1532,7 @@ const GroundBeamRenderer = observer(
           );
           dummy.scale.set(1, line.height, 1);
           dummy.updateMatrix();
-          
+
           centerInstancedMeshRef.current.setMatrixAt(index, dummy.matrix);
         });
 
@@ -1561,7 +1566,12 @@ const GroundBeamRenderer = observer(
             depthWrite={false}
           >
             <cylinderGeometry
-              args={[wire.radius, wire.radius, wire.height, 8]}
+              args={[
+                configStore.RINGS.GROUND_BEAM.diameter / 2,
+                configStore.RINGS.GROUND_BEAM.diameter / 2,
+                wire.height,
+                8,
+              ]}
             />
             <meshBasicMaterial color={wire.color} depthWrite={false} />
           </mesh>
@@ -1572,7 +1582,14 @@ const GroundBeamRenderer = observer(
             args={[null, null, verticalLines.length]}
             depthWrite={false}
           >
-            <cylinderGeometry args={[0.008, 0.008, 1, 8]} />
+            <cylinderGeometry
+              args={[
+                configStore.RINGS.GROUND_BEAM.diameter / 2,
+                configStore.RINGS.GROUND_BEAM.diameter / 2,
+                1,
+                8,
+              ]}
+            />
             <meshBasicMaterial color="purple" depthWrite={false} />
           </instancedMesh>
         )}

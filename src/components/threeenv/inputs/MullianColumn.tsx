@@ -4,6 +4,7 @@ import mullionColumnStore from "../../../stores/MullianColumnStore";
 import wallStore from "../../../stores/WallStore";
 import configStore from "../../../stores/ConfigStore";
 import { useState } from "react";
+import columnStore from "../../../stores/ColumnStore";
 
 export const MullionColumn = observer(() => {
   const [mullionHeight, setMullionHeight] = useState(
@@ -77,6 +78,35 @@ export const MullionColumn = observer(() => {
           setMullionHeight(newHeight / 1000);
         }}
       />
+      <div className="flex gap-2">
+        <InputNumber
+          label="# :"
+          value={configStore.RINGS.MULLION_COLUMNS.gap * 1000}
+          onChange={(newHeight: number) => {
+            configStore.updateRings({
+              MULLION_COLUMNS: {
+                diameter: configStore.RINGS.MULLION_COLUMNS.diameter,
+                gap: newHeight / 1000,
+              },
+            });
+          }}
+          step={50}
+        />
+
+        <InputNumber
+          label="C/C:"
+          value={configStore.RINGS.MULLION_COLUMNS.diameter * 1000}
+          onChange={(newHeight: number) => {
+            configStore.updateRings({
+              MULLION_COLUMNS: {
+                diameter: newHeight / 1000,
+                gap: configStore.RINGS.MULLION_COLUMNS.gap,
+              },
+            });
+          }}
+          step={1}
+        />
+      </div>
     </div>
   );
 });

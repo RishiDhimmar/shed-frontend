@@ -398,6 +398,20 @@ export class ColumnStore {
     foundationStore.generateFoundations();
   }
 
+  appendToGroupData(groupName: string, data: any) {
+    const group = this.polygons.find((g) => g.name === groupName);
+    if (group) {
+      group.data = { ...group.data, ...data };
+    }
+  }
+
+  setRingDataToGroup(groupName: string, data: any) {
+    const group = this.polygons.find((g) => g.name === groupName);
+    if (group) {
+      group.ringData = data;
+    }
+  }
+
   // Helper method to get plates by type
   private getPlatesByType() {
     const { basePlates } = baseplateStore;
