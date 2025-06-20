@@ -752,7 +752,7 @@ const FoundationsRenderer = observer(({ centerOffset }) => {
           <mesh
             key={key}
             geometry={verticalRodGeometry}
-            position={[x, 2 * (0.075 * scale) - 0.01 + yOffset, z + 0.001]}
+            position={[x, 2 * (0.075 * scale) - 0.01 + yOffset > 0 ? 0.075  : -0.075 , z + 0.001]}
             rotation={[0, 0, 0]}
             castShadow
             receiveShadow
@@ -855,11 +855,11 @@ const FoundationsRenderer = observer(({ centerOffset }) => {
           )}
           {pileLinesMesh && <primitive object={pileLinesMesh} />}
           {pileRingsMesh && <primitive object={pileRingsMesh} />}
-          <group position={[0, f.type === "Pile Foundation" ? -0.23 : -0.09, 0]}>
-            {renderRods(0)}
+          <group position={[0, f.type === "Pile Foundation" ? -0.2 : -0.01, 0]}>
+            {renderRods(-0.06)}
           </group>
           {f.type === "Pile Foundation" && (
-            <group position={[0, -0.05, 0]}>{renderRods(-0.08)}</group>
+            <group position={[0, 0.01, 0]}>{renderRods(0.01)}</group>
           )}
         </group>
       </React.Fragment>
