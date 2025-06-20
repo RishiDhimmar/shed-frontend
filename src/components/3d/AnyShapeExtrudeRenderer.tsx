@@ -72,7 +72,7 @@ const AnyShapeRenderer: React.FC<AnyShapeRendererProps> = ({
 
   const material = useMemo(
     () =>
-      new THREE.MeshStandardMaterial({
+      new THREE.MeshBasicMaterial({
         color: color || "magenta",
         opacity: 0.5,
         transparent: true,
@@ -87,7 +87,7 @@ const AnyShapeRenderer: React.FC<AnyShapeRendererProps> = ({
       material={material}
       position={meshPosition}
       receiveShadow
-      depthWrite={false}
+      depthWrite={true}
       rotation={[-Math.PI / 2, 0, 0]}
     />
   );

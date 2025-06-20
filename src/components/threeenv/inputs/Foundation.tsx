@@ -255,6 +255,25 @@ const Foundation = observer(() => {
             configStore.update3DHeights({ RCC: newHeight / 1000 });
           }}
         />
+        <InputNumber
+          label="Pile height : "
+          value={configStore.shed3D.heights.PILE_HEIGHT * 1000}
+          onChange={(newHeight: number) => {
+            configStore.update3DHeights({ PILE_HEIGHT: newHeight / 1000 });
+          }}
+          step={50}
+        />
+
+        <InputNumber
+          label="Pile height Corners : "
+          value={configStore.shed3D.heights.PILE_HEIGHT_CORNERS * 1000}
+          onChange={(newHeight: number) => {
+            configStore.update3DHeights({
+              PILE_HEIGHT_CORNERS: newHeight / 1000,
+            });
+          }}
+          step={50}
+        />
       </form>
       {/*}
       <form className="space-y-2">

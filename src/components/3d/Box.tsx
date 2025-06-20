@@ -106,16 +106,17 @@ const BoxRenderer = observer(
 
     return (
       <group>
-        <instancedMesh ref={meshRef} args={[null, null, instances.length]} >
+        <instancedMesh ref={meshRef} args={[null, null, instances.length]} renderOrder={-1}>
           <boxGeometry args={[1, 1, 1]} />
           <meshBasicMaterial
             color={instances[0]?.color || "magenta"}
             transparent
             opacity={opacity}
-            depthWrite={false}
+            depthWrite={true}
             polygonOffset={true}
             polygonOffsetFactor={1}
             polygonOffsetUnits={1}
+            
           />
         </instancedMesh>
         {

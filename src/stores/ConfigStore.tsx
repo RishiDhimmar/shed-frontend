@@ -28,13 +28,15 @@ class ConfigStore {
       PLINTH_Z_HEIGHT: 0.15,
       PLASTER_THICKNESS: 0.1,
       COPING_BEAM_HEIGHT: 0.15,
+      PILE_HEIGHT: 3,
+      PILE_HEIGHT_CORNERS: 2,
     },
   };
   RINGS = {
     COLUMNS: {
       gap: 250 / 1000,
       diameter: 8 / 1000,
-      offset : 40 / 1000
+      offset: 40 / 1000,
     },
     MULLION_COLUMNS: {
       gap: 150 / 1000,
@@ -43,7 +45,7 @@ class ConfigStore {
     GROUND_BEAM: {
       gap: 150 / 1000,
       diameter: 8 / 1000,
-    }
+    },
   };
 
   constructor() {

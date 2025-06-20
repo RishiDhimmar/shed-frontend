@@ -101,6 +101,7 @@ export class ColumnStore {
     columnStore.updatePolygons(this.polygons);
     foundationStore.generateFoundationInputs();
     foundationStore.generateFoundations(this.polygons);
+    
   }
   addColumnToGroup(groupName: string, columnName: string) {
     const group = this.polygons.find((g) => g.name === groupName);

@@ -126,7 +126,7 @@ const FoundationTypeModal = ({
                 marginRight: "20px",
               }}
             >
-              No of Columns:
+              No of Piles:
             </label>
             <input
               type="number"

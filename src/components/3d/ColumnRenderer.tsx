@@ -166,7 +166,7 @@
 //                     polygonOffset
 //                     polygonOffsetFactor={-1}
 //                     polygonOffsetUnits={-4}
-//                     depthWrite={false}
+//                     depthWrite={true}
 //                   />
 //                 </mesh>
 //                 <mesh
@@ -274,7 +274,7 @@
 //                     polygonOffset
 //                     polygonOffsetFactor={-1}
 //                     polygonOffsetUnits={-4}
-//                     depthWrite={false}
+//                     depthWrite={true}
 //                   />
 //                 </mesh>
 //               </group>
@@ -336,7 +336,6 @@ const ColumnRenderer = observer(
             x: -(p.x / 1000 - centerOffset[0]) * scale,
             z: -(p.y / 1000 - centerOffset[2]) * scale,
           }));
-          console.log(points);
 
           if (points.length !== 4) {
             console.warn(`Invalid points for column:`, toJS(c));
@@ -427,7 +426,7 @@ const ColumnRenderer = observer(
                       polygonOffset
                       polygonOffsetFactor={-1}
                       polygonOffsetUnits={-4}
-                      depthWrite={false}
+                      depthWrite={true}
                       opacity={0.5}
                     />
                   </mesh>
@@ -536,7 +535,7 @@ const ColumnRenderer = observer(
                       polygonOffset
                       polygonOffsetFactor={-1}
                       polygonOffsetUnits={-4}
-                      depthWrite={false}
+                      depthWrite={true}
                     />
                   </mesh>
                 </group>
