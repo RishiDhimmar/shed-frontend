@@ -246,7 +246,7 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0, 0], scale = 1 }) => {
   // Geometries for instanced meshes
   const rodGeometry = new THREE.CylinderGeometry(0.008, 0.008, 1, 8); // Unit length, scaled per instance
   const extensionGeometry = new THREE.CylinderGeometry(0.008, 0.008, 1, 8); // Unit length, scaled per instance
-  const material = <meshBasicMaterial color="gray" depthWrite={false} />;
+  const material = <meshBasicMaterial color="gray" depthWrite={true} />;
 
   return (
     <>

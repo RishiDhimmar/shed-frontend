@@ -232,7 +232,7 @@
 //               <boxGeometry
 //                 args={[plaster.width, plaster.height, plaster.length]}
 //               />
-//               <meshBasicMaterial color="gray" depthWrite={false} opacity={1} />
+//               <meshBasicMaterial color="gray" depthWrite={true} opacity={1} />
 //             </mesh>
 //           ))}
 //         </group>
@@ -575,7 +575,7 @@
 //               <boxGeometry
 //                 args={[plaster.width, plaster.height, plaster.length]}
 //               />
-//               <meshBasicMaterial color="gray" depthWrite={false} opacity={1} />
+//               <meshBasicMaterial color="gray" depthWrite={true} opacity={1} />
 //             </mesh>
 //           ))}
 //         </group>
@@ -590,7 +590,7 @@
 //               <cylinderGeometry
 //                 args={[cylinder.radius, cylinder.radius, cylinder.height, 32]}
 //               />
-//               <meshBasicMaterial color={cylinder.color} depthWrite={false} opacity={1}/>
+//               <meshBasicMaterial color={cylinder.color} depthWrite={true} opacity={1}/>
 //             </mesh>
 //           ))}
 //         </group>
@@ -1107,7 +1107,7 @@ const ShedWallRenderer = observer(
               <boxGeometry
                 args={[plaster.width, plaster.height, plaster.length]}
               />
-              <meshBasicMaterial color="gray" depthWrite={false} opacity={1} />
+              <meshBasicMaterial color="gray" depthWrite={true} opacity={1} />
             </mesh>
           ))}
         </group>
@@ -1122,7 +1122,7 @@ const ShedWallRenderer = observer(
               <cylinderGeometry
                 args={[cylinder.radius, cylinder.radius, cylinder.height, 32]}
               />
-              <meshBasicMaterial color={cylinder.color} depthWrite={false} />
+              <meshBasicMaterial color={cylinder.color} depthWrite={true} />
             </mesh>
           ))}
         </group>
@@ -1133,10 +1133,10 @@ const ShedWallRenderer = observer(
           <instancedMesh
             ref={instancedMeshRef}
             args={[null, null, instances.verticalLines.length]}
-            depthWrite={false}
+            depthWrite={true}
           >
             <cylinderGeometry args={[0.008, 0.008, 1, 8]} />
-            <meshBasicMaterial color="purple" depthWrite={false} />
+            <meshBasicMaterial color="purple" depthWrite={true} />
           </instancedMesh>
         )}
         </group>

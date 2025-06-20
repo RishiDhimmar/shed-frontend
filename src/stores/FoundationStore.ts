@@ -89,6 +89,7 @@ class FoundationStore {
   foundationInputs: Record<string, number[]> = {};
   groups: any[] = [];
   pileLines: any[] = [];
+  ogGroups: any[] = [];
 
   // Store previous valid parameter values to revert in case of overlap
   previousValues: Record<FoundationType, Record<string, number>> = {
@@ -129,18 +130,132 @@ class FoundationStore {
     return groupName;
   }
 
-  changeFoundationType(
-    groupName: string,
-    foundationName: string,
-    type: string,
-    numOfPile: number
-  ) {
-    const group = this.groups.find((g) => g.name === groupName);
-    const foundation = this.foundations.find((f) => f.label === foundationName);
-    if (!group || !foundation) return;
+  // changeFoundationType(
+  //   groupName: string,
+  //   foundationName: string,
+  //   type: string,
+  //   numOfPile: number
+  // ) {
+  //   const group = this.groups.find((g) => g.name === groupName);
+  //   const foundation = this.foundations.find((f) => f.label === foundationName);
+  //   if (!group || !foundation) return;
 
-    const { x: cx, y: cy } = foundation.center;
-    if (type === "Flat Foundation") {
+  //   // const { x: cx, y: cy } = foundation.center;
+  //   if (type === "Flat Foundation") {
+  //     this.groups = this.groups.map((g) => {
+  //       g.foundations = g.foundations.map((f) => {
+  //         const { x: cx, y: cy } = foundation.center;
+  //         const outerPoints = getRectanglePoints(2000, 1500, [cx, cy]).map(
+  //           ([x, y]) => ({ x, y })
+  //         );
+  //         const sortedOuter = sortPolygonPointsClockwise(outerPoints);
+  //         const ppcPoints = getRectanglePoints(2300, 1800, [cx, cy]).map(
+  //           ([x, y]) => ({ x, y })
+  //         );
+
+  //         // if (f.label === foundationName) {
+  //         f.outerFoundationPoints = sortedOuter;
+  //         f.innerFoundationPoints = outerPoints;
+  //         f.ppcPoints = ppcPoints;
+  //         f.type = type;
+  //         // }
+  //         return f;
+  //       });
+  //     });
+
+  //     this.foundations = this.foundations.map((f) => {
+  //       // if (f.label === foundationName) {
+  //       const { x: cx, y: cy } = foundation.center;
+  //       const outerPoints = getRectanglePoints(2000, 1500, [cx, cy]).map(
+  //         ([x, y]) => ({ x, y })
+  //       );
+  //       const sortedOuter = sortPolygonPointsClockwise(outerPoints);
+  //       const ppcPoints = getRectanglePoints(2300, 1800, [cx, cy]).map(
+  //         ([x, y]) => ({ x, y })
+  //       );
+  //       f.outerFoundationPoints = sortedOuter;
+  //       f.innerFoundationPoints = outerPoints;
+  //       f.ppcPoints = ppcPoints;
+  //       f.type = type;
+  //       // }
+  //       return f;
+  //     });
+
+  //     // foundation.outerFoundationPoints = outerPoints;
+  //     // foundation.type = type;
+
+  //     // group.foundations.forEach((f) => {
+  //     //   if (f.label === foundationName) {
+  //     //     f.outerFoundationPoints = sortedOuter;
+  //     //     f.innerFoundationPoints = outerPoints;
+  //     //     f.ppcPoints = ppcPoints;
+  //     //     f.type = type;
+  //     //   }
+  //     // });
+  //   } else if (type === "Pile Foundation") {
+  //     // console.log(numOfPile);
+  //     // const points = getPilePoints(numOfPile, cx, cy);
+  //     // foundation.outerFoundationPoints = points;
+  //     // foundation.type = type;
+  //     // foundation.pileDetails = getPileCircles(numOfPile, cx, cy);
+
+  //     // group.foundations.forEach((f) => {
+  //     //   if (f.label === foundationName) {
+  //     //     f.outerFoundationPoints = points;
+  //     //     f.innerFoundationPoints = points;
+  //     //     f.ppcPoints = points;
+  //     //     f.type = type;
+  //     //     f.pileDetails = getPileCircles(numOfPile, cx, cy);
+  //     //   }
+  //     // });
+
+  //     this.groups.forEach((group) => {
+  //       group.foundations.forEach((f) => {
+  //         // if (f.label === foundationName) {
+  //         const { x: cx, y: cy } = f.center;
+  //         f.outerFoundationPoints = getPilePoints(numOfPile, cx, cy);
+  //         f.innerFoundationPoints = getPilePoints(numOfPile, cx, cy);
+  //         f.ppcPoints = getPilePoints(numOfPile, cx, cy);
+  //         f.type = type;
+  //         f.pileDetails = getPileCircles(numOfPile, cx, cy);
+  //         // }
+  //       });
+  //     });
+
+  //     this.foundations.forEach((f) => {
+  //       // if (f.label === foundationName) {
+  //       const { x: cx, y: cy } = f.center;
+  //       f.outerFoundationPoints = getPilePoints(numOfPile, cx, cy);
+  //       f.innerFoundationPoints = getPilePoints(numOfPile, cx, cy);
+  //       f.ppcPoints = getPilePoints(numOfPile, cx, cy);
+  //       f.type = type;
+  //       f.pileDetails = getPileCircles(numOfPile, cx, cy);
+  //       // }
+
+  //       console.log(f);
+  //     });
+  //   } else {
+  //     this.updateFoundations(this.groups);
+  //   }
+  // }
+changeFoundationType(
+  groupName: string,
+  foundationName: string,
+  type: string,
+  numOfPile: number
+) {
+  const group = this.groups.find((g) => g.name === groupName);
+  const foundation = this.foundations.find((f) => f.label === foundationName);
+
+  if (!group || !foundation) {
+    console.warn(`Group ${groupName} or foundation ${foundationName} not found`);
+    return;
+  }
+
+  if (type === "Flat Foundation") {
+    // Update all foundations in this.foundations
+    this.foundations = this.foundations.map((f) => {
+      const { x: cx, y: cy } = f.center; // Use each foundation's center
       const outerPoints = getRectanglePoints(2000, 1500, [cx, cy]).map(
         ([x, y]) => ({ x, y })
       );
@@ -148,39 +263,75 @@ class FoundationStore {
       const ppcPoints = getRectanglePoints(2300, 1800, [cx, cy]).map(
         ([x, y]) => ({ x, y })
       );
+      return {
+        ...f,
+        outerFoundationPoints: sortedOuter,
+        innerFoundationPoints: outerPoints,
+        ppcPoints: ppcPoints,
+        type: type,
+        pileDetails: undefined, // Clear pile details for flat foundation
+      };
+    });
 
-      foundation.outerFoundationPoints = outerPoints;
-      foundation.type = type;
-
-      group.foundations.forEach((f) => {
-        if (f.label === foundationName) {
-          f.outerFoundationPoints = sortedOuter;
-          f.innerFoundationPoints = outerPoints;
-          f.ppcPoints = ppcPoints;
-          f.type = type;
-        }
-      });
-    } else if (type === "Pile Foundation") {
-      console.log(numOfPile);
+    // Update all foundations in each group
+    this.groups = this.groups.map((g) => ({
+      ...g,
+      foundations: g.foundations.map((f) => {
+        const { x: cx, y: cy } = f.center; // Use each foundation's center
+        const outerPoints = getRectanglePoints(2000, 1500, [cx, cy]).map(
+          ([x, y]) => ({ x, y })
+        );
+        const sortedOuter = sortPolygonPointsClockwise(outerPoints);
+        const ppcPoints = getRectanglePoints(2300, 1800, [cx, cy]).map(
+          ([x, y]) => ({ x, y })
+        );
+        return {
+          ...f,
+          outerFoundationPoints: sortedOuter,
+          innerFoundationPoints: outerPoints,
+          ppcPoints: ppcPoints,
+          type: type,
+          pileDetails: undefined, // Clear pile details for flat foundation
+        };
+      }),
+    }));
+  } else if (type === "Pile Foundation") {
+    // Update all foundations in this.foundations
+    this.foundations = this.foundations.map((f) => {
+      const { x: cx, y: cy } = f.center; // Use each foundation's center
       const points = getPilePoints(numOfPile, cx, cy);
-      foundation.outerFoundationPoints = points;
-      foundation.type = type;
-      foundation.pileDetails = getPileCircles(numOfPile, cx, cy);
+      const pileDetails = getPileCircles(numOfPile, cx, cy);
+      return {
+        ...f,
+        outerFoundationPoints: points,
+        innerFoundationPoints: points,
+        ppcPoints: points,
+        type: type,
+        pileDetails: pileDetails,
+      };
+    });
 
-      group.foundations.forEach((f) => {
-        if (f.label === foundationName) {
-          f.outerFoundationPoints = points;
-          f.innerFoundationPoints = points;
-          f.ppcPoints = points;
-          f.type = type;
-          f.pileDetails = getPileCircles(numOfPile, cx, cy);
-        }
-      });
-    } else {
-      this.updateFoundations(this.groups);
-    }
+    // Update all foundations in each group
+    this.groups = this.groups.map((g) => ({
+      ...g,
+      foundations: g.foundations.map((f) => {
+        const { x: cx, y: cy } = f.center; // Use each foundation's center
+        const points = getPilePoints(numOfPile, cx, cy);
+        const pileDetails = getPileCircles(numOfPile, cx, cy);
+        return {
+          ...f,
+          outerFoundationPoints: points,
+          innerFoundationPoints: points,
+          ppcPoints: points,
+          type: type,
+          pileDetails: pileDetails,
+        };
+      }),
+    }));
+  } else {
+    this.updateFoundations(this.groups);
   }
-
+}
   removeFoundationFromGroup(groupName: string, foundationName: string) {
     const group = this.groups.find((g) => g.name === groupName);
     if (group) {
@@ -471,6 +622,7 @@ class FoundationStore {
       };
     });
     this.groups = groupedFoundations;
+    this.ogGroups = groupedFoundations;
 
     this.polygons = groupedFoundations;
     this.foundations = groupedFoundations.flatMap((group) => group.foundations);

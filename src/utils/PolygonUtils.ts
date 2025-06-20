@@ -544,7 +544,8 @@ export const traceAllPolygonsWithRays = (startPoly, otherPolys) => {
     rays.forEach((ray) => {
       if (
         ray.hitPolygon &&
-        getPolygonKey(ray.hitPolygon) === getPolygonKey(tempInternalWall)
+        getPolygonKey(ray.hitPolygon) === getPolygonKey(tempInternalWall) &&
+        distanceBetPoints(ray.hit, ray.start) < 1000
       ) {
         count++;
         const direction = getLineDirection(ray.start, ray.end);
