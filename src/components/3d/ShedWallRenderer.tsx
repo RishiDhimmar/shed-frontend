@@ -1089,8 +1089,13 @@ const ShedWallRenderer = observer(
         <group visible={uiStore.visibility.shade}>
           <BoxRenderer instances={instances.beams} />
         </group>
-        <BoxRenderer instances={instances.brickWall} />
-        <BoxRenderer instances={instances.copingBeam} />
+        <group visible={uiStore.visibility.brickWork}>
+          <BoxRenderer instances={instances.brickWall} />
+        </group>
+
+        <group visible={uiStore.visibility.copingBeam}>
+          <BoxRenderer instances={instances.copingBeam} />
+        </group>
 
         <group visible={uiStore.visibility.plaster}>
           {instances.plaster.map((plaster, index) => (
@@ -1107,7 +1112,7 @@ const ShedWallRenderer = observer(
           ))}
         </group>
 
-        <group>
+        <group visible={uiStore.visibility.copingBeam}>
           {instances.cylinders.map((cylinder, index) => (
             <mesh
               key={`cylinder-${index}`}
@@ -1122,6 +1127,8 @@ const ShedWallRenderer = observer(
           ))}
         </group>
 
+        <group visible={uiStore.visibility.copingBeam}>
+
         {instances.verticalLines.length > 0 && (
           <instancedMesh
             ref={instancedMeshRef}
@@ -1132,6 +1139,8 @@ const ShedWallRenderer = observer(
             <meshBasicMaterial color="purple" depthWrite={false} />
           </instancedMesh>
         )}
+        </group>
+
       </>
     );
   }

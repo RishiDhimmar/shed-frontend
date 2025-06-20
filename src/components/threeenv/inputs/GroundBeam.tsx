@@ -35,13 +35,29 @@ export const GroundBeam = observer(() => {
         <div className="flex gap-2">
           <InputNumber
             label="#"
-            value={columnStore.verticalLength}
-            onChange={() => {}}
+            value={configStore.RINGS.GROUND_BEAM.gap * 1000}
+            onChange={(newGap: number) => {
+              configStore.updateRings({
+                GROUND_BEAM: {
+                  diameter: configStore.RINGS.GROUND_BEAM.diameter,
+                  gap: newGap / 1000,
+                },
+              });
+            }}
+            step={50}
           />
           <InputNumber
             label="C/C"
-            value={columnStore.verticalWidth}
-            onChange={() => {}}
+            value={configStore.RINGS.GROUND_BEAM.diameter * 1000}
+            onChange={(newDiameter: number) => {
+              configStore.updateRings({
+                GROUND_BEAM: {
+                  diameter: newDiameter / 1000,
+                  gap: configStore.RINGS.GROUND_BEAM.gap,
+                },
+              });
+            }}
+            step={1}
           />
         </div>
         <h1 className="text-md font-semi-Bold">Main Ref </h1>

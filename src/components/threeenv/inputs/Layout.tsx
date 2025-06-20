@@ -165,6 +165,22 @@ export const Layout = observer(() => {
           onClick={() => handleSelect("plaster")}
           onToggleVisibility={() => uiStore.toggleVisibility("plaster")}
         />
+        <LayoutItem
+          title="Coping Beam"
+          color="bg-[gray]"
+          isHidden={!uiStore.visibility.copingBeam}
+          isSelected={selectedTitle === "copingBeam"}
+          onClick={() => handleSelect("copingBeam")}
+          onToggleVisibility={() => uiStore.toggleVisibility("copingBeam")}
+        />
+        <LayoutItem
+          title="Brick Work"
+          color="bg-[gray]"
+          isHidden={!uiStore.visibility.brickWork}
+          isSelected={selectedTitle === "brickWork"}
+          onClick={() => handleSelect("brickWork")}
+          onToggleVisibility={() => uiStore.toggleVisibility("brickWork")}
+        />
       </div>
       <div
         className={` flex flex-col  overflow-y-auto  ${

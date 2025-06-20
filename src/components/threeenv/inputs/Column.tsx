@@ -23,6 +23,11 @@ export const Column = observer(() => {
   const [columnHeight, setColumnHeight] = useState(
     configStore.shed3D.heights.COLUMNS
   );
+  const [ringDiameter, setRingDiameter] = useState(
+    configStore.RINGS.COLUMNS.diameter || 0
+  );
+
+  const [ringGap, setRingGap] = useState(configStore.RINGS.COLUMNS.gap || 0);
   return (
     <div className=" p-6">
       <h1 className="text-lg font-bold mb-4 "> Column Inputs</h1>
@@ -298,6 +303,7 @@ export const Column = observer(() => {
         />
       </form>
       */}
+
         <InputNumber
           label="Column Height:"
           value={columnHeight * 1000}
@@ -306,6 +312,37 @@ export const Column = observer(() => {
             setColumnHeight(newHeight / 1000);
           }}
         />
+        <div className="flex gap-2">
+          <InputNumber
+            label="# :"
+            value={configStore.RINGS.COLUMNS.gap * 1000}
+            onChange={(newHeight: number) => {
+              configStore.updateRings({
+                COLUMNS: {
+                  diameter: configStore.RINGS.COLUMNS.diameter,
+                  gap: newHeight / 1000,
+                },
+              });
+              setRingGap(newHeight / 1000);
+            }}
+            step={50}
+          />
+
+          <InputNumber
+            label="C/C:"
+            value={configStore.RINGS.COLUMNS.diameter * 1000}
+            onChange={(newHeight: number) => {
+              configStore.updateRings({
+                COLUMNS: {
+                  diameter: newHeight / 1000,
+                  gap: configStore.RINGS.COLUMNS.gap,
+                },
+              });
+              setRingDiameter(newHeight / 1000);
+            }}
+            step={1}
+          />
+        </div>
       </form>
     </div>
   );
