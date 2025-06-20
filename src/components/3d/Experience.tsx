@@ -88,10 +88,10 @@ const Experience = observer(() => {
       <PerspectiveCamera
         ref={cameraRef}
         makeDefault
-        position={[5, 5, 5]}
+        position={[0, 5, 0]}
         fov={50}
-        near={0.00001}
-        far={100000}
+        near={0.000000000001}
+        far={10000000000}
       />
       {/* <axesHelper args={[5]} /> */}
 

@@ -96,6 +96,8 @@ class UIStore {
     bom: true,
     excavation: false,
     plaster: false,
+    copingBeam : true,
+    brickWork: true
   };
   isDimensionsVisible: boolean = false;
 

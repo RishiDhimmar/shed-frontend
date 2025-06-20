@@ -7,6 +7,7 @@ import columnStore from "../../stores/ColumnStore";
 import Dimension from "./Dimentions";
 import { distanceBetPoints } from "./Polygon";
 import configStore from "../../stores/ConfigStore";
+import getRingData from "../../utils/getRingData";
 const calculateBoundingBox = (points) => {
   const xs = points.map((p) => p.x);
   const ys = points.map((p) => p.y);
@@ -468,16 +469,46 @@ const Column = observer(() => {
 
         columnStore.setWireData(columnGroup.name, column, wireData);
 
-        columnStore.appendToGroupData(columnGroup.name, {
-          length: distanceBetPoints(topEdge[0], topEdge[1]),
-          width: distanceBetPoints(rightEdge[0], rightEdge[1]),
-        });
+        if (columnIndex === 0) {
+          columnStore.appendToGroupData(columnGroup.name, {
+            length: distanceBetPoints(topEdge[0], topEdge[1]),
+            width: distanceBetPoints(rightEdge[0], rightEdge[1]),
+          });
 
-        columnStore.setRingDataToGroup(columnGroup.name, {
-          on: "length",
-          from: 0,
-          to: 3,
-        });
+          console.log(columnGroup.name);
+
+          const ringDataArray = getRingData(columnGroup.hEdgeWires);
+          ringDataArray.forEach((data) =>
+            columnStore.addNewRingData(columnGroup.name, data)
+          );
+
+          // columnStore.addNewRingData(columnGroup.name, {
+          //   on: "length",
+          //   from: 0,
+          //   to: 4,
+          // });
+
+          // columnStore.addNewRingData(columnGroup.name, {
+          //   on: "length",
+          //   from: columnGroup.hEdgeWires - 5,
+          //   to: columnGroup.hEdgeWires - 1,
+          // });
+          // columnStore.addNewRingData(columnGroup.name, {
+          //   on: "length",
+          //   from: Math.floor(columnGroup.hEdgeWires / 2),
+          //   to: Math.floor(columnGroup.hEdgeWires / 2),
+          // });
+          // columnStore.addNewRingData(columnGroup.name, {
+          //   on: "length",
+          //   from: 1,
+          //   to: 1,
+          // });
+          // columnStore.addNewRingData(columnGroup.name, {
+          //   on: "length",
+          //   from: columnGroup.hEdgeWires - 2,
+          //   to: columnGroup.hEdgeWires - 2,
+          // });
+        }
 
         return (
           <Group key={columnKey}>
@@ -558,5 +589,3 @@ const Column = observer(() => {
 });
 
 export default Column;
-
-

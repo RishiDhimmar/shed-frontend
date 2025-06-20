@@ -112,6 +112,8 @@ export const exportXLSX = async () => {
     sheet.getCell(`A${rowIndex}`).font = { bold: true };
     rowIndex++;
 
+    sheet.getColumn('A').alignment = { wrapText: true };
+
     // Add measurement rows
     measurements.forEach((m) => {
       sheet.getCell(`A${rowIndex}`).value = m.description || "";

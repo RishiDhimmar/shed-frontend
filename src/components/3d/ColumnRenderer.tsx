@@ -297,6 +297,7 @@ import configStore from "../../stores/ConfigStore";
 import RingRenderer from "./RingRenderer";
 import BoxRenderer from "./Box";
 import uiStore from "../../stores/UIStore";
+import MultiRingRenderer from "./MultiRingRenderer";
 
 const scale = 1;
 
@@ -369,7 +370,15 @@ const ColumnRenderer = observer(
     return (
       <>
         <group visible={uiStore.visibility.column}>
-          <RingRenderer
+          {/* <RingRenderer
+            columns={columns}
+            centerOffset={centerOffset}
+            floorY={floorY}
+            yInterval={configStore.RINGS.COLUMNS.gap}
+            rodDiameter={configStore.RINGS.COLUMNS.diameter}
+            cornerOffset = {configStore.RINGS.COLUMNS.offset}
+          /> */}
+          <MultiRingRenderer
             columns={columns}
             centerOffset={centerOffset}
             floorY={floorY}
@@ -377,6 +386,7 @@ const ColumnRenderer = observer(
             rodDiameter={configStore.RINGS.COLUMNS.diameter}
             cornerOffset = {configStore.RINGS.COLUMNS.offset}
           />
+
           <BoxRenderer instances={instances} opacity={0.2} />
 
           {columns.map((col, colIndex) =>

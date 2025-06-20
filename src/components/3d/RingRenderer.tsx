@@ -28,7 +28,6 @@ const RingRenderer = observer(
             x: -(p.x / 1000 - centerOffset[0]) * scale,
             z: -(p.y / 1000 - centerOffset[2]) * scale,
           }));
-          console.log(columns);
 
           if (points.length !== 4) {
             console.warn(`Invalid points for column:`, toJS(c));

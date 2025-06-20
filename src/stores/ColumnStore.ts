@@ -401,14 +401,24 @@ export class ColumnStore {
   appendToGroupData(groupName: string, data: any) {
     const group = this.polygons.find((g) => g.name === groupName);
     if (group) {
-      group.data = { ...group.data, ...data };
+      group.data = data;
     }
+    console.log(group);
   }
 
   setRingDataToGroup(groupName: string, data: any) {
     const group = this.polygons.find((g) => g.name === groupName);
     if (group) {
       group.ringData = data;
+    }
+  }
+  addNewRingData(groupName: string, data: any) {
+    const group = this.polygons.find((g) => g.name === groupName);
+    if (group) {
+      if (!group.ringData) {
+        group.ringData = [];
+      }
+      group.ringData.push(data);
     }
   }
 
