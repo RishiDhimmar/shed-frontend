@@ -886,12 +886,12 @@ const GroundBeamRenderer = observer(
             key={`wire-${index}`}
             position={wire.position}
             rotation={wire.rotation}
-            depthWrite={true}
+            depthWrite={false}
           >
             <cylinderGeometry
               args={[wire.radius, wire.radius, wire.height, 8]}
             />
-            <meshBasicMaterial color={wire.color} depthWrite={true} />
+            <meshBasicMaterial color={wire.color} depthWrite={false} />
           </mesh>
         ))}
         {extensionWires.map((wire, index) => (
@@ -899,7 +899,7 @@ const GroundBeamRenderer = observer(
             key={`extension-wire-${index}`}
             position={wire.position}
             rotation={wire.rotation}
-            depthWrite={true}
+            depthWrite={false}
           >
             <cylinderGeometry
               args={[
@@ -909,14 +909,14 @@ const GroundBeamRenderer = observer(
                 8,
               ]}
             />
-            <meshBasicMaterial color={wire.color} depthWrite={true} />
+            <meshBasicMaterial color={wire.color} depthWrite={false} />
           </mesh>
         ))}
         {verticalLines.length > 0 && (
           <instancedMesh
             ref={instancedMeshRef}
             args={[null, null, verticalLines.length]}
-            depthWrite={true}
+            depthWrite={false}
           >
             <cylinderGeometry
               args={[
@@ -926,7 +926,7 @@ const GroundBeamRenderer = observer(
                 8,
               ]}
             />
-            <meshBasicMaterial color="purple" depthWrite={true} />
+            <meshBasicMaterial color="purple" depthWrite={false} />
           </instancedMesh>
         )}
         {centerWires.map((wire, index) => (
@@ -934,12 +934,12 @@ const GroundBeamRenderer = observer(
             key={`center-wire-${index}`}
             position={wire.position}
             rotation={[wire.rotation[0], Math.PI / 2, wire.rotation[2]]}
-            depthWrite={true}
+            depthWrite={false}
           >
             <cylinderGeometry
               args={[wire.radius, wire.radius, wire.height, 8]}
             />
-            <meshBasicMaterial color={wire.color} depthWrite={true} />
+            <meshBasicMaterial color={wire.color} depthWrite={false} />
           </mesh>
         ))}
         {/* {centerExtensionWires.map((wire, index) => (
@@ -947,23 +947,23 @@ const GroundBeamRenderer = observer(
             key={`center-extension-wire-${index}`}
             position={wire.position}
             rotation={[wire.rotation[0], wire.rotation[1], wire.rotation[2]]}
-            depthWrite={true}
+            depthWrite={false}
           >
             <cylinderGeometry
               args={[wire.radius, wire.radius, wire.height, 8]}
             />
-            <meshBasicMaterial color={wire.color} depthWrite={true} />
+            <meshBasicMaterial color={wire.color} depthWrite={false} />
           </mesh>
         ))} */}
         {centerVerticalLines.length > 0 && (
           <instancedMesh
             ref={centerInstancedMeshRef}
             args={[null, null, centerVerticalLines.length]}
-            depthWrite={true}
+            depthWrite={false}
             rotation={[0, Math.PI / 2, 0]}
           >
             <cylinderGeometry args={[0.008, 0.008, 1, 8]} />
-            <meshBasicMaterial color="purple" depthWrite={true} />
+            <meshBasicMaterial color="purple" depthWrite={false} />
           </instancedMesh>
         )}
         {columnRods.map((rod, index) => (
@@ -971,10 +971,10 @@ const GroundBeamRenderer = observer(
             key={`column-rod-${index}`}
             position={rod.position}
             rotation={rod.rotation}
-            depthWrite={true}
+            depthWrite={false}
           >
             <cylinderGeometry args={[rod.radius, rod.radius, rod.height, 8]} />
-            <meshBasicMaterial color={rod.color} depthWrite={true} />
+            <meshBasicMaterial color={rod.color} depthWrite={false} />
           </mesh>
         ))}
       </>

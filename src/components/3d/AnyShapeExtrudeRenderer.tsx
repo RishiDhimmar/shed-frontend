@@ -87,7 +87,7 @@ const AnyShapeRenderer: React.FC<AnyShapeRendererProps> = ({
       material={material}
       position={meshPosition}
       receiveShadow
-      depthWrite={true}
+      depthWrite={false}
       rotation={[-Math.PI / 2, 0, 0]}
     />
   );

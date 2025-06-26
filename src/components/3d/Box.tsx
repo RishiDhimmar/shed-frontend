@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect, useMemo } from "react";
 import * as THREE from "three";
 import { observer } from "mobx-react-lite";
@@ -15,10 +14,11 @@ interface Instance {
 interface BoxRendererProps {
   instances: Instance[];
   opacity?: number;
+  renderOrder?: number;
 }
 
 const BoxRenderer = observer(
-  ({ instances, opacity = 0.5 }: BoxRendererProps) => {
+  ({ instances, opacity = 0.5, renderOrder }: BoxRendererProps) => {
     const meshRef = useRef<THREE.InstancedMesh | null>(null);
     const lineRef = useRef<THREE.LineSegments | null>(null);
 
@@ -26,7 +26,7 @@ const BoxRenderer = observer(
       const positions: number[] = [];
 
       instances.forEach((inst) => {
-        const { position, width, height, length, } = inst;
+        const { position, width, height, length } = inst;
         const [px, py, pz] = position;
 
         const hw = width / 2;
@@ -106,17 +106,20 @@ const BoxRenderer = observer(
 
     return (
       <group>
-        <instancedMesh ref={meshRef} args={[null, null, instances.length]} renderOrder={-1}>
+        <instancedMesh
+          ref={meshRef}
+          args={[null, null, instances.length]}
+          renderOrder={renderOrder ? renderOrder : 0}
+        >
           <boxGeometry args={[1, 1, 1]} />
           <meshBasicMaterial
             color={instances[0]?.color || "magenta"}
             transparent
             opacity={opacity}
-            depthWrite={true}
+            depthWrite={false}
             polygonOffset={true}
             polygonOffsetFactor={1}
             polygonOffsetUnits={1}
-            
           />
         </instancedMesh>
         {
@@ -134,5 +137,3 @@ const BoxRenderer = observer(
 );
 
 export default BoxRenderer;
-
-

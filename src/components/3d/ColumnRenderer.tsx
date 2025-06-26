@@ -166,7 +166,7 @@
 //                     polygonOffset
 //                     polygonOffsetFactor={-1}
 //                     polygonOffsetUnits={-4}
-//                     depthWrite={true}
+//                     depthWrite={false}
 //                   />
 //                 </mesh>
 //                 <mesh
@@ -274,7 +274,7 @@
 //                     polygonOffset
 //                     polygonOffsetFactor={-1}
 //                     polygonOffsetUnits={-4}
-//                     depthWrite={true}
+//                     depthWrite={false}
 //                   />
 //                 </mesh>
 //               </group>
@@ -426,7 +426,7 @@ const ColumnRenderer = observer(
                       polygonOffset
                       polygonOffsetFactor={-1}
                       polygonOffsetUnits={-4}
-                      depthWrite={true}
+                      depthWrite={false}
                       opacity={0.5}
                     />
                   </mesh>
@@ -535,7 +535,7 @@ const ColumnRenderer = observer(
                       polygonOffset
                       polygonOffsetFactor={-1}
                       polygonOffsetUnits={-4}
-                      depthWrite={true}
+                      depthWrite={false}
                     />
                   </mesh>
                 </group>

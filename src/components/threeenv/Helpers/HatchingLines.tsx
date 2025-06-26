@@ -191,7 +191,7 @@ const HatchingLines: React.FC<HatchingLinesProps> = ({
           lineWidth={lineWidth}
           dashed={false}
           depthTest={true}
-          depthWrite={true}
+          depthWrite={false}
           transparent={false}
           opacity={1}
           renderOrder={type === "shade" ? 1 : 2} // Higher render order for ground beam
