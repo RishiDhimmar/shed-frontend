@@ -120,7 +120,7 @@
 //                   color="magenta"
 //                   opacity={0.5}
 //                   transparent={true}
-//                   depthWrite={true}
+//                   depthWrite={false}
 //                   depthTest={false}
 //                 />
 //               </mesh>
@@ -189,7 +189,7 @@
 //                 castShadow
 //                 receiveShadow
 //               >
-//                 <meshBasicMaterial color="blue" depthWrite={true} />
+//                 <meshBasicMaterial color="blue" depthWrite={false} />
 //               </mesh>
 //               {createVerticalRod(
 //                 -((line1[0] + line2[0]) / 2 / 1000 - offsetX) * scale,
@@ -411,7 +411,7 @@
 //                     color="magenta"
 //                     opacity={0.5}
 //                     transparent={true}
-//                     depthWrite={true}
+//                     depthWrite={false}
 //                     depthTest={false}
 //                   />
 //                 </mesh>
@@ -485,7 +485,7 @@
 //                     castShadow
 //                     receiveShadow
 //                   >
-//                     <meshBasicMaterial color="blue" depthWrite={true} />
+//                     <meshBasicMaterial color="blue" depthWrite={false} />
 //                   </mesh>
 //                   {createVerticalRod(
 //                     -((line1[0] + line2[0]) / 2 / 1000 - offsetX) * scale,
@@ -559,7 +559,7 @@
 //                       castShadow
 //                       receiveShadow
 //                     >
-//                       <meshBasicMaterial color="blue" depthWrite={true} />
+//                       <meshBasicMaterial color="blue" depthWrite={false} />
 //                     </mesh>
 //                     {createVerticalRod(
 //                       -((line1[0] + line2[0]) / 2 / 1000 - offsetX) * scale,
@@ -771,7 +771,7 @@ const FoundationsRenderer = observer(({ centerOffset }) => {
               castShadow
               receiveShadow
             >
-              <meshBasicMaterial color="blue" depthWrite={true} />
+              <meshBasicMaterial color="blue" depthWrite={false} />
             </mesh>
             {createVerticalRod(
               -((line1[0] + line2[0]) / 2 / 1000 - offsetX) * scale,
@@ -834,7 +834,7 @@ const FoundationsRenderer = observer(({ centerOffset }) => {
                     color="magenta"
                     opacity={0.5}
                     transparent={true}
-                    depthWrite={true}
+                    depthWrite={false}
                     depthTest={false}
                   />
                 </mesh>

@@ -17,6 +17,7 @@ import { observer } from "mobx-react-lite";
 import { toJS } from "mobx";
 import baseplateStore from "../../stores/BasePlateStore";
 import columnStore from "../../stores/ColumnStore";
+import { Button } from "antd";
 
 const Canvas2D: React.FC = observer(() => {
   const { stageRef, handleWheel, handleDragMove } = useCanvasZoomPan();
@@ -25,15 +26,21 @@ const Canvas2D: React.FC = observer(() => {
 
   //download a file containing uiStore.data
   const handleDownload = () => {
-    console.log(
-      columnStore.polygons
-        .flatMap((group) => group.columns)
-        .map((plate) => plate.hits.length)
-    );
+    const data = uiStore.data;
+    //download data as json
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "data.json";
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
     <>
+      <Button onClick={handleDownload}>Download</Button>
       <Stage
         ref={stageRef}
         width={window.innerWidth}

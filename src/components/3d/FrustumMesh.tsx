@@ -111,7 +111,7 @@ const FrustumMesh = ({
           polygonOffset
           polygonOffsetFactor={-1}
           polygonOffsetUnits={-4}
-          depthWrite={true}
+          depthWrite={false}
         />
       </mesh>
       {/* Bottom face outline */}
