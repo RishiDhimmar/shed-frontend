@@ -92,11 +92,11 @@ export const items = {
     total: 0,
     unit: "cmt",
   },
-
   back_filling_excavated_earth: {
     itemNo: 0,
     date: "",
-    particulars: "Back filling with available excavated earth",
+    particulars:
+      "Filling available excavated earth (excluding rock) in trenches, plinth, sides of foundations, open landscape area etc. in layers not exceeding 20cm in depth, consolidating  each  deposited  layer  by  ramming  and  watering,  lead  upto  1.0 Km and for all lift, including  dewatering  and pumping out water  (if required)etc complete as directed by Engineer-in-charge.",
     measurements: [],
     total: 0,
     unit: "cmt",
@@ -104,7 +104,8 @@ export const items = {
   filling_good_soil_outside: {
     itemNo: 0,
     date: "",
-    particulars: "Filling with good soil brought from outiside",
+    particulars:
+      "Filling with good earth broght from outside (excluding rock) in trenches, plinth, sides of foundations, open landscape area etc. in layers not exceeding 20cm in depth, consolidating  each  deposited  layer  by  ramming  and  watering,  lead  upto  1.0 Km and for all lift, including  dewatering  and pumping out water  (if required) etc complete as directed by Engineer-in-charge.",
     measurements: [
       {
         description: "",
@@ -118,6 +119,25 @@ export const items = {
     total: 0,
     unit: "cmt",
   },
+  fixing_anchor_jbolt_on_rcc_column: {
+    itemNo: 0,
+    date: "",
+    particulars:
+      "Fixing of anchor bolt / J bolt at top of RCC column as per details and as per steel structure detail drawing, with all necessary arrangements to keep bolts in line and level. (Bolt supply in client/steel agency scope).",
+    measurements: [],
+    total: 0,
+    unit: "nos",
+  },
+  grade_slab_m25_with_trimix: {
+    itemNo: 0,
+    date: "",
+    particulars:
+      "Providing  and  laying  in  position  site  batched  design  mix cement concrete  for plain cement concrete  work; including pumping of concrete to site of  laying,  dewatering  (pumping  or  bailing  out  water/  mud  and  removing slush),  curing,  carriage  for  all  leads;  but  including  the  cost  of  centering, shuttering   and   finishing   as   per   direction   of   Engineer-in-charge;  for the following grades of concrete  - Grade Slab (150 mm thk with Trimix labour charge) -  M25 Grade",
+    measurements: [],
+    total: 0,
+    unit: "cmt",
+  },
+
   m25_concrete_pile_6_4mt: {
     itemNo: 0,
     date: "",
