@@ -107,8 +107,8 @@ const Experience = observer(() => {
       />
 
       {/* Lights */}
-      <ambientLight intensity={0.8} />
-      <directionalLight position={[0, 20, 0]} intensity={1} />
+      <ambientLight intensity={50} />
+      <directionalLight position={[0, 0, 0]} intensity={10} />
 
       {/* Optional Grid */}
       {/*

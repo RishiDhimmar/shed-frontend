@@ -112,7 +112,7 @@ export const exportXLSX = async () => {
     sheet.getCell(`A${rowIndex}`).font = { bold: true };
     rowIndex++;
 
-    sheet.getColumn('A').alignment = { wrapText: true };
+    sheet.getColumn("A").alignment = { wrapText: true };
 
     // Add measurement rows
     measurements.forEach((m) => {
@@ -154,7 +154,7 @@ export const exportXLSX = async () => {
     const signCell2 = sheet.getCell(`A${rowIndex}`);
     signCell2.value = "or Authorised Representative with dated sign";
     signCell2.alignment = { horizontal: "left" };
-    rowIndex += 3
+    rowIndex += 3;
   };
 
   // Add all items to the sheet in original order (by itemNo)

@@ -584,7 +584,6 @@
 
 // export default FoundationsRenderer;
 
-
 import { toJS } from "mobx";
 import foundationStore from "../../stores/FoundationStore";
 import FrustumMesh from "./FrustumMesh";
@@ -602,8 +601,18 @@ const scale = 1;
 // Precompute static geometries to avoid recreating them on every render
 const pileLineGeometry = new THREE.CylinderGeometry(0.008, 0.008, 1, 8); // Height will be scaled in matrix
 const ringGeometry = new THREE.TorusGeometry(0.3, 0.008, 8, 32);
-const rodGeometry = new THREE.CylinderGeometry(0.01 * scale, 0.01 * scale, 1, 8); // Wire length will be scaled
-const verticalRodGeometry = new THREE.CylinderGeometry(0.01 * scale, 0.01 * scale, 0.075 * scale, 8);
+const rodGeometry = new THREE.CylinderGeometry(
+  0.01 * scale,
+  0.01 * scale,
+  1,
+  8
+); // Wire length will be scaled
+const verticalRodGeometry = new THREE.CylinderGeometry(
+  0.01 * scale,
+  0.01 * scale,
+  0.075 * scale,
+  8
+);
 
 const FoundationsRenderer = observer(({ centerOffset }) => {
   const [offsetX, , offsetZ] = centerOffset;
@@ -752,7 +761,11 @@ const FoundationsRenderer = observer(({ centerOffset }) => {
           <mesh
             key={key}
             geometry={verticalRodGeometry}
-            position={[x, 2 * (0.075 * scale) - 0.01 + yOffset > 0 ? 0.075  : -0.075 , z + 0.001]}
+            position={[
+              x,
+              2 * (0.075 * scale) - 0.01 + yOffset > 0 ? 0.075 : -0.075,
+              z + 0.001,
+            ]}
             rotation={[0, 0, 0]}
             castShadow
             receiveShadow
@@ -792,7 +805,7 @@ const FoundationsRenderer = observer(({ centerOffset }) => {
         <group visible={uiStore.visibility.excavation}>
           <AnyShapeRenderer
             bottomPoints={excavationBottomPoints}
-            height={2.1}
+            height={configStore.shed3D.heights.EXCAVATION}
             y={-heights.groundBeam / 4}
             color="brown"
           />

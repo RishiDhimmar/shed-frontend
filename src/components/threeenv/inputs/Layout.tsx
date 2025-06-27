@@ -11,6 +11,8 @@ import { GroundBeam } from "./GroundBeam";
 import Foundation from "./Foundation";
 import Update from "../../../utils/Update";
 import BOM from "./BOM";
+import ExcelPreview from "./ExcelPreview";
+import { handleExcelQuantityCalculation } from "../../../utils/handleExcelQuantityCalculation";
 
 export const Layout = observer(() => {
   const [selectedTitle, setSelectedTitle] = useState<string | null>(null);
@@ -22,7 +24,7 @@ export const Layout = observer(() => {
 
   return (
     <div className="flex h-full z-10   ">
-      <div className="w-[250px] h-[calc(100vh-40px)] bg-gray-800  text-white flex flex-col items-start px-2 py-4">
+      <div className="w-[250px] h-[calc(100vh-40px)] bg-gray-800  text-white flex flex-col items-start px-2 py-4 overflow-y-scroll">
         <LayoutItem
           title="Dimensions"
           color="bg-black"
@@ -181,10 +183,25 @@ export const Layout = observer(() => {
           onClick={() => handleSelect("brickWork")}
           onToggleVisibility={() => uiStore.toggleVisibility("brickWork")}
         />
+        <LayoutItem
+          title="Excel Preview"
+          color="bg-[gray]"
+          isHidden={!uiStore.visibility.excelPreview}
+          isSelected={selectedTitle === "excelPreview"}
+          onClick={() => {
+            handleSelect("excelPreview");
+            handleExcelQuantityCalculation();
+          }}
+          onToggleVisibility={() => uiStore.toggleVisibility("excelPreview")}
+        />
       </div>
       <div
         className={` flex flex-col  overflow-y-auto  ${
-          uiStore.currentComponent === "bom" ? "w-[1300px]" : "w-[300px]"
+          uiStore.currentComponent === "bom"
+            ? "w-[1300px]"
+            : uiStore.currentComponent === "excelPreview"
+            ? "w-[1250px]"
+            : "w-[300px]"
         } h-[calc(100vh-40px)]  ml-1 bg-white rounded shadow-xl  z-1 top-0 `}
       >
         {uiStore.currentComponent === "plot" && <PlotInput />}
@@ -195,6 +212,7 @@ export const Layout = observer(() => {
         {uiStore.currentComponent === "mullionColumn" && <MullionColumn />}
         {uiStore.currentComponent === "groundBeam" && <GroundBeam />}
         {uiStore.currentComponent === "bom" && <BOM />}
+        {uiStore.currentComponent === "excelPreview" && <ExcelPreview />}
       </div>
     </div>
   );
