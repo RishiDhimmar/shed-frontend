@@ -3,11 +3,7 @@ import { convertToPointObjects } from "./PolygonUtils";
 import dxfStore from "../stores/DxfStore";
 import { items } from "./sheetItems";
 
-export const handleBrickworkBelowPlinthCalculation = () => {
-  const DEPTH = 0.23;
-  let totalVolume = 0;
-  const measurements = [];
-
+export const handleGradeSlabM25WithTrimixCalculation = () => {
   const calculateLengthBreadthArea = (points) => {
     if (!points || points.length < 3) {
       return {
@@ -41,51 +37,23 @@ export const handleBrickworkBelowPlinthCalculation = () => {
     return {
       length: parseFloat(length.toFixed(4)),
       breadth: parseFloat(breadth.toFixed(4)),
-      area: parseFloat((area * DEPTH).toFixed(4)),
+      area: parseFloat((area * 0.15).toFixed(4)),
     };
   };
 
   const externalWallResult = calculateLengthBreadthArea(
     convertToPointObjects(toJS(dxfStore.externalWallPolygon))
   );
-
-  // Add brickwork volume using length and breadth of external wall with fixed depth 0.23
-  const lengthVolume = parseFloat(
-    (externalWallResult.length * 1 * DEPTH).toFixed(3)
-  );
-  const widthVolume = parseFloat(
-    (externalWallResult.breadth * 1 * DEPTH).toFixed(3)
-  );
-
-  totalVolume = parseFloat((lengthVolume + widthVolume).toFixed(3));
-
-  measurements.push(
+  items.grade_slab_m25_with_trimix.measurements = [
     {
-      id: "brickwork-length",
       description: "",
-      nos: 2,
+      nos: 1,
       length: externalWallResult.length,
-      breadth: 0.6,
-      depth: 0.23,
-      area: lengthVolume,
+      breadth: externalWallResult.breadth,
+      depth: 0.15,
+      area: externalWallResult.length * externalWallResult.breadth * 0.15,
     },
-    {
-      id: "brickwork-width",
-      description: "",
-      nos: 2,
-      length: externalWallResult.breadth,
-      breadth: 0.6,
-      depth: 0.23,
-      area: widthVolume,
-    }
-  );
-
-  // Assign to items
-  items.brickwork_below_plinth.measurements = measurements;
-  items.brickwork_below_plinth.total = totalVolume;
-
-  return {
-    totalVolume,
-    measurements,
-  };
+  ];
+  items.grade_slab_m25_with_trimix.total =
+    externalWallResult.length * externalWallResult.breadth * 0.15;
 };
