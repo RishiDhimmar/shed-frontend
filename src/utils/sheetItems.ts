@@ -11,7 +11,8 @@ export const items = {
   rubble_solling_at_plinth_lvl: {
     itemNo: 0,
     date: "",
-    particulars: "RUBBLE SOLLING at plinth lvl",
+    particulars:
+      "Providing and laying Rubble Solling (230 mm THK) / G.S.B. below foundation and at plinht lvl as directed by engineer incharge",
     measurements: [
       {
         description: "soling for grade slab",
@@ -25,93 +26,73 @@ export const items = {
     total: 0,
     unit: "cmt",
   },
-  pile_450mm_dia_7mt_depth_labour: {
-    itemNo: 0,
-    date: "",
-    particulars: "450mm dia Pile - 7 mt depth from FGL - labour for pile",
-    measurements: [
-      {
-        description: "doble pile",
-        nos: 0,
-        length: 0,
-        depth: 0,
-        area: 0,
-      },
-      {
-        description: "single pile",
-        nos: 0,
-        length: 0,
-        depth: 0,
-        area: 0,
-      },
-      {
-        description: "tripal pile",
-        nos: 0,
-        length: 0,
-        depth: 0,
-        area: 0,
-      },
-    ],
-    total: 0,
-    unit: "rmt",
-  },
+  // pile_450mm_dia_7mt_depth_labour: {
+  //   itemNo: 0,
+  //   date: "",
+  //   particulars: "450mm dia Pile - 7 mt depth from FGL - labour for pile",
+  //   measurements: [
+  //     {
+  //       description: "doble pile",
+  //       nos: 0,
+  //       length: 0,
+  //       depth: 0,
+  //       area: 0,
+  //     },
+  //     {
+  //       description: "single pile",
+  //       nos: 0,
+  //       length: 0,
+  //       depth: 0,
+  //       area: 0,
+  //     },
+  //     {
+  //       description: "tripal pile",
+  //       nos: 0,
+  //       length: 0,
+  //       depth: 0,
+  //       area: 0,
+  //     },
+  //   ],
+  //   total: 0,
+  //   unit: "rmt",
+  // },
   pcc_m10_grade_1_3_6: {
     itemNo: 0,
     date: "",
-    particulars: "PCC - M10 grade - (1:3:6)",
-    measurements: [
-      {
-        description: "PCC for GB horizontal",
-        nos: 0,
-        length: 0,
-        breadth: 0,
-        depth: 0,
-        area: 0,
-      },
-      {
-        description: "",
-        nos: 0,
-        length: 0,
-        breadth: 0,
-        depth: 0,
-        area: 0,
-      },
-      {
-        description: "vartical",
-        nos: 0,
-        length: 0,
-        breadth: 0,
-        depth: 0,
-        area: 0,
-      },
-      {
-        description: "",
-        nos: 0,
-        length: 0,
-        breadth: 0,
-        depth: 0,
-        area: 0,
-      },
-      {
-        description: "intarnal vertical",
-        nos: 0,
-        length: 0,
-        breadth: 0,
-        depth: 0,
-        area: 0,
-      },
-      {
-        description: "Shed area PCC for trimix",
-        nos: 0,
-        length: 0,
-        breadth: 0,
-        depth: 0,
-        area: 0,
-      },
-    ],
+    particulars:
+      "Providing  and  laying  in  position  site  batched  design  mix cement concrete  for plain cement concrete  work; including pumping of concrete to site of  laying,  dewatering  (pumping  or  bailing  out  water/  mud  and  removing slush),  curing,  carriage  for  all  leads;  but  excluding  the  cost  of  centering, shuttering   and   finishing   as   per   direction   of   Engineer-in-charge;  for the following grades of concrete - P.C.C (1:4:8) Work for footing and other work Upto Plinht lvl.",
+    measurements: [],
     total: 0,
     unit: "cmt",
   },
+  rcc_below_ngl_footing_m25: {
+    itemNo: 0,
+    date: "",
+    particulars:
+      "Providing  and  laying  in  position site  batched  design  mix cement concrete  for plain cement concrete  work; including pumping of concrete to site of  laying,  dewatering  (pumping  or  bailing  out  water/  mud  and  removing slush),  curing,  carriage  for  all  leads;  but  including  the  cost  of  centering, shuttering   and   finishing   as   per   direction   of   Engineer-in-charge;  for the following grades of concrete. (R.C.C. below N.G.L. (Footing ) - M25 Grade)",
+    measurements: [],
+    total: 0,
+    unit: "cmt",
+  },
+  brickwork_below_plinth: {
+    itemNo: 0,
+    date: "",
+    particulars:
+      "Providing and laying brick work with modular red bricks of required size conforming to IS:16720, class designation 7.5 N/mm² average compressive strength with 1:6 mortar ratio. Below plinth or N.G.L. (From Ground Beam to Plinth).",
+    measurements: [],
+    total: 0,
+    unit: "cmt",
+  },
+  column_from_footing_to_plinth_m25: {
+    itemNo: 0,
+    date: "",
+    particulars:
+      "Providing  and  laying  in  position site  batched  design  mix cement concrete  for plain cement concrete  work; including pumping of concrete to site of  laying,  dewatering  (pumping  or  bailing  out  water/  mud  and  removing slush),  curing,  carriage  for  all  leads;  but  including  the  cost  of  centering, shuttering   and   finishing   as   per   direction   of   Engineer-in-charge;  for the following grades of concrete (Column from Footing Top to Plinth lvl. M25 Grade)",
+    measurements: [],
+    total: 0,
+    unit: "cmt",
+  },
+
   back_filling_excavated_earth: {
     itemNo: 0,
     date: "",

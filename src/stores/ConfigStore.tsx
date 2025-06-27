@@ -30,6 +30,7 @@ class ConfigStore {
       COPING_BEAM_HEIGHT: 0.15,
       PILE_HEIGHT: 3,
       PILE_HEIGHT_CORNERS: 2,
+      EXCAVATION: 2.2,
     },
   };
   RINGS = {
