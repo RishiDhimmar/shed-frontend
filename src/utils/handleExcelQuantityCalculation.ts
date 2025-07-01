@@ -6,6 +6,7 @@ import { handleFillingGoodSoilFromOutSide } from "./handleFillingGoodSoilFromOut
 import { handleFixingAnchorJBoltOnRccColumnCalculation } from "./handleFixingAnchorJBoltOnRccColumnCalculation";
 import { handleGradeSlabM25WithTrimixCalculation } from "./handleGradeSlabM25WithTrimixCalculation";
 import { handlePccCalculation } from "./handlePccCalculation";
+import handlePccGroundBeamM25Calculation from "./handlePccGroundBeamM25Calculation";
 import { handlePileRunningCalculation } from "./handlePileRunningCalculation";
 import { handleRccBelowNGLCalculation } from "./handleRccBelowNGLCalculation";
 import { handleRubbleSoilingCalculation } from "./handleRubbleSoilingCalculation";
@@ -20,6 +21,8 @@ export const handleExcelQuantityCalculation = () => {
   handleBrickworkBelowPlinthCalculation();
   // column_from_footing_to_plinth_m25
   handleColumnFromFootingToPlinthM25Calculation();
+  // pcc_ground_beam_m25
+  handlePccGroundBeamM25Calculation();
   // back_filling_excavated_earth
   handleBackFillingExcavatedEarthCalculation();
   // fixing_anchor_jbolt_on_rcc_column

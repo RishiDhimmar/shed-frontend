@@ -3,8 +3,8 @@ import { convertToPointObjects } from "./PolygonUtils";
 import dxfStore from "../stores/DxfStore";
 import { items } from "./sheetItems";
 
-export const handleBrickworkBelowPlinthCalculation = () => {
-  const DEPTH = 0.23;
+const handlePccGroundBeamM25Calculation = () => {
+  const DEPTH = 0.3;
   let totalVolume = 0;
   const measurements = [];
 
@@ -49,12 +49,12 @@ export const handleBrickworkBelowPlinthCalculation = () => {
     convertToPointObjects(toJS(dxfStore.externalWallPolygon))
   );
 
-  // Add brickwork volume using length and breadth of external wall with fixed depth 0.23
+  // Add brickwork volume using length and breadth of external wall with fixed depth 0.3
   const lengthVolume = parseFloat(
-    (externalWallResult.length * 0.6 * 0.23).toFixed(3)
+    (externalWallResult.length * 0.6 * 0.3).toFixed(3)
   );
   const widthVolume = parseFloat(
-    (externalWallResult.breadth * 0.6 * 0.23).toFixed(3)
+    (externalWallResult.breadth * 0.6 * 0.3).toFixed(3)
   );
 
   totalVolume = parseFloat((lengthVolume + widthVolume).toFixed(3));
@@ -62,30 +62,32 @@ export const handleBrickworkBelowPlinthCalculation = () => {
   measurements.push(
     {
       id: "brickwork-length",
-      description: "Brickwork below plinth",
+      description: "",
       nos: 2,
       length: Number(Number(externalWallResult.length).toFixed(3)),
       breadth: 0.6,
-      depth: 0.23,
+      depth: 0.3,
       area: lengthVolume * 2,
     },
     {
       id: "brickwork-width",
-      description: "Brickwork below plinth",
+      description: "",
       nos: 2,
       length: Number(Number(externalWallResult.breadth).toFixed(3)),
       breadth: 0.6,
-      depth: 0.23,
+      depth: 0.3,
       area: widthVolume * 2,
     }
   );
 
   // Assign to items
-  items.brickwork_below_plinth.measurements = measurements;
-  items.brickwork_below_plinth.total = totalVolume * 2;
+  items.pcc_ground_beam_m25.measurements = measurements;
+  items.pcc_ground_beam_m25.total = totalVolume * 2;
 
   return {
     totalVolume,
     measurements,
   };
 };
+
+export default handlePccGroundBeamM25Calculation;

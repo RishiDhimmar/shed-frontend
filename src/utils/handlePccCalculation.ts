@@ -204,8 +204,8 @@ export const handlePccCalculation = () => {
     area = Math.abs(area) / 2;
 
     return {
-      length: parseFloat(length.toFixed(4)),
-      breadth: parseFloat(breadth.toFixed(4)),
+      length: parseFloat(length.toFixed(4)) + 0.075 + 0.075,
+      breadth: parseFloat(breadth.toFixed(4)) + 0.075 + 0.075,
       area: parseFloat((area * DEPTH).toFixed(4)), // volume from area * depth
     };
   };
@@ -254,12 +254,12 @@ export const handlePccCalculation = () => {
 
         const item = {
           id: `group-${groupIndex}-item-${index}`,
-          description: "",
+          description: "Foundation PCC",
           nos: entry.frequency,
-          length: entry.length,
-          breadth: entry.breadth,
-          depth: entry.depth,
-          area: volume,
+          length: Number(entry.length.toFixed(3)), // entry.length,
+          breadth: Number(entry.breadth.toFixed(3)), // entry.breadth,
+          depth: Number(entry.depth.toFixed(3)), // entry.depth,
+          area: Number(volume.toFixed(3)), // volume,
         };
 
         allMeasurements.push(item);
@@ -305,7 +305,7 @@ export const handlePccCalculation = () => {
     id: "shed-length-pcc",
     description: "Shed Length PCC (0.6m × 0.1m)",
     nos: 1,
-    length: externalWallResult.length,
+    length: Number(externalWallResult.length.toFixed(3)), // externalWallResult.length,
     breadth: 0.6,
     depth: 0.1,
     area: lengthPccVolume,
@@ -321,7 +321,7 @@ export const handlePccCalculation = () => {
     id: "shed-width-pcc",
     description: "Shed Width PCC (0.6m × 0.1m)",
     nos: 1,
-    length: externalWallResult.breadth,
+    length: Number(externalWallResult.breadth.toFixed(3)), // externalWallResult.breadth,
     breadth: 0.6,
     depth: 0.1,
     area: widthPccVolume,

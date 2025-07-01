@@ -201,24 +201,13 @@ export const handleRubbleSoilingCalculation = () => {
   let fullVolume = externalWallResult.area;
   const allMeasurements = [];
 
-  // Include grade slab soling entry
-  allMeasurements.push({
-    id: `external-wall-soling`,
-    description: "soling for grade slab",
-    nos: 1,
-    length: externalWallResult.length,
-    breadth: externalWallResult.breadth,
-    depth: DEPTH,
-    area: externalWallResult.area,
-  });
-
   // Include foundation group-based rubble soling
   const groupedRubbleSolingDimensions = foundationStore.groups.map(
     (group, groupIndex) => {
       const dimensionsMap = new Map();
 
       group.foundations.forEach((foundation) => {
-        const points = toJS(foundation.excavationBottomPoints);
+        const points = toJS(foundation.ppcPoints);
         const xCoords = points.map((p) => Number(p.x.toFixed(3)));
         const yCoords = points.map((p) => Number(p.y.toFixed(3)));
 
@@ -258,12 +247,14 @@ export const handleRubbleSoilingCalculation = () => {
 
         const item = {
           id: `group-${groupIndex}-item-${index}`,
-          description: "",
+          description: "Foundation Rubble Soiling",
+
           nos: entry.frequency,
-          length: entry.length,
-          breadth: entry.breadth,
-          depth: entry.depth,
-          area: volume,
+
+          length: Number(entry.length.toFixed(3)),
+          breadth: Number(entry.breadth.toFixed(3)), //entry.breadth,
+          depth: Number(entry.depth.toFixed(3)), //entry.depth,
+          area: Number(volume.toFixed(3)), //volume,
         };
 
         allMeasurements.push(item);
@@ -271,6 +262,43 @@ export const handleRubbleSoilingCalculation = () => {
       });
     }
   );
+
+  //empty entry
+  allMeasurements.push({
+    id: `empty`,
+    description: " ",
+    nos: 0,
+    length: 0,
+    breadth: 0,
+    depth: 0,
+    area: 0,
+  });
+
+  console.log(wallStore.wallThickness);
+  // Include grade slab soling entry
+  allMeasurements.push({
+    id: `external-wall-soling`,
+    description: "plinth lvl",
+    nos: 1,
+    length: Number(
+      Number(
+        externalWallResult.length - 2 * (wallStore.wallThickness / 1000)
+      ).toFixed(3)
+    ),
+    breadth: Number(
+      Number(
+        externalWallResult.breadth - 2 * (wallStore.wallThickness / 1000)
+      ).toFixed(3)
+    ),
+    depth: DEPTH,
+    area: Number(
+      (
+        (externalWallResult.length - 2 * (wallStore.wallThickness / 1000)) *
+        (externalWallResult.breadth - 2 * (wallStore.wallThickness / 1000)) *
+        DEPTH
+      ).toFixed(3)
+    ),
+  });
 
   // Finalize
   items.rubble_solling_at_plinth_lvl.measurements = allMeasurements;
