@@ -151,7 +151,7 @@ export const items = {
     itemNo: 0,
     date: "",
     particulars:
-      "Providing and spreading hardener over wet concrete surface for trimix flooring, including proper levelling, finishing and curing as per direction of engineer-in-charge. (Make: Ultratech or equivalent approved make).",
+      "Providing and spreding hardner over wet concrete surface for trimix. (make: Ultratech or Eqv.)",
     measurements: [],
     total: 0,
     unit: "sqm",
@@ -161,7 +161,7 @@ export const items = {
     itemNo: 0,
     date: "",
     particulars:
-      "Groove cutting for trimix slab (15mm deep) including cleaning and filling of grooves using non-shrink grouting material or polysulfide sealant as per direction of engineer-in-charge and with approved make.",
+      "Groove cutting for trimix slab (15mm deep) with filling of non shrink grouting material/polysulfide sealant as per engineer incharge with approved make",
     measurements: [],
     total: 0,
     unit: "rm",
@@ -181,7 +181,7 @@ export const items = {
     itemNo: 0,
     date: "",
     particulars:
-      "Providing and laying in position site batched design mix cement concrete for plain cement concrete work; including pumping of concrete to site of laying, dewatering (pumping or bailing out water/mud and removing slush), curing, carriage for all leads; and including the cost of centering, shuttering and finishing as per direction of Engineer-in-charge; for the following grades of concrete (Mullion Column 230x230 from plinth to 3 m height).",
+      "Providing  and  laying  in  position  site  batched  design  mix cement concrete  for plain cement concrete  work; including pumping of concrete to site of  laying,  dewatering  (pumping  or  bailing  out  water/  mud  and  removing slush),  curing,  carriage  for  all  leads;  but  including  the  cost  of  centering, shuttering   and   finishing   as   per   direction   of   Engineer-in-charge;  for the following grades of concrete  (Mullion Column (230x230) from plinth to 3mt height)",
     measurements: [],
     total: 0,
     unit: "cum",
@@ -191,7 +191,7 @@ export const items = {
     itemNo: 0,
     date: "",
     particulars:
-      "Providing and laying in position site batched design mix cement concrete for plain cement concrete work; including pumping of concrete to site of laying, dewatering (pumping or bailing out water/mud and removing slush), curing, carriage for all leads; and including the cost of centering, shuttering and finishing as per direction of Engineer-in-charge; for the following grades of concrete (R.C.C. Lintel Beam and coping at plinth level and above - M25 Grade).",
+      "Providing  and  laying  in  position  site  batched  design  mix cement concrete  for plain cement concrete  work; including pumping of concrete to site of  laying,  dewatering  (pumping  or  bailing  out  water/  mud  and  removing slush),  curing,  carriage  for  all  leads;  but  including  the  cost  of  centering, shuttering   and   finishing   as   per   direction   of   Engineer-in-charge;  for the following grades of concrete (R.C.C. Lintel Beam and coping at plinth lvl and above - M25 Grade)",
     measurements: [],
     total: 0,
     unit: "cum",
@@ -201,7 +201,7 @@ export const items = {
     itemNo: 0,
     date: "",
     particulars:
-      "Providing TMT Bar FE 500 reinforcement for R.C.C. work including cutting, bending, binding and placing in position complete as per drawing and specifications. (Make: TATA, SAIL, Jindal, German, Steefo, ET, Friends or equivalent as approved by engineer-in-charge).",
+      "Providing TMT Bar FE 500 reinforcement for R.C.C. work including bending, binding and placing in position complete. ( make: TATA, SAIL, Jindal, German, steefo, ET, Friends or eqv to be approved engineer incharge) ",
     measurements: [],
     total: 0,
     unit: "kg",
@@ -211,7 +211,7 @@ export const items = {
     itemNo: 0,
     date: "",
     particulars:
-      "Providing and applying 12 mm thick plaster (smooth or wire finished) in 1:4 cement mortar, finished with trowel including finishing, curing, scaffolding for all floors, all levels, and all heights, etc., complete as directed by Engineer-in-charge. Rate shall be inclusive of all labour and material including provision of groove/drip mould as per drawing, incidentals, etc., complete and as directed.",
+      "Providing and applying  12 mm Plaster (smooth or wire finished plaster) 1: 4 cement mortar, finished with trowel. with    finishing,   curing, scaffolding  for  all  floor,  all  level,  all  height  etc.  complete  as  directed  by Engineer-in-charge. Rate shall be inclusive of all labour and material including provision of  groove/  drip  mould  as  per  drawing,  incidentals  etc.  complete  and  as directed by Engineer-in-charge.",
     measurements: [],
     total: 0,
     unit: "sqm",
@@ -221,7 +221,7 @@ export const items = {
     itemNo: 0,
     date: "",
     particulars:
-      "Providing and applying 18 mm thick plaster in two coats — under layer 12 mm thick in 1:6 cement mortar and top layer 6 mm thick in 1:4 cement mortar, finished with trowel — including finishing, curing, scaffolding for all floors, all levels, and all heights, etc., complete as directed by Engineer-in-charge. Rate shall be inclusive of all labour and material including provision of groove/drip mould as per drawing, incidentals, etc., complete and as directed.",
+      "Providing and applying 18 mm Plaster in two coats under layer 12 mm thick in 1:6 cement mortar and finished with a top layer 6 mm thick in 1:4 cement mortar, finished with trowel. including , finishing, curing, scaffolding for all floor, all level, all height etc. complete as directed  by  Engineer-in-charge.  Rate  shall  be  inclusive  of  all  labour  and material  including provision of groove/ drip mould as per drawing, incidentals etc. complete and as directed by Engineer-in-charge.",
     measurements: [],
     total: 0,
     unit: "sqm",
@@ -231,7 +231,7 @@ export const items = {
     itemNo: 0,
     date: "",
     particulars:
-      "Providing and fixing FRP Reinforcement (Fiberglass socked in polymer based epoxy resin) as per IS:18256-2023, including cutting, binding, and placing in position complete as per specifications and direction of Engineer-in-charge. (Make: TAPASHRI or equivalent as approved).",
+      "Providing and fixing FRP Reinforcement (Fiberglass socked in polymer based epoxy resin) as per IS code 18256-2023 with cutting and binding. (make TAPASHRI OR Eqv. To be approved with engineer incharge)",
     measurements: [],
     total: 0,
     unit: "kg",

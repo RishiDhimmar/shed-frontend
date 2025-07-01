@@ -1,10 +1,10 @@
 import { toJS } from "mobx";
-import dxfStore from "../stores/DxfStore";
-import wallStore from "../stores/WallStore";
 import { convertToPointObjects } from "./PolygonUtils";
+import dxfStore from "../stores/DxfStore";
 import { items } from "./sheetItems";
+import wallStore from "../stores/WallStore";
 
-export const handleFillingGoodSoilFromOutSide = () => {
+const handleTrimixHardenerSpreadingCalculation = () => {
   const calculateLengthBreadthArea = (points) => {
     if (!points || points.length < 3) {
       return {
@@ -45,20 +45,23 @@ export const handleFillingGoodSoilFromOutSide = () => {
   const externalWallResult = calculateLengthBreadthArea(
     convertToPointObjects(toJS(dxfStore.externalWallPolygon))
   );
-  items.filling_good_soil_outside.measurements = [
+  items.trimix_hardener_spreading.measurements = [
     {
       description: "",
       nos: 1,
       length: externalWallResult.length - (2 * wallStore.wallThickness) / 1000,
       breadth:
         externalWallResult.breadth - (2 * wallStore.wallThickness) / 1000,
-      depth: 0.3,
+      depth: 1,
       area:
         (externalWallResult.length - (2 * wallStore.wallThickness) / 1000) *
         (externalWallResult.breadth - (2 * wallStore.wallThickness) / 1000) *
-        0.3,
+        1,
     },
   ];
-  items.filling_good_soil_outside.total =
-    externalWallResult.length * externalWallResult.breadth * 0.3;
+  items.trimix_hardener_spreading.total =
+    externalWallResult.length * externalWallResult.breadth * 1;
+  // items.trimix_hardener_spreading.total = items.trimix_hardener_spreading.total.toFixed(4);
 };
+
+export default handleTrimixHardenerSpreadingCalculation;

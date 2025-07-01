@@ -16,6 +16,8 @@ class MullionColumnStore {
   mainCc: number = 0;
   ring1: number = 0;
   ringCc: number = 0;
+  windows: number = 0;
+  shutters: number = 0;
 
   mullionPositions: number[][][] = []; // Stores rectangle points for each mullion
   mullionDimensions: {
@@ -38,11 +40,17 @@ class MullionColumnStore {
       }),
       () => {
         this.calculateMullions();
-      },
+      }
     );
   }
   setPolygons(polygons) {
     this.polygons = polygons;
+  }
+  setWindows(windows) {
+    this.windows = windows;
+  }
+  setShutters(shutters) {
+    this.shutters = shutters;
   }
   sethEdgeWires(groupName, hEdgeWires) {
     const group = this.polygons.find((g) => g.name === groupName);
@@ -96,11 +104,11 @@ class MullionColumnStore {
           adjustedX,
           adjustedY,
         ]);
-      },
+      }
     );
 
     const horizontal = baseplateStore.basePlates.filter(
-      (plate) => plate.type === "horizontal",
+      (plate) => plate.type === "horizontal"
     );
     horizontal.map((plate) => {
       const { x, y } = plate;
@@ -112,7 +120,7 @@ class MullionColumnStore {
               (baseplateStore.config[plate.type].offsetX ?? 0) -
               wallThickness / 2,
             y,
-          ]),
+          ])
         );
       } else if (plate.wall === "right") {
         newMullions.push(
@@ -122,13 +130,13 @@ class MullionColumnStore {
               (baseplateStore.config[plate.type].offsetX ?? 0) +
               wallThickness / 2,
             y,
-          ]),
+          ])
         );
       }
     });
 
     const vertical = baseplateStore.basePlates.filter(
-      (plate) => plate.type === "vertical",
+      (plate) => plate.type === "vertical"
     );
     vertical.map((plate) => {
       const { x, y } = plate;
@@ -140,7 +148,7 @@ class MullionColumnStore {
               baseplateStore.config[plate.type].width / 2 +
               (baseplateStore.config[plate.type].offsetY ?? 0) +
               wallThickness / 2,
-          ]),
+          ])
         );
       } else if (plate.wall === "bottom") {
         newMullions.push(
@@ -150,7 +158,7 @@ class MullionColumnStore {
               baseplateStore.config[plate.type].width / 2 -
               (baseplateStore.config[plate.type].offsetY ?? 0) -
               wallThickness / 2,
-          ]),
+          ])
         );
       }
     });
@@ -251,7 +259,7 @@ class MullionColumnStore {
           points: getRectanglePointsAroundCenter(
             { ...center, z: 0 },
             wallStore.wallThickness,
-            wallStore.wallThickness,
+            wallStore.wallThickness
           ),
           label: `M${plate.label.slice(1)}`,
         };
@@ -290,12 +298,12 @@ class MullionColumnStore {
               points: getRectanglePointsAroundCenter(
                 center,
                 wallStore.wallThickness,
-                wallStore.wallThickness,
+                wallStore.wallThickness
               ),
               label: `M${plate.label.slice(1)}`,
             };
-          }),
-        ),
+          })
+        )
       );
 
     //sort the polygons in the order of correct centers
