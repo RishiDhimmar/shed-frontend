@@ -17,6 +17,8 @@ export class WallStore {
   area = 0;
 
   beamRodData = [];
+  beamTotalLength = 0;
+  copingBeamLength = 0;
 
   constructor(width = 0, height = 0, wallThickness = 0) {
     this.width = width;
@@ -38,6 +40,14 @@ export class WallStore {
   setBeamRodData(newBeamRodData) {
     this.beamRodData = newBeamRodData;
     uiStore.setModified(true);
+  }
+  setBeamTotalLength(newBeamTotalLength) {
+    this.beamTotalLength = newBeamTotalLength;
+    // uiStore.setModified(true);
+  }
+  setCopingBeamLength(newCopingBeamLength) {
+    this.copingBeamLength = newCopingBeamLength;
+    // uiStore.setModified(true);
   }
 
   setWidth(newWidth: number) {

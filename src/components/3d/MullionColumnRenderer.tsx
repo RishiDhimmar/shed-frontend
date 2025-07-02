@@ -338,6 +338,9 @@ const MullionColumnRenderer = observer(
           floorY={configStore.shed3D.heights.COLUMNS}
           height={configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT}
           opacity={1}
+          onCalculateTotalLength={(totalLength) => {
+            mullionColumnStore.setTotalRingLength(totalLength);
+          }}
         />
         {cylinderInstances.map((cylinder, index) => (
           <mesh

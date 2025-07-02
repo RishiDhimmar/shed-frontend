@@ -14,14 +14,17 @@ const handlePccMullionColumnCalculation = () => {
     id: "deductions",
     description: "PCC for mullion columns",
     nos: totalMC,
-    length: wallStore.wallThickness / 1000,
-    breadth: wallStore.wallThickness / 1000,
+    length: Number((wallStore.wallThickness / 1000).toFixed(3)),
+    breadth: Number((wallStore.wallThickness / 1000).toFixed(3)),
     depth: configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT,
-    area:
-      totalMC *
-      (wallStore.wallThickness / 1000) *
-      configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT *
-      configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT,
+    area: Number(
+      (
+        totalMC *
+        (wallStore.wallThickness / 1000) *
+        configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT *
+        configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT
+      ).toFixed(3)
+    ),
   });
 
   items.pcc_mullion_column.measurements = measurements;

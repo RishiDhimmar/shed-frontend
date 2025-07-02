@@ -14,6 +14,7 @@ import handlePlaster12mmCementMortarCalculation from "./handlePlaster12mmCementM
 import { handleRccBelowNGLCalculation } from "./handleRccBelowNGLCalculation";
 import handleRccLintelBeamCopingCalculation from "./handleRccLintelBeamCopingCalculation";
 import { handleRubbleSoilingCalculation } from "./handleRubbleSoilingCalculation";
+import handleTMTFe500ReinforcementCalculation from "./handleTMTFe500ReinforcementCalculation";
 import handleTrimixGrooveCuttingCalculation from "./handleTrimixGrooveCuttingCalculation";
 import handleTrimixHardenerSpreadingCalculation from "./handleTrimixHardenerSpreadingCalculation";
 
@@ -45,6 +46,8 @@ export const handleExcelQuantityCalculation = () => {
   handlePccMullionColumnCalculation();
   // rcc_lintel_beam_coping
   handleRccLintelBeamCopingCalculation();
+  // tmt_fe500_reinforcement
+  handleTMTFe500ReinforcementCalculation();
   // plaster_12mm_cement_mortar
   handlePlaster12mmCementMortarCalculation();
   handleGradeSlabM25WithTrimixCalculation();
