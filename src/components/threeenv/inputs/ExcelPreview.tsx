@@ -8,9 +8,6 @@ const ExcelPreview = () => {
   const sortedItems = Object.entries(items).sort(
     ([, a], [, b]) => a.itemNo - b.itemNo
   );
-  {
-    console.log(toJS(columnStore.columns), toJS(columnStore.polygons));
-  }
 
   return (
     <div className="p-4 max-w-1xl mx-5 ">

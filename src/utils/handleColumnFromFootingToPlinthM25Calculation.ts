@@ -18,14 +18,11 @@ export const handleColumnFromFootingToPlinthM25Calculation = () => {
   let totalVolume = 0;
 
   columnStore.polygons.forEach((grp, index) => {
-    console.log(grp);
     const length = Number(grp.data.length + 80 || 0);
     const breadth = Number(grp.data.width + 80 || 0);
     const volume = parseFloat(
       ((grp.columns.length * (length * breadth * DEPTH)) / 1000000).toFixed(3)
     );
-
-    console.log(length, breadth, DEPTH, volume);
 
     const entry = {
       id: `column-${index}`,

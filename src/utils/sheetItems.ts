@@ -204,7 +204,7 @@ export const items = {
       "Providing TMT Bar FE 500 reinforcement for R.C.C. work including bending, binding and placing in position complete. ( make: TATA, SAIL, Jindal, German, steefo, ET, Friends or eqv to be approved engineer incharge) ",
     measurements: [],
     total: 0,
-    unit: "kg",
+    unit: "mt",
   },
 
   plaster_12mm_cement_mortar: {

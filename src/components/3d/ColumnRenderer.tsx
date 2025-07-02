@@ -294,7 +294,6 @@ import columnStore from "../../stores/ColumnStore";
 import * as THREE from "three";
 import { observer } from "mobx-react-lite";
 import configStore from "../../stores/ConfigStore";
-import RingRenderer from "./RingRenderer";
 import BoxRenderer from "./Box";
 import uiStore from "../../stores/UIStore";
 import MultiRingRenderer from "./MultiRingRenderer";
@@ -383,7 +382,10 @@ const ColumnRenderer = observer(
             floorY={floorY}
             yInterval={configStore.RINGS.COLUMNS.gap}
             rodDiameter={configStore.RINGS.COLUMNS.diameter}
-            cornerOffset = {configStore.RINGS.COLUMNS.offset}
+            cornerOffset={configStore.RINGS.COLUMNS.offset}
+            onCalculateTotalLength={(totalLength) => {
+              columnStore.setTotalRingLength(totalLength);
+            }}
           />
 
           <BoxRenderer instances={instances} opacity={0.2} />

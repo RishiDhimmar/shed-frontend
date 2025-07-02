@@ -38,6 +38,7 @@ export class ColumnStore {
   ogGroups: number[][][] = [];
 
   columns: Column[] = [];
+  totalRingLength = 0;
 
   // columnInputs = {
   //   "+x": 75,
@@ -83,6 +84,9 @@ export class ColumnStore {
   modifyGroups(groups: any[]) {
     this.polygons = groups;
   }
+  setTotalRingLength(length: number) {
+    this.totalRingLength = length;
+  }
   sethEdgeWires(groupName, hEdgeWires) {
     const group = this.polygons.find((g) => g.name === groupName);
     if (group) {
@@ -101,7 +105,6 @@ export class ColumnStore {
     columnStore.updatePolygons(this.polygons);
     foundationStore.generateFoundationInputs();
     foundationStore.generateFoundations(this.polygons);
-    
   }
   addColumnToGroup(groupName: string, columnName: string) {
     const group = this.polygons.find((g) => g.name === groupName);

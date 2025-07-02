@@ -246,26 +246,31 @@ const handleBrickworkAbovePlinthCalculation = () => {
       description: "Brickwork above plinth",
       nos: 2,
       length: Number(Number(externalWallResult.length).toFixed(3)),
-      breadth: wallStore.wallThickness / 1000,
+      breadth: Number((wallStore.wallThickness / 1000).toFixed(3)),
       depth: configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT,
       area: Number(
-        (Number(externalWallResult.length * wallStore.wallThickness) / 1000) *
+        (
+          (Number(externalWallResult.length * wallStore.wallThickness) / 1000) *
           2 *
           configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT
-      ).toFixed(3),
+        ).toFixed(3)
+      ),
     },
     {
       id: "brickwork-width",
       description: "Brickwork above plinth",
       nos: 2,
       length: Number(Number(externalWallResult.breadth).toFixed(3)),
-      breadth: wallStore.wallThickness / 1000,
+      breadth: Number((wallStore.wallThickness / 1000).toFixed(3)),
       depth: configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT,
       area: Number(
-        (Number(externalWallResult.breadth * wallStore.wallThickness) / 1000) *
+        (
+          (Number(externalWallResult.breadth * wallStore.wallThickness) /
+            1000) *
           2 *
           configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT
-      ).toFixed(3),
+        ).toFixed(3)
+      ),
     },
     {
       id: "empty",
@@ -287,14 +292,17 @@ const handleBrickworkAbovePlinthCalculation = () => {
     id: "deduction-mullions",
     description: "Deductions for mullion columns",
     nos: totalMC,
-    length: wallStore.wallThickness / 1000,
-    breadth: wallStore.wallThickness / 1000,
+    length: Number((wallStore.wallThickness / 1000).toFixed(3)),
+    breadth: Number((wallStore.wallThickness / 1000).toFixed(3)),
     depth: configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT,
-    area:
-      totalMC *
-      (wallStore.wallThickness / 1000) *
-      (wallStore.wallThickness / 1000) *
-      configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT,
+    area: Number(
+      (
+        totalMC *
+        (wallStore.wallThickness / 1000) *
+        (wallStore.wallThickness / 1000) *
+        configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT
+      ).toFixed(3)
+    ),
   });
 
   measurements.push({
@@ -303,10 +311,13 @@ const handleBrickworkAbovePlinthCalculation = () => {
     nos: mullionColumnStore.windows,
     length: 1.524,
     breadth: 1.524,
-    depth: wallStore.wallThickness / 1000,
-    area:
-      (mullionColumnStore.windows * 1.524 * 1.524 * wallStore.wallThickness) /
-      1000,
+    depth: Number((wallStore.wallThickness / 1000).toFixed(3)),
+    area: Number(
+      (
+        (mullionColumnStore.windows * 1.524 * 1.524 * wallStore.wallThickness) /
+        1000
+      ).toFixed(3)
+    ),
   });
 
   measurements.push({
@@ -315,9 +326,13 @@ const handleBrickworkAbovePlinthCalculation = () => {
     nos: mullionColumnStore.shutters,
     length: 3,
     breadth: 3,
-    depth: wallStore.wallThickness / 1000,
-    area:
-      (mullionColumnStore.shutters * 3 * 3 * wallStore.wallThickness) / 1000,
+    depth: Number((wallStore.wallThickness / 1000).toFixed(3)),
+    area: Number(
+      (
+        (mullionColumnStore.shutters * 3 * 3 * wallStore.wallThickness) /
+        1000
+      ).toFixed(3)
+    ),
   });
 
   // ✅ Compute total deduction area

@@ -18,6 +18,7 @@ class MullionColumnStore {
   ringCc: number = 0;
   windows: number = 0;
   shutters: number = 0;
+  totalRingLength: number = 0;
 
   mullionPositions: number[][][] = []; // Stores rectangle points for each mullion
   mullionDimensions: {
@@ -51,6 +52,10 @@ class MullionColumnStore {
   }
   setShutters(shutters) {
     this.shutters = shutters;
+  }
+
+  setTotalRingLength(totalRingLength) {
+    this.totalRingLength = totalRingLength;
   }
   sethEdgeWires(groupName, hEdgeWires) {
     const group = this.polygons.find((g) => g.name === groupName);

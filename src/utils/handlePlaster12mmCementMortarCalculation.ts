@@ -222,7 +222,7 @@ const handlePlaster12mmCementMortarCalculation = () => {
       nos: mullionColumnStore.windows,
       length: windowLength,
       breadth: windowBreadth,
-      depth: wallStore.wallThickness / 1000,
+      depth: Number((wallStore.wallThickness / 1000).toFixed(3)),
       area: parseFloat(windowAreaInner.toFixed(3)),
     },
     {
@@ -231,7 +231,7 @@ const handlePlaster12mmCementMortarCalculation = () => {
       nos: mullionColumnStore.shutters,
       length: shutterLength,
       breadth: shutterBreadth,
-      depth: wallStore.wallThickness / 1000,
+      depth: Number((wallStore.wallThickness / 1000).toFixed(3)),
       area: parseFloat(shutterAreaInner.toFixed(3)),
     }
   );
@@ -281,7 +281,7 @@ const handlePlaster12mmCementMortarCalculation = () => {
       nos: mullionColumnStore.windows,
       length: windowLength,
       breadth: windowBreadth,
-      depth: wallStore.wallThickness / 1000,
+      depth: Number((wallStore.wallThickness / 1000).toFixed(3)),
       area: parseFloat(windowAreaOuter.toFixed(3)),
     },
     {
@@ -290,7 +290,7 @@ const handlePlaster12mmCementMortarCalculation = () => {
       nos: mullionColumnStore.shutters,
       length: shutterLength,
       breadth: shutterBreadth,
-      depth: wallStore.wallThickness / 1000,
+      depth: Number((wallStore.wallThickness / 1000).toFixed(3)),
       area: parseFloat(shutterAreaOuter.toFixed(3)),
     }
   );

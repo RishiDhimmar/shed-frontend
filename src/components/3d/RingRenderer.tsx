@@ -1,9 +1,162 @@
+// import React, { useMemo, useRef, useEffect } from "react";
+// import * as THREE from "three";
+// import { observer } from "mobx-react-lite";
+// import configStore from "../../stores/ConfigStore";
+// import { toJS } from "mobx";
+// import columnStore from "../../stores/ColumnStore";
+
+// const scale = 1;
+
+// const RingRenderer = observer(
+//   ({
+//     columns,
+//     centerOffset,
+//     floorY,
+//     yInterval = 250 / 1000, // Default 150mm in meters
+//     rodDiameter = 8 / 1000, // Default 8mm in meters
+//     color = "blue", // Default color
+//     cornerOffset = 0.04, // Default corner offset
+//     segmentsCount = 8, // Default number of cylinder segments
+//     height = configStore.shed3D.heights.COLUMNS,
+//     opacity = 1,
+//   }) => {
+//     // const rodDiameter = rodDiameter; // Convert diameter to radius
+//     const segments = useMemo(() => {
+//       return columns
+//         .map((c) => {
+//           const points = (c.points || []).map((p) => ({
+//             x: -(p.x / 1000 - centerOffset[0]) * scale,
+//             z: -(p.y / 1000 - centerOffset[2]) * scale,
+//           }));
+
+//           if (points.length !== 4) {
+//             console.warn(`Invalid points for column:`, toJS(c));
+//             return null;
+//           }
+
+//           const xs = points.map((p) => p.x);
+//           const zs = points.map((p) => p.z);
+
+//           const minX = Math.min(...xs);
+//           const maxX = Math.max(...xs);
+//           const minZ = Math.min(...zs);
+//           const maxZ = Math.max(...zs);
+
+//           const corners = [
+//             { x: minX + cornerOffset, z: minZ + cornerOffset }, // Bottom-left
+//             { x: maxX - cornerOffset, z: minZ + cornerOffset }, // Bottom-right
+//             { x: maxX - cornerOffset, z: maxZ - cornerOffset }, // Top-right
+//             { x: minX + cornerOffset, z: maxZ - cornerOffset }, // Top-left
+//           ];
+
+//           const yLevels = [];
+//           for (let y = floorY; y <= height + floorY; y += yInterval) {
+//             yLevels.push(y);
+//           }
+
+//           const segments = yLevels.map((y) => [
+//             {
+//               start: [corners[0].x, y, corners[0].z],
+//               end: [corners[1].x, y, corners[1].z],
+//               rotation: [0, 0, Math.PI / 2], // Along x-axis
+//               length: Math.abs(corners[1].x - corners[0].x),
+//             },
+//             {
+//               start: [corners[1].x, y, corners[1].z],
+//               end: [corners[2].x, y, corners[2].z],
+//               rotation: [Math.PI / 2, 0, 0], // Along z-axis
+//               length: Math.abs(corners[2].z - corners[1].z),
+//             },
+//             {
+//               start: [corners[2].x, y, corners[2].z],
+//               end: [corners[3].x, y, corners[3].z],
+//               rotation: [0, 0, Math.PI / 2], // Along x-axis
+//               length: Math.abs(corners[3].x - corners[2].x),
+//             },
+//             {
+//               start: [corners[3].x, y, corners[3].z],
+//               end: [corners[0].x, y, corners[0].z],
+//               rotation: [Math.PI / 2, 0, 0], // Along z-axis
+//               length: Math.abs(corners[0].z - corners[3].z),
+//             },
+//           ]);
+
+//           return {
+//             segments: segments.flat(),
+//             color,
+//           };
+//         })
+//         .filter(Boolean);
+//     }, [columns, centerOffset, floorY, yInterval, cornerOffset, color, rodDiameter]);
+
+//     const cylinderGeometry = useMemo(
+//       () => new THREE.CylinderGeometry(rodDiameter, rodDiameter, 1, segmentsCount),
+//       [rodDiameter, segmentsCount]
+//     );
+
+//     const material = useMemo(
+//       () =>
+//         new THREE.MeshBasicMaterial({
+//           color,
+//           polygonOffset: true,
+//           polygonOffsetFactor: -1,
+//           polygonOffsetUnits: -4,
+//           depthWrite: false,
+//           opacity: opacity,
+//         }),
+//       [color]
+//     );
+
+//     return (
+//       <>
+//       {}
+//         {segments.map((rect, index) => {
+//           const instanceCount = rect.segments.length;
+//           const meshRef = useRef();
+
+//           useEffect(() => {
+//             if (!meshRef.current) return;
+
+//             rect.segments.forEach((segment, segmentIndex) => {
+//               const position = [
+//                 (segment.start[0] + segment.end[0]) / 2,
+//                 segment.start[1],
+//                 (segment.start[2] + segment.end[2]) / 2,
+//               ];
+//               const matrix = new THREE.Matrix4()
+//                 .makeRotationFromEuler(
+//                   new THREE.Euler(...segment.rotation, "XYZ")
+//                 )
+//                 .setPosition(...position)
+//                 .scale(new THREE.Vector3(1, segment.length, 1));
+
+//               meshRef.current.setMatrixAt(segmentIndex, matrix);
+//             });
+
+//             meshRef.current.instanceMatrix.needsUpdate = true;
+//           }, [rect.segments]);
+
+//           return (
+//             <instancedMesh
+//               key={`rect-${index}`}
+//               ref={meshRef}
+//               args={[cylinderGeometry, material, instanceCount]}
+//             />
+//           );
+//         })}
+//       </>
+//     );
+//   }
+// );
+
+// export default RingRenderer;
+
 import React, { useMemo, useRef, useEffect } from "react";
 import * as THREE from "three";
 import { observer } from "mobx-react-lite";
 import configStore from "../../stores/ConfigStore";
 import { toJS } from "mobx";
-import columnStore from "../../stores/ColumnStore";
+import mullionColumnStore from "../../stores/MullianColumnStore";
 
 const scale = 1;
 
@@ -12,17 +165,19 @@ const RingRenderer = observer(
     columns,
     centerOffset,
     floorY,
-    yInterval = 250 / 1000, // Default 150mm in meters
+    yInterval = 250 / 1000, // Default 250mm in meters
     rodDiameter = 8 / 1000, // Default 8mm in meters
-    color = "blue", // Default color
-    cornerOffset = 0.04, // Default corner offset
-    segmentsCount = 8, // Default number of cylinder segments
+    color = "blue",
+    cornerOffset = 0.04,
+    segmentsCount = 8,
     height = configStore.shed3D.heights.COLUMNS,
     opacity = 1,
+    onCalculateTotalLength,
   }) => {
-    // const rodDiameter = rodDiameter; // Convert diameter to radius
-    const segments = useMemo(() => {
-      return columns
+    const { segments: segmentData, totalLength } = useMemo(() => {
+      let totalLength = 0;
+
+      const segmentData = columns
         .map((c) => {
           const points = (c.points || []).map((p) => ({
             x: -(p.x / 1000 - centerOffset[0]) * scale,
@@ -43,10 +198,10 @@ const RingRenderer = observer(
           const maxZ = Math.max(...zs);
 
           const corners = [
-            { x: minX + cornerOffset, z: minZ + cornerOffset }, // Bottom-left
-            { x: maxX - cornerOffset, z: minZ + cornerOffset }, // Bottom-right
-            { x: maxX - cornerOffset, z: maxZ - cornerOffset }, // Top-right
-            { x: minX + cornerOffset, z: maxZ - cornerOffset }, // Top-left
+            { x: minX + cornerOffset, z: minZ + cornerOffset },
+            { x: maxX - cornerOffset, z: minZ + cornerOffset },
+            { x: maxX - cornerOffset, z: maxZ - cornerOffset },
+            { x: minX + cornerOffset, z: maxZ - cornerOffset },
           ];
 
           const yLevels = [];
@@ -54,43 +209,64 @@ const RingRenderer = observer(
             yLevels.push(y);
           }
 
-          const segments = yLevels.map((y) => [
-            {
-              start: [corners[0].x, y, corners[0].z],
-              end: [corners[1].x, y, corners[1].z],
-              rotation: [0, 0, Math.PI / 2], // Along x-axis
-              length: Math.abs(corners[1].x - corners[0].x),
-            },
-            {
-              start: [corners[1].x, y, corners[1].z],
-              end: [corners[2].x, y, corners[2].z],
-              rotation: [Math.PI / 2, 0, 0], // Along z-axis
-              length: Math.abs(corners[2].z - corners[1].z),
-            },
-            {
-              start: [corners[2].x, y, corners[2].z],
-              end: [corners[3].x, y, corners[3].z],
-              rotation: [0, 0, Math.PI / 2], // Along x-axis
-              length: Math.abs(corners[3].x - corners[2].x),
-            },
-            {
-              start: [corners[3].x, y, corners[3].z],
-              end: [corners[0].x, y, corners[0].z],
-              rotation: [Math.PI / 2, 0, 0], // Along z-axis
-              length: Math.abs(corners[0].z - corners[3].z),
-            },
-          ]);
+          const segments = yLevels.flatMap((y) => {
+            const segs = [
+              {
+                start: [corners[0].x, y, corners[0].z],
+                end: [corners[1].x, y, corners[1].z],
+                rotation: [0, 0, Math.PI / 2],
+                length: Math.abs(corners[1].x - corners[0].x),
+              },
+              {
+                start: [corners[1].x, y, corners[1].z],
+                end: [corners[2].x, y, corners[2].z],
+                rotation: [Math.PI / 2, 0, 0],
+                length: Math.abs(corners[2].z - corners[1].z),
+              },
+              {
+                start: [corners[2].x, y, corners[2].z],
+                end: [corners[3].x, y, corners[3].z],
+                rotation: [0, 0, Math.PI / 2],
+                length: Math.abs(corners[3].x - corners[2].x),
+              },
+              {
+                start: [corners[3].x, y, corners[3].z],
+                end: [corners[0].x, y, corners[0].z],
+                rotation: [Math.PI / 2, 0, 0],
+                length: Math.abs(corners[0].z - corners[3].z),
+              },
+            ];
+
+            segs.forEach((seg) => {
+              totalLength += seg.length;
+            });
+
+            return segs;
+          });
 
           return {
-            segments: segments.flat(),
+            segments,
             color,
           };
         })
         .filter(Boolean);
-    }, [columns, centerOffset, floorY, yInterval, cornerOffset, color, rodDiameter]);
+
+      return { segments: segmentData, totalLength };
+    }, [
+      columns,
+      centerOffset,
+      floorY,
+      yInterval,
+      cornerOffset,
+      color,
+      rodDiameter,
+    ]);
+
+    onCalculateTotalLength(totalLength);
 
     const cylinderGeometry = useMemo(
-      () => new THREE.CylinderGeometry(rodDiameter, rodDiameter, 1, segmentsCount),
+      () =>
+        new THREE.CylinderGeometry(rodDiameter, rodDiameter, 1, segmentsCount),
       [rodDiameter, segmentsCount]
     );
 
@@ -103,14 +279,14 @@ const RingRenderer = observer(
           polygonOffsetUnits: -4,
           depthWrite: false,
           opacity: opacity,
+          transparent: opacity < 1,
         }),
-      [color]
+      [color, opacity]
     );
 
     return (
       <>
-      {}
-        {segments.map((rect, index) => {
+        {segmentData.map((rect, index) => {
           const instanceCount = rect.segments.length;
           const meshRef = useRef();
 
