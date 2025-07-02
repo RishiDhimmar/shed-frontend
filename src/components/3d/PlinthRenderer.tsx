@@ -47,6 +47,7 @@ import { convertToPointObjects } from "../../utils/PolygonUtils";
 import AnyShapeRenderer from "./AnyShapeExtrudeRenderer";
 import { Shed3DConfig } from "../../Constants";
 import configStore from "../../stores/ConfigStore";
+import wallStore from "../../stores/WallStore";
 
 // Point-in-polygon function to check if a point is inside a polygon
 const isPointInPolygon = (point, polygon) => {
@@ -247,6 +248,25 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0, 0], scale = 1 }) => {
   const rodGeometry = new THREE.CylinderGeometry(0.008, 0.008, 1, 8); // Unit length, scaled per instance
   const extensionGeometry = new THREE.CylinderGeometry(0.008, 0.008, 1, 8); // Unit length, scaled per instance
   const material = <meshBasicMaterial color="gray" depthWrite={false} />;
+
+  let totalLength = 0;
+  horizontalRods.forEach((rod) => {
+    totalLength += rod.length;
+  });
+  verticalRods.forEach((rod) => {
+    totalLength += rod.length;
+  });
+  rodExtensions.forEach((rod) => {
+    totalLength += rod.length;
+  });
+  console.log(
+    "Total length",
+    totalLength,
+    horizontalRods.length,
+    verticalRods.length
+  );
+
+  wallStore.setGradeSlabLength(totalLength);
 
   return (
     <>
