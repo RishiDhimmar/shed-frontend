@@ -420,16 +420,14 @@ const ColumnRenderer = observer(
                       wireLength / 2 + floorY,
                       -(wire.y / 1000 - centerOffset[2]) * scale,
                     ]}
-                    castShadow
-                    receiveShadow
                   >
                     <meshBasicMaterial
                       color={color}
-                      polygonOffset
-                      polygonOffsetFactor={-1}
-                      polygonOffsetUnits={-4}
-                      depthWrite={false}
-                      opacity={0.5}
+                      // polygonOffset
+                      // polygonOffsetFactor={-1}
+                      // polygonOffsetUnits={-4}
+                      // depthWrite={false}
+                      // opacity={0.5}
                     />
                   </mesh>
                   <mesh
@@ -534,10 +532,10 @@ const ColumnRenderer = observer(
                   >
                     <meshBasicMaterial
                       color={color}
-                      polygonOffset
-                      polygonOffsetFactor={-1}
-                      polygonOffsetUnits={-4}
-                      depthWrite={false}
+                      // polygonOffset
+                      // polygonOffsetFactor={-1}
+                      // polygonOffsetUnits={-4}
+                      // depthWrite={false}
                     />
                   </mesh>
                 </group>

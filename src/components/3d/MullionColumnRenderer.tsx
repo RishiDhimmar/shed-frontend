@@ -272,10 +272,10 @@ const MullionColumnRenderer = observer(
     const glassMaterial = useMemo(
       () =>
         new MeshBasicMaterial({
-          color: "transparent",
+          color: "white",
           transparent: true,
           opacity: 0.9,
-          depthWrite: false,
+          // depthWrite: false,
         }),
       []
     );
@@ -283,8 +283,8 @@ const MullionColumnRenderer = observer(
     const outlineMaterial = useMemo(
       () =>
         new LineBasicMaterial({
-          color: "black",
-          linewidth: 2,
+          color: "gray",
+          linewidth: 1,
         }),
       []
     );
@@ -364,6 +364,7 @@ const MullionColumnRenderer = observer(
               rotation={window.rotation}
               ref={(el) => (windowRefs.current[index] = el)}
               onClick={(e) => handleWindowClick(index, e)}
+              renderOrder={5}
             >
               <mesh
                 scale={[1, 1, window.thickness / (isShutter ? 1 : 1.524)]}

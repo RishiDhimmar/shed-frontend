@@ -115,6 +115,7 @@ interface AnyShapeRendererProps {
   color?: string;
   opacity?: number;
   outlineColor?: string;
+  renderOrder?: number;
 }
 
 const AnyShapeRenderer: React.FC<AnyShapeRendererProps> = ({
@@ -125,6 +126,7 @@ const AnyShapeRenderer: React.FC<AnyShapeRendererProps> = ({
   color = "magenta",
   opacity = 0.5,
   outlineColor = "black",
+  renderOrder = 1,
 }) => {
   // Main geometry
   const geometry = useMemo(() => {
@@ -186,6 +188,7 @@ const AnyShapeRenderer: React.FC<AnyShapeRendererProps> = ({
         color,
         opacity,
         transparent: true,
+        depthTest: false,
         depthWrite: false,
       }),
     [color, opacity]
@@ -202,13 +205,13 @@ const AnyShapeRenderer: React.FC<AnyShapeRendererProps> = ({
   );
 
   return (
-    <group rotation={[-Math.PI / 2, 0, 0]} position={meshPosition}>
+    <group
+      rotation={[-Math.PI / 2, 0, 0]}
+      position={meshPosition}
+      renderOrder={renderOrder}
+    >
       <mesh geometry={geometry} material={material} receiveShadow />
-      <lineSegments
-        geometry={edgesGeometry}
-        material={outlineMaterial}
-        renderOrder={10}
-      />
+      <lineSegments geometry={edgesGeometry} material={outlineMaterial} />
     </group>
   );
 };

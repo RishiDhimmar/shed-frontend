@@ -33,7 +33,7 @@ const MultiRingRenderer = observer(
 
       // Generate y-levels
       const yLevels = [];
-      for (let y = floorY; y <= height + floorY; y += yInterval) {
+      for (let y = floorY; y <= height + floorY - 0.01; y += yInterval) {
         yLevels.push(y);
       }
 
@@ -194,6 +194,7 @@ const MultiRingRenderer = observer(
                   polygonOffset: true,
                   opacity: 0.5,
                   transparent: opacity < 1,
+                  depthWrite: false,
                 });
               }, [ringColor, rect.color, opacity]);
 
@@ -224,7 +225,7 @@ const MultiRingRenderer = observer(
                   key={`rect-${index}-ring-${ringIndex}`}
                   ref={meshRef}
                   args={[cylinderGeometry, material, instanceCount]}
-                  renderOrder={100}
+                  // renderOrder={100}
                 />
               );
             }

@@ -81,22 +81,23 @@ const Experience = observer(() => {
       {/* Cameras */}
 
       {/* <OrthographicCamera
-        ref={cameraRef}
         makeDefault
-        position={[5, 5, 5]}
+        ref={cameraRef}
         zoom={100}
-        near={0.000000000001}
-        far={10000000000}
+        near={-10000000000000000000000000}
+        far={10000000000000000000}
+        position={[0, 0, 10]} // z=10 for visibility
       /> */}
 
       <PerspectiveCamera
         ref={cameraRef}
         makeDefault
         position={[0, 5, 0]}
-        fov={50}
-        near={0.000000000001}
-        far={10000000000}
+        fov={60}
+        near={0.1}
+        far={10000}
       />
+
       {/* <axesHelper args={[5]} /> */}
 
       {/* Controls */}
@@ -116,7 +117,7 @@ const Experience = observer(() => {
         dampingFactor={1} // similar to smoothTime
         maxPolarAngle={Math.PI / 1.5}
         minPolarAngle={0}
-        zoomSpeed={1} // similar to dollySpeed
+        zoomSpeed={5} // similar to dollySpeed
         panSpeed={0.5} // similar to truckSpeed
         rotateSpeed={1} // default or tweakable
       />

@@ -253,8 +253,8 @@ class DxfStore {
     const baseplateWidth = 550;
     const baseplateHeight = 330;
 
-    const offsetX = 75 + 550 / 2 + 250;
-    const offsetY = 75 + 330 / 2 + 250;
+    const offsetX = 90 + 550 / 2 + 250;
+    const offsetY = 90 + 330 / 2 + 250;
 
     const colStartX = bounds.minX + offsetX;
     const colEndX = bounds.maxX - offsetX;

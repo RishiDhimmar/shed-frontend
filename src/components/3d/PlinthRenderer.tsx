@@ -293,6 +293,7 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0, 0], scale = 1 }) => {
           configStore.shed3D.heights.PLINTH_Z_HEIGHT
         }
         color="gray"
+        renderOrder={-4}
       />
       <AnyShapeRenderer
         bottomPoints={transformedPoints}
@@ -304,6 +305,7 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0, 0], scale = 1 }) => {
           0.23
         }
         color="darkgrey"
+        renderOrder={-1}
       />
       {horizontalRods.length && (
         <instancedMesh
@@ -351,6 +353,7 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0, 0], scale = 1 }) => {
           y={0}
           color="yellow"
           opacity={0.5}
+          renderOrder={-5}
         />
       </mesh>
     </>
