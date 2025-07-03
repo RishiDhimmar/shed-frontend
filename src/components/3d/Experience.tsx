@@ -93,7 +93,7 @@ const Experience = observer(() => {
         ref={cameraRef}
         makeDefault
         position={[0, 5, 0]}
-        fov={60}
+        fov={50}
         near={0.1}
         far={10000}
       />
