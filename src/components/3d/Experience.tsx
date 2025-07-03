@@ -6,6 +6,10 @@ import {
   CameraControls,
   Grid,
   Html,
+  GizmoHelper,
+  GizmoViewport,
+  GizmoViewcube,
+  OrbitControls,
 } from "@react-three/drei";
 import * as THREE from "three";
 
@@ -96,7 +100,7 @@ const Experience = observer(() => {
       {/* <axesHelper args={[5]} /> */}
 
       {/* Controls */}
-      <CameraControls
+      {/* <CameraControls
         ref={controlsRef}
         maxPolarAngle={Math.PI / 1.5}
         minPolarAngle={0}
@@ -104,6 +108,17 @@ const Experience = observer(() => {
         truckSpeed={0.5}
         smoothTime={0.8}
         dampingFactor={0.05}
+      /> */}
+
+      <OrbitControls
+        // ref={controlsRef}
+        enableDamping={true}
+        dampingFactor={1} // similar to smoothTime
+        maxPolarAngle={Math.PI / 1.5}
+        minPolarAngle={0}
+        zoomSpeed={1} // similar to dollySpeed
+        panSpeed={0.5} // similar to truckSpeed
+        rotateSpeed={1} // default or tweakable
       />
 
       {/* Lights */}
@@ -129,6 +144,19 @@ const Experience = observer(() => {
         position={[0, -0.01, 0]}
       />
       */}
+
+      <GizmoHelper
+        alignment="bottom-right"
+        margin={[80, 100]}
+        // controls={controlsRef}
+      >
+        <GizmoViewcube
+          faces={["Right", "Left", "Top", "", "Front", "Back"]}
+          hoverColor="lightblue"
+          color="white"
+          textColor="black"
+        />
+      </GizmoHelper>
 
       {/* Scene Renderers */}
       <FoundationsRenderer centerOffset={centerOffset} scale={0.1} />

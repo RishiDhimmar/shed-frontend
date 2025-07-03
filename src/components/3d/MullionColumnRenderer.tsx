@@ -61,7 +61,7 @@ const MullionColumnRenderer = observer(
             height,
             position: [
               centerX,
-              configStore.shed3D.heights.COLUMNS + height / 2,
+              configStore.shed3D.heights.PLINTH + height / 2,
               centerZ,
             ],
             color: "red",
@@ -94,7 +94,7 @@ const MullionColumnRenderer = observer(
             cylinderInstances.push({
               position: [
                 corner.x,
-                configStore.shed3D.heights.COLUMNS + height / 2,
+                configStore.shed3D.heights.PLINTH + height / 2,
                 corner.z,
               ],
               height,
@@ -335,7 +335,7 @@ const MullionColumnRenderer = observer(
           rodDiameter={configStore.RINGS.MULLION_COLUMNS.diameter}
           yInterval={configStore.RINGS.MULLION_COLUMNS.gap}
           color="red"
-          floorY={configStore.shed3D.heights.COLUMNS}
+          floorY={configStore.shed3D.heights.PLINTH}
           height={configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT}
           opacity={1}
           onCalculateTotalLength={(totalLength) => {

@@ -591,6 +591,7 @@ const ShedWallRenderer = observer(
       const copingBeamInstances = [];
       const cylinderInstances = [];
       const verticalLines = [];
+      const copingBeamAtPlinthInstances = [];
       let totalCylindersAndLinesLength = 0; // Track total length of cylinders and vertical lines
 
       // Ensure we have enough points to form at least one beam
@@ -604,6 +605,7 @@ const ShedWallRenderer = observer(
           plaster: [],
           brickWall: [],
           copingBeam: [],
+          copingBeamAtPlinth: [],
           cylinders: [],
           verticalLines: [],
           totalCylindersAndLinesLength: 0,
@@ -690,8 +692,7 @@ const ShedWallRenderer = observer(
             length,
             position: [
               centerX,
-              configStore.shed3D.heights.COLUMNS +
-                configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT / 2,
+              configStore.shed3D.heights.PLINTH + height / 2,
               centerZ,
             ],
             rotation: [0, angle, 0],
@@ -726,8 +727,20 @@ const ShedWallRenderer = observer(
             position: [
               centerX,
               configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT +
-                configStore.shed3D.heights.COLUMNS -
+                configStore.shed3D.heights.PLINTH -
                 COPING_BEAM_HEIGHT / 2,
+              centerZ,
+            ],
+            rotation: [0, angle, 0],
+            color: "cyan",
+          });
+          copingBeamAtPlinthInstances.push({
+            width,
+            height: configStore.shed3D.heights.PLINTH_Z_HEIGHT,
+            length,
+            position: [
+              centerX,
+              configStore.shed3D.heights.PLINTH - COPING_BEAM_HEIGHT / 2,
               centerZ,
             ],
             rotation: [0, angle, 0],
@@ -777,8 +790,22 @@ const ShedWallRenderer = observer(
                   position: [
                     cornerX,
                     configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT +
-                      configStore.shed3D.heights.COLUMNS -
+                      configStore.shed3D.heights.PLINTH -
                       COPING_BEAM_HEIGHT / 2,
+                    cornerZ,
+                  ],
+                  rotation: [0, 0, 0],
+                  color: "purple",
+                });
+
+                // same entry with different height
+                verticalLines.push({
+                  radius: 0.008,
+                  height: verticalHeight,
+                  position: [
+                    cornerX,
+                    configStore.shed3D.heights.PLINTH -
+                      configStore.shed3D.heights.PLINTH_Z_HEIGHT / 2,
                     cornerZ,
                   ],
                   rotation: [0, 0, 0],
@@ -830,8 +857,23 @@ const ShedWallRenderer = observer(
                   position: [
                     midX,
                     configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT +
-                      configStore.shed3D.heights.COLUMNS -
+                      configStore.shed3D.heights.PLINTH -
                       COPING_BEAM_HEIGHT / 2 +
+                      verticalOffset,
+                    midZ,
+                  ],
+                  rotation: [Math.PI / 2, 0, connAngle + Math.PI / 2],
+                  color: "purple",
+                });
+
+                // same entry with different height
+                verticalLines.push({
+                  radius: 0.008,
+                  height: connectionLength,
+                  position: [
+                    midX,
+                    configStore.shed3D.heights.PLINTH -
+                      configStore.shed3D.heights.PLINTH_Z_HEIGHT / 2 +
                       verticalOffset,
                     midZ,
                   ],
@@ -859,7 +901,7 @@ const ShedWallRenderer = observer(
                   ? centerX
                   : centerX + 0.05,
                 configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT +
-                  configStore.shed3D.heights.COLUMNS -
+                  configStore.shed3D.heights.PLINTH -
                   COPING_BEAM_HEIGHT / 2 -
                   0.05,
                 angle === Math.PI / 2 || angle === -Math.PI / 2
@@ -877,7 +919,7 @@ const ShedWallRenderer = observer(
                   ? centerX
                   : centerX - 0.05,
                 configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT +
-                  configStore.shed3D.heights.COLUMNS -
+                  configStore.shed3D.heights.PLINTH -
                   COPING_BEAM_HEIGHT / 2 -
                   0.05,
                 angle === Math.PI / 2 || angle === -Math.PI / 2
@@ -915,6 +957,78 @@ const ShedWallRenderer = observer(
                 configStore.shed3D.heights.MULLION_COLUMNS_Z_HEIGHT +
                   configStore.shed3D.heights.COLUMNS -
                   COPING_BEAM_HEIGHT / 2 +
+                  0.05,
+                angle === Math.PI / 2 || angle === -Math.PI / 2
+                  ? centerZ
+                  : centerZ + 0.05,
+              ],
+              rotation: [0, angle, 0],
+              color: "blue",
+            }
+          );
+
+          //push the same entires again but with different height
+          cylinderInstances.push(
+            {
+              radius: CYLINDER_RADIUS,
+              height: cylinderHeight,
+              position: [
+                angle === 0 || angle === Math.PI || angle === -Math.PI
+                  ? centerX
+                  : centerX + 0.05,
+                configStore.shed3D.heights.PLINTH -
+                  configStore.shed3D.heights.PLINTH_Z_HEIGHT / 2 -
+                  0.05,
+                angle === Math.PI / 2 || angle === -Math.PI / 2
+                  ? centerZ
+                  : centerZ - 0.05,
+              ],
+              rotation: [0, angle, 0],
+              color: "blue",
+            },
+            {
+              radius: CYLINDER_RADIUS,
+              height: cylinderHeight,
+              position: [
+                angle === 0 || angle === Math.PI || angle === -Math.PI
+                  ? centerX
+                  : centerX - 0.05,
+                configStore.shed3D.heights.PLINTH -
+                  configStore.shed3D.heights.PLINTH_Z_HEIGHT / 2 -
+                  0.05,
+                angle === Math.PI / 2 || angle === -Math.PI / 2
+                  ? centerZ
+                  : centerZ + 0.05,
+              ],
+              rotation: [0, angle, 0],
+              color: "blue",
+            },
+            {
+              radius: CYLINDER_RADIUS,
+              height: cylinderHeight,
+              position: [
+                angle === 0 || angle === Math.PI || angle === -Math.PI
+                  ? centerX
+                  : centerX + 0.05,
+                configStore.shed3D.heights.PLINTH -
+                  configStore.shed3D.heights.PLINTH_Z_HEIGHT / 2 +
+                  0.05,
+                angle === Math.PI / 2 || angle === -Math.PI / 2
+                  ? centerZ
+                  : centerZ - 0.05,
+              ],
+              rotation: [0, angle, 0],
+              color: "blue",
+            },
+            {
+              radius: CYLINDER_RADIUS,
+              height: cylinderHeight,
+              position: [
+                angle === 0 || angle === Math.PI || angle === -Math.PI
+                  ? centerX
+                  : centerX - 0.05,
+                configStore.shed3D.heights.PLINTH -
+                  configStore.shed3D.heights.PLINTH_Z_HEIGHT / 2 +
                   0.05,
                 angle === Math.PI / 2 || angle === -Math.PI / 2
                   ? centerZ
@@ -977,6 +1091,7 @@ const ShedWallRenderer = observer(
         plaster: plasterInstances,
         brickWall: brickWallInstances,
         copingBeam: copingBeamInstances,
+        copingBeamAtPlinth: copingBeamAtPlinthInstances,
         cylinders: cylinderInstances,
         verticalLines,
         totalCylindersAndLinesLength, // Include total length
@@ -1037,6 +1152,7 @@ const ShedWallRenderer = observer(
         </group>
         <group visible={uiStore.visibility.copingBeam}>
           <BoxRenderer instances={instances.copingBeam} />
+          <BoxRenderer instances={instances.copingBeamAtPlinth} />
         </group>
         <group visible={uiStore.visibility.plaster}>
           {instances.plaster.map((plaster, index) => (

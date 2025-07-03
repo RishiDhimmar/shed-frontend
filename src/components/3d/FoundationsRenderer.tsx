@@ -53,6 +53,7 @@ const FoundationsRenderer = observer(({ centerOffset }) => {
       }));
 
     const outerPoints = transformPoints(f.outerFoundationPoints);
+    const ppcPoints = transformPoints(f.ppcPoints);
     const excavationBottomPoints = transformPoints(f.excavationBottomPoints);
     const innerPoints = transformPoints(f.innerFoundationPoints);
     const isGroup2 = groupMap[f.group];
@@ -278,6 +279,34 @@ const FoundationsRenderer = observer(({ centerOffset }) => {
                 yDepth={heights.frustumHeight}
               />
               <RCCRenderer bottomPoints={outerPoints} />
+              {/* ppc */}
+              <group
+                position={[
+                  0,
+                  0 - configStore.shed3D.heights.RCC / 2 - 0.125 / 2,
+                  0,
+                ]}
+              >
+                <RCCRenderer
+                  bottomPoints={ppcPoints}
+                  height={0.125}
+                  color="magenta"
+                />
+              </group>
+              {/* rubble soliling */}
+              <group
+                position={[
+                  0,
+                  -configStore.shed3D.heights.RCC / 2 - 0.125 - 0.23 / 2,
+                  0,
+                ]}
+              >
+                <RCCRenderer
+                  bottomPoints={ppcPoints}
+                  height={heights.rccHeight}
+                  color="gray"
+                />
+              </group>
             </>
           )}
           {pileLinesMesh && <primitive object={pileLinesMesh} />}
