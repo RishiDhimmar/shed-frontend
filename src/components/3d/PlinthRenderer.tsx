@@ -47,6 +47,7 @@ import { convertToPointObjects } from "../../utils/PolygonUtils";
 import AnyShapeRenderer from "./AnyShapeExtrudeRenderer";
 import { Shed3DConfig } from "../../Constants";
 import configStore from "../../stores/ConfigStore";
+import wallStore from "../../stores/WallStore";
 
 // Point-in-polygon function to check if a point is inside a polygon
 const isPointInPolygon = (point, polygon) => {
@@ -93,9 +94,23 @@ const linePolygonIntersections = (lineStart, lineEnd, polygon) => {
 };
 
 const PlinthRenderer = observer(({ centerOffset = [0, 0, 0], scale = 1 }) => {
+  // let externalWallPoints = useMemo(() => {
+  //   return convertToPointObjects(toJS(dxfStore.externalWallPolygon)) || [];
+  // }, [dxfStore.externalWallPolygon]);
+
   const externalWallPoints = useMemo(() => {
-    return convertToPointObjects(toJS(dxfStore.externalWallPolygon)) || [];
-  }, [dxfStore.externalWallPolygon]);
+    return (
+      convertToPointObjects(
+        toJS(
+          dxfStore.internalWallPolygon.filter(
+            (_, index) => (index + 1) % 3 !== 0
+          )
+        )
+      ) || []
+    );
+  }, [dxfStore.internalWallPolygon]);
+
+  console.log("externalWallPoints", externalWallPoints);
 
   // Transform points to match the original coordinate system
   const transformedPoints = useMemo(() => {
@@ -248,6 +263,25 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0, 0], scale = 1 }) => {
   const extensionGeometry = new THREE.CylinderGeometry(0.008, 0.008, 1, 8); // Unit length, scaled per instance
   const material = <meshBasicMaterial color="gray" depthWrite={false} />;
 
+  let totalLength = 0;
+  horizontalRods.forEach((rod) => {
+    totalLength += rod.length;
+  });
+  verticalRods.forEach((rod) => {
+    totalLength += rod.length;
+  });
+  rodExtensions.forEach((rod) => {
+    totalLength += rod.length;
+  });
+  console.log(
+    "Total length",
+    totalLength,
+    horizontalRods.length,
+    verticalRods.length
+  );
+
+  wallStore.setGradeSlabLength(totalLength);
+
   return (
     <>
       <AnyShapeRenderer
@@ -259,6 +293,17 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0, 0], scale = 1 }) => {
           configStore.shed3D.heights.PLINTH_Z_HEIGHT
         }
         color="gray"
+      />
+      <AnyShapeRenderer
+        bottomPoints={transformedPoints}
+        height={0.23}
+        centerOffset={[0, 0, 0]}
+        y={
+          configStore.shed3D.heights.PLINTH -
+          configStore.shed3D.heights.PLINTH_Z_HEIGHT -
+          0.23
+        }
+        color="darkgrey"
       />
       {horizontalRods.length && (
         <instancedMesh
@@ -290,6 +335,24 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0, 0], scale = 1 }) => {
           {material}
         </instancedMesh>
       )}
+      <mesh
+        position={[
+          0,
+          configStore.shed3D.heights.GROUND_BEAM +
+            configStore.shed3D.heights.GB_Z_HEIGHT / 2,
+          0,
+        ]}
+        // rotation={[-Math.PI / 2, 0, 0]}
+      >
+        <AnyShapeRenderer
+          bottomPoints={transformedPoints}
+          height={0.001} // Unit length
+          centerOffset={[0, 0, 0]}
+          y={0}
+          color="yellow"
+          opacity={0.5}
+        />
+      </mesh>
     </>
   );
 });

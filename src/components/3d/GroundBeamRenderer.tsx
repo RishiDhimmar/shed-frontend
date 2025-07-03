@@ -1922,6 +1922,20 @@ const GroundBeamRenderer = observer(
             <meshBasicMaterial color="purple" depthWrite={false} />
           </instancedMesh>
         )}
+        {columnRods.map((rod, index) => (
+          <mesh
+            key={`rod-${index}`}
+            position={rod.position}
+            rotation={rod.rotation}
+            depthWrite={false}
+          >
+            {/* {console.log(rod)} */}
+            <cylinderGeometry
+              args={[rod.radius * 2, rod.radius * 2, rod.height, 8]}
+            />
+            <meshBasicMaterial color={rod.color} depthWrite={false} />
+          </mesh>
+        ))}
       </>
     );
   }

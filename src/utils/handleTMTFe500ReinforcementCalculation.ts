@@ -131,10 +131,21 @@ const handleTMTFe500ReinforcementCalculation = () => {
     area: copingBeamLength,
   });
 
+  //grade slab
+  const gradeSlabLength = wallStore.gradeSlabLength;
+  measurements.push({
+    id: "grade-slab",
+    description: "Grade Slab",
+    nos: 1,
+    length: gradeSlabLength,
+    breadth: 0,
+    depth: 0,
+    area: gradeSlabLength,
+  });
+
   items.tmt_fe500_reinforcement.measurements = measurements;
-  items.tmt_fe500_reinforcement.total = measurements
-    .reduce((sum, m) => sum + m.area, 0)
-    .toFixed(3);
+  items.tmt_fe500_reinforcement.total =
+    (measurements.reduce((sum, m) => sum + m.area, 0) * 8 * 8) / 162;
 };
 
 export default handleTMTFe500ReinforcementCalculation;

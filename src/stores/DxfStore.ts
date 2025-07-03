@@ -50,7 +50,6 @@ class DxfStore {
   //   -37500,
   //   50000, // 6. top-left
   // ];
-  
 
   externalWallPoints = convertToPointObjects(this.externalWallPolygon);
   internalWallPolygon = null; // Changed from [] to null for proper initial state
@@ -138,8 +137,6 @@ class DxfStore {
         uiStore.toggleVisibility("circles");
         uiStore.toggleVisibility("annotation");
         // uiStore.toggleVisibility("polygons");
-        
-        
 
         return flatArray;
       }
@@ -302,7 +299,7 @@ class DxfStore {
           y: p.y,
           z: 0,
         })),
-        -250
+        -325.31
       )
     );
 
@@ -312,9 +309,7 @@ class DxfStore {
     this.recursiveRaycastingFromPolygon();
     baseplateStore.generateLabels();
     baseplateStore.processBasePlates();
-    console.log(toJS(baseplateStore.groups));
     columnStore.generateColumnsInputs(baseplateStore.groups);
-    console.log(toJS(columnStore.columnInputs));
     columnStore.generateColumnPolygons(baseplateStore.groups);
     foundationStore.generateFoundationInputs();
     foundationStore.generateFoundations();

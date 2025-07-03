@@ -19,6 +19,7 @@ export class WallStore {
   beamRodData = [];
   beamTotalLength = 0;
   copingBeamLength = 0;
+  gradeSlabLength = 0;
 
   constructor(width = 0, height = 0, wallThickness = 0) {
     this.width = width;
@@ -47,6 +48,10 @@ export class WallStore {
   }
   setCopingBeamLength(newCopingBeamLength) {
     this.copingBeamLength = newCopingBeamLength;
+    // uiStore.setModified(true);
+  }
+  setGradeSlabLength(newGradeSlabLength) {
+    this.gradeSlabLength = newGradeSlabLength;
     // uiStore.setModified(true);
   }
 
