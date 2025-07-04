@@ -17,7 +17,7 @@ const Navbar = observer(() => {
         {uiStore.projectName ? (
           <div className="text-sm ml-3">{uiStore.projectName}</div>
         ) : (
-          <>{console.log(uiStore.projectName)}</>
+          <></>
         )}
       </div>
       <div className="flex gap-5">

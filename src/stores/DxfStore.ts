@@ -60,7 +60,6 @@ class DxfStore {
 
   constructor() {
     makeAutoObservable(this);
-    console.log("External wall polygon", toJS(this.externalWallPolygon));
   }
 
   setCandidatePolygons(polygons) {
@@ -243,7 +242,6 @@ class DxfStore {
     idealVerticalDistance = baseplateStore.idealVerticalDistance * 1000 || 7000
   ) {
     const bounds = getBounds(convertToPointObjects(this.externalWallPolygon));
-    console.log(bounds);
     this.candidatePolygons = [];
     this.internalWallPolygon = [];
     baseplateStore.reset();
@@ -279,8 +277,6 @@ class DxfStore {
         bspPoints.push({ x, y });
       }
     }
-
-    console.log("Baseplate centers:", bspPoints);
 
     this.candidatePolygons = bspPoints.map((pt) =>
       getRectanglePoints(baseplateWidth, baseplateHeight, [pt.x, pt.y]).map(

@@ -98,7 +98,8 @@ const MultiRingRenderer = observer(
                     start: [ringCorners[0].x, y, ringCorners[0].z],
                     end: [ringCorners[1].x, y, ringCorners[1].z],
                     rotation: [0, 0, Math.PI / 2],
-                    length: Math.abs(ringCorners[1].x - ringCorners[0].x),
+                    length:
+                      Math.abs(ringCorners[1].x - ringCorners[0].x) + 0.02,
                     color: ringColor,
                   },
                   {
@@ -112,17 +113,27 @@ const MultiRingRenderer = observer(
                     start: [ringCorners[2].x, y, ringCorners[2].z],
                     end: [ringCorners[3].x, y, ringCorners[3].z],
                     rotation: [0, 0, Math.PI / 2],
-                    length: Math.abs(ringCorners[3].x - ringCorners[2].x),
+                    length:
+                      Math.abs(ringCorners[3].x - ringCorners[2].x) + 0.02,
                     color: ringColor,
                   },
-                  {
+                  // {
+                  //   start: [ringCorners[3].x, y, ringCorners[3].z],
+                  //   end: [ringCorners[0].x, y, ringCorners[0].z],
+                  //   rotation: [Math.PI / 2, 0, 0],
+                  //   length: Math.abs(ringCorners[0].z - ringCorners[3].z),
+                  //   color: ringColor,
+                  // },
+                ];
+                if (from !== to) {
+                  segments.push({
                     start: [ringCorners[3].x, y, ringCorners[3].z],
                     end: [ringCorners[0].x, y, ringCorners[0].z],
                     rotation: [Math.PI / 2, 0, 0],
                     length: Math.abs(ringCorners[0].z - ringCorners[3].z),
                     color: ringColor,
-                  },
-                ];
+                  });
+                }
 
                 // Accumulate lengths for this ring
                 segments.forEach((segment) => {

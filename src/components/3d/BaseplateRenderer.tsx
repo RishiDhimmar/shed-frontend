@@ -120,7 +120,7 @@ const VerticalBox = ({ center, index }) => {
         geometry={outlineGeometry}
         material={outlineMaterial}
         position={position}
-        // renderOrder={1000}
+        renderOrder={1000}
       />
     </>
   );
@@ -152,9 +152,9 @@ const VLegConnector = ({ fromPos, toPos, fromId, toId }) => {
       new THREE.MeshBasicMaterial({
         color: "gray",
         depthTest: false,
-        depthWrite: false,
+        // depthWrite: false,
         transparent: true,
-        opacity: 1,
+        opacity: 0.9,
       }),
     // new THREE.MeshStandardMaterial({
     //   color: "red",
@@ -170,7 +170,7 @@ const VLegConnector = ({ fromPos, toPos, fromId, toId }) => {
     () =>
       new THREE.LineBasicMaterial({
         color: "black",
-        linewidth: 2,
+        linewidth: 1,
       }),
     []
   );
@@ -268,7 +268,7 @@ const VLegConnector = ({ fromPos, toPos, fromId, toId }) => {
         position={[leg1Mid.x, leg1Mid.y - 0.19, -leg1Mid.z]}
         rotation={[-Math.PI / 2, 0, 0]}
         quaternion={leg1Quat}
-        // renderOrder={1000}
+        renderOrder={1000}
       />
       <lineSegments
         key={`vleg-from-outline-${fromId}-${toId}`}
@@ -277,7 +277,7 @@ const VLegConnector = ({ fromPos, toPos, fromId, toId }) => {
         position={[leg1Mid.x, leg1Mid.y - 0.19, -leg1Mid.z]}
         rotation={[-Math.PI / 2, 0, 0]}
         quaternion={leg1Quat}
-        // renderOrder={1001}
+        renderOrder={1001}
       />
       <mesh
         key={`vleg-to-${fromId}-${toId}`}
@@ -286,7 +286,7 @@ const VLegConnector = ({ fromPos, toPos, fromId, toId }) => {
         position={[leg2Mid.x, leg2Mid.y - 0.19, -leg2Mid.z]}
         rotation={[Math.PI, 0, 0]}
         quaternion={leg2Quat}
-        // renderOrder={10}
+        renderOrder={10}
       />
       <lineSegments
         key={`vleg-to-outline-${fromId}-${toId}`}
@@ -295,7 +295,7 @@ const VLegConnector = ({ fromPos, toPos, fromId, toId }) => {
         position={[leg2Mid.x, leg2Mid.y - 0.19, -leg2Mid.z]}
         rotation={[Math.PI, 0, 0]}
         quaternion={leg2Quat}
-        // renderOrder={1001}
+        renderOrder={1001}
       />
     </>
   );

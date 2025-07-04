@@ -327,7 +327,11 @@ const MullionColumnRenderer = observer(
 
     return (
       <>
-        <BoxRenderer instances={columnInstances} opacity={0.5} />
+        <BoxRenderer
+          instances={columnInstances}
+          opacity={0.5}
+          renderOrder={5}
+        />
         <RingRenderer
           columns={mullionColumnStore.polygons}
           centerOffset={centerOffset}
@@ -364,7 +368,7 @@ const MullionColumnRenderer = observer(
               rotation={window.rotation}
               ref={(el) => (windowRefs.current[index] = el)}
               onClick={(e) => handleWindowClick(index, e)}
-              renderOrder={5}
+              // renderOrder={5}
             >
               <mesh
                 scale={[1, 1, window.thickness / (isShutter ? 1 : 1.524)]}

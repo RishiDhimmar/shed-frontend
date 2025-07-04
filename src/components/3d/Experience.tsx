@@ -115,8 +115,8 @@ const Experience = observer(() => {
         // ref={controlsRef}
         enableDamping={true}
         dampingFactor={1} // similar to smoothTime
-        maxPolarAngle={Math.PI / 1.5}
-        minPolarAngle={0}
+        // maxPolarAngle={Math.PI / 1.5}
+        // minPolarAngle={0}
         zoomSpeed={5} // similar to dollySpeed
         panSpeed={0.5} // similar to truckSpeed
         rotateSpeed={1} // default or tweakable
@@ -161,7 +161,14 @@ const Experience = observer(() => {
 
       {/* Scene Renderers */}
       <FoundationsRenderer centerOffset={centerOffset} scale={0.1} />
-      <ColumnRenderer centerOffset={centerOffset} scale={0.1} />
+      <ColumnRenderer
+        centerOffset={centerOffset}
+        scale={0.1}
+        onHorizontalLinesCount={(count) => {
+          console.log(`Number of horizontal lines needed: ${count}`);
+          // Optionally update a state or store, e.g., columnStore.setHorizontalLinesCount(count);
+        }}
+      />
       {uiStore.visibility.groundBeam && (
         <GroundBeamRenderer centerOffset={centerOffset} scale={0.1} />
       )}

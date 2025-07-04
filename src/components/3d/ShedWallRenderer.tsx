@@ -211,7 +211,7 @@ const ShedWallRenderer = observer(
               i % 2 !== 0
                 ? width
                 : width - (2 * wallStore.wallThickness) / 1000,
-            height: configStore.shed3D.heights.PLINTH_Z_HEIGHT,
+            height: 0.125,
             length:
               i % 2 === 0
                 ? length - (2 * wallStore.wallThickness) / 1000
