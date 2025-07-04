@@ -48,7 +48,6 @@ import AnyShapeRenderer from "./AnyShapeExtrudeRenderer";
 import { Shed3DConfig } from "../../Constants";
 import configStore from "../../stores/ConfigStore";
 import wallStore from "../../stores/WallStore";
-import { useTexture } from "@react-three/drei";
 
 // Point-in-polygon function to check if a point is inside a polygon
 const isPointInPolygon = (point, polygon) => {
@@ -110,7 +109,6 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0, 0], scale = 1 }) => {
       ) || []
     );
   }, [dxfStore.internalWallPolygon]);
-  const texture = useTexture("/public/assets/red_brick_diff_1k.jpg");
 
   // Transform points to match the original coordinate system
   const transformedPoints = useMemo(() => {
