@@ -17,7 +17,7 @@ class ConfigStore {
   shed3D = {
     heights: {
       BASE_PLATES: 1.9 + 0.6,
-      COLUMNS: 1.9 + 0.6,
+      COLUMNS: 1.9 + 0.6 - 0.01,
       FOUNDATIONS: 0.1,
       MULLION_COLUMNS_Z_HEIGHT: 3,
       FRUSTUM: 0.37,

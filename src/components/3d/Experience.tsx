@@ -27,6 +27,8 @@ import PlinthRenderer from "./PlinthRenderer";
 import BaseplateRenderer from "./BaseplateRenderer";
 import MullionColumnRenderer from "./MullionColumnRenderer";
 import ShedWallRenderer from "./ShedWallRenderer";
+import wallStore from "../../stores/WallStore";
+import AdditionalBeamRenderer from "./AdditionalBeamRender";
 
 const Experience = observer(() => {
   const controlsRef = useRef(null);
@@ -52,7 +54,7 @@ const Experience = observer(() => {
 
   return (
     <>
-      {/* Toggle UI 
+      {/* Toggle UI
       <Html>
         <div
           style={{
@@ -81,12 +83,12 @@ const Experience = observer(() => {
       {/* Cameras */}
 
       {/* <OrthographicCamera
-        ref={cameraRef}
         makeDefault
-        position={[5, 5, 5]}
+        ref={cameraRef}
         zoom={100}
-        near={0.000000000001}
-        far={10000000000}
+        near={-10000000000000000000000000}
+        far={10000000000000000000}
+        position={[0, 0, 10]} // z=10 for visibility
       /> */}
 
       <PerspectiveCamera
@@ -94,9 +96,10 @@ const Experience = observer(() => {
         makeDefault
         position={[0, 5, 0]}
         fov={50}
-        near={0.000000000001}
-        far={10000000000}
+        near={0.1}
+        far={10000}
       />
+
       {/* <axesHelper args={[5]} /> */}
 
       {/* Controls */}
@@ -116,14 +119,14 @@ const Experience = observer(() => {
         dampingFactor={1} // similar to smoothTime
         maxPolarAngle={Math.PI / 1.5}
         minPolarAngle={0}
-        zoomSpeed={1} // similar to dollySpeed
+        zoomSpeed={5} // similar to dollySpeed
         panSpeed={0.5} // similar to truckSpeed
         rotateSpeed={1} // default or tweakable
       />
 
       {/* Lights */}
-      <ambientLight intensity={50} />
-      <directionalLight position={[0, 0, 0]} intensity={10} />
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[0, 0, 0]} intensity={1} />
 
       {/* Optional Grid */}
       {/*
@@ -160,9 +163,19 @@ const Experience = observer(() => {
 
       {/* Scene Renderers */}
       <FoundationsRenderer centerOffset={centerOffset} scale={0.1} />
-      <ColumnRenderer centerOffset={centerOffset} scale={0.1} />
+      <ColumnRenderer
+        centerOffset={centerOffset}
+        scale={0.1}
+        onAdditionalBeamCount={(count) => {
+          console.log(`Number of horizontal lines needed`);
+          // console.log(count);
+          // Optionally update a state or store, e.g., columnStore.setHorizontalLinesCount(count);
+        }}
+      />
       {uiStore.visibility.groundBeam && (
-        <GroundBeamRenderer centerOffset={centerOffset} scale={0.1} />
+        <>
+          <GroundBeamRenderer centerOffset={centerOffset} scale={0.1} />
+        </>
       )}
 
       {uiStore.visibility.baseplate && (
@@ -175,9 +188,9 @@ const Experience = observer(() => {
         <MullionColumnRenderer centerOffset={centerOffset} scale={1} />
       )}
       <ShedWallRenderer centerOffset={centerOffset} scale={1} />
+      <AdditionalBeamRenderer centerOffset={centerOffset} scale={0.1} />
     </>
   );
 });
 
 export default Experience;
-//  <PlinthRenderer centerOffset={centerOffset} scale={0.1} />

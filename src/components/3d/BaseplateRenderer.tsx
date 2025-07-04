@@ -50,8 +50,8 @@ const BaseplateMesh = ({ points, centerOffset, scale, shedHeight, index }) => {
     () =>
       new THREE.MeshBasicMaterial({
         color: "green",
-        depthTest: false,
-        depthWrite: false,
+        // depthTest: false,
+        // depthWrite: false,
         transparent: true,
       }),
     []
@@ -152,9 +152,9 @@ const VLegConnector = ({ fromPos, toPos, fromId, toId }) => {
       new THREE.MeshBasicMaterial({
         color: "gray",
         depthTest: false,
-        depthWrite: false,
+        // depthWrite: false,
         transparent: true,
-        opacity: 1,
+        opacity: 0.9,
       }),
     // new THREE.MeshStandardMaterial({
     //   color: "red",
@@ -170,7 +170,7 @@ const VLegConnector = ({ fromPos, toPos, fromId, toId }) => {
     () =>
       new THREE.LineBasicMaterial({
         color: "black",
-        linewidth: 2,
+        linewidth: 1,
       }),
     []
   );

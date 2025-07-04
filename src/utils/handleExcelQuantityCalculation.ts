@@ -34,8 +34,11 @@ export const handleExcelQuantityCalculation = () => {
   handleBackFillingExcavatedEarthCalculation();
   // fixing_anchor_jbolt_on_rcc_column
   handleFixingAnchorJBoltOnRccColumnCalculation();
-  // grade_slab_m25_with_trimix
   handleFillingGoodSoilFromOutSide();
+
+  // grade_slab_m25_with_trimix
+  handleGradeSlabM25WithTrimixCalculation();
+
   // trimix_hardener_spreading
   handleTrimixHardenerSpreadingCalculation();
   // trimix_groove_cutting
@@ -50,5 +53,4 @@ export const handleExcelQuantityCalculation = () => {
   handleTMTFe500ReinforcementCalculation();
   // plaster_12mm_cement_mortar
   handlePlaster12mmCementMortarCalculation();
-  handleGradeSlabM25WithTrimixCalculation();
 };

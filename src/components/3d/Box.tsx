@@ -105,12 +105,8 @@ const BoxRenderer = observer(
     if (instances.length === 0) return null;
 
     return (
-      <group>
-        <instancedMesh
-          ref={meshRef}
-          args={[null, null, instances.length]}
-          renderOrder={renderOrder ? renderOrder : 0}
-        >
+      <group renderOrder={renderOrder ? renderOrder : 0}>
+        <instancedMesh ref={meshRef} args={[null, null, instances.length]}>
           <boxGeometry args={[1, 1, 1]} />
           <meshBasicMaterial
             color={instances[0]?.color || "magenta"}
@@ -122,15 +118,14 @@ const BoxRenderer = observer(
             polygonOffsetUnits={1}
           />
         </instancedMesh>
-        {
-          <lineSegments ref={lineRef} geometry={mergedLineGeometry}>
-            <lineBasicMaterial
-              color={instances[0]?.color || "magenta"}
-              depthTest={false}
-              transparent
-            />
-          </lineSegments>
-        }
+
+        <lineSegments ref={lineRef} geometry={mergedLineGeometry}>
+          <lineBasicMaterial
+            color={instances[0]?.color || "magenta"}
+            depthTest={false}
+            transparent
+          />
+        </lineSegments>
       </group>
     );
   }

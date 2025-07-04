@@ -16,6 +16,7 @@ const CONFIG = {
   EDGE_THRESHOLD: 0.5,
 };
 import * as ClipperLib from "clipper-lib";
+import wallStore from "../stores/WallStore";
 
 export function sortPolygon(polygon) {
   if (polygon.length < 3) return polygon;
@@ -1134,7 +1135,12 @@ export function getDifferenceInCoor(
   return max - min;
 }
 
-export function getCirclePerimeterPoints(x: number, y: number, radius: number, arcLength: number) {
+export function getCirclePerimeterPoints(
+  x: number,
+  y: number,
+  radius: number,
+  arcLength: number
+) {
   const circumference = 2 * Math.PI * radius;
   const numPoints = Math.max(3, Math.ceil(circumference / arcLength)); // Ensure at least 3 points for a circle
   const theta = (2 * Math.PI) / numPoints; // Angular step in radians for even spacing
@@ -1149,3 +1155,72 @@ export function getCirclePerimeterPoints(x: number, y: number, radius: number, a
 
   return points;
 }
+
+export function computeBeamOrientationAngle(
+  beamCenters: { x: number; z: number }[]
+) {
+  const n = beamCenters.length;
+  if (n < 2) return 0;
+
+  // Compute mean
+  const meanX = beamCenters.reduce((sum, p) => sum + p.x, 0) / n;
+  const meanZ = beamCenters.reduce((sum, p) => sum + p.z, 0) / n;
+
+  // Compute covariance matrix components
+  let Sxx = 0,
+    Szz = 0,
+    Sxz = 0;
+
+  for (const p of beamCenters) {
+    const dx = p.x - meanX;
+    const dz = p.z - meanZ;
+    Sxx += dx * dx;
+    Szz += dz * dz;
+    Sxz += dx * dz;
+  }
+
+  Sxx /= n;
+  Szz /= n;
+  Sxz /= n;
+
+  // Compute the orientation angle (angle of eigenvector with largest eigenvalue)
+  const angle = 0.5 * Math.atan2(2 * Sxz, Sxx - Szz); // in radians
+  return angle;
+}
+
+export const calculateLengthBreadthArea = (points) => {
+  if (!points || points.length < 3) {
+    return {
+      length: 0,
+      breadth: 0,
+      area: 0,
+      error: "Invalid polygon: At least 3 points required",
+    };
+  }
+
+  const scaledPoints = points.map((p) => ({
+    x: p.x * 0.001,
+    y: p.y * 0.001,
+  }));
+
+  const xs = scaledPoints.map((p) => p.x);
+  const ys = scaledPoints.map((p) => p.y);
+  const length = Math.max(...xs) - Math.min(...xs);
+  const breadth = Math.max(...ys) - Math.min(...ys);
+
+  // Shoelace formula for area
+  let area = 0;
+  const n = scaledPoints.length;
+  for (let i = 0; i < n; i++) {
+    const j = (i + 1) % n;
+    area += scaledPoints[i].x * scaledPoints[j].y;
+    area -= scaledPoints[j].x * scaledPoints[i].y;
+  }
+  area = Math.abs(area) / 2;
+
+  return {
+    length: parseFloat(length.toFixed(2)),
+    breadth: parseFloat(breadth.toFixed(2)),
+    area: parseFloat((area * 0.3).toFixed(2)),
+  };
+};

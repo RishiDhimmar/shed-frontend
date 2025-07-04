@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Arc, Circle, Group, Line, Text } from "react-konva";
 import { observer } from "mobx-react-lite";
@@ -20,7 +19,6 @@ const Walls: React.FC = observer(() => {
   const internalWall = dxfStore.internalWallPolygon?.filter(
     (_, index) => index % 3 !== 2
   );
-  console.log("internalWall", internalWall);
   const isGroundBeam = currentComponent === "groundBeam";
   const [editingIndex, setEditingIndex] = useState(null);
   const [newLength, setNewLength] = useState("");

@@ -254,7 +254,7 @@ export const handlePccCalculation = () => {
 
         const item = {
           id: `group-${groupIndex}-item-${index}`,
-          description: "Foundation PCC",
+          description: group.name || "Foundation PCC",
           nos: entry.frequency,
           length: Number(entry.length.toFixed(3)), // entry.length,
           breadth: Number(entry.breadth.toFixed(3)), // entry.breadth,

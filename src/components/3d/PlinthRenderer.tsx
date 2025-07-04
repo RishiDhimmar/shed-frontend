@@ -48,6 +48,7 @@ import AnyShapeRenderer from "./AnyShapeExtrudeRenderer";
 import { Shed3DConfig } from "../../Constants";
 import configStore from "../../stores/ConfigStore";
 import wallStore from "../../stores/WallStore";
+import { useTexture } from "@react-three/drei";
 
 // Point-in-polygon function to check if a point is inside a polygon
 const isPointInPolygon = (point, polygon) => {
@@ -109,8 +110,7 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0, 0], scale = 1 }) => {
       ) || []
     );
   }, [dxfStore.internalWallPolygon]);
-
-  console.log("externalWallPoints", externalWallPoints);
+  const texture = useTexture("/public/assets/red_brick_diff_1k.jpg");
 
   // Transform points to match the original coordinate system
   const transformedPoints = useMemo(() => {
@@ -293,6 +293,7 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0, 0], scale = 1 }) => {
           configStore.shed3D.heights.PLINTH_Z_HEIGHT
         }
         color="gray"
+        renderOrder={-4}
       />
       <AnyShapeRenderer
         bottomPoints={transformedPoints}
@@ -304,6 +305,7 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0, 0], scale = 1 }) => {
           0.23
         }
         color="darkgrey"
+        renderOrder={-1}
       />
       {horizontalRods.length && (
         <instancedMesh
@@ -342,7 +344,6 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0, 0], scale = 1 }) => {
             configStore.shed3D.heights.GB_Z_HEIGHT / 2,
           0,
         ]}
-        // rotation={[-Math.PI / 2, 0, 0]}
       >
         <AnyShapeRenderer
           bottomPoints={transformedPoints}
@@ -351,6 +352,7 @@ const PlinthRenderer = observer(({ centerOffset = [0, 0, 0], scale = 1 }) => {
           y={0}
           color="yellow"
           opacity={0.5}
+          renderOrder={-5}
         />
       </mesh>
     </>

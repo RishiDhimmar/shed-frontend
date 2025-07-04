@@ -148,7 +148,10 @@
 
 import { toJS } from "mobx";
 import dxfStore from "../stores/DxfStore";
-import { convertToPointObjects } from "./PolygonUtils";
+import {
+  calculateLengthBreadthArea,
+  convertToPointObjects,
+} from "./PolygonUtils";
 import { items } from "./sheetItems";
 import wallStore from "../stores/WallStore";
 import foundationStore from "../stores/FoundationStore";
@@ -156,49 +159,13 @@ import foundationStore from "../stores/FoundationStore";
 export const handleRubbleSoilingCalculation = () => {
   const DEPTH = 0.23;
 
-  // Helper function to calculate bounding box and shoelace area
-  const calculateLengthBreadthArea = (points) => {
-    if (!points || points.length < 3) {
-      return {
-        length: 0,
-        breadth: 0,
-        area: 0,
-        error: "Invalid polygon: At least 3 points required",
-      };
-    }
-
-    const scaledPoints = points.map((p) => ({
-      x: p.x * 0.001,
-      y: p.y * 0.001,
-    }));
-
-    const xs = scaledPoints.map((p) => p.x);
-    const ys = scaledPoints.map((p) => p.y);
-    const length = Math.max(...xs) - Math.min(...xs);
-    const breadth = Math.max(...ys) - Math.min(...ys);
-
-    // Shoelace formula
-    let area = 0;
-    const n = scaledPoints.length;
-    for (let i = 0; i < n; i++) {
-      const j = (i + 1) % n;
-      area += scaledPoints[i].x * scaledPoints[j].y;
-      area -= scaledPoints[j].x * scaledPoints[i].y;
-    }
-    area = Math.abs(area) / 2;
-
-    return {
-      length: parseFloat(length.toFixed(4)),
-      breadth: parseFloat(breadth.toFixed(4)),
-      area: parseFloat((area * DEPTH).toFixed(4)), // volume from area * depth
-    };
-  };
-
-  const externalWallResult = calculateLengthBreadthArea(
-    convertToPointObjects(toJS(dxfStore.externalWallPolygon))
+  const internalWallResult = calculateLengthBreadthArea(
+    convertToPointObjects(
+      dxfStore.internalWallPolygon.filter((p, i) => (i + 1) % 3 !== 0)
+    )
   );
 
-  let fullVolume = externalWallResult.area;
+  let fullVolume = internalWallResult.area;
   const allMeasurements = [];
 
   // Include foundation group-based rubble soling
@@ -247,7 +214,8 @@ export const handleRubbleSoilingCalculation = () => {
 
         const item = {
           id: `group-${groupIndex}-item-${index}`,
-          description: "Foundation Rubble Soiling",
+          // description: "Foundation Rubble Soiling",
+          description: group.name,
 
           nos: entry.frequency,
 
@@ -280,23 +248,13 @@ export const handleRubbleSoilingCalculation = () => {
     id: `external-wall-soling`,
     description: "plinth lvl",
     nos: 1,
-    length: Number(
-      Number(
-        externalWallResult.length - 2 * (wallStore.wallThickness / 1000)
-      ).toFixed(3)
-    ),
-    breadth: Number(
-      Number(
-        externalWallResult.breadth - 2 * (wallStore.wallThickness / 1000)
-      ).toFixed(3)
-    ),
+    length: Number(Number(internalWallResult.length).toFixed(3)),
+    breadth: Number(Number(internalWallResult.breadth).toFixed(3)),
     depth: DEPTH,
     area: Number(
-      (
-        (externalWallResult.length - 2 * (wallStore.wallThickness / 1000)) *
-        (externalWallResult.breadth - 2 * (wallStore.wallThickness / 1000)) *
-        DEPTH
-      ).toFixed(3)
+      (internalWallResult.length * internalWallResult.breadth * DEPTH).toFixed(
+        3
+      )
     ),
   });
 
@@ -304,9 +262,9 @@ export const handleRubbleSoilingCalculation = () => {
   items.rubble_solling_at_plinth_lvl.measurements = allMeasurements;
   items.rubble_solling_at_plinth_lvl.total = Number(fullVolume.toFixed(3));
 
-  // wallStore.length = externalWallResult.length;
-  // wallStore.breadth = externalWallResult.breadth;
-  // wallStore.area = externalWallResult.area;
+  // wallStore.length = internalWallResult.length;
+  // wallStore.breadth = internalWallResult.breadth;
+  // wallStore.area = internalWallResult.area;
 
   return {
     grouped: groupedRubbleSolingDimensions,
