@@ -27,6 +27,8 @@ import PlinthRenderer from "./PlinthRenderer";
 import BaseplateRenderer from "./BaseplateRenderer";
 import MullionColumnRenderer from "./MullionColumnRenderer";
 import ShedWallRenderer from "./ShedWallRenderer";
+import wallStore from "../../stores/WallStore";
+import AdditionalBeamRenderer from "./AdditionalBeamRender";
 
 const Experience = observer(() => {
   const controlsRef = useRef(null);
@@ -52,7 +54,7 @@ const Experience = observer(() => {
 
   return (
     <>
-      {/* Toggle UI 
+      {/* Toggle UI
       <Html>
         <div
           style={{
@@ -115,16 +117,16 @@ const Experience = observer(() => {
         // ref={controlsRef}
         enableDamping={true}
         dampingFactor={1} // similar to smoothTime
-        // maxPolarAngle={Math.PI / 1.5}
-        // minPolarAngle={0}
+        maxPolarAngle={Math.PI / 1.5}
+        minPolarAngle={0}
         zoomSpeed={5} // similar to dollySpeed
         panSpeed={0.5} // similar to truckSpeed
         rotateSpeed={1} // default or tweakable
       />
 
       {/* Lights */}
-      <ambientLight intensity={50} />
-      <directionalLight position={[0, 0, 0]} intensity={10} />
+      <ambientLight intensity={0.5} />
+      <directionalLight position={[0, 0, 0]} intensity={1} />
 
       {/* Optional Grid */}
       {/*
@@ -164,13 +166,16 @@ const Experience = observer(() => {
       <ColumnRenderer
         centerOffset={centerOffset}
         scale={0.1}
-        onHorizontalLinesCount={(count) => {
-          console.log(`Number of horizontal lines needed: ${count}`);
+        onAdditionalBeamCount={(count) => {
+          console.log(`Number of horizontal lines needed`);
+          // console.log(count);
           // Optionally update a state or store, e.g., columnStore.setHorizontalLinesCount(count);
         }}
       />
       {uiStore.visibility.groundBeam && (
-        <GroundBeamRenderer centerOffset={centerOffset} scale={0.1} />
+        <>
+          <GroundBeamRenderer centerOffset={centerOffset} scale={0.1} />
+        </>
       )}
 
       {uiStore.visibility.baseplate && (
@@ -183,9 +188,9 @@ const Experience = observer(() => {
         <MullionColumnRenderer centerOffset={centerOffset} scale={1} />
       )}
       <ShedWallRenderer centerOffset={centerOffset} scale={1} />
+      <AdditionalBeamRenderer centerOffset={centerOffset} scale={0.1} />
     </>
   );
 });
 
 export default Experience;
-//  <PlinthRenderer centerOffset={centerOffset} scale={0.1} />

@@ -203,7 +203,7 @@ const MultiRingRenderer = observer(
                 return new THREE.MeshBasicMaterial({
                   color: segmentColor,
                   polygonOffset: true,
-                  opacity: 0.5,
+                  opacity: 1,
                   transparent: opacity < 1,
                   depthWrite: false,
                 });

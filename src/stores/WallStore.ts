@@ -21,6 +21,8 @@ export class WallStore {
   copingBeamLength = 0;
   gradeSlabLength = 0;
 
+  additionalBeams = [];
+
   constructor(width = 0, height = 0, wallThickness = 0) {
     this.width = width;
     this.height = height;
@@ -52,6 +54,10 @@ export class WallStore {
   }
   setGradeSlabLength(newGradeSlabLength) {
     this.gradeSlabLength = newGradeSlabLength;
+    // uiStore.setModified(true);
+  }
+  setAdditionalBeams(newAdditionalBeams) {
+    this.additionalBeams = newAdditionalBeams;
     // uiStore.setModified(true);
   }
 
