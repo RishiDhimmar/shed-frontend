@@ -6,7 +6,6 @@ import uiStore from "../../stores/UIStore";
 
 export const useCanvasZoomPan = () => {
   const stageRef = useRef<Konva.Stage>(null);
-  
 
   const handleWheel = useCallback(
     throttle((e: Konva.KonvaEventObject<WheelEvent>) => {
@@ -16,11 +15,12 @@ export const useCanvasZoomPan = () => {
 
       const oldScale = stage.scaleX();
       const pointer = stage.getPointerPosition()!;
-      const zoomSpeed = 0.1;
+      const zoomSpeed = 0.5;
       const scaleBy = e.evt.deltaY > 0 ? 1 - zoomSpeed : 1 + zoomSpeed;
       const newScale = oldScale * scaleBy;
 
-      if (isNaN(newScale) || !isFinite(newScale) || newScale < Number.EPSILON) return;
+      if (isNaN(newScale) || !isFinite(newScale) || newScale < Number.EPSILON)
+        return;
 
       const mousePoint = {
         x: (pointer.x - stage.x()) / oldScale,
