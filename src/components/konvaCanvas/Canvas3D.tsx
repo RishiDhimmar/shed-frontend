@@ -8,7 +8,6 @@ const Canvas3D: React.FC = () => {
       style={{ width: "100%", height: "100%" }}
       camera={{ position: [0, 0, 1000], fov: 0, near: 1, far: 10000 }}
       gl={{ antialias: true }}
-      frameloop="demand"
     >
       <Experience />
     </Canvas>

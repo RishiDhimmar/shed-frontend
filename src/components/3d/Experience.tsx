@@ -96,8 +96,8 @@ const Experience = observer(() => {
         makeDefault
         position={[0, 5, 0]}
         fov={50}
-        near={-10000000000000000000000000}
-        far={10000000000000000000}
+        near={0.1}
+        far={10000}
       />
 
       {/* <axesHelper args={[5]} /> */}
@@ -116,7 +116,7 @@ const Experience = observer(() => {
       <OrbitControls
         // ref={controlsRef}
         enableDamping={true}
-        dampingFactor={0.5} // similar to smoothTime
+        dampingFactor={1} // similar to smoothTime
         maxPolarAngle={Math.PI / 1.5}
         minPolarAngle={0}
         zoomSpeed={5} // similar to dollySpeed
