@@ -82,22 +82,22 @@ const Experience = observer(() => {
 
       {/* Cameras */}
 
-      {/* <OrthographicCamera
+      <OrthographicCamera
         makeDefault
         ref={cameraRef}
         zoom={100}
         near={-10000000000000000000000000}
         far={10000000000000000000}
         position={[0, 0, 10]} // z=10 for visibility
-      /> */}
+      />
 
       <PerspectiveCamera
         ref={cameraRef}
         makeDefault
         position={[0, 5, 0]}
         fov={50}
-        near={0.1}
-        far={10000}
+        near={-10000000000000000000000000}
+        far={10000000000000000000}
       />
 
       {/* <axesHelper args={[5]} /> */}
@@ -116,7 +116,7 @@ const Experience = observer(() => {
       <OrbitControls
         // ref={controlsRef}
         enableDamping={true}
-        dampingFactor={1} // similar to smoothTime
+        dampingFactor={0.5} // similar to smoothTime
         maxPolarAngle={Math.PI / 1.5}
         minPolarAngle={0}
         zoomSpeed={5} // similar to dollySpeed
